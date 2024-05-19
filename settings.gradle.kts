@@ -3,29 +3,22 @@ plugins {
 }
 rootProject.name = "mmz"
 
-include("mmz-api")
-include("mmz-api:admin")
-include("mmz-api:client")
-include("mmz-api:client:member")
-include("mmz-api:client:post")
+include("piikii-application")
 
-include("mmz-infrastructure")
-include("mmz-infrastructure:dbms")
-include("mmz-infrastructure:dbms:mysql")
-include("mmz-infrastructure:dbms:mongodb")
-include("mmz-infrastructure:messagingsystem")
-include("mmz-infrastructure:messagingsystem:kafka")
-include("mmz-infrastructure:cache")
-include("mmz-infrastructure:cache:redis")
-include("mmz-infrastructure:cache:caffeine")
+include("piikii-bootstrap")
 
-include("mmz-core")
-include("mmz-core:auth")
-include("mmz-core:secure")
-include("mmz-core:exception")
-include("mmz-core:member")
-include("mmz-core:post")
+include("piikii-common")
+include("piikii-common:exception")
 
-include("mmz-member")
-include("mmz-post")
+include("piikii-input-http")
 
+include("piikii-output-cache")
+include("piikii-output-cache:redis")
+include("piikii-output-cache:caffeine")
+
+include("piikii-output-eventbroker")
+include("piikii-output-eventbroker:kafka")
+
+include("piikii-output-persistence")
+include("piikii-output-persistence:mysql")
+include("piikii-output-persistence:mongodb")

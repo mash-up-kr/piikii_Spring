@@ -1,5 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+java.sourceCompatibility = JavaVersion.VERSION_21
+
+application {
+    mainClass.set("mashup.mmz.bootstrap.BootstrapApplicationKt")
+}
+
 plugins {
     id("org.springframework.boot") version "3.2.5"
     id("io.spring.dependency-management") version "1.1.4"
@@ -18,8 +24,6 @@ allprojects {
         mavenCentral()
     }
 }
-
-java.sourceCompatibility = JavaVersion.VERSION_21
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
