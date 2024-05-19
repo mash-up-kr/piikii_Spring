@@ -39,12 +39,8 @@ subprojects {
 
     dependencies {
         // for spring
-        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.boot:spring-boot-autoconfigure")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-
-        // for persistent output
-//        runtimeOnly("org.postgresql:postgresql")
-//        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
         // for kotlin
         implementation("org.jetbrains.kotlin:kotlin-reflect")
