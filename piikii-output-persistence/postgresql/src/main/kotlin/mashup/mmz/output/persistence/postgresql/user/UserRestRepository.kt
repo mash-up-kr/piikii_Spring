@@ -1,4 +1,4 @@
-package mashup.mmz.output.persistence.mysql.user
+package mashup.mmz.output.persistence.postgresql.user
 
 import mashup.mmz.application.domain.model.User
 import mashup.mmz.application.port.output.persistence.UserRepository
@@ -11,7 +11,7 @@ class UserRestRepository(
 
     override fun save(user: User): User {
         userJpaRepository.save(UserEntity.toEntity(user))
-        return user
+        return User("fasd")
     }
 
     override fun retrieve(pk: Long): User {

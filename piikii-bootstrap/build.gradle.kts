@@ -1,6 +1,7 @@
 dependencies {
     implementation(project(":piikii-input-http"))
-    implementation("org.springframework.boot:spring-boot-autoconfigure")
+    implementation(project(":piikii-output-eventbroker:kafka"))
+    implementation(project(":piikii-output-persistence:postgresql"))
 }
 
 application {

@@ -1,4 +1,4 @@
-package mashup.mmz.output.persistence.mysql.user
+package mashup.mmz.output.persistence.postgresql.user
 
 import org.springframework.data.jpa.repository.JpaRepository
 

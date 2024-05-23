@@ -1,4 +1,4 @@
-package mashup.mmz.output.persistence.mysql
+package mashup.mmz.output.persistence.postgresql
 
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate

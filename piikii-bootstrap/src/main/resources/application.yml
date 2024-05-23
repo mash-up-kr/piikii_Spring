@@ -1,0 +1,8 @@
+spring:
+  config:
+    additional-location: classpath:/config/
+    activate:
+      on-profile: local
+
+server:
+  port: 0
