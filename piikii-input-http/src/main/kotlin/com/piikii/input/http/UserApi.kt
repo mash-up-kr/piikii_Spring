@@ -1,12 +1,12 @@
 package com.piikii.input.http
 
-import com.piikii.application.port.input.UserUsecase
+import com.piikii.application.port.input.UserUseCase
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class UserApi(
-    private val userUsecase: UserUsecase
+    private val userUsecase: UserUseCase
 ) {
 
     @GetMapping("/test")

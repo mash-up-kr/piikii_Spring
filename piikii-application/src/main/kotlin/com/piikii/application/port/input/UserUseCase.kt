@@ -2,6 +2,6 @@ package com.piikii.application.port.input
 
 import com.piikii.application.domain.model.User
 
-interface UserUsecase {
+interface UserUseCase {
     fun save(loginId: String): User
 }
