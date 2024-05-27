@@ -37,9 +37,16 @@ subprojects {
     apply(plugin = "application")
 
     dependencies {
-        implementation("org.springframework.boot:spring-boot-autoconfigure")
+        // for kotlin
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+        // for spring bean configuration
+        implementation("org.springframework.boot:spring-boot-autoconfigure")
+
+        // for test
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 
     tasks.withType<KotlinCompile> {
