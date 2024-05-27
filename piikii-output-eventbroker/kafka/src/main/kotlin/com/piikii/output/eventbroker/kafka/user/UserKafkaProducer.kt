@@ -5,7 +5,7 @@ import com.piikii.application.port.output.eventbroker.UserProducerPort
 import org.springframework.stereotype.Component
 
 @Component
-class UserKafkaProducerPort : UserProducerPort {
+class UserKafkaProducer : UserProducerPort {
 
     override fun execute(event: Event) {
         TODO("Not yet implemented")
