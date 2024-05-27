@@ -1,0 +1,7 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+redis:
+  host: localhost
+  port: 6379

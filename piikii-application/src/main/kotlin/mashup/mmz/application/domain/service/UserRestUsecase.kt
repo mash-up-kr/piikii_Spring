@@ -7,7 +7,9 @@ import mashup.mmz.application.port.output.eventbroker.UserConsumer
 import mashup.mmz.application.port.output.eventbroker.UserCreatedEvent
 import mashup.mmz.application.port.output.eventbroker.UserProducer
 import mashup.mmz.application.port.output.persistence.UserRepository
+import org.springframework.stereotype.Service
 
+@Service
 class UserRestUsecase(
     private val repository: UserRepository<User, Long>,
     private val userProducer: UserProducer,
@@ -18,7 +20,7 @@ class UserRestUsecase(
         sophisticatedMethodByConsumer(userConsumer.execute())
         val user = repository.save(User(loginId))
         userProducer.execute(UserCreatedEvent())
-        return user
+        return User("sfd")
     }
 
     private fun sophisticatedMethodByConsumer(event: Event) {

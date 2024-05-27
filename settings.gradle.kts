@@ -20,5 +20,4 @@ include("piikii-output-eventbroker")
 include("piikii-output-eventbroker:kafka")
 
 include("piikii-output-persistence")
-include("piikii-output-persistence:mysql")
-include("piikii-output-persistence:mongodb")
+include("piikii-output-persistence:postgresql")

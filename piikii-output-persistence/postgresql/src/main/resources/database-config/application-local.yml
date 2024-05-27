@@ -1,0 +1,30 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 112233
+    hikari:
+      pool-name: Hikari-PostgreSQL
+      maximum-pool-size: 20
+      minimum-idle: 10
+      idle-timeout: 1000
+      max-lifetime: 200000
+      connection-timeout: 30000
+
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp.use_jdbc_metadata_defaults: false
+        jdbc.lob.non_contextual_creation: true
+        generate_statistics: true
+        format_sql: true
+    show-sql: true

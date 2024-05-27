@@ -1,0 +1,11 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+kafka:
+  bootstrap-servers: ${KAFKA_SERVERS}
+  consumer:
+    group-id: consumer1
+  producer:
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
