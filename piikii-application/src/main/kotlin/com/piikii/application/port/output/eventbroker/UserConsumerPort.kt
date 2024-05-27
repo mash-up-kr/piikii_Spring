@@ -1,5 +1,7 @@
 package com.piikii.application.port.output.eventbroker
 
-interface UserConsumer {
+import com.piikii.application.domain.model.Event
+
+interface UserConsumerPort {
     fun execute(): Event
 }
