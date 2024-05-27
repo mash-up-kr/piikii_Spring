@@ -1,5 +1,0 @@
-spring:
-  data:
-    redis:
-      host: ${TIMELINE_REDIS_HOST}
-      port: ${TIMELINE_REDIS_PORT}

@@ -13,7 +13,7 @@ project(":piikii-output-persistence:postgresql") {
 
 allprojects {
     dependencies {
-        api(project(":piikii-application"))
+        implementation(project(":piikii-application"))
     }
     tasks.bootJar {
         enabled = false

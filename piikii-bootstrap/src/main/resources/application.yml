@@ -1,8 +1,5 @@
 spring:
-  config:
-    additional-location: classpath:/config/
-    activate:
-      on-profile: local
-
-server:
-  port: 0
+  application:
+    name: "PIIKII BOOTSTRAP"
+  messages:
+    encoding: UTF-8
