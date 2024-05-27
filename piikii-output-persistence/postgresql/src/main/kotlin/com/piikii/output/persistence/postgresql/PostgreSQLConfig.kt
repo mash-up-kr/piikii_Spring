@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
 @Configuration
 @EnableJpaAuditing
-@EntityScan(basePackages = ["mashup.mmz"])
+@EntityScan(basePackages = ["com.piikii"])
 @EnableJpaRepositories(basePackages = ["com.piikii"])
 class PostgreSQLConfig {
 }
