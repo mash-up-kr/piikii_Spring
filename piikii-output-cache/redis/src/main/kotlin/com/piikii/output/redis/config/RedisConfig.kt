@@ -1,4 +1,4 @@
-package mashup.mmz.mashup.mmz.output.cache.config
+package com.piikii.output.redis.config
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.MapperFeature
@@ -14,13 +14,13 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.StringRedisSerializer
 
 @Configuration
-class RedisConfig(
-    @Value("\${redis.host}")
-    private val redisHost: String,
+class RedisConfig {
 
-    @Value("\${redis.port}")
-    private val redisPort: Int
-) {
+    @Value("\${spring.data.redis.host}")
+    private val redisHost: String? = null
+
+    @Value("\${spring.data.redis.port}")
+    private val redisPort = 0
 
     @Bean
     fun objectMapper(): ObjectMapper {
@@ -35,11 +35,11 @@ class RedisConfig(
 
     @Bean
     fun lettuceConnectionFactory(): LettuceConnectionFactory {
-        return LettuceConnectionFactory(redisHost, redisPort)
+        return LettuceConnectionFactory(redisHost!!, redisPort)
     }
 
     @Bean
-    fun redisTemplate(): RedisTemplate<String, Any> {
+    fun redistemplate(): RedisTemplate<String, Any> {
         val redisTemplate = RedisTemplate<String, Any>()
         redisTemplate.connectionFactory = lettuceConnectionFactory()
         redisTemplate.keySerializer = StringRedisSerializer()

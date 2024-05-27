@@ -9,5 +9,4 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 @EnableJpaAuditing
 @EntityScan(basePackages = ["com.piikii"])
 @EnableJpaRepositories(basePackages = ["com.piikii"])
-class PostgreSQLConfig {
-}
+class PostgreSQLConfig

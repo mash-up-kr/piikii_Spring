@@ -1,6 +1,11 @@
 package com.piikii.output.persistence.postgresql
 
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.EntityListeners
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.MappedSuperclass
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -11,6 +16,7 @@ import java.time.LocalDateTime
 abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     val id: Long = 0L
 
     @CreatedDate
@@ -20,4 +26,7 @@ abstract class BaseEntity {
     @LastModifiedDate
     @Column(name = "modified_at", nullable = false)
     var modifiedAt: LocalDateTime = LocalDateTime.now()
+
+    @Column(name = "is_deleted", nullable = false)
+    var isDeleted: Boolean = false
 }
