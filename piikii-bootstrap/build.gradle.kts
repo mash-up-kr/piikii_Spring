@@ -7,5 +7,5 @@ dependencies {
 }
 
 application {
-    mainClass.set("mashup.mmz.bootstrap.BootstrapApplicationKt")
+    mainClass.set("com.piikii.bootstrap.BootstrapApplicationKt")
 }

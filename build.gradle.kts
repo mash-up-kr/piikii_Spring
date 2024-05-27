@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 java.sourceCompatibility = JavaVersion.VERSION_21
 
 application {
-    mainClass.set("mashup.mmz.bootstrap.BootstrapApplicationKt")
+    mainClass.set("com.piikii.bootstrap.BootstrapApplicationKt")
 }
 
 plugins {
@@ -17,7 +17,7 @@ plugins {
 }
 
 allprojects {
-    group = "mashup.mmz"
+    group = "com.piikii"
     version = "0.0.1-SNAPSHOT"
 
     repositories {
