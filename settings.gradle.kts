@@ -8,7 +8,6 @@ include("piikii-application")
 include("piikii-bootstrap")
 
 include("piikii-common")
-include("piikii-common:exception")
 
 include("piikii-input-http")
 
