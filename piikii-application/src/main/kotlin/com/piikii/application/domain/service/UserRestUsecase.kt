@@ -1,12 +1,12 @@
-package mashup.mmz.application.domain.service
+package com.piikii.application.domain.service
 
-import mashup.mmz.application.domain.model.User
-import mashup.mmz.application.port.input.UserUsecase
-import mashup.mmz.application.port.output.eventbroker.Event
-import mashup.mmz.application.port.output.eventbroker.UserConsumer
-import mashup.mmz.application.port.output.eventbroker.UserCreatedEvent
-import mashup.mmz.application.port.output.eventbroker.UserProducer
-import mashup.mmz.application.port.output.persistence.UserRepository
+import com.piikii.application.domain.model.User
+import com.piikii.application.port.input.UserUsecase
+import com.piikii.application.port.output.eventbroker.Event
+import com.piikii.application.port.output.eventbroker.UserConsumer
+import com.piikii.application.port.output.eventbroker.UserCreatedEvent
+import com.piikii.application.port.output.eventbroker.UserProducer
+import com.piikii.application.port.output.persistence.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
