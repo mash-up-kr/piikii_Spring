@@ -1,4 +1,4 @@
-package mashup.mmz
+package com.piikii
 
 fun main() {
     println("Hello World!")

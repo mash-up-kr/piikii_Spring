@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 java.sourceCompatibility = JavaVersion.VERSION_21
 
 application {
-    mainClass.set("mashup.mmz.bootstrap.BootstrapApplicationKt")
+    mainClass.set("com.piikii.bootstrap.BootstrapApplicationKt")
 }
 
 plugins {
@@ -17,7 +17,7 @@ plugins {
 }
 
 allprojects {
-    group = "mashup.mmz"
+    group = "com.piikii"
     version = "0.0.1-SNAPSHOT"
 
     repositories {
@@ -37,9 +37,16 @@ subprojects {
     apply(plugin = "application")
 
     dependencies {
-        implementation("org.springframework.boot:spring-boot-autoconfigure")
+        // for kotlin
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+        // for spring bean configuration
+        implementation("org.springframework.boot:spring-boot-autoconfigure")
+
+        // for test
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 
     tasks.withType<KotlinCompile> {

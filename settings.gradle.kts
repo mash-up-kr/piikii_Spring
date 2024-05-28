@@ -1,14 +1,13 @@
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
 }
-rootProject.name = "mmz"
+rootProject.name = "piikii"
 
 include("piikii-application")
 
 include("piikii-bootstrap")
 
 include("piikii-common")
-include("piikii-common:exception")
 
 include("piikii-input-http")
 

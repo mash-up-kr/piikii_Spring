@@ -1,4 +1,4 @@
-project(":piikii-common:exception") {}
+project(":piikii-common") {}
 
 allprojects {
     tasks.bootJar {
