@@ -1,32 +1,33 @@
 package com.piikii.output.persistence.postgresql.user
 
 import com.piikii.application.domain.model.User
-import com.piikii.application.port.output.persistence.UserRepository
+import com.piikii.application.port.output.persistence.UserCommandPort
+import com.piikii.application.port.output.persistence.UserQueryPort
 import org.springframework.stereotype.Repository
 
 @Repository
-class UserRestRepository(
+class UserRepository(
     private val userJpaRepository: UserJpaRepository
-) : UserRepository<User, Long> {
+) : UserQueryPort, UserCommandPort {
 
     override fun save(user: User): User {
         userJpaRepository.save(UserEntity.toEntity(user))
         return User("fasd")
     }
 
-    override fun retrieve(pk: Long): User {
+    override fun retrieve(id: Long): User {
         TODO("Not yet implemented")
     }
 
-    override fun retrieveAll(pkList: List<Long>): List<User> {
+    override fun retrieveAll(ids: List<Long>): List<User> {
         TODO("Not yet implemented")
     }
 
-    override fun update(e: User, pk: Long): Void {
+    override fun update(user: User, id: Long) {
         TODO("Not yet implemented")
     }
 
-    override fun delete(pk: Long): Void {
+    override fun delete(id: Long) {
         TODO("Not yet implemented")
     }
 }
