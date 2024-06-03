@@ -41,7 +41,7 @@ CREATE TABLE piikii.source_place
     address        VARCHAR(255) null,
     phone_number   VARCHAR(15)  null,
     star_grade     REAL         null,
-    source         VARCHAR(10)  null, -- [AVOCADO, LEMON, MANUAL]
+    source         VARCHAR(10)  null,
 
     created_at     TIMESTAMP    not null,
     modified_at     TIMESTAMP    not null
