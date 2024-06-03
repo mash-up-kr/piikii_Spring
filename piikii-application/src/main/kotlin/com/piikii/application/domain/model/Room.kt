@@ -1,6 +1,6 @@
 package com.piikii.application.domain.model
 
-class User(
+class Room(
     val loginId: String
 ) {
 }

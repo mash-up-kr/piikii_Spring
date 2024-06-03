@@ -1,4 +1,4 @@
-package com.piikii.output.persistence.postgresql
+package com.piikii.output.persistence.postgresql.persistence.common
 
 import jakarta.persistence.Column
 import jakarta.persistence.EntityListeners
@@ -14,6 +14,7 @@ import java.time.LocalDateTime
 @EntityListeners(AuditingEntityListener::class)
 @MappedSuperclass
 abstract class BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -27,6 +28,4 @@ abstract class BaseEntity {
     @Column(name = "modified_at", nullable = false)
     var modifiedAt: LocalDateTime = LocalDateTime.now()
 
-    @Column(name = "is_deleted", nullable = false)
-    var isDeleted: Boolean = false
 }

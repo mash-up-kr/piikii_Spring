@@ -1,4 +1,4 @@
-package com.piikii.output.persistence.postgresql
+package com.piikii.output.persistence.postgresql.persistence.config
 
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.context.annotation.Configuration

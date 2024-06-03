@@ -1,4 +1,4 @@
-package com.piikii.output.persistence.postgresql.config
+package com.piikii.output.persistence.postgresql.persistence.config
 
 import com.piikii.common.property.YamlPropertySourceFactory
 import org.springframework.context.annotation.Configuration
@@ -10,5 +10,4 @@ import org.springframework.context.annotation.PropertySource
     value = ["classpath:/database-config/application-\${spring.profiles.active}.yml"],
     factory = YamlPropertySourceFactory::class
 )
-class PostgreSQLProperties {
-}
+class PostgreSQLProperties
