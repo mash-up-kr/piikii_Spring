@@ -1,6 +1,3 @@
 package com.piikii.application.domain.model.room
 
-class Room(
-
-) {
-}
+class Room

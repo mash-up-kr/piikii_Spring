@@ -1,5 +1,6 @@
 package com.piikii.output.persistence.postgresql.persistence.entity.embeded
 
+import com.piikii.output.persistence.postgresql.persistence.entity.consts.THUMBNAIL_LINK_SEPARATOR
 import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 
@@ -47,10 +48,10 @@ class ThumbnailLink(
     }
 
     private fun getContentList(): MutableList<String> {
-        return content?.split(",")?.toMutableList() ?: throw Exception()
+        return content?.split(THUMBNAIL_LINK_SEPARATOR)?.toMutableList() ?: throw Exception()
     }
 
-    private fun listToString(contents: MutableList<String>): String {
-        return contents.joinToString(",")
+    private fun listToString(contents: List<String>): String {
+        return contents.joinToString(THUMBNAIL_LINK_SEPARATOR)
     }
 }

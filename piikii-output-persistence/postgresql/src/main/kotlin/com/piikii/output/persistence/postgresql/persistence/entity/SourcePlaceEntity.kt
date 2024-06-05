@@ -36,8 +36,7 @@ class SourcePlaceEntity(
 
     @Enumerated(EnumType.STRING)
     val source: Source
-) : BaseEntity() {
-}
+) : BaseEntity()
 
 fun SourcePlaceEntity.toDomain(sourcePlaceEntity: SourcePlaceEntity): SourcePlace {
     return SourcePlace(
