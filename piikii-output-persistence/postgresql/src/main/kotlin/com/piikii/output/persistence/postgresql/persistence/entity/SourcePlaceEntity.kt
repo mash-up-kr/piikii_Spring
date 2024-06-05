@@ -1,11 +1,14 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
-import com.piikii.application.domain.model.SourcePlace
+import com.piikii.application.domain.model.enums.Source
+import com.piikii.application.domain.model.sourceplace.SourcePlace
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import com.piikii.output.persistence.postgresql.persistence.entity.embeded.ThumbnailLink
 import jakarta.persistence.Column
 import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.Table
 
 @Entity
@@ -29,8 +32,8 @@ class SourcePlaceEntity(
     @Column(name = "star_grade")
     val starGrade: Float? = null,
 
-    @Column(length = 10)
-    val source: String? = null
+    @Enumerated(EnumType.STRING)
+    val source: Source
 ) : BaseEntity() {
 
     companion object {

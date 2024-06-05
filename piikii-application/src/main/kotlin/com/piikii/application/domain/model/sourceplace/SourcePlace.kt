@@ -1,4 +1,6 @@
-package com.piikii.application.domain.model
+package com.piikii.application.domain.model.sourceplace
+
+import com.piikii.application.domain.model.enums.Source
 
 class SourcePlace(
     val originMapId: Long,
@@ -7,7 +9,7 @@ class SourcePlace(
     val address: String? = null,
     val phoneNumber: String? = null,
     val starGrade: Float? = null,
-    val source: String? = null
+    val source: Source
 ) {
 }
 
