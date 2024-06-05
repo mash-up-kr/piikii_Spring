@@ -5,7 +5,7 @@ import com.piikii.application.domain.model.enums.Source
 class SourcePlace(
     val originMapId: Long,
     val url: String,
-    val thumbnailLink: List<String>? = null,
+    val thumbnailLinks: List<String>? = null,
     val address: String? = null,
     val phoneNumber: String? = null,
     val starGrade: Float? = null,

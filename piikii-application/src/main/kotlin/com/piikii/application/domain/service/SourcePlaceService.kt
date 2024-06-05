@@ -16,7 +16,7 @@ class SourcePlaceService(
             SourcePlace(
                 originMapId = 1L,
                 url = "https://k-diger.github.io",
-                thumbnailLink = mutableListOf(
+                thumbnailLinks = mutableListOf(
                     "https://k-diger.github.io",
                     "https://k-diger.github.io",
                     "https://k-diger.github.io"

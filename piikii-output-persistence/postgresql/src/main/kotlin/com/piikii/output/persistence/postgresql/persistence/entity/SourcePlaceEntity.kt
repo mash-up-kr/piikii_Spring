@@ -41,7 +41,7 @@ class SourcePlaceEntity(
             return SourcePlace(
                 originMapId = sourcePlaceEntity.originMapId,
                 url = sourcePlaceEntity.url,
-                thumbnailLink = sourcePlaceEntity.thumbnailLink?.getContent(),
+                thumbnailLinks = sourcePlaceEntity.thumbnailLink?.getContent(),
                 address = sourcePlaceEntity.address,
                 phoneNumber = sourcePlaceEntity.phoneNumber,
                 starGrade = sourcePlaceEntity.starGrade,
@@ -53,7 +53,7 @@ class SourcePlaceEntity(
             return SourcePlaceEntity(
                 originMapId = sourcePlace.originMapId,
                 url = sourcePlace.url,
-                thumbnailLink = sourcePlace.thumbnailLink?.let { ThumbnailLink(it.joinToString(",")) },
+                thumbnailLink = sourcePlace.thumbnailLinks?.let { ThumbnailLink(it.joinToString(",")) },
                 address = sourcePlace.address,
                 phoneNumber = sourcePlace.phoneNumber,
                 starGrade = sourcePlace.starGrade,
