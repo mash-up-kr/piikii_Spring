@@ -2,7 +2,7 @@ package com.piikii.application.port.output.persistence
 
 import com.piikii.application.domain.model.sourceplace.SourcePlace
 
-interface SourceQueryPort {
+interface SourcePlaceQueryPort {
     fun retrieve(id: Long): SourcePlace
     fun retrieveAll(ids: List<Long>): List<SourcePlace>
 }

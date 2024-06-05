@@ -1,12 +1,12 @@
 package com.piikii.output.persistence.postgresql.adapter.sourceplace
 
 import com.piikii.application.domain.model.sourceplace.SourcePlace
-import com.piikii.application.port.output.persistence.SourceQueryPort
+import com.piikii.application.port.output.persistence.SourcePlaceQueryPort
 import org.springframework.stereotype.Repository
 
 @Repository
-class SourcePlaceQueryAdapter(
-) : SourceQueryPort {
+class SourcePlacePlaceQueryAdapter(
+) : SourcePlaceQueryPort {
 
     override fun retrieve(id: Long): SourcePlace {
         TODO("Not yet implemented")
