@@ -10,9 +10,11 @@ import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Table
+import org.hibernate.annotations.SQLRestriction
 
 @Entity
 @Table(name = "source_place", schema = "piikii")
+@SQLRestriction("is_deleted = false")
 class SourcePlaceEntity(
     @Column(name = "origin_map_id", nullable = false)
     val originMapId: Long,

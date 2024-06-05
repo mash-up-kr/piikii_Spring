@@ -9,8 +9,6 @@ class ThumbnailLink(
     var content: String?
 ) {
 
-    constructor(contents: List<String>?) : this(contents?.joinToString(","))
-
     fun saveContentWithIndex(index: Int, url: String) {
         val contentList = getContentList()
         if (index >= 0 && index <= contentList.size) {
