@@ -5,7 +5,6 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
 import java.time.LocalDate
-import java.util.*
 
 @Entity
 @Table(name = "room", schema = "piikii")
@@ -23,5 +22,5 @@ class RoomEntity(
     val password: Short,
 
     @Column(name = "vote_deadline", nullable = false)
-    val voteDeadline: Date
+    val voteDeadline: LocalDate,
 ) : BaseEntity()
