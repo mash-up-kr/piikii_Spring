@@ -4,6 +4,7 @@ import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
+import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.SQLRestriction
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -11,6 +12,7 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "room", schema = "piikii")
 @SQLRestriction("is_deleted = false")
+@DynamicUpdate
 class RoomEntity(
     @Column(name = "address", nullable = false, length = 255)
     val address: String,
