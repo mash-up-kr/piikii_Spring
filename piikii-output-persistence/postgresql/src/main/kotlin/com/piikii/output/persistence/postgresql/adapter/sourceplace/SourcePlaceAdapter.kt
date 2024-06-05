@@ -3,9 +3,11 @@ package com.piikii.output.persistence.postgresql.adapter.sourceplace
 import com.piikii.application.domain.model.sourceplace.SourcePlace
 import com.piikii.application.port.output.persistence.SourcePlaceCommandPort
 import com.piikii.application.port.output.persistence.SourcePlaceQueryPort
+import com.piikii.output.persistence.postgresql.persistence.entity.SourcePlaceEntity
 import com.piikii.output.persistence.postgresql.persistence.entity.toDomain
 import com.piikii.output.persistence.postgresql.persistence.entity.toEntity
 import com.piikii.output.persistence.postgresql.persistence.repository.SourcePlaceRepository
+import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
@@ -33,7 +35,12 @@ class SourcePlaceAdapter(
     }
 
     override fun retrieve(id: Long): SourcePlace {
-        TODO("Not yet implemented")
+        val sourcePlaceEntity = sourcePlaceRepository.findById(id)
+        if (sourcePlaceEntity.isPresent) {
+            return sourcePlaceEntity.get().toDomain(sourcePlaceEntity.get())
+        }
+        // TODO 예외 정의
+        throw EntityNotFoundException()
     }
 
     override fun retrieveAll(ids: List<Long>): List<SourcePlace> {

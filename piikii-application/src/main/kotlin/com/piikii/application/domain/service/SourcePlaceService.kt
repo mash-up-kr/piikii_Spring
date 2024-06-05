@@ -4,11 +4,13 @@ import com.piikii.application.domain.model.enums.Source
 import com.piikii.application.domain.model.sourceplace.SourcePlace
 import com.piikii.application.port.input.SourcePlaceUseCase
 import com.piikii.application.port.output.persistence.SourcePlaceCommandPort
+import com.piikii.application.port.output.persistence.SourcePlaceQueryPort
 import org.springframework.stereotype.Service
 
 @Service
 class SourcePlaceService(
-    private val sourcePlaceCommandPort: SourcePlaceCommandPort
+    private val sourcePlaceCommandPort: SourcePlaceCommandPort,
+    private val sourcePlaceQueryPort: SourcePlaceQueryPort
 ) : SourcePlaceUseCase {
 
     override fun save(): SourcePlace {
@@ -27,5 +29,9 @@ class SourcePlaceService(
                 source = Source.MANUAL
             )
         )
+    }
+
+    override fun retrieve(): SourcePlace {
+        return sourcePlaceQueryPort.retrieve(1L)
     }
 }

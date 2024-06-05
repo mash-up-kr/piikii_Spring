@@ -4,4 +4,5 @@ import com.piikii.application.domain.model.sourceplace.SourcePlace
 
 interface SourcePlaceUseCase {
     fun save(): SourcePlace
+    fun retrieve(): SourcePlace
 }
