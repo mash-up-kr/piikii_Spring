@@ -1,8 +1,8 @@
 package com.piikii.application.domain.service
 
-import com.piikii.application.domain.model.events.Event
+import com.piikii.application.events.Event
 import com.piikii.application.domain.model.room.Room
-import com.piikii.application.domain.model.events.UserCreatedEvent
+import com.piikii.application.events.UserCreatedEvent
 import com.piikii.application.port.input.RoomUseCase
 import com.piikii.application.port.output.eventbroker.UserConsumerPort
 import com.piikii.application.port.output.eventbroker.UserProducerPort
