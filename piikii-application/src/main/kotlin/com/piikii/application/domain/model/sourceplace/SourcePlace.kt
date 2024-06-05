@@ -12,5 +12,3 @@ class SourcePlace(
     val source: Source
 ) {
 }
-
-

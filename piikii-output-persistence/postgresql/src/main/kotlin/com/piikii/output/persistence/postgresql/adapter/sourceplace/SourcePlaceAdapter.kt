@@ -3,8 +3,8 @@ package com.piikii.output.persistence.postgresql.adapter.sourceplace
 import com.piikii.application.domain.model.sourceplace.SourcePlace
 import com.piikii.application.port.output.persistence.SourcePlaceCommandPort
 import com.piikii.application.port.output.persistence.SourcePlaceQueryPort
-import com.piikii.output.persistence.postgresql.persistence.entity.SourcePlaceEntity
-import com.piikii.output.persistence.postgresql.persistence.entity.SourcePlaceEntity.Companion.toVO
+import com.piikii.output.persistence.postgresql.persistence.entity.toDomain
+import com.piikii.output.persistence.postgresql.persistence.entity.toEntity
 import com.piikii.output.persistence.postgresql.persistence.repository.SourcePlaceRepository
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -17,9 +17,9 @@ class SourcePlaceAdapter(
 
     @Transactional
     override fun save(sourcePlace: SourcePlace): SourcePlace {
-        val sourcePlaceEntity = SourcePlaceEntity.toEntity(sourcePlace)
+        val sourcePlaceEntity = sourcePlace.toEntity()
         sourcePlaceRepository.save(sourcePlaceEntity)
-        return sourcePlaceEntity.toVO(sourcePlaceEntity)
+        return sourcePlaceEntity.toDomain(sourcePlaceEntity)
     }
 
     @Transactional

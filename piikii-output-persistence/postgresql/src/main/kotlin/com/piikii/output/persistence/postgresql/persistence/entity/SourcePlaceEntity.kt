@@ -37,32 +37,28 @@ class SourcePlaceEntity(
     @Enumerated(EnumType.STRING)
     val source: Source
 ) : BaseEntity() {
-
-    companion object {
-        fun SourcePlaceEntity.toVO(sourcePlaceEntity: SourcePlaceEntity): SourcePlace {
-            return SourcePlace(
-                originMapId = sourcePlaceEntity.originMapId,
-                url = sourcePlaceEntity.url,
-                thumbnailLinks = sourcePlaceEntity.thumbnailLink?.getContent(),
-                address = sourcePlaceEntity.address,
-                phoneNumber = sourcePlaceEntity.phoneNumber,
-                starGrade = sourcePlaceEntity.starGrade,
-                source = sourcePlaceEntity.source,
-            )
-        }
-
-        fun toEntity(sourcePlace: SourcePlace): SourcePlaceEntity {
-            return SourcePlaceEntity(
-                originMapId = sourcePlace.originMapId,
-                url = sourcePlace.url,
-                thumbnailLink = sourcePlace.thumbnailLinks?.let { ThumbnailLink(it.joinToString(",")) },
-                address = sourcePlace.address,
-                phoneNumber = sourcePlace.phoneNumber,
-                starGrade = sourcePlace.starGrade,
-                source = sourcePlace.source,
-            )
-        }
-    }
 }
 
+fun SourcePlaceEntity.toDomain(sourcePlaceEntity: SourcePlaceEntity): SourcePlace {
+    return SourcePlace(
+        originMapId = sourcePlaceEntity.originMapId,
+        url = sourcePlaceEntity.url,
+        thumbnailLinks = sourcePlaceEntity.thumbnailLink?.getContent(),
+        address = sourcePlaceEntity.address,
+        phoneNumber = sourcePlaceEntity.phoneNumber,
+        starGrade = sourcePlaceEntity.starGrade,
+        source = sourcePlaceEntity.source,
+    )
+}
 
+fun SourcePlace.toEntity(): SourcePlaceEntity {
+    return SourcePlaceEntity(
+        originMapId = this.originMapId,
+        url = this.url,
+        thumbnailLink = this.thumbnailLinks?.let { ThumbnailLink(it.joinToString(",")) },
+        address = this.address,
+        phoneNumber = this.phoneNumber,
+        starGrade = this.starGrade,
+        source = this.source,
+    )
+}
