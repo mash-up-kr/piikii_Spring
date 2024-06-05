@@ -1,6 +1,6 @@
 package com.piikii.application.port.output.persistence
 
-import com.piikii.application.domain.model.Room
+import com.piikii.application.domain.model.room.Room
 
 interface RoomQueryPort {
     fun retrieve(id: Long): Room

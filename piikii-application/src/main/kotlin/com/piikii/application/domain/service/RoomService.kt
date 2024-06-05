@@ -1,8 +1,8 @@
 package com.piikii.application.domain.service
 
-import com.piikii.application.domain.model.Event
-import com.piikii.application.domain.model.Room
-import com.piikii.application.domain.model.UserCreatedEvent
+import com.piikii.application.domain.model.events.Event
+import com.piikii.application.domain.model.room.Room
+import com.piikii.application.domain.model.events.UserCreatedEvent
 import com.piikii.application.port.input.RoomUseCase
 import com.piikii.application.port.output.eventbroker.UserConsumerPort
 import com.piikii.application.port.output.eventbroker.UserProducerPort
@@ -18,9 +18,9 @@ class RoomService(
 
     override fun save(loginId: String): Room {
         sophisticatedMethodByConsumer(userConsumerPort.execute())
-        val room = roomCommandPort.save(Room(loginId))
+        val room = roomCommandPort.save(Room())
         userProducerPort.execute(UserCreatedEvent())
-        return Room("sfd")
+        return Room()
     }
 
     private fun sophisticatedMethodByConsumer(event: Event) {

@@ -1,6 +1,6 @@
 package com.piikii.output.persistence.postgresql.adapter.sourceplace
 
-import com.piikii.application.domain.model.SourcePlace
+import com.piikii.application.domain.model.sourceplace.SourcePlace
 import com.piikii.application.port.output.persistence.SourcePlaceCommandPort
 import com.piikii.output.persistence.postgresql.persistence.entity.SourcePlaceEntity
 import com.piikii.output.persistence.postgresql.persistence.entity.SourcePlaceEntity.Companion.toVO

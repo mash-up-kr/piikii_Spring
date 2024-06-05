@@ -1,6 +1,6 @@
 package com.piikii.output.persistence.postgresql.adapter.room
 
-import com.piikii.application.domain.model.Room
+import com.piikii.application.domain.model.room.Room
 import com.piikii.application.port.output.persistence.RoomCommandPort
 import com.piikii.output.persistence.postgresql.persistence.repository.RoomRepository
 import org.springframework.stereotype.Repository

@@ -1,12 +1,13 @@
 package com.piikii.application.domain.service
 
-import com.piikii.application.domain.model.SourcePlace
+import com.piikii.application.domain.model.enums.Source
+import com.piikii.application.domain.model.sourceplace.SourcePlace
 import com.piikii.application.port.input.SourcePlaceUseCase
 import com.piikii.application.port.output.persistence.SourcePlaceCommandPort
 import org.springframework.stereotype.Service
 
 @Service
-class SourceService(
+class SourcePlaceService(
     private val sourcePlaceCommandPort: SourcePlaceCommandPort
 ) : SourcePlaceUseCase {
 
@@ -23,7 +24,7 @@ class SourceService(
                 address = "화성시",
                 phoneNumber = "010-1234-5678",
                 starGrade = 5F,
-                source = "MANUAL"
+                source = Source.MANUAL
             )
         )
     }

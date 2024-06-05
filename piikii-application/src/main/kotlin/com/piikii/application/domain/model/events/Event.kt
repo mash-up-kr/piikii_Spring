@@ -1,4 +1,4 @@
-package com.piikii.application.domain.model
+package com.piikii.application.domain.model.events
 
 fun interface Event {
     fun getTopic(): Event

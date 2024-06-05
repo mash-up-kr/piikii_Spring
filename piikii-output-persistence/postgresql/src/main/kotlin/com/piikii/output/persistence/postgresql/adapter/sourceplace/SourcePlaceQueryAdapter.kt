@@ -1,6 +1,6 @@
 package com.piikii.output.persistence.postgresql.adapter.sourceplace
 
-import com.piikii.application.domain.model.SourcePlace
+import com.piikii.application.domain.model.sourceplace.SourcePlace
 import com.piikii.application.port.output.persistence.SourceQueryPort
 import org.springframework.stereotype.Repository
 
