@@ -17,13 +17,13 @@ class SourcePlaceEntity(
     @Column(name = "origin_map_id", nullable = false)
     val originMapId: Long,
 
-    @Column(nullable = false, length = 255)
+    @Column(name = "url", nullable = false, length = 255)
     val url: String,
 
     @Embedded
     val thumbnailLink: ThumbnailLink? = null,
 
-    @Column(length = 255)
+    @Column(name = "address", length = 255)
     val address: String? = null,
 
     @Column(name = "phone_number", length = 15)

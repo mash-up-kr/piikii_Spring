@@ -15,6 +15,6 @@ class RoomVoteEntity(
     @Column(name = "room_place_id", nullable = false)
     val roomPlaceId: Long,
 
-    @Column(nullable = false, length = 10)
+    @Column(name = "content", nullable = false, length = 10)
     val content: String
 ) : BaseEntity()

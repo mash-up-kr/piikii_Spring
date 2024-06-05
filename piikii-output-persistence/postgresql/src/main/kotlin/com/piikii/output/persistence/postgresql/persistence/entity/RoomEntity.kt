@@ -10,7 +10,7 @@ import java.util.*
 @Entity
 @Table(name = "room", schema = "piikii")
 class RoomEntity(
-    @Column(nullable = false, length = 255)
+    @Column(name = "address", nullable = false, length = 255)
     val address: String,
 
     @Column(name = "meet_day", nullable = false)
@@ -19,7 +19,7 @@ class RoomEntity(
     @Column(name = "thumbnail_link", length = 255)
     val thumbnailLink: String? = null,
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     val password: Short,
 
     @Column(name = "vote_deadline", nullable = false)

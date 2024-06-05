@@ -11,6 +11,6 @@ class RoomCategoryEntity(
     @Column(name = "room_id", nullable = false)
     val roomId: Long,
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "name", nullable = false, length = 20)
     val name: String
 ) : BaseEntity()

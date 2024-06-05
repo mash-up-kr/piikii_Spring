@@ -16,7 +16,7 @@ class RoomPlaceEntity(
     @Column(name = "room_id", nullable = false)
     val roomId: Long,
 
-    @Column(nullable = false, length = 255)
+    @Column(name = "url", nullable = false, length = 255)
     val url: String,
 
     @Embedded

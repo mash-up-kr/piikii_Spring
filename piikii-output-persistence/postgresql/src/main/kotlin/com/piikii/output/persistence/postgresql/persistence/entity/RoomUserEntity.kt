@@ -11,6 +11,6 @@ class RoomUserEntity(
     @Column(name = "room_id", nullable = false)
     val roomId: Long,
 
-    @Column
+    @Column(name = "voted")
     val voted: Boolean? = null
 ) : BaseEntity()
