@@ -38,15 +38,15 @@ class SourcePlaceEntity(
     val source: Source
 ) : BaseEntity()
 
-fun SourcePlaceEntity.toDomain(sourcePlaceEntity: SourcePlaceEntity): SourcePlace {
+fun SourcePlaceEntity.toDomain(): SourcePlace {
     return SourcePlace(
-        originMapId = sourcePlaceEntity.originMapId,
-        url = sourcePlaceEntity.url,
-        thumbnailLinks = sourcePlaceEntity.thumbnailLink?.getContent(),
-        address = sourcePlaceEntity.address,
-        phoneNumber = sourcePlaceEntity.phoneNumber,
-        starGrade = sourcePlaceEntity.starGrade,
-        source = sourcePlaceEntity.source,
+        originMapId = this.originMapId,
+        url = this.url,
+        thumbnailLinks = this.thumbnailLink?.getContent(),
+        address = this.address,
+        phoneNumber = this.phoneNumber,
+        starGrade = this.starGrade,
+        source = this.source,
     )
 }
 

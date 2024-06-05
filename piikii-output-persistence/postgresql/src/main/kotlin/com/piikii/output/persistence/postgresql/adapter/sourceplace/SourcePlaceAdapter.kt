@@ -21,7 +21,7 @@ class SourcePlaceAdapter(
     override fun save(sourcePlace: SourcePlace): SourcePlace {
         val sourcePlaceEntity = sourcePlace.toEntity()
         sourcePlaceRepository.save(sourcePlaceEntity)
-        return sourcePlaceEntity.toDomain(sourcePlaceEntity)
+        return sourcePlaceEntity.toDomain()
     }
 
     @Transactional
@@ -37,7 +37,7 @@ class SourcePlaceAdapter(
     override fun retrieve(id: Long): SourcePlace {
         val sourcePlaceEntity = sourcePlaceRepository.findById(id)
         if (sourcePlaceEntity.isPresent) {
-            return sourcePlaceEntity.get().toDomain(sourcePlaceEntity.get())
+            return sourcePlaceEntity.get().toDomain()
         }
         // TODO 예외 정의
         throw EntityNotFoundException()
