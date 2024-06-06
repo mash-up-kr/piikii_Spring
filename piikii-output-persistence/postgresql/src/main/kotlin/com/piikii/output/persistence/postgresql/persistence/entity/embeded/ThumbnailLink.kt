@@ -12,7 +12,7 @@ class ThumbnailLink(
 
     fun saveContentWithIndex(index: Int, url: String) {
         val contentList = getContentList()
-        if (index >= 0 && index <= contentList.size) {
+        if (hasValidSize(index, contentList)) {
             contentList.add(index, url)
             content = listToString(contentList)
         } else {
@@ -27,7 +27,7 @@ class ThumbnailLink(
 
     fun updateWithIndex(index: Int, url: String) {
         val contentList = getContentList()
-        if (index >= 0 && index < contentList.size) {
+        if (hasValidSize(index, contentList)) {
             contentList[index] = url
             content = listToString(contentList)
         } else {
@@ -38,7 +38,7 @@ class ThumbnailLink(
 
     fun deleteWithIndex(index: Int) {
         val contentList = getContentList()
-        if (index >= 0 && index < contentList.size) {
+        if (hasValidSize(index, contentList)) {
             contentList.removeAt(index)
             content = listToString(contentList)
         } else {
@@ -54,4 +54,7 @@ class ThumbnailLink(
     private fun listToString(contents: List<String>): String {
         return contents.joinToString(THUMBNAIL_LINK_SEPARATOR)
     }
+
+    private fun hasValidSize(index: Int, contents: List<String>) =
+        index >= 0 && index <= contents.size
 }
