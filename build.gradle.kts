@@ -60,3 +60,9 @@ subprojects {
         useJUnitPlatform()
     }
 }
+
+configure(allprojects.filter { it.name != "piikii-common" }) {
+    dependencies {
+        implementation(project(":piikii-common"))
+    }
+}
