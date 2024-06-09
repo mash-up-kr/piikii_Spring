@@ -38,36 +38,36 @@ CREATE TABLE piikii.room_vote
 CREATE TABLE piikii.source_place
 (
     id             BIGSERIAL primary key,
-    origin_map_id  BIGINT    not null,
-    url            TEXT      not null,
-    thumbnail_link TEXT null,
-    address        TEXT null,
+    origin_map_id  BIGINT      not null,
+    url            TEXT        not null,
+    thumbnail_link TEXT        null,
+    address        TEXT        null,
     phone_number   VARCHAR(15) null,
-    star_grade     REAL null,
+    star_grade     REAL        null,
     source         VARCHAR(10) null,
 
-    created_at     TIMESTAMP not null,
-    modified_at    TIMESTAMP not null,
-    is_deleted     BOOLEAN   not null default false
+    created_at     TIMESTAMP   not null,
+    modified_at    TIMESTAMP   not null,
+    is_deleted     BOOLEAN     not null default false
 );
 
 CREATE TABLE piikii.room_place
 (
     id                 BIGSERIAL primary key,
-    room_id            BIGINT    not null,
-    url                TEXT null,
-    thumbnail_link     TEXT null,
-    address            TEXT null,
-    phone_number       VARCHAR(15) null,
-    star_grade         REAL null,
-    source             VARCHAR(10) null, -- [AVOCADO, LEMON, MANUAL]
+    room_id            BIGINT       not null,
+    url                TEXT         null,
+    thumbnail_link     TEXT         null,
+    address            TEXT         null,
+    phone_number       VARCHAR(15)  null,
+    star_grade         REAL         null,
+    source             VARCHAR(10)  null, -- [AVOCADO, LEMON, MANUAL]
     note               VARCHAR(100) null,
-    vote_like_count    SMALLINT null,
-    vote_dislike_count SMALLINT null,
+    vote_like_count    SMALLINT     null,
+    vote_dislike_count SMALLINT     null,
 
-    created_at         TIMESTAMP not null,
-    modified_at        TIMESTAMP not null,
-    is_deleted         BOOLEAN   not null default false
+    created_at         TIMESTAMP    not null,
+    modified_at        TIMESTAMP    not null,
+    is_deleted         BOOLEAN      not null default false
 );
 
 CREATE TABLE piikii.room_course_result
