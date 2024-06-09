@@ -14,6 +14,9 @@ style:
 fix:
   - head-branch: [ '^fix', 'fix' ]
 
+chore:
+  - head-branch: [ '^chore', 'chore' ]
+
 module-domain:
   - changed-files:
       - any-glob-to-any-file: 'piikii-application/**'
