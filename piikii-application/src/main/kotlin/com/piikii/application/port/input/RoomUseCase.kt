@@ -1,7 +1,7 @@
 package com.piikii.application.port.input
 
-import com.piikii.application.domain.model.room.Room
+import com.piikii.application.domain.room.Room
 
 interface RoomUseCase {
-    fun save(loginId: String): Room
+    fun save(loginId: String): Room?
 }

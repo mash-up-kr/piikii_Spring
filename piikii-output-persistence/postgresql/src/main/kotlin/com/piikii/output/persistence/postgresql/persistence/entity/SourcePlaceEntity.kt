@@ -1,11 +1,10 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
-import com.piikii.application.domain.model.enums.Source
-import com.piikii.application.domain.model.sourceplace.SourcePlace
+import com.piikii.application.domain.generic.Source
+import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.sourceplace.SourcePlace
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
-import com.piikii.output.persistence.postgresql.persistence.entity.embeded.ThumbnailLink
 import jakarta.persistence.Column
-import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
@@ -22,8 +21,8 @@ class SourcePlaceEntity(
     @Column(name = "url", nullable = false, length = 255)
     val url: String,
 
-    @Embedded
-    val thumbnailLink: ThumbnailLink? = null,
+    @Column(name = "thumbnail_links", nullable = false, length = 255)
+    val thumbnailLinks: String,
 
     @Column(name = "address", length = 255)
     val address: String? = null,
@@ -42,7 +41,7 @@ fun SourcePlaceEntity.toDomain(): SourcePlace {
     return SourcePlace(
         originMapId = this.originMapId,
         url = this.url,
-        thumbnailLinks = this.thumbnailLink?.getContent(),
+        thumbnailLinks = ThumbnailLinks(this.thumbnailLinks),
         address = this.address,
         phoneNumber = this.phoneNumber,
         starGrade = this.starGrade,
@@ -54,7 +53,7 @@ fun SourcePlace.toEntity(): SourcePlaceEntity {
     return SourcePlaceEntity(
         originMapId = this.originMapId,
         url = this.url,
-        thumbnailLink = this.thumbnailLinks?.let { ThumbnailLink(it.joinToString(",")) },
+        thumbnailLinks = this.thumbnailLinks.contents.toString(),
         address = this.address,
         phoneNumber = this.phoneNumber,
         starGrade = this.starGrade,
