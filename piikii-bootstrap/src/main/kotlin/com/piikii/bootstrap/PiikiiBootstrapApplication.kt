@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication(scanBasePackages = ["com.piikii"])
-class BootstrapApplication
+class PiikiiBootstrapApplication
 
 fun main(args: Array<String>) {
-    runApplication<BootstrapApplication>(*args)
+    runApplication<PiikiiBootstrapApplication>(*args)
 }
