@@ -1,6 +1,6 @@
 package com.piikii.input.http.error
 
-class ErrorResponse(
+class ExceptionResponse(
     val message: String,
     val cause: String?,
     val timestamp: Long

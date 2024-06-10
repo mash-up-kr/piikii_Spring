@@ -1,6 +1,6 @@
-package com.piikii.common.error
+package com.piikii.common.exception
 
-enum class ErrorCode(
+enum class ExceptionCode(
     val statusCode: Int,
     val defaultMessage: String,
 ) {
