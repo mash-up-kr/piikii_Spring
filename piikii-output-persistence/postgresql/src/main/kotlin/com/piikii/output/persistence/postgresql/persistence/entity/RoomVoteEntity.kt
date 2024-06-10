@@ -5,9 +5,9 @@ import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
+import java.util.UUID
 import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.SQLRestriction
-import java.util.*
 
 @Entity
 @Table(name = "room_vote", schema = "piikii")
