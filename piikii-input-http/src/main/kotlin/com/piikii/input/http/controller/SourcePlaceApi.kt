@@ -1,4 +1,4 @@
-package com.piikii.input.http
+package com.piikii.input.http.controller
 
 import com.piikii.application.domain.sourceplace.SourcePlace
 import com.piikii.application.port.input.SourcePlaceUseCase
@@ -11,12 +11,12 @@ class SourcePlaceApi(
     private val sourcePlaceUseCase: SourcePlaceUseCase
 ) {
 
-    @PostMapping("/test")
+    @PostMapping
     fun testPost(): SourcePlace {
         return sourcePlaceUseCase.save()
     }
 
-    @GetMapping("/test")
+    @GetMapping
     fun testGet(): SourcePlace {
         return sourcePlaceUseCase.retrieve()
     }
