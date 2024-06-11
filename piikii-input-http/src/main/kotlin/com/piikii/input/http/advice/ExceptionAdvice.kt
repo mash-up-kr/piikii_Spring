@@ -11,25 +11,25 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class ExceptionAdvice {
 
     @ExceptionHandler(PiikiiException::class)
-    fun handlePiikiiException(e: PiikiiException): ResponseEntity<ExceptionResponse> {
+    fun handlePiikiiException(piikiiException: PiikiiException): ResponseEntity<ExceptionResponse> {
         return ResponseEntity
-            .status(e.statusCode)
+            .status(piikiiException.statusCode)
             .body(
                 ExceptionResponse(
-                    message = e.defaultMessage,
-                    cause = e.detailMessage,
+                    message = piikiiException.defaultMessage,
+                    cause = piikiiException.detailMessage,
                     timestamp = System.currentTimeMillis()
                 )
             )
     }
 
     @ExceptionHandler(Exception::class)
-    fun handleException(e: Exception): ResponseEntity<ExceptionResponse> {
+    fun handleException(exception: Exception): ResponseEntity<ExceptionResponse> {
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(
                 ExceptionResponse(
-                    message = "예기치 못한 에러가 발생했습니다. : ${e.message}",
+                    message = "예기치 못한 에러가 발생했습니다. : ${exception.message}",
                     cause = null,
                     timestamp = System.currentTimeMillis()
                 )
