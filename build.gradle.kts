@@ -5,7 +5,7 @@ plugins {
     id(Plugins.SPRING_BOOT) version Versions.SPRING_BOOT
     id(Plugins.SPRING_DEPENDENCY_MANAGEMENT) version Versions.SPRING_DEPENDENCY_MANAGEMENT
     id(Plugins.APPLICATION)
-    id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
+    id(Plugins.KT_LINT) version Versions.KT_LINT_VERSION
 
     kotlin(Plugins.JVM) version Versions.KOTLIN
     kotlin(Plugins.SPRING) version Versions.KOTLIN
@@ -47,6 +47,10 @@ subprojects {
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 
+    tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+        mainClass.set("com.piikii.bootstrap.PiikiiBootstrapApplicationKt")
+    }
+
     tasks.withType<KotlinCompile> {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_21)
@@ -57,14 +61,14 @@ subprojects {
     tasks.withType<Test> {
         useJUnitPlatform()
     }
-}
 
-tasks.named("build") {
-    dependsOn("clean", "ktlintFormat")
-}
+    tasks.named("build") {
+        dependsOn("clean", "ktlintFormat")
+    }
 
-tasks.named("bootJar") {
-    dependsOn("clean", "ktlintFormat")
+    tasks.named("bootJar") {
+        dependsOn("clean", "ktlintFormat")
+    }
 }
 
 configure(allprojects.filter { it.name != "piikii-common" }) {
@@ -73,8 +77,12 @@ configure(allprojects.filter { it.name != "piikii-common" }) {
     }
 }
 
-application {
-    mainClass.set("com.piikii.bootstrap.BootstrapApplicationKt")
+java.sourceCompatibility = JavaVersion.VERSION_21
+
+tasks.bootJar {
+    enabled = false
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_21
+tasks.jar {
+    enabled = true
+}
