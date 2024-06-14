@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 java.sourceCompatibility = JavaVersion.VERSION_21
@@ -51,9 +52,9 @@ subprojects {
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_21)
             freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = Versions.javaVersion
         }
     }
 
