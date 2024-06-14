@@ -17,20 +17,30 @@ import java.time.LocalDateTime
 @DynamicUpdate
 class RoomEntity(
     @Column(name = "address", nullable = false, length = 255)
-    val address: String,
+    var address: String,
 
     @Column(name = "meet_day", nullable = false)
-    val meetDay: LocalDate,
+    var meetDay: LocalDate,
 
     @Column(name = "thumbnail_links", nullable = false, length = 255)
     val thumbnailLinks: String,
 
     @Column(name = "password", nullable = false)
-    val password: Short,
+    var password: Short,
 
     @Column(name = "vote_deadline", nullable = false)
-    val voteDeadline: LocalDateTime,
-) : BaseEntity()
+    var voteDeadline: LocalDateTime,
+) : BaseEntity() {
+
+    fun update(room: Room) {
+        this.address = room.address
+        this.meetDay = room.meetDay
+        this.password = room.password
+        this.voteDeadline = room.voteDeadline
+        //TODO: 이미지 storage 확정 후 thumbnailLinks 추가 처리
+        //TODO: DTO 내 nullable 필드가 없으므로 우선 null 처리 제외
+    }
+}
 
 fun RoomEntity.toDomain(): Room {
     return Room(
