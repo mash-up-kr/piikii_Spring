@@ -32,6 +32,8 @@ class RoomEntity(
     var voteDeadline: LocalDateTime,
 ) : BaseEntity() {
 
+    //TODO: 모임 이름, 하고 싶은 메시지 칼럼 추가
+
     fun update(room: Room) {
         this.address = room.address
         this.meetDay = room.meetDay
