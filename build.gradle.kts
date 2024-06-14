@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 java.sourceCompatibility = JavaVersion.VERSION_21
@@ -7,13 +8,14 @@ application {
 }
 
 plugins {
-    id("org.springframework.boot") version "3.2.5"
-    id("io.spring.dependency-management") version "1.1.4"
-    id("application")
-    kotlin("jvm") version "1.9.23"
-    kotlin("plugin.spring") version "1.9.23"
-    kotlin("plugin.jpa") version "1.7.22"
-    kotlin("kapt") version "1.6.21"
+    id(Plugins.SPRING_BOOT) version Versions.SPRING_BOOT
+    id(Plugins.SPRING_DEPENDENCY_MANAGEMENT) version Versions.SPRING_DEPENDENCY_MANAGEMENT
+    id(Plugins.APPLICATION)
+
+    kotlin(Plugins.JVM) version Versions.KOTLIN
+    kotlin(Plugins.SPRING) version Versions.KOTLIN
+    kotlin(Plugins.JPA) version Versions.JPA_PLUGIN
+    kotlin(Plugins.KAPT) version Versions.KAPT_PLUGIN
 }
 
 allprojects {
@@ -50,9 +52,9 @@ subprojects {
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_21)
             freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "21"
         }
     }
 
