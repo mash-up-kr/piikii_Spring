@@ -1,8 +1,9 @@
 object Plugins {
     const val springBoot = "org.springframework.boot"
     const val springDependencyManagement = "io.spring.dependency-management"
-    const val kotlinJvm = "org.jetbrains.kotlin.jvm"
-    const val kotlinSpring = "org.jetbrains.kotlin.plugin.spring"
-    const val kotlinJpa = "org.jetbrains.kotlin.plugin.jpa"
-    const val kotlinKapt = "org.jetbrains.kotlin.kapt"
+    const val application = "application"
+    const val jvm = "jvm"
+    const val spring = "plugin.spring"
+    const val jpa = "plugin.jpa"
+    const val kapt = "kapt"
 }

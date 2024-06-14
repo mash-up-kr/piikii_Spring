@@ -7,13 +7,14 @@ application {
 }
 
 plugins {
-    id(Plugins.springBoot) version Versions.springBoot
-    id(Plugins.springDependencyManagement) version Versions.springDependencyManagement
-    id("application")
-    kotlin(Plugins.kotlinJvm) version Versions.kotlin
-    kotlin(Plugins.kotlinSpring) version Versions.kotlin
-    kotlin(Plugins.kotlinJpa) version Versions.kotlinJpa
-    kotlin(Plugins.kotlinKapt) version Versions.kotlinKapt
+    id(Plugins.springBoot) version Versions.springBootVersion
+    id(Plugins.springDependencyManagement) version Versions.springDependencyManagementVersion
+    id(Plugins.application)
+
+    kotlin(Plugins.jvm) version Versions.kotlinVersion
+    kotlin(Plugins.spring) version Versions.kotlinVersion
+    kotlin(Plugins.jpa) version Versions.jpaPluginVersion
+    kotlin(Plugins.kapt) version Versions.kaptPluginVersion
 }
 
 allprojects {
@@ -52,7 +53,7 @@ subprojects {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "21"
+            jvmTarget = Versions.javaVersion
         }
     }
 
