@@ -15,19 +15,17 @@ import org.hibernate.annotations.SQLRestriction
 class RoomCourseResultEntity(
     @Column(name = "room_id", nullable = false)
     val roomId: Long,
-
     @Column(name = "course_category_id", nullable = false)
     val courseCategoryId: Long,
-
     @Column(name = "room_place_id", nullable = false)
-    val roomPlaceId: Long
+    val roomPlaceId: Long,
 ) : BaseEntity()
 
 fun RoomCourseResultEntity.toDomain(): RoomCourseResult {
     return RoomCourseResult(
         roomId = this.roomId,
         courseCategoryId = this.courseCategoryId,
-        roomPlaceId = this.roomPlaceId
+        roomPlaceId = this.roomPlaceId,
     )
 }
 
@@ -35,6 +33,6 @@ fun RoomCourseResult.toEntity(): RoomCourseResultEntity {
     return RoomCourseResultEntity(
         roomId = this.roomId,
         courseCategoryId = this.courseCategoryId,
-        roomPlaceId = this.roomPlaceId
+        roomPlaceId = this.roomPlaceId,
     )
 }

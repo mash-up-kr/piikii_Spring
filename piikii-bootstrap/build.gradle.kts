@@ -7,5 +7,5 @@ dependencies {
 }
 
 application {
-    mainClass.set("com.piikii.bootstrap.BootstrapApplicationKt")
+    mainClass.set("com.piikii.bootstrap.PiikiiBootstrapApplication")
 }

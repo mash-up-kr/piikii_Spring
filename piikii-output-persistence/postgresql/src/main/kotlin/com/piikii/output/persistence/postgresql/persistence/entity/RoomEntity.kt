@@ -18,16 +18,12 @@ import java.time.LocalDateTime
 class RoomEntity(
     @Column(name = "address", nullable = false, length = 255)
     val address: String,
-
     @Column(name = "meet_day", nullable = false)
     val meetDay: LocalDate,
-
     @Column(name = "thumbnail_links", nullable = false, length = 255)
     val thumbnailLinks: String,
-
     @Column(name = "password", nullable = false)
     val password: Short,
-
     @Column(name = "vote_deadline", nullable = false)
     val voteDeadline: LocalDateTime,
 ) : BaseEntity()
@@ -51,4 +47,3 @@ fun Room.toEntity(): RoomEntity {
         voteDeadline = this.voteDeadline,
     )
 }
-

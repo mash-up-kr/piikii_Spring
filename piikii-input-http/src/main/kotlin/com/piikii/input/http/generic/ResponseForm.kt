@@ -6,6 +6,5 @@ import com.fasterxml.jackson.annotation.JsonInclude
 class ResponseForm<T>(
     val data: T,
     val message: String? = null,
-    val timestamp: Long = System.currentTimeMillis()
+    val timestamp: Long = System.currentTimeMillis(),
 )
-

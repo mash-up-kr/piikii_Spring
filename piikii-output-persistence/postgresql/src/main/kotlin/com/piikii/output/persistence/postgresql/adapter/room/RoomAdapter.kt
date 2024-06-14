@@ -10,16 +10,18 @@ import org.springframework.transaction.annotation.Transactional
 @Repository
 @Transactional(readOnly = true)
 class RoomAdapter(
-    private val roomRepository: RoomRepository
+    private val roomRepository: RoomRepository,
 ) : RoomCommandPort, RoomQueryPort {
-
     @Transactional
     override fun save(room: Room): Room {
         TODO("Not yet implemented")
     }
 
     @Transactional
-    override fun update(room: Room, id: Long) {
+    override fun update(
+        room: Room,
+        id: Long,
+    ) {
         TODO("Not yet implemented")
     }
 

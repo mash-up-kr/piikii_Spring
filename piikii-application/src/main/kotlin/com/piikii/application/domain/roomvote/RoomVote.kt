@@ -5,5 +5,5 @@ import java.util.UUID
 class RoomVote(
     val userId: UUID,
     val roomPlaceId: Long,
-    val content: String
+    val content: String,
 )

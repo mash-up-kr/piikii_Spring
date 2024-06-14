@@ -17,24 +17,18 @@ import org.hibernate.annotations.SQLRestriction
 class SourcePlaceEntity(
     @Column(name = "origin_map_id", nullable = false)
     val originMapId: Long,
-
     @Column(name = "url", nullable = false, length = 255)
     val url: String,
-
     @Column(name = "thumbnail_links", nullable = false, length = 255)
     val thumbnailLinks: String,
-
     @Column(name = "address", length = 255)
     val address: String? = null,
-
     @Column(name = "phone_number", length = 15)
     val phoneNumber: String? = null,
-
     @Column(name = "star_grade")
     val starGrade: Float? = null,
-
     @Enumerated(EnumType.STRING)
-    val source: Source
+    val source: Source,
 ) : BaseEntity()
 
 fun SourcePlaceEntity.toDomain(): SourcePlace {

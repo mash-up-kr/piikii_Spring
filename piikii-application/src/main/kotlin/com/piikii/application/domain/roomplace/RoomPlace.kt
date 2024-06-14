@@ -10,5 +10,5 @@ class RoomPlace(
     val address: String? = null,
     val phoneNumber: String? = null,
     val starGrade: Float? = null,
-    val source: Source
+    val source: Source,
 )

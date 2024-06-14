@@ -15,21 +15,20 @@ import org.hibernate.annotations.SQLRestriction
 class RoomUserEntity(
     @Column(name = "room_id", nullable = false)
     val roomId: Long,
-
     @Column(name = "voted")
-    val voted: Boolean = false
+    val voted: Boolean = false,
 ) : BaseEntity()
 
 fun RoomUserEntity.toDomain(): RoomUser {
     return RoomUser(
         roomId = this.roomId,
-        voted = this.voted
+        voted = this.voted,
     )
 }
 
 fun RoomUser.toEntity(): RoomUserEntity {
     return RoomUserEntity(
         roomId = this.roomId,
-        voted = this.voted
+        voted = this.voted,
     )
 }

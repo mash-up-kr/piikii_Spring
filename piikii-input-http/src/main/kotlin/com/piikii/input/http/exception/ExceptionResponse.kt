@@ -6,5 +6,5 @@ import com.fasterxml.jackson.annotation.JsonInclude
 class ExceptionResponse(
     val message: String,
     val cause: String?,
-    val timestamp: Long
+    val timestamp: Long,
 )
