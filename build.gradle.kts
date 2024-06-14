@@ -1,16 +1,11 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-java.sourceCompatibility = JavaVersion.VERSION_21
-
-application {
-    mainClass.set("com.piikii.bootstrap.BootstrapApplicationKt")
-}
-
 plugins {
     id(Plugins.SPRING_BOOT) version Versions.SPRING_BOOT
     id(Plugins.SPRING_DEPENDENCY_MANAGEMENT) version Versions.SPRING_DEPENDENCY_MANAGEMENT
     id(Plugins.APPLICATION)
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
 
     kotlin(Plugins.JVM) version Versions.KOTLIN
     kotlin(Plugins.SPRING) version Versions.KOTLIN
@@ -37,6 +32,7 @@ subprojects {
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "kotlin-kapt")
     apply(plugin = "application")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     dependencies {
         // for kotlin
@@ -63,8 +59,22 @@ subprojects {
     }
 }
 
+tasks.named("build") {
+    dependsOn("clean", "ktlintFormat")
+}
+
+tasks.named("bootJar") {
+    dependsOn("clean", "ktlintFormat")
+}
+
 configure(allprojects.filter { it.name != "piikii-common" }) {
     dependencies {
         implementation(project(":piikii-common"))
     }
 }
+
+application {
+    mainClass.set("com.piikii.bootstrap.BootstrapApplicationKt")
+}
+
+java.sourceCompatibility = JavaVersion.VERSION_21
