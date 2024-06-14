@@ -1,9 +1,9 @@
 object Plugins {
-    const val springBoot = "org.springframework.boot"
-    const val springDependencyManagement = "io.spring.dependency-management"
-    const val application = "application"
-    const val jvm = "jvm"
-    const val spring = "plugin.spring"
-    const val jpa = "plugin.jpa"
-    const val kapt = "kapt"
+    const val SPRING_BOOT = "org.springframework.boot"
+    const val SPRING_DEPENDENCY_MANAGEMENT = "io.spring.dependency-management"
+    const val APPLICATION = "application"
+    const val JVM = "jvm"
+    const val SPRING = "plugin.spring"
+    const val JPA = "plugin.jpa"
+    const val KAPT = "kapt"
 }

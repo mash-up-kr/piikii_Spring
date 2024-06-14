@@ -1,8 +1,8 @@
 object Versions {
-    const val springBootVersion = "3.3.0"
-    const val springDependencyManagementVersion = "1.1.5"
-    const val kotlinVersion = "2.0.0"
-    const val jpaPluginVersion = "2.0.0"
-    const val kaptPluginVersion = "2.0.0"
+    const val SPRING_BOOT = "3.3.0"
+    const val SPRING_DEPENDENCY_MANAGEMENT = "1.1.5"
+    const val KOTLIN = "2.0.0"
+    const val JPA_PLUGIN = "2.0.0"
+    const val KAPT_PLUGIN = "2.0.0"
     const val javaVersion = "21"
 }

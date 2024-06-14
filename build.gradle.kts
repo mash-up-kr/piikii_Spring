@@ -8,14 +8,14 @@ application {
 }
 
 plugins {
-    id(Plugins.springBoot) version Versions.springBootVersion
-    id(Plugins.springDependencyManagement) version Versions.springDependencyManagementVersion
-    id(Plugins.application)
+    id(Plugins.SPRING_BOOT) version Versions.SPRING_BOOT
+    id(Plugins.SPRING_DEPENDENCY_MANAGEMENT) version Versions.SPRING_DEPENDENCY_MANAGEMENT
+    id(Plugins.APPLICATION)
 
-    kotlin(Plugins.jvm) version Versions.kotlinVersion
-    kotlin(Plugins.spring) version Versions.kotlinVersion
-    kotlin(Plugins.jpa) version Versions.jpaPluginVersion
-    kotlin(Plugins.kapt) version Versions.kaptPluginVersion
+    kotlin(Plugins.JVM) version Versions.KOTLIN
+    kotlin(Plugins.SPRING) version Versions.KOTLIN
+    kotlin(Plugins.JPA) version Versions.JPA_PLUGIN
+    kotlin(Plugins.KAPT) version Versions.KAPT_PLUGIN
 }
 
 allprojects {
