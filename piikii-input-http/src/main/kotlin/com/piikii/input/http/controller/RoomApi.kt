@@ -29,8 +29,8 @@ class RoomApi(
     }
 
     @PutMapping("/{roomId}")
-    fun updateRoom(@PathVariable roomId: Long, @RequestBody request: Room): ResponseEntity<ResponseForm<Room>> {
-        roomUseCase.update(roomId, request)
+    fun updateRoom(@RequestBody request: Room, @PathVariable roomId: Long): ResponseEntity<ResponseForm<Room>> {
+        roomUseCase.update(request, roomId)
         return ResponseEntity.ok(ResponseForm(request))
     }
 
