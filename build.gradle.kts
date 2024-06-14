@@ -7,13 +7,13 @@ application {
 }
 
 plugins {
-    id("org.springframework.boot") version "3.2.5"
-    id("io.spring.dependency-management") version "1.1.4"
+    id(Plugins.springBoot) version Versions.springBoot
+    id(Plugins.springDependencyManagement) version Versions.springDependencyManagement
     id("application")
-    kotlin("jvm") version "1.9.23"
-    kotlin("plugin.spring") version "1.9.23"
-    kotlin("plugin.jpa") version "1.7.22"
-    kotlin("kapt") version "1.6.21"
+    kotlin(Plugins.kotlinJvm) version Versions.kotlin
+    kotlin(Plugins.kotlinSpring) version Versions.kotlin
+    kotlin(Plugins.kotlinJpa) version Versions.kotlinJpa
+    kotlin(Plugins.kotlinKapt) version Versions.kotlinKapt
 }
 
 allprojects {
