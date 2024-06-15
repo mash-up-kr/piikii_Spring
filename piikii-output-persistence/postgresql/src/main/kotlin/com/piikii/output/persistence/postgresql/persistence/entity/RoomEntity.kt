@@ -35,8 +35,8 @@ class RoomEntity(
     var message: String?,
 ) : BaseEntity() {
     fun update(room: Room) {
-        this.meetingName = room.meetingName?: this.meetingName
-        this.message = room.message?: this.message
+        this.meetingName = room.meetingName ?: this.meetingName
+        this.message = room.message ?: this.message
     }
 }
 
@@ -56,11 +56,10 @@ fun Room.toEntity(): RoomEntity {
         message = this.message,
         password = this.password!!,
         roomId = UUID.randomUUID(),
-
-        //TODO: 기능&ERD 확정 후 정리
-        address = this.address?: "",
+        // TODO: 기능&ERD 확정 후 정리
+        address = this.address ?: "",
         meetDay = this.meetDay,
         thumbnailLinks = this.thumbnailLinks?.contents ?: "",
-        voteDeadline = this.voteDeadline?: LocalDateTime.now()
+        voteDeadline = this.voteDeadline ?: LocalDateTime.now(),
     )
 }
