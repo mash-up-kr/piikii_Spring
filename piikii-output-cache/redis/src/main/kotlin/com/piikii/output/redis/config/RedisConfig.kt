@@ -13,9 +13,8 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.StringRedisSerializer
 
 // TODO: 필요 시에 등록을 위해 설정
-//@Configuration
+// @Configuration
 class RedisConfig {
-
     @Value("\${redis.host}")
     private val redisHost: String? = null
 

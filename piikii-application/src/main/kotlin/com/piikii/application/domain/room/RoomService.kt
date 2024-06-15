@@ -14,7 +14,6 @@ class RoomService(
     private val userProducerPort: UserProducerPort,
     private val userConsumerPort: UserConsumerPort,
 ) : RoomUseCase {
-
     override fun save(request: Room): Room {
         val savedRoom = roomCommandPort.save(request)
         //TODO: 연관관계 추가

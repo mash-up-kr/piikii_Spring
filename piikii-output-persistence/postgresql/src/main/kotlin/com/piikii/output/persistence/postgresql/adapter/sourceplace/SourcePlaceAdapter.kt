@@ -13,9 +13,8 @@ import org.springframework.transaction.annotation.Transactional
 @Repository
 @Transactional(readOnly = true)
 class SourcePlaceAdapter(
-    private val sourcePlaceRepository: SourcePlaceRepository
+    private val sourcePlaceRepository: SourcePlaceRepository,
 ) : SourcePlaceCommandPort, SourcePlaceQueryPort {
-
     @Transactional
     override fun save(sourcePlace: SourcePlace): SourcePlace {
         val entity = sourcePlace.toEntity()
@@ -24,7 +23,10 @@ class SourcePlaceAdapter(
     }
 
     @Transactional
-    override fun update(sourcePlace: SourcePlace, id: Long) {
+    override fun update(
+        sourcePlace: SourcePlace,
+        id: Long,
+    ) {
         TODO("Not yet implemented")
     }
 

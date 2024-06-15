@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class SourcePlaceApi(
-    private val sourcePlaceUseCase: SourcePlaceUseCase
+    private val sourcePlaceUseCase: SourcePlaceUseCase,
 ) {
-
     @PostMapping
     fun testPost(): SourcePlace {
         return sourcePlaceUseCase.save()

@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class TestController {
-
     @GetMapping("/test-throw/illegalArgument")
     fun testThrow400() {
         val userId = 4L
         throw PiikiiException(
             exceptionCode = ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION,
-            detailMessage = "userId : ${userId}"
+            detailMessage = "userId : $userId",
         )
     }
 

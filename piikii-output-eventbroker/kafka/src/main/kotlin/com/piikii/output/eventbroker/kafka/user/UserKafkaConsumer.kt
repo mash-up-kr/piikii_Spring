@@ -6,9 +6,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserKafkaConsumer : UserConsumerPort {
-
     override fun execute(): Event {
         TODO("Not yet implemented")
     }
-
 }

@@ -15,9 +15,8 @@ import org.springframework.transaction.annotation.Transactional
 @Repository
 @Transactional(readOnly = true)
 class RoomAdapter(
-    private val roomRepository: RoomRepository
+    private val roomRepository: RoomRepository,
 ) : RoomCommandPort, RoomQueryPort {
-
     @Transactional
     override fun save(room: Room): Room {
         val savedRoom = roomRepository.save(room.toEntity())

@@ -7,9 +7,8 @@ import java.io.Serializable
 
 class ThumbnailLinks(
     @JsonIgnore
-    val contents: String?
+    val contents: String?,
 ) : Serializable {
-
     constructor(contentList: List<String>) : this(contentList.joinToString(THUMBNAIL_LINK_SEPARATOR))
 
     @get:JsonProperty("contents")
