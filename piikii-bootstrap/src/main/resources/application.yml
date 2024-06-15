@@ -1,5 +1,5 @@
 spring:
   application:
-    name: "PIIKII BOOTSTRAP"
+    name: "piikii"
   messages:
     encoding: UTF-8

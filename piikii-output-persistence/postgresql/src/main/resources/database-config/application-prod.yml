@@ -5,9 +5,9 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: 112233
+    url: ${LOCAL_DB_URL}
+    username: ${LOCAL_DB_USER:postgres}
+    password: ${LOCAL_DB_PASSWORD:postgres}
     hikari:
       pool-name: Hikari-PostgreSQL
       maximum-pool-size: 20
@@ -15,16 +15,13 @@ spring:
       idle-timeout: 1000
       max-lifetime: 200000
       connection-timeout: 30000
-
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: postgresql
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         temp.use_jdbc_metadata_defaults: false
         jdbc.lob.non_contextual_creation: true
         generate_statistics: true
-        format_sql: true
-    show-sql: true

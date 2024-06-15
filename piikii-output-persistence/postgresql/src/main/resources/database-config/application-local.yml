@@ -5,7 +5,7 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${LOCAL_DB_URL}
+    url: ${LOCAL_DB_URL:'jdbc:postgresql://localhost:5432/piikii'}
     username: ${LOCAL_DB_USER:postgres}
     password: ${LOCAL_DB_PASSWORD:postgres}
     hikari:

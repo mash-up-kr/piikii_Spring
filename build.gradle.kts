@@ -1,19 +1,16 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-java.sourceCompatibility = JavaVersion.VERSION_21
-
-application {
-    mainClass.set("com.piikii.bootstrap.BootstrapApplicationKt")
-}
-
 plugins {
-    id("org.springframework.boot") version "3.2.5"
-    id("io.spring.dependency-management") version "1.1.4"
-    id("application")
-    kotlin("jvm") version "1.9.23"
-    kotlin("plugin.spring") version "1.9.23"
-    kotlin("plugin.jpa") version "1.7.22"
-    kotlin("kapt") version "1.6.21"
+    id(Plugins.SPRING_BOOT) version Versions.SPRING_BOOT
+    id(Plugins.SPRING_DEPENDENCY_MANAGEMENT) version Versions.SPRING_DEPENDENCY_MANAGEMENT
+    id(Plugins.APPLICATION)
+    id(Plugins.KT_LINT) version Versions.KT_LINT_VERSION
+
+    kotlin(Plugins.JVM) version Versions.KOTLIN
+    kotlin(Plugins.SPRING) version Versions.KOTLIN
+    kotlin(Plugins.JPA) version Versions.JPA_PLUGIN
+    kotlin(Plugins.KAPT) version Versions.KAPT_PLUGIN
 }
 
 allprojects {
@@ -35,6 +32,7 @@ subprojects {
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "kotlin-kapt")
     apply(plugin = "application")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     dependencies {
         // for kotlin
@@ -49,14 +47,42 @@ subprojects {
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 
+    tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+        mainClass.set("com.piikii.bootstrap.PiikiiBootstrapApplicationKt")
+    }
+
     tasks.withType<KotlinCompile> {
-        kotlinOptions {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_21)
             freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "21"
         }
     }
 
     tasks.withType<Test> {
         useJUnitPlatform()
     }
+
+    tasks.named("build") {
+        dependsOn("clean", "ktlintFormat")
+    }
+
+    tasks.named("bootJar") {
+        dependsOn("clean", "ktlintFormat")
+    }
+}
+
+configure(allprojects.filter { it.name != "piikii-common" }) {
+    dependencies {
+        implementation(project(":piikii-common"))
+    }
+}
+
+java.sourceCompatibility = JavaVersion.VERSION_21
+
+tasks.bootJar {
+    enabled = false
+}
+
+tasks.jar {
+    enabled = true
 }

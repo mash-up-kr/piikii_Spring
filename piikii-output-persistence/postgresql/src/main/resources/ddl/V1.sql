@@ -8,17 +8,19 @@ CREATE TABLE piikii.room
     vote_deadline  TIMESTAMP    not null,
 
     created_at     TIMESTAMP    not null,
-    modified_at     TIMESTAMP    not null
+    modified_at    TIMESTAMP    not null,
+    is_deleted     BOOLEAN      not null default false
 );
 
 CREATE TABLE piikii.room_user
 (
-    id         BIGSERIAL primary key,
-    room_id    BIGINT    not null,
-    voted      BOOLEAN,
+    id          BIGSERIAL primary key,
+    room_id     BIGINT    not null,
+    voted       BOOLEAN,
 
-    created_at TIMESTAMP not null,
-    modified_at TIMESTAMP not null
+    created_at  TIMESTAMP not null,
+    modified_at TIMESTAMP not null,
+    is_deleted  BOOLEAN   not null default false
 );
 
 CREATE TABLE piikii.room_vote
@@ -29,31 +31,33 @@ CREATE TABLE piikii.room_vote
     content       varchar(10) not null,
 
     created_at    TIMESTAMP   not null,
-    modified_at    TIMESTAMP   not null
+    modified_at   TIMESTAMP   not null,
+    is_deleted    BOOLEAN     not null default false
 );
 
 CREATE TABLE piikii.source_place
 (
     id             BIGSERIAL primary key,
-    origin_map_id  BIGINT       not null,
-    url            varchar(255) not null,
-    thumbnail_link VARCHAR[]    null,
-    address        VARCHAR(255) null,
-    phone_number   VARCHAR(15)  null,
-    star_grade     REAL         null,
-    source         VARCHAR(10)  null, -- [AVOCADO, LEMON, MANUAL]
+    origin_map_id  BIGINT      not null,
+    url            TEXT        not null,
+    thumbnail_link TEXT        null,
+    address        TEXT        null,
+    phone_number   VARCHAR(15) null,
+    star_grade     REAL        null,
+    source         VARCHAR(10) null,
 
-    created_at     TIMESTAMP    not null,
-    modified_at     TIMESTAMP    not null
+    created_at     TIMESTAMP   not null,
+    modified_at    TIMESTAMP   not null,
+    is_deleted     BOOLEAN     not null default false
 );
 
 CREATE TABLE piikii.room_place
 (
     id                 BIGSERIAL primary key,
     room_id            BIGINT       not null,
-    url                VARCHAR(255) null,
-    thumbnail_link     VARCHAR[]    null,
-    address            VARCHAR(255) null,
+    url                TEXT         null,
+    thumbnail_link     TEXT         null,
+    address            TEXT         null,
     phone_number       VARCHAR(15)  null,
     star_grade         REAL         null,
     source             VARCHAR(10)  null, -- [AVOCADO, LEMON, MANUAL]
@@ -62,7 +66,8 @@ CREATE TABLE piikii.room_place
     vote_dislike_count SMALLINT     null,
 
     created_at         TIMESTAMP    not null,
-    modified_at         TIMESTAMP    not null
+    modified_at        TIMESTAMP    not null,
+    is_deleted         BOOLEAN      not null default false
 );
 
 CREATE TABLE piikii.room_course_result
@@ -73,15 +78,17 @@ CREATE TABLE piikii.room_course_result
     room_place_id      BIGINT    not null,
 
     created_at         TIMESTAMP not null,
-    modified_at         TIMESTAMP not null
+    modified_at        TIMESTAMP not null,
+    is_deleted         BOOLEAN   not null default false
 );
 
 CREATE TABLE piikii.room_category
 (
-    id         BIGSERIAL primary key,
-    room_id    BIGINT      not null,
-    name       VARCHAR(20) not null,
+    id          BIGSERIAL primary key,
+    room_id     BIGINT      not null,
+    name        VARCHAR(20) not null,
 
-    created_at TIMESTAMP   not null,
-    modified_at TIMESTAMP   not null
+    created_at  TIMESTAMP   not null,
+    modified_at TIMESTAMP   not null,
+    is_deleted  BOOLEAN     not null default false
 );

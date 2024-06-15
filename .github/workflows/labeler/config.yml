@@ -1,0 +1,38 @@
+docs:
+  - changed-files:
+      - any-glob-to-any-file: [ 'docs/**', '**/*.md', '**/*.pdf' ]
+
+feature:
+  - head-branch: [ '^feat', 'feat', '^feature', 'feature' ]
+
+refactor:
+  - head-branch: [ '^refactor', 'refactor' ]
+
+style:
+  - head-branch: [ '^style', 'style' ]
+
+fix:
+  - head-branch: [ '^fix', 'fix' ]
+
+chore:
+  - head-branch: [ '^chore', 'chore' ]
+
+module-domain:
+  - changed-files:
+      - any-glob-to-any-file: 'piikii-application/**'
+
+module-bootstrap:
+  - changed-files:
+      - any-glob-to-any-file: 'piikii-bootstrap/**'
+
+module-common:
+  - changed-files:
+      - any-glob-to-any-file: 'piikii-common/**'
+
+module-input-adapter:
+  - changed-files:
+      - any-glob-to-any-file: [ 'piikii-input-http/**' ]
+
+module-output-adapter:
+  - changed-files:
+      - any-glob-to-any-file: [ 'piikii-output-cache/**', 'piikii-output-eventbroker/**', 'piikii-output-persistence/**' ]
