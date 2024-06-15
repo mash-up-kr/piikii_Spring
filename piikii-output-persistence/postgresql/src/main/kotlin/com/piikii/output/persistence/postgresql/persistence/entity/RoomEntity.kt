@@ -10,6 +10,7 @@ import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.SQLRestriction
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Entity
 @Table(name = "room", schema = "piikii")
@@ -26,17 +27,16 @@ class RoomEntity(
     var password: Short,
     @Column(name = "vote_deadline", nullable = false)
     var voteDeadline: LocalDateTime,
+    @Column(name = "room_id", nullable = false)
+    val roomId: UUID,
+    @Column(name = "meeting_name", nullable = false)
+    var meetingName: String,
+    @Column(name = "message")
+    var message: String?,
 ) : BaseEntity() {
-
-    //TODO: 모임 이름, 하고 싶은 메시지 칼럼 추가
-
     fun update(room: Room) {
-        this.address = room.address
-        this.meetDay = room.meetDay
-        this.password = room.password
-        this.voteDeadline = room.voteDeadline
-        //TODO: 이미지 storage 확정 후 thumbnailLinks 추가 처리
-        //TODO: DTO 내 nullable 필드가 없으므로 우선 null 처리 제외
+        this.meetingName = room.meetingName?: this.meetingName
+        this.message = room.message?: this.message
     }
 }
 
@@ -52,10 +52,15 @@ fun RoomEntity.toDomain(): Room {
 
 fun Room.toEntity(): RoomEntity {
     return RoomEntity(
-        address = this.address,
+        meetingName = this.meetingName!!,
+        message = this.message,
+        password = this.password!!,
+        roomId = UUID.randomUUID(),
+
+        //TODO: 기능&ERD 확정 후 정리
+        address = this.address?: "",
         meetDay = this.meetDay,
-        thumbnailLinks = this.thumbnailLinks.contents.toString(),
-        password = this.password,
-        voteDeadline = this.voteDeadline,
+        thumbnailLinks = this.thumbnailLinks?.contents ?: "",
+        voteDeadline = this.voteDeadline?: LocalDateTime.now()
     )
 }
