@@ -15,7 +15,6 @@ class RoomService(
     private val userProducerPort: UserProducerPort,
     private val userConsumerPort: UserConsumerPort,
 ) : RoomUseCase {
-
     override fun save(loginId: String): Room {
         return roomCommandPort.save(
             roomCommandPort.save(
@@ -24,9 +23,9 @@ class RoomService(
                     meetDay = LocalDate.now(),
                     thumbnailLinks = ThumbnailLinks(""),
                     password = 1234,
-                    voteDeadline = LocalDateTime.now()
-                )
-            )
+                    voteDeadline = LocalDateTime.now(),
+                ),
+            ),
         )
     }
 }

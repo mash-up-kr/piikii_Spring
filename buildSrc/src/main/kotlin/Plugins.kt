@@ -6,4 +6,5 @@ object Plugins {
     const val SPRING = "plugin.spring"
     const val JPA = "plugin.jpa"
     const val KAPT = "kapt"
+    const val KT_LINT = "org.jlleitschuh.gradle.ktlint"
 }

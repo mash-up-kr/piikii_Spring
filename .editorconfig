@@ -1,0 +1,54 @@
+# Top-most EditorConfig file
+root = true
+
+# All files
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+max_line_length = 120
+trim_trailing_whitespace = true
+
+# Java files
+[*.java]
+ij_java_imports_layout = *,|,javax.**,java.**,|,$*
+ij_java_class_count_to_use_import_on_demand = 999
+
+# XML files
+[*.xml]
+indent_size = 2
+
+# YAML files
+[*.{yml,yaml}]
+indent_size = 2
+
+# JSON files
+[*.json]
+indent_size = 2
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+
+# Properties files
+[*.properties]
+ij_properties_spaces_around_key_value_delimiter = true
+
+# Shell scripts
+[*.sh]
+end_of_line = lf
+
+# Gradle files
+[*.gradle]
+indent_size = 4
+
+# Ignore some files
+[{*.hprof,*.pyc,*.pyo,*.rbc,*.yarb,*~,*.bak,*.swp,*.log}]
+charset = unset
+end_of_line = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+indent_style = unset
+indent_size = unset

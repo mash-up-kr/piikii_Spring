@@ -5,7 +5,3 @@ dependencies {
     implementation(project(":piikii-output-cache:redis"))
     implementation(project(":piikii-output-cache:caffeine"))
 }
-
-application {
-    mainClass.set("com.piikii.bootstrap.BootstrapApplicationKt")
-}

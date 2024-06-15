@@ -8,6 +8,6 @@ import org.springframework.context.annotation.PropertySource
 @PropertySource(
     ignoreResourceNotFound = true,
     value = ["classpath:/database-config/application-\${spring.profiles.active}.yml"],
-    factory = YamlPropertySourceFactory::class
+    factory = YamlPropertySourceFactory::class,
 )
 class PostgreSQLProperties

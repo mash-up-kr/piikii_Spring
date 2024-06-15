@@ -18,22 +18,21 @@ import org.hibernate.annotations.SQLRestriction
 class RoomCategoryEntity(
     @Column(name = "room_id", nullable = false)
     val roomId: Long,
-
     @Column(name = "name", nullable = false)
     @Enumerated(EnumType.STRING)
-    val name: CategoryName
+    val name: CategoryName,
 ) : BaseEntity()
 
 fun RoomCategoryEntity.toDomain(): RoomCategory {
     return RoomCategory(
         roomId = this.roomId,
-        name = this.name
+        name = this.name,
     )
 }
 
 fun RoomCategory.toEntity(): RoomCategoryEntity {
     return RoomCategoryEntity(
         roomId = this.roomId,
-        name = this.name
+        name = this.name,
     )
 }
