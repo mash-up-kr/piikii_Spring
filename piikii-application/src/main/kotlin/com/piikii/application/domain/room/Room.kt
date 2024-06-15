@@ -13,5 +13,5 @@ class Room(
     val thumbnailLinks: ThumbnailLinks? = null,
     val password: Short? = null,
     val voteDeadline: LocalDateTime? = null,
-    val roomId: UUID? = null
+    val roomId: UUID? = null,
 )

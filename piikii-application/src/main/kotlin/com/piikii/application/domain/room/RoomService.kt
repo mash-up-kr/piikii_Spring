@@ -16,17 +16,20 @@ class RoomService(
 ) : RoomUseCase {
     override fun save(request: Room): Room {
         val savedRoom = roomCommandPort.save(request)
-        //TODO: 연관관계 추가
+        // TODO: 연관관계 추가
         return savedRoom
     }
 
-    override fun update(request: Room, roomId: Long) {
+    override fun update(
+        request: Room,
+        roomId: Long,
+    ) {
         roomCommandPort.update(request, roomId)
     }
 
     override fun delete(roomId: Long) {
         roomCommandPort.delete(roomId)
-        //TODO: 연관관계 추가
+        // TODO: 연관관계 추가
     }
 
     override fun retrieve(roomId: Long): Room {

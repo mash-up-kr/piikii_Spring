@@ -12,6 +12,6 @@ fun Room.toRoomGetResponse(): RoomGetResponseForm {
     return RoomGetResponseForm(
         meetingName = this.meetingName!!,
         thumbnailLinks = this.thumbnailLinks?.contents,
-        message = this.message
+        message = this.message,
     )
 }

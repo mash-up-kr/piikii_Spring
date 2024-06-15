@@ -4,11 +4,11 @@ import com.piikii.application.domain.room.Room
 import java.util.UUID
 
 class RoomSaveResponseForm(
-    private val roomId: UUID
+    private val roomId: UUID,
 )
 
 fun Room.toRoomSaveResponse(): RoomSaveResponseForm {
     return RoomSaveResponseForm(
-        roomId = this.roomId!!
+        roomId = this.roomId!!,
     )
 }

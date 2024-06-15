@@ -4,12 +4,12 @@ import com.piikii.application.domain.room.Room
 
 class RoomUpdateRequestForm(
     private val meetingName: String?,
-    private val message: String?
+    private val message: String?,
 ) {
     fun toDomain(): Room {
         return Room(
             meetingName = this.meetingName,
-            message = this.message
+            message = this.message,
         )
     }
 }
