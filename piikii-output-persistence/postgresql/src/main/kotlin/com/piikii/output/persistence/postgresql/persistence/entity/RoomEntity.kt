@@ -18,15 +18,15 @@ import java.util.UUID
 @DynamicUpdate
 class RoomEntity(
     @Column(name = "address", nullable = false, length = 255)
-    var address: String,
+    val address: String,
     @Column(name = "meet_day", nullable = false)
-    var meetDay: LocalDate,
+    val meetDay: LocalDate,
     @Column(name = "thumbnail_links", nullable = false, length = 255)
     var thumbnailLinks: String,
     @Column(name = "password", nullable = false)
-    var password: Short,
+    val password: Short,
     @Column(name = "vote_deadline", nullable = false)
-    var voteDeadline: LocalDateTime,
+    val voteDeadline: LocalDateTime,
     @Column(name = "room_id", nullable = false)
     val roomId: UUID,
     @Column(name = "meeting_name", nullable = false)
@@ -47,11 +47,7 @@ class RoomEntity(
     )
 
     fun update(room: Room) {
-        this.address = room.address ?: this.address
-        this.meetDay = room.meetDay ?: this.meetDay
         this.thumbnailLinks = room.thumbnailLinks?.contents ?: this.thumbnailLinks
-        this.password = room.password ?: this.password
-        this.voteDeadline = room.voteDeadline ?: this.voteDeadline
         this.meetingName = room.meetingName
         this.message = room.message ?: this.message
     }
