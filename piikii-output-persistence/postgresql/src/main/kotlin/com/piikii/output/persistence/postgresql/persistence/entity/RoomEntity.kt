@@ -34,6 +34,18 @@ class RoomEntity(
     @Column(name = "message")
     var message: String?,
 ) : BaseEntity() {
+    constructor(room: Room) : this(
+        meetingName = room.meetingName,
+        message = room.message,
+        password = room.password!!,
+        roomId = UUID.randomUUID(),
+        // TODO: 기능&ERD 확정 후 정리
+        address = room.address ?: "",
+        meetDay = room.meetDay!!,
+        thumbnailLinks = room.thumbnailLinks?.contents ?: "",
+        voteDeadline = room.voteDeadline ?: LocalDateTime.now(),
+    )
+
     fun update(room: Room) {
         this.address = room.address ?: this.address
         this.meetDay = room.meetDay ?: this.meetDay
@@ -53,19 +65,5 @@ fun RoomEntity.toDomain(): Room {
         password = this.password,
         voteDeadline = this.voteDeadline,
         meetingName = this.meetingName,
-    )
-}
-
-fun Room.toEntity(): RoomEntity {
-    return RoomEntity(
-        meetingName = this.meetingName!!,
-        message = this.message,
-        password = this.password!!,
-        roomId = UUID.randomUUID(),
-        // TODO: 기능&ERD 확정 후 정리
-        address = this.address ?: "",
-        meetDay = this.meetDay!!,
-        thumbnailLinks = this.thumbnailLinks?.contents ?: "",
-        voteDeadline = this.voteDeadline ?: LocalDateTime.now(),
     )
 }

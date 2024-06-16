@@ -5,8 +5,8 @@ import com.piikii.application.port.output.persistence.RoomCommandPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
+import com.piikii.output.persistence.postgresql.persistence.entity.RoomEntity
 import com.piikii.output.persistence.postgresql.persistence.entity.toDomain
-import com.piikii.output.persistence.postgresql.persistence.entity.toEntity
 import com.piikii.output.persistence.postgresql.persistence.repository.RoomRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
@@ -19,7 +19,7 @@ class RoomAdapter(
 ) : RoomCommandPort, RoomQueryPort {
     @Transactional
     override fun save(room: Room): Room {
-        val savedRoom = roomRepository.save(room.toEntity())
+        val savedRoom = roomRepository.save(RoomEntity(room))
         return savedRoom.toDomain()
     }
 
