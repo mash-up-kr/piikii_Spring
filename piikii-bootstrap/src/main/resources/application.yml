@@ -3,3 +3,7 @@ spring:
     name: "piikii"
   messages:
     encoding: UTF-8
+
+secret:
+  token: ${SECRET_MANAGER_TOKEN}
+  workspaceId: ${SECRET_MANAGER_WORKSPACE}

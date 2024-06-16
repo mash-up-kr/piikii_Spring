@@ -39,9 +39,9 @@ subprojects {
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-        // for spring bean configuration
+        // for spring commons
         implementation("org.springframework.boot:spring-boot-autoconfigure")
-
+        implementation("org.springframework.boot:spring-boot-starter-logging")
         // for test
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
