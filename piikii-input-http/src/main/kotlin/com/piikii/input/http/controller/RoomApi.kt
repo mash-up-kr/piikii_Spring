@@ -29,7 +29,7 @@ class RoomApi(
     override fun makeRoom(
         @RequestBody request: RoomSaveRequestForm,
     ): ResponseForm<RoomSaveResponseForm> {
-        val response = roomUseCase.save(request)
+        val response = roomUseCase.makeRoom(request)
         return ResponseForm(
             data = response,
             message = RoomMessage.SUCCESS_CREATE_ROOM,
@@ -42,7 +42,7 @@ class RoomApi(
         @RequestBody request: RoomUpdateRequestForm,
         @PathVariable roomId: Long,
     ): ResponseForm<Any> {
-        roomUseCase.update(request, roomId)
+        roomUseCase.modifyRoom(request, roomId)
         return ResponseForm(
             message = RoomMessage.SUCCESS_UPDATE_ROOM,
         )
@@ -53,7 +53,7 @@ class RoomApi(
     override fun removeRoom(
         @PathVariable roomId: Long,
     ): ResponseForm<Any> {
-        roomUseCase.delete(roomId)
+        roomUseCase.removeRoom(roomId)
         return ResponseForm(
             message = RoomMessage.SUCCESS_DELETE_ROOM,
         )
@@ -64,7 +64,7 @@ class RoomApi(
     override fun searchRoom(
         @PathVariable roomId: Long,
     ): ResponseForm<RoomGetResponseForm> {
-        val response = roomUseCase.retrieve(roomId)
+        val response = roomUseCase.searchRoom(roomId)
         return ResponseForm(
             data = response,
             message = RoomMessage.SUCCESS_GET_ROOM,

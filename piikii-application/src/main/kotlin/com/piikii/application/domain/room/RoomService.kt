@@ -18,25 +18,25 @@ class RoomService(
     private val userProducerPort: UserProducerPort,
     private val userConsumerPort: UserConsumerPort,
 ) : RoomUseCase {
-    override fun save(request: RoomSaveRequestForm): RoomSaveResponseForm {
+    override fun makeRoom(request: RoomSaveRequestForm): RoomSaveResponseForm {
         val savedRoom = roomCommandPort.save(request.toDomain())
         // TODO: 연관관계 추가
         return RoomSaveResponseForm(savedRoom)
     }
 
-    override fun update(
+    override fun modifyRoom(
         request: RoomUpdateRequestForm,
         roomId: Long,
     ) {
         roomCommandPort.update(request.toDomain(), roomId)
     }
 
-    override fun delete(roomId: Long) {
+    override fun removeRoom(roomId: Long) {
         roomCommandPort.delete(roomId)
         // TODO: 연관관계 추가
     }
 
-    override fun retrieve(roomId: Long): RoomGetResponseForm {
+    override fun searchRoom(roomId: Long): RoomGetResponseForm {
         val retrievedRoom = roomQueryPort.retrieve(roomId)
         return RoomGetResponseForm(retrievedRoom)
     }
