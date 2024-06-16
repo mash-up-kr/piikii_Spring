@@ -19,24 +19,15 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: 프로젝트 빌드
+      - name: 이미지 빌드 및 푸쉬
         env:
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
-          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.PROD_REDIS_PORT }}
+          REDIS_HOST: ${{ secrets.PROD_REDIS_HOST }}
           DB_URL: ${{ secrets.PROD_DB_URL }}
           DB_USER: ${{ secrets.PROD_DB_USER }}
           DB_PASSWORD: ${{ secrets.PROD_DB_PASSWORD }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          DOCKER_HUB_REPOSITORY: ${{ secrets.DOCKE_RHUB_REPOSITORY }}
         run: |
-          ./gradlew build
-
-      - name: 의존성 그래프 업로드
-        uses: github/dependency-submission-action@v2
-        with:
-          gradle-build-file: 'build.gradle'
-
-      - name: 이미지 빌드 및 푸쉬
-        run: |
-          docker run --privileged --rm tonistiigi/binfmt --install all
-          docker buildx create --use
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker buildx build --platform=linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/piikii:latest . --push
+          ./gradlew :piikii-bootstrap:bootBuildImage

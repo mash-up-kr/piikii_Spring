@@ -21,15 +21,10 @@ jobs:
 
       - name: 프로젝트 빌드
         env:
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
-          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.PROD_REDIS_PORT }}
+          REDIS_HOST: ${{ secrets.PROD_REDIS_HOST }}
           DB_URL: ${{ secrets.PROD_DB_URL }}
           DB_USER: ${{ secrets.PROD_DB_USER }}
           DB_PASSWORD: ${{ secrets.PROD_PASSWORD }}
         run: |
           ./gradlew build
-
-      - name: 의존성 그래프 업로드
-        uses: github/dependency-submission-action@v2
-        with:
-          gradle-build-file: 'build.gradle'
