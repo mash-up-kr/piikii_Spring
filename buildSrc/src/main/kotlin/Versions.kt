@@ -6,4 +6,5 @@ object Versions {
     const val KAPT_PLUGIN = "2.0.0"
     const val KT_LINT_VERSION = "12.1.1"
     const val JAVA_VERSION = "21"
+    const val MODULE_DEPENDENCY_GRAPH = "0.7.0"
 }
