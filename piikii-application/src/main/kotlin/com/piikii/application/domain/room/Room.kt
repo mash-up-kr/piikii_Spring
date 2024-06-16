@@ -9,7 +9,7 @@ class Room(
     val meetingName: String? = null,
     val message: String? = null,
     val address: String? = null,
-    val meetDay: LocalDate = LocalDate.now(),
+    val meetDay: LocalDate? = null,
     val thumbnailLinks: ThumbnailLinks? = null,
     val password: Short? = null,
     val voteDeadline: LocalDateTime? = null,

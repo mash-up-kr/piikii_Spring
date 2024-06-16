@@ -22,7 +22,7 @@ class RoomEntity(
     @Column(name = "meet_day", nullable = false)
     var meetDay: LocalDate,
     @Column(name = "thumbnail_links", nullable = false, length = 255)
-    val thumbnailLinks: String,
+    var thumbnailLinks: String,
     @Column(name = "password", nullable = false)
     var password: Short,
     @Column(name = "vote_deadline", nullable = false)
@@ -35,6 +35,11 @@ class RoomEntity(
     var message: String?,
 ) : BaseEntity() {
     fun update(room: Room) {
+        this.address = room.address ?: this.address
+        this.meetDay = room.meetDay ?: this.meetDay
+        this.thumbnailLinks = room.thumbnailLinks?.contents ?: this.thumbnailLinks
+        this.password = room.password ?: this.password
+        this.voteDeadline = room.voteDeadline ?: this.voteDeadline
         this.meetingName = room.meetingName ?: this.meetingName
         this.message = room.message ?: this.message
     }
@@ -58,7 +63,7 @@ fun Room.toEntity(): RoomEntity {
         roomId = UUID.randomUUID(),
         // TODO: 기능&ERD 확정 후 정리
         address = this.address ?: "",
-        meetDay = this.meetDay,
+        meetDay = this.meetDay!!,
         thumbnailLinks = this.thumbnailLinks?.contents ?: "",
         voteDeadline = this.voteDeadline ?: LocalDateTime.now(),
     )
