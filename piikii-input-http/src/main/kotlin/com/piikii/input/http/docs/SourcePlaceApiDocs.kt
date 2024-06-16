@@ -1,6 +1,6 @@
 package com.piikii.input.http.docs
 
-import com.piikii.application.domain.model.sourceplace.SourcePlace
+import com.piikii.application.domain.sourceplace.SourcePlace
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
