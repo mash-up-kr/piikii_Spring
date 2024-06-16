@@ -9,9 +9,9 @@ class Room(
     val meetingName: String,
     val message: String? = null,
     val address: String? = null,
-    val meetDay: LocalDate? = null,
+    val meetDay: LocalDate,
     val thumbnailLinks: ThumbnailLinks? = null,
-    val password: Short? = null,
-    val voteDeadline: LocalDateTime? = null,
+    val password: Short,
+    val voteDeadline: LocalDateTime,
     val roomId: UUID? = null,
 )

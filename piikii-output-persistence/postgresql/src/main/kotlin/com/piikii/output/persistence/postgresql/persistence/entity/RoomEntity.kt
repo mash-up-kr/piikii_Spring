@@ -37,13 +37,13 @@ class RoomEntity(
     constructor(room: Room) : this(
         meetingName = room.meetingName,
         message = room.message,
-        password = room.password!!,
+        password = room.password,
         roomId = UUID.randomUUID(),
         // TODO: 기능&ERD 확정 후 정리
         address = room.address ?: "",
-        meetDay = room.meetDay!!,
+        meetDay = room.meetDay,
         thumbnailLinks = room.thumbnailLinks?.contents ?: "",
-        voteDeadline = room.voteDeadline ?: LocalDateTime.now(),
+        voteDeadline = room.voteDeadline,
     )
 
     fun update(room: Room) {
