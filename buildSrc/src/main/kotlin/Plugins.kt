@@ -7,5 +7,4 @@ object Plugins {
     const val JPA = "plugin.jpa"
     const val KAPT = "kapt"
     const val KT_LINT = "org.jlleitschuh.gradle.ktlint"
-    const val MODULE_DEPENDENCY_GRAPH = "com.vanniktech.dependency.graph.generator"
 }
