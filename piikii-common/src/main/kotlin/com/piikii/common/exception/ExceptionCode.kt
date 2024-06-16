@@ -12,6 +12,5 @@ enum class ExceptionCode(
     CONFLICT(409, "해당 리소스가 중복됩니다."),
 
     // 500
-    SECRET_MANAGER_CONFIG_NOT_SET(500, "시크릿 매니저 설정 값이 입력되지 않았습니다.")
-
+    SECRET_MANAGER_CONFIG_NOT_SET(500, "시크릿 매니저 설정 값이 입력되지 않았습니다."),
 }

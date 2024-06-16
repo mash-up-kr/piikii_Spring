@@ -12,15 +12,18 @@ import org.springframework.http.HttpHeaders
 import org.springframework.web.client.RestClient
 
 class SecretProcessor : EnvironmentPostProcessor {
-
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
-    override fun postProcessEnvironment(environment: ConfigurableEnvironment, application: SpringApplication?) {
+    override fun postProcessEnvironment(
+        environment: ConfigurableEnvironment,
+        application: SpringApplication?,
+    ) {
         val secrets = getSecrets(environment)
-        val piikiiSecretProperties = MapPropertySource(
-            PIIKII_SECRET_PROPERTY_NAME,
-            secrets.associate { it.secretKey to it.secretValue }
-        )
+        val piikiiSecretProperties =
+            MapPropertySource(
+                PIIKII_SECRET_PROPERTY_NAME,
+                secrets.associate { it.secretKey to it.secretValue },
+            )
         environment.propertySources.addLast(piikiiSecretProperties)
     }
 
@@ -31,10 +34,11 @@ class SecretProcessor : EnvironmentPostProcessor {
         val secretToken = environment.getPropertyOrThrow(PROPERTY_SECRET_MANAGER_TOKEN_NAME)
         val workspaceId = environment.getPropertyOrThrow(PROPERTY_SECRET_MANAGER_WORKSPACE_NAME)
         val currentEnvironment = activeProfiles.first { SUPPORT_PROFILES.contains(it) }
-        val secrets = secretManagerRestClient(secretToken).get()
-            .uri("/secrets/raw?workspaceId=$workspaceId&environment=$currentEnvironment")
-            .retrieve()
-            .body(SecretResponse::class.java)?.secrets ?: emptyList()
+        val secrets =
+            secretManagerRestClient(secretToken).get()
+                .uri("/secrets/raw?workspaceId=$workspaceId&environment=$currentEnvironment")
+                .retrieve()
+                .body(SecretResponse::class.java)?.secrets ?: emptyList()
         return secrets
     }
 
@@ -42,10 +46,11 @@ class SecretProcessor : EnvironmentPostProcessor {
         return this.getProperty(name) ?: throw PiikiiException(ExceptionCode.SECRET_MANAGER_CONFIG_NOT_SET)
     }
 
-    private fun secretManagerRestClient(secretToken: String) = RestClient.builder()
-        .defaultHeaders { it.add(HttpHeaders.AUTHORIZATION, "$BEARER_TOKEN_PREFIX $secretToken") }
-        .baseUrl(SECRET_MANAGER_URL)
-        .build()
+    private fun secretManagerRestClient(secretToken: String) =
+        RestClient.builder()
+            .defaultHeaders { it.add(HttpHeaders.AUTHORIZATION, "$BEARER_TOKEN_PREFIX $secretToken") }
+            .baseUrl(SECRET_MANAGER_URL)
+            .build()
 
     companion object {
         const val PROFILE_SEPARATOR = ","
@@ -59,11 +64,10 @@ class SecretProcessor : EnvironmentPostProcessor {
 
         val SUPPORT_PROFILES = setOf("local", "dev", "prod")
     }
-
 }
 
 class SecretResponse(
-    val secrets: List<Secret>
+    val secrets: List<Secret>,
 )
 
 class Secret(
