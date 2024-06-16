@@ -40,7 +40,7 @@ class RoomEntity(
         this.thumbnailLinks = room.thumbnailLinks?.contents ?: this.thumbnailLinks
         this.password = room.password ?: this.password
         this.voteDeadline = room.voteDeadline ?: this.voteDeadline
-        this.meetingName = room.meetingName ?: this.meetingName
+        this.meetingName = room.meetingName
         this.message = room.message ?: this.message
     }
 }
@@ -52,6 +52,7 @@ fun RoomEntity.toDomain(): Room {
         thumbnailLinks = ThumbnailLinks(this.thumbnailLinks),
         password = this.password,
         voteDeadline = this.voteDeadline,
+        meetingName = this.meetingName,
     )
 }
 

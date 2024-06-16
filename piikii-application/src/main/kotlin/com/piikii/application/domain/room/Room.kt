@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 class Room(
-    val meetingName: String? = null,
+    val meetingName: String,
     val message: String? = null,
     val address: String? = null,
     val meetDay: LocalDate? = null,
