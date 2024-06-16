@@ -30,3 +30,27 @@ jobs:
           SECRET_MANAGER_WORKSPACE: ${{ secrets.SECRET_MANAGER_WORKSPACE }}
         run: |
           ./gradlew build
+
+      - name: Set build status output
+        id: set_status
+        run: echo "::set-output name=build_status::${{ job.status }}"
+
+      - name: Comment on Pull Request
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { GITHUB_TOKEN } = process.env;
+            const github = require('@actions/github');
+
+            const status = '${{ steps.set_status.outputs.build_status }}';
+            const message = status === 'success' ? '✅빌드 성공\n🚀출격 준비 완료 🚀' : '❌빌드 실패\n😵코드 확인이 필요해요😵';
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `${message}`
+            });
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
