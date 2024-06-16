@@ -21,11 +21,11 @@ jobs:
 
       - name: 이미지 빌드 및 푸쉬
         env:
-          REDIS_PORT: ${{ secrets.PROD_REDIS_PORT }}
-          REDIS_HOST: ${{ secrets.PROD_REDIS_HOST }}
-          DB_URL: ${{ secrets.PROD_DB_URL }}
-          DB_USER: ${{ secrets.PROD_DB_USER }}
-          DB_PASSWORD: ${{ secrets.PROD_DB_PASSWORD }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
           DOCKER_HUB_REPOSITORY: ${{ secrets.DOCKE_RHUB_REPOSITORY }}
