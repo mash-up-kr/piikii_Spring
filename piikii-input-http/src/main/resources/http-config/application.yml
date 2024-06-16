@@ -1,0 +1,8 @@
+springdoc:
+  packages-to-scan: com.piikii.input.http
+  swagger-ui:
+    path: /api-docs
+    operations-sorter: alpha
+  api-docs:
+    groups:
+      enabled: true
