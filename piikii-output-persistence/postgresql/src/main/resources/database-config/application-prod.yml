@@ -5,9 +5,9 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${LOCAL_DB_URL}
-    username: ${LOCAL_DB_USER:postgres}
-    password: ${LOCAL_DB_PASSWORD:postgres}
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     hikari:
       pool-name: Hikari-PostgreSQL
       maximum-pool-size: 20
