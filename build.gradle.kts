@@ -62,10 +62,6 @@ subprojects {
         useJUnitPlatform()
     }
 
-    tasks.named("build") {
-        dependsOn("clean", "ktlintFormat")
-    }
-
     tasks.named("bootJar") {
         dependsOn("clean", "ktlintFormat")
     }
