@@ -1,10 +1,11 @@
-package com.piikii.input.http.controller.room
+package com.piikii.input.http.controller
 
 import com.piikii.application.port.input.room.RoomUseCase
 import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
+import com.piikii.input.http.docs.RoomApiDocs
 import com.piikii.input.http.generic.ResponseForm
 import com.piikii.input.http.message.RoomMessage
 import org.springframework.http.HttpStatus
@@ -22,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/v1/rooms")
 class RoomApi(
     private val roomUseCase: RoomUseCase,
-) {
+) : RoomApiDocs {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    fun saveRoom(
+    override fun makeRoom(
         @RequestBody request: RoomSaveRequestForm,
     ): ResponseForm<RoomSaveResponseForm> {
         val response = roomUseCase.save(request)
@@ -37,7 +38,7 @@ class RoomApi(
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{roomId}")
-    fun updateRoom(
+    override fun modifyRoomInformation(
         @RequestBody request: RoomUpdateRequestForm,
         @PathVariable roomId: Long,
     ): ResponseForm<Any> {
@@ -49,7 +50,7 @@ class RoomApi(
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{roomId}")
-    fun deleteRoom(
+    override fun removeRoom(
         @PathVariable roomId: Long,
     ): ResponseForm<Any> {
         roomUseCase.delete(roomId)
@@ -60,7 +61,7 @@ class RoomApi(
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{roomId}")
-    fun getRoom(
+    override fun searchRoom(
         @PathVariable roomId: Long,
     ): ResponseForm<RoomGetResponseForm> {
         val response = roomUseCase.retrieve(roomId)
