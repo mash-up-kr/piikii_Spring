@@ -1,0 +1,48 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository 접근
+        uses: actions/checkout@v4
+
+      - name: JDK 21 셋팅
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Gradle 셋팅
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
+        with:
+          gradle-version: '8.7'
+
+      - name: 프로젝트 빌드
+        env:
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          DB_URL: ${{ secrets.PROD_DB_URL }}
+          DB_USER: ${{ secrets.PROD_DB_USER }}
+          DB_PASSWORD: ${{ secrets.PROD_DB_PASSWORD }}
+        run: |
+          ./gradlew build
+          ./gradlew generateDependencyGraph
+
+      - name: 의존성 그래프 업로드
+        uses: github/dependency-submission-action@v2
+        with:
+          gradle-build-file: 'build.gradle'
+
+      - name: 이미지 빌드 및 푸쉬
+        run: |
+          docker run --privileged --rm tonistiigi/binfmt --install all
+          docker buildx create --use
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker buildx build --platform=linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/piikii:latest . --push
