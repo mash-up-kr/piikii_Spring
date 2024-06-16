@@ -1,12 +1,10 @@
 package com.piikii.input.http.controller.room
 
-import com.piikii.application.port.input.RoomUseCase
+import com.piikii.application.port.input.room.RoomUseCase
+import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
+import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 import com.piikii.input.http.controller.room.dto.request.RoomSaveRequestForm
 import com.piikii.input.http.controller.room.dto.request.RoomUpdateRequestForm
-import com.piikii.input.http.controller.room.dto.response.RoomGetResponseForm
-import com.piikii.input.http.controller.room.dto.response.RoomSaveResponseForm
-import com.piikii.input.http.controller.room.dto.response.toRoomGetResponse
-import com.piikii.input.http.controller.room.dto.response.toRoomSaveResponse
 import com.piikii.input.http.generic.ResponseForm
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -28,10 +26,10 @@ class RoomApi(
     fun saveRoom(
         @RequestBody request: RoomSaveRequestForm,
     ): ResponseEntity<ResponseForm<RoomSaveResponseForm>> {
-        val room = roomUseCase.save(request.toDomain())
+        val response = roomUseCase.save(request.toDomain())
         return ResponseEntity.created(URI("/")).body(
             ResponseForm(
-                data = room.toRoomSaveResponse(),
+                data = response,
                 message = "방 생성 성공",
             ),
         )
@@ -66,10 +64,10 @@ class RoomApi(
     fun getRoom(
         @PathVariable roomId: Long,
     ): ResponseEntity<ResponseForm<RoomGetResponseForm>> {
-        val room = roomUseCase.retrieve(roomId)
+        val response = roomUseCase.retrieve(roomId)
         return ResponseEntity.ok(
             ResponseForm(
-                data = room.toRoomGetResponse(),
+                data = response,
                 message = "방 조회 성공",
             ),
         )

@@ -1,6 +1,8 @@
 package com.piikii.application.domain.room
 
-import com.piikii.application.port.input.RoomUseCase
+import com.piikii.application.port.input.room.RoomUseCase
+import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
+import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 import com.piikii.application.port.output.eventbroker.UserConsumerPort
 import com.piikii.application.port.output.eventbroker.UserProducerPort
 import com.piikii.application.port.output.persistence.RoomCommandPort
@@ -14,10 +16,10 @@ class RoomService(
     private val userProducerPort: UserProducerPort,
     private val userConsumerPort: UserConsumerPort,
 ) : RoomUseCase {
-    override fun save(request: Room): Room {
+    override fun save(request: Room): RoomSaveResponseForm {
         val savedRoom = roomCommandPort.save(request)
         // TODO: 연관관계 추가
-        return savedRoom
+        return RoomSaveResponseForm(savedRoom)
     }
 
     override fun update(
@@ -32,7 +34,8 @@ class RoomService(
         // TODO: 연관관계 추가
     }
 
-    override fun retrieve(roomId: Long): Room {
-        return roomQueryPort.retrieve(roomId)
+    override fun retrieve(roomId: Long): RoomGetResponseForm {
+        val retrievedRoom = roomQueryPort.retrieve(roomId)
+        return RoomGetResponseForm(retrievedRoom)
     }
 }
