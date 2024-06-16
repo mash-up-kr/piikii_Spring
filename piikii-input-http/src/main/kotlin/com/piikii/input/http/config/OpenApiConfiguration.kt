@@ -8,12 +8,12 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class OpenApiConfiguration {
-
     @Bean
     fun openApi(): OpenAPI {
-        val info = Info().title(API_NAME)
-            .version(API_VERSION)
-            .description(API_DESCRIPTION)
+        val info =
+            Info().title(API_NAME)
+                .version(API_VERSION)
+                .description(API_DESCRIPTION)
 
         return OpenAPI()
             .components(Components())
@@ -25,5 +25,4 @@ class OpenApiConfiguration {
         const val API_VERSION = "v1"
         const val API_DESCRIPTION = "PIIKII-API description"
     }
-
 }

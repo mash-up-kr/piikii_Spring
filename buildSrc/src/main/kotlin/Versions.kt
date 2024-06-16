@@ -5,4 +5,5 @@ object Versions {
     const val JPA_PLUGIN = "2.0.0"
     const val KAPT_PLUGIN = "2.0.0"
     const val KT_LINT_VERSION = "12.1.1"
+    const val JAVA_VERSION = "21"
 }
