@@ -54,7 +54,7 @@ subprojects {
     tasks.withType<KotlinCompile> {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_21)
-            freeCompilerArgs = listOf("-Xjsr305=strict")
+            freeCompilerArgs.addAll("-Xjsr305=strict")
         }
     }
 
@@ -73,7 +73,7 @@ configure(allprojects.filter { it.name != "piikii-common" }) {
     }
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_21
+java.toolchain.languageVersion = JavaLanguageVersion.of(Versions.JAVA_VERSION)
 
 tasks.bootJar {
     enabled = false
