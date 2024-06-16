@@ -1,10 +1,10 @@
 package com.piikii.input.http.controller.room
 
 import com.piikii.application.port.input.room.RoomUseCase
+import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
+import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
-import com.piikii.input.http.controller.room.dto.request.RoomSaveRequestForm
-import com.piikii.input.http.controller.room.dto.request.RoomUpdateRequestForm
 import com.piikii.input.http.generic.ResponseForm
 import com.piikii.input.http.message.RoomMessage
 import org.springframework.http.HttpStatus
@@ -28,7 +28,7 @@ class RoomApi(
     fun saveRoom(
         @RequestBody request: RoomSaveRequestForm,
     ): ResponseForm<RoomSaveResponseForm> {
-        val response = roomUseCase.save(request.toDomain())
+        val response = roomUseCase.save(request)
         return ResponseForm(
             data = response,
             message = RoomMessage.SUCCESS_CREATE_ROOM,
@@ -41,7 +41,7 @@ class RoomApi(
         @RequestBody request: RoomUpdateRequestForm,
         @PathVariable roomId: Long,
     ): ResponseForm<Any> {
-        roomUseCase.update(request.toDomain(), roomId)
+        roomUseCase.update(request, roomId)
         return ResponseForm(
             message = RoomMessage.SUCCESS_UPDATE_ROOM,
         )

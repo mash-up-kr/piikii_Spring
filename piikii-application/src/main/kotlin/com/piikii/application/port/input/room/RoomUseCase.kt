@@ -1,14 +1,15 @@
 package com.piikii.application.port.input.room
 
-import com.piikii.application.domain.room.Room
+import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
+import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 
 interface RoomUseCase {
-    fun save(request: Room): RoomSaveResponseForm
+    fun save(request: RoomSaveRequestForm): RoomSaveResponseForm
 
     fun update(
-        request: Room,
+        request: RoomUpdateRequestForm,
         roomId: Long,
     )
 
