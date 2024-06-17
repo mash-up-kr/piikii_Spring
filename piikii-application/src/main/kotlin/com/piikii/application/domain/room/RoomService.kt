@@ -5,8 +5,6 @@ import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
-import com.piikii.application.port.output.eventbroker.UserConsumerPort
-import com.piikii.application.port.output.eventbroker.UserProducerPort
 import com.piikii.application.port.output.persistence.RoomCommandPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import org.springframework.stereotype.Service
@@ -15,8 +13,6 @@ import org.springframework.stereotype.Service
 class RoomService(
     private val roomCommandPort: RoomCommandPort,
     private val roomQueryPort: RoomQueryPort,
-    private val userProducerPort: UserProducerPort,
-    private val userConsumerPort: UserConsumerPort,
 ) : RoomUseCase {
     override fun makeRoom(request: RoomSaveRequestForm): RoomSaveResponseForm {
         val savedRoom = roomCommandPort.save(request.toDomain())
