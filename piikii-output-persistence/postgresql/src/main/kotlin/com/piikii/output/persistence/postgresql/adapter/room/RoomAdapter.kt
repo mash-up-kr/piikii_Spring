@@ -30,7 +30,10 @@ class RoomAdapter(
     ) {
         val foundRoom =
             roomRepository.findByIdOrNull(id)
-                ?: throw PiikiiException(ExceptionCode.NOT_FOUNDED)
+                ?: throw PiikiiException(
+                    exceptionCode = ExceptionCode.NOT_FOUNDED,
+                    detailMessage = "roomId: $id",
+                )
         foundRoom.update(room)
     }
 
@@ -43,7 +46,10 @@ class RoomAdapter(
     override fun retrieve(id: Long): Room {
         val foundRoom =
             roomRepository.findByIdOrNull(id)
-                ?: throw PiikiiException(ExceptionCode.NOT_FOUNDED)
+                ?: throw PiikiiException(
+                    exceptionCode = ExceptionCode.NOT_FOUNDED,
+                    detailMessage = "roomId : $id",
+                )
         return foundRoom.toDomain()
     }
 
