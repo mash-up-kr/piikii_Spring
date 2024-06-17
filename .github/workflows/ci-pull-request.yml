@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository 접근
+        uses: actions/checkout@v4
+
+      - name: JDK 21 셋팅
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: 프로젝트 빌드
+        env:
+          SECRET_MANAGER_TOKEN: ${{ secrets.SECRET_MANAGER_TOKEN }}
+          SECRET_MANAGER_WORKSPACE: ${{ secrets.SECRET_MANAGER_WORKSPACE }}
+        run: |
+          ./gradlew build
+
+      - name: Set build status output
+        id: set_status
+        run: echo "build_status=${{ job.status }}" >> $GITHUB_OUTPUT
+
+      - name: Comment on Pull Request
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = '${{ steps.set_status.outputs.build_status }}';
+            const message = status === 'success' ? '✅ 빌드 성공 ✅\n🚀 출격 준비 완료 👨🏻‍🚀' : '❌❌ 빌드 실패 ❌❌\n😵😵‍💫 코드 확인이 필요해요 😵😵‍💫';
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `${message}`
+            });

@@ -12,13 +12,3 @@ project(":piikii-input-http") {
         implementation("org.springframework.boot:spring-boot-starter-validation")
     }
 }
-
-allprojects {
-    tasks.bootJar {
-        enabled = false
-    }
-
-    tasks.jar {
-        enabled = true
-    }
-}

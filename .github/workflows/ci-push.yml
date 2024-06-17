@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository 접근
+        uses: actions/checkout@v4
+
+      - name: JDK 21 셋팅
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: 프로젝트 빌드
+        env:
+          SECRET_MANAGER_TOKEN: ${{ secrets.SECRET_MANAGER_TOKEN }}
+          SECRET_MANAGER_WORKSPACE: ${{ secrets.SECRET_MANAGER_WORKSPACE }}
+        run: |
+          ./gradlew build
