@@ -3,7 +3,12 @@ package com.piikii.output.persistence.postgresql.adapter.room
 import com.piikii.application.domain.room.Room
 import com.piikii.application.port.output.persistence.RoomCommandPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
+import com.piikii.common.exception.ExceptionCode
+import com.piikii.common.exception.PiikiiException
+import com.piikii.output.persistence.postgresql.persistence.entity.RoomEntity
+import com.piikii.output.persistence.postgresql.persistence.entity.toDomain
 import com.piikii.output.persistence.postgresql.persistence.repository.RoomRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
@@ -14,7 +19,8 @@ class RoomAdapter(
 ) : RoomCommandPort, RoomQueryPort {
     @Transactional
     override fun save(room: Room): Room {
-        TODO("Not yet implemented")
+        val savedRoom = roomRepository.save(RoomEntity(room))
+        return savedRoom.toDomain()
     }
 
     @Transactional
@@ -22,16 +28,29 @@ class RoomAdapter(
         room: Room,
         id: Long,
     ) {
-        TODO("Not yet implemented")
+        val foundRoom =
+            roomRepository.findByIdOrNull(id)
+                ?: throw PiikiiException(
+                    exceptionCode = ExceptionCode.NOT_FOUNDED,
+                    detailMessage = "roomId: $id",
+                )
+        foundRoom.update(room)
     }
 
     @Transactional
     override fun delete(id: Long) {
-        TODO("Not yet implemented")
+        roomRepository.deleteById(id)
+        // TODO: 연관관계 삭제 - 여기서 한 번에 or 어댑터 거쳐서
     }
 
     override fun retrieve(id: Long): Room {
-        TODO("Not yet implemented")
+        val foundRoom =
+            roomRepository.findByIdOrNull(id)
+                ?: throw PiikiiException(
+                    exceptionCode = ExceptionCode.NOT_FOUNDED,
+                    detailMessage = "roomId : $id",
+                )
+        return foundRoom.toDomain()
     }
 
     override fun retrieveAll(ids: List<Long>): List<Room> {
