@@ -6,14 +6,14 @@ import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 
 interface RoomUseCase {
-    fun makeRoom(request: RoomSaveRequestForm): RoomSaveResponseForm
+    fun make(request: RoomSaveRequestForm): RoomSaveResponseForm
 
-    fun modifyRoom(
+    fun modify(
         request: RoomUpdateRequestForm,
         roomId: Long,
     )
 
-    fun removeRoom(roomId: Long)
+    fun remove(roomId: Long)
 
-    fun searchRoom(roomId: Long): RoomGetResponseForm
+    fun search(roomId: Long): RoomGetResponseForm
 }

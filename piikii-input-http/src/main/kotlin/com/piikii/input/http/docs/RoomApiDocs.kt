@@ -15,24 +15,24 @@ import org.springframework.web.bind.annotation.PathVariable
 interface RoomApiDocs {
     @Operation(summary = "make room API", description = "방 생성 요청 메서드")
     @ApiResponses(value = [ApiResponse(responseCode = "201", description = "CREATED success")])
-    fun makeRoom(request: RoomSaveRequestForm): ResponseForm<RoomSaveResponseForm>
+    fun make(request: RoomSaveRequestForm): ResponseForm<RoomSaveResponseForm>
 
     @Operation(summary = "modify room information API", description = "방 정보 수정 요청 메서드")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "UPDATED success")])
-    fun modifyRoomInformation(
+    fun modifyInformation(
         request: RoomUpdateRequestForm,
         @PathVariable(name = "방 id") roomId: Long,
     ): ResponseForm<Any>
 
     @Operation(summary = "remove room API", description = "방 삭제 요청 메서드")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "DELETED success")])
-    fun removeRoom(
+    fun remove(
         @PathVariable(name = "방 id") roomId: Long,
     ): ResponseForm<Any>
 
     @Operation(summary = "search room API", description = "방 조회 요청 메서드")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "GET success")])
-    fun searchRoom(
+    fun search(
         @PathVariable(name = "방 id") roomId: Long,
     ): ResponseForm<RoomGetResponseForm>
 }

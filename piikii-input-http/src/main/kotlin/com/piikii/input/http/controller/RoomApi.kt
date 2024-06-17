@@ -26,10 +26,10 @@ class RoomApi(
 ) : RoomApiDocs {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    override fun makeRoom(
+    override fun make(
         @RequestBody request: RoomSaveRequestForm,
     ): ResponseForm<RoomSaveResponseForm> {
-        val response = roomUseCase.makeRoom(request)
+        val response = roomUseCase.make(request)
         return ResponseForm(
             data = response,
             message = RoomMessage.SUCCESS_CREATE_ROOM,
@@ -38,11 +38,11 @@ class RoomApi(
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{roomId}")
-    override fun modifyRoomInformation(
+    override fun modifyInformation(
         @RequestBody request: RoomUpdateRequestForm,
         @PathVariable roomId: Long,
     ): ResponseForm<Any> {
-        roomUseCase.modifyRoom(request, roomId)
+        roomUseCase.modify(request, roomId)
         return ResponseForm(
             message = RoomMessage.SUCCESS_UPDATE_ROOM,
         )
@@ -50,10 +50,10 @@ class RoomApi(
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{roomId}")
-    override fun removeRoom(
+    override fun remove(
         @PathVariable roomId: Long,
     ): ResponseForm<Any> {
-        roomUseCase.removeRoom(roomId)
+        roomUseCase.remove(roomId)
         return ResponseForm(
             message = RoomMessage.SUCCESS_DELETE_ROOM,
         )
@@ -61,10 +61,10 @@ class RoomApi(
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{roomId}")
-    override fun searchRoom(
+    override fun search(
         @PathVariable roomId: Long,
     ): ResponseForm<RoomGetResponseForm> {
-        val response = roomUseCase.searchRoom(roomId)
+        val response = roomUseCase.search(roomId)
         return ResponseForm(
             data = response,
             message = RoomMessage.SUCCESS_GET_ROOM,
