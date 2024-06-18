@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: classpath:http-config/application.yml
   application:
     name: "piikii"
   messages:
