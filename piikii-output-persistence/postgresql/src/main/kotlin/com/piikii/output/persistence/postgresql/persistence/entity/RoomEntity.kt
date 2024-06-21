@@ -18,15 +18,15 @@ import java.util.UUID
 @DynamicUpdate
 class RoomEntity(
     @Column(name = "address", nullable = false, length = 255)
-    val address: String,
+    var address: String,
     @Column(name = "meet_day", nullable = false)
-    val meetDay: LocalDate,
+    var meetDay: LocalDate,
     @Column(name = "thumbnail_links", nullable = false, length = 255)
     var thumbnailLinks: String,
     @Column(name = "password", nullable = false)
-    val password: Short,
+    var password: Short,
     @Column(name = "vote_deadline", nullable = false)
-    val voteDeadline: LocalDateTime,
+    var voteDeadline: LocalDateTime,
     @Column(name = "room_id", nullable = false, unique = true)
     val roomId: UUID,
     @Column(name = "meeting_name", nullable = false)
@@ -50,6 +50,14 @@ class RoomEntity(
         this.thumbnailLinks = room.thumbnailLinks?.contents ?: this.thumbnailLinks
         this.meetingName = room.meetingName
         this.message = room.message ?: this.message
+        this.password = room.password
+        this.address = room.address ?: this.address
+        this.meetDay = room.meetDay
+        this.voteDeadline = room.voteDeadline
+    }
+
+    fun updateVoteDeadline(voteDeadline: LocalDateTime) {
+        this.voteDeadline = voteDeadline
     }
 }
 

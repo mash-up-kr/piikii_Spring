@@ -2,6 +2,7 @@ package com.piikii.input.http.docs
 
 import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
+import com.piikii.application.port.input.room.dto.request.VoteGenerateRequestForm
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 import com.piikii.input.http.generic.ResponseForm
@@ -35,4 +36,8 @@ interface RoomApiDocs {
     fun search(
         @PathVariable(name = "방 id") roomId: Long,
     ): ResponseForm<RoomGetResponseForm>
+
+    @Operation(summary = "generate vote of room API", description = "방 투표 생성 요청 메서드")
+    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "CREATED success")])
+    fun generateVote(request: VoteGenerateRequestForm): ResponseForm<Any>
 }

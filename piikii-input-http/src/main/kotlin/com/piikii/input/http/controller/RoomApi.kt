@@ -3,6 +3,7 @@ package com.piikii.input.http.controller
 import com.piikii.application.port.input.room.RoomUseCase
 import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
+import com.piikii.application.port.input.room.dto.request.VoteGenerateRequestForm
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 import com.piikii.input.http.docs.RoomApiDocs
@@ -68,6 +69,15 @@ class RoomApi(
         return ResponseForm(
             data = response,
             message = RoomMessage.SUCCESS_GET_ROOM,
+        )
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/vote")
+    override fun generateVote(request: VoteGenerateRequestForm): ResponseForm<Any> {
+        roomUseCase.generateVote(request)
+        return ResponseForm(
+            message = RoomMessage.SUCCESS_GENERATE_VOTE,
         )
     }
 }
