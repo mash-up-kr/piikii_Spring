@@ -5,9 +5,9 @@ import com.piikii.common.logutil.HookLogger
 import com.piikii.common.logutil.SystemLogger.logger
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.HandlerInterceptor
-import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
 
@@ -33,14 +33,7 @@ class LoggingInterceptor(
         return true
     }
 
-    override fun postHandle(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        handler: Any,
-        modelAndView: ModelAndView?,
-    ) {
-    }
-
+    @Async("hookLoggerTaskExecutor")
     override fun afterCompletion(
         request: HttpServletRequest,
         response: HttpServletResponse,
