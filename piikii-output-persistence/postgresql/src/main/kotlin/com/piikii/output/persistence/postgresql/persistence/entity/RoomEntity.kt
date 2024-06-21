@@ -27,7 +27,7 @@ class RoomEntity(
     val password: Short,
     @Column(name = "vote_deadline", nullable = false)
     val voteDeadline: LocalDateTime,
-    @Column(name = "room_id", nullable = false)
+    @Column(name = "room_id", nullable = false, unique = true)
     val roomId: UUID,
     @Column(name = "meeting_name", nullable = false)
     var meetingName: String,
