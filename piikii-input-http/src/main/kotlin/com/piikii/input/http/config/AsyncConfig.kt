@@ -7,13 +7,13 @@ import java.util.concurrent.Executor
 @Configuration
 @EnableAsync
 class AsyncConfig {
-    @Bean(name = ["taskExecutor"])
+    @Bean(name = ["hookLoggerTaskExecutor"])
     fun taskExecutor(): Executor =
         ThreadPoolTaskExecutor().apply {
             corePoolSize = 2
             maxPoolSize = 2
             queueCapacity = 500
-            setThreadNamePrefix("Async-")
+            setThreadNamePrefix("AsyncHookLogger-")
             initialize()
         }
 }

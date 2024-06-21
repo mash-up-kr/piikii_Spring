@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 class SlackHookLogger(
     private val piikiiRestClient: PiikiiRestClient,
 ) : HookLogger {
-    @Async("taskExecutor")
+    @Async("hookLoggerTaskExecutor")
     override fun send(message: String) {
         piikiiRestClient.build()
             .post()
