@@ -21,15 +21,12 @@ class LoggingInterceptor(
         response: HttpServletResponse,
         handler: Any,
     ): Boolean {
-        if (request !is ContentCachingRequestWrapper) {
-            val wrappedRequest = ContentCachingRequestWrapper(request)
-            request.setAttribute("wrappedRequest", wrappedRequest)
-        }
+        val wrappedRequest = ContentCachingRequestWrapper(request)
+        request.setAttribute(WRAPPED_REQUEST_KEY, wrappedRequest)
 
-        if (response !is ContentCachingResponseWrapper) {
-            val wrappedResponse = ContentCachingResponseWrapper(response)
-            request.setAttribute("wrappedResponse", wrappedResponse)
-        }
+        val wrappedResponse = ContentCachingResponseWrapper(response)
+        request.setAttribute(WRAPPED_RESPONSE_KEY, wrappedResponse)
+
         return true
     }
 
@@ -84,5 +81,10 @@ class LoggingInterceptor(
                 hookLogger.send(logMessage)
             }
         }
+    }
+
+    companion object {
+        private const val WRAPPED_REQUEST_KEY = "wrappedRequest"
+        private const val WRAPPED_RESPONSE_KEY = "wrappedRequest"
     }
 }
