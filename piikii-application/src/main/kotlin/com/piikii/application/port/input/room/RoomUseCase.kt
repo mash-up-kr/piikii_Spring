@@ -5,6 +5,7 @@ import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
 import com.piikii.application.port.input.room.dto.request.VoteGenerateRequestForm
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
+import java.util.UUID
 
 interface RoomUseCase {
     fun make(request: RoomSaveRequestForm): RoomSaveResponseForm
@@ -16,7 +17,7 @@ interface RoomUseCase {
 
     fun remove(roomId: Long)
 
-    fun search(roomId: Long): RoomGetResponseForm
+    fun search(roomId: UUID): RoomGetResponseForm
 
     fun generateVote(request: VoteGenerateRequestForm)
 }

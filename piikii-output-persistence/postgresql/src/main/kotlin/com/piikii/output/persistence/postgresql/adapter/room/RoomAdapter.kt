@@ -49,13 +49,8 @@ class RoomAdapter(
         foundRoom.updateVoteDeadline(room.voteDeadline)
     }
 
-    override fun retrieve(id: Long): Room {
-        val foundRoom =
-            roomRepository.findByIdOrNull(id)
-                ?: throw PiikiiException(
-                    exceptionCode = ExceptionCode.NOT_FOUNDED,
-                    detailMessage = "roomId : $id",
-                )
+    override fun retrieve(roomId: UUID): Room {
+        val foundRoom = findByRoomId(roomId)
         return foundRoom.toDomain()
     }
 

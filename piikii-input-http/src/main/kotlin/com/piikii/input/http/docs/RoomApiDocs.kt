@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.PathVariable
+import java.util.UUID
 
 @Tag(name = "SourcePlaceApi", description = "SourcePlace Api 입니다.")
 interface RoomApiDocs {
@@ -34,7 +35,7 @@ interface RoomApiDocs {
     @Operation(summary = "search room API", description = "방 조회 요청 메서드")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "GET success")])
     fun search(
-        @PathVariable(name = "방 id") roomId: Long,
+        @PathVariable(name = "방 id") roomId: UUID,
     ): ResponseForm<RoomGetResponseForm>
 
     @Operation(summary = "generate vote of room API", description = "방 투표 생성 요청 메서드")

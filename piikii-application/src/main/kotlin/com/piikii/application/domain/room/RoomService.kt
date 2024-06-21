@@ -9,6 +9,7 @@ import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 import com.piikii.application.port.output.persistence.RoomCommandPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class RoomService(
@@ -33,7 +34,7 @@ class RoomService(
         // TODO: 연관관계 추가
     }
 
-    override fun search(roomId: Long): RoomGetResponseForm {
+    override fun search(roomId: UUID): RoomGetResponseForm {
         val retrievedRoom = roomQueryPort.retrieve(roomId)
         return RoomGetResponseForm(retrievedRoom)
     }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import java.util.UUID
 
 @RestController
 @RequestMapping("/v1/rooms")
@@ -63,7 +64,7 @@ class RoomApi(
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{roomId}")
     override fun search(
-        @PathVariable roomId: Long,
+        @PathVariable roomId: UUID,
     ): ResponseForm<RoomGetResponseForm> {
         val response = roomUseCase.search(roomId)
         return ResponseForm(
