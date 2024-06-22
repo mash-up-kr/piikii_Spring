@@ -36,6 +36,6 @@ class RoomService(
 
     override fun changeVoteDeadline(request: VoteGenerateRequestForm) {
         val foundRoom = roomQueryPort.retrieve(request.roomId)
-        roomCommandPort.update(foundRoom.updateVoteDeadline(request.voteDeadline))
+        roomCommandPort.update(foundRoom.copy(voteDeadline = request.voteDeadline))
     }
 }
