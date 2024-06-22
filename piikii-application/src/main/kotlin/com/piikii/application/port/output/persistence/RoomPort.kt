@@ -17,6 +17,8 @@ interface RoomCommandPort {
         id: Long,
     )
 
+    fun update(room: Room)
+
     fun delete(id: Long)
 
     fun updateVoteDeadline(room: Room)

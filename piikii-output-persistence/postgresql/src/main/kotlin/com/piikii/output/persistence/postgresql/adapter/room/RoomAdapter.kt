@@ -39,6 +39,12 @@ class RoomAdapter(
     }
 
     @Transactional
+    override fun update(room: Room) {
+        val foundRoom = findByRoomId(room.roomId)
+        foundRoom.update(room)
+    }
+
+    @Transactional
     override fun delete(id: Long) {
         roomRepository.deleteById(id)
         // TODO: 연관관계 삭제 - 여기서 한 번에 or 어댑터 거쳐서

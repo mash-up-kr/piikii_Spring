@@ -40,5 +40,5 @@ interface RoomApiDocs {
 
     @Operation(summary = "generate vote of room API", description = "방 투표 생성 요청 메서드")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "CREATED success")])
-    fun generateVote(request: VoteGenerateRequestForm): ResponseForm<Any>
+    fun addVoteDeadline(request: VoteGenerateRequestForm): ResponseForm<Any>
 }

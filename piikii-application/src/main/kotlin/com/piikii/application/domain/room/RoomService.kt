@@ -39,7 +39,8 @@ class RoomService(
         return RoomGetResponseForm(retrievedRoom)
     }
 
-    override fun generateVote(request: VoteGenerateRequestForm) {
-        roomCommandPort.updateVoteDeadline(request.toDomain())
+    override fun addVoteDeadline(request: VoteGenerateRequestForm) {
+        val foundRoom = roomQueryPort.retrieve(request.roomId)
+        roomCommandPort.update(foundRoom.updateVoteDeadline(request.voteDeadline))
     }
 }

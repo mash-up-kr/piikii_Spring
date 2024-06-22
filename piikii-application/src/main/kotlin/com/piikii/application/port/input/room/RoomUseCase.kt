@@ -19,5 +19,5 @@ interface RoomUseCase {
 
     fun search(roomId: UUID): RoomGetResponseForm
 
-    fun generateVote(request: VoteGenerateRequestForm)
+    fun addVoteDeadline(request: VoteGenerateRequestForm)
 }

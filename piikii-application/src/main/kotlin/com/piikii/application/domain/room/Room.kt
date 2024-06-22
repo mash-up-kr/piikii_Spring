@@ -13,5 +13,19 @@ class Room(
     val thumbnailLinks: ThumbnailLinks? = null,
     val password: Short,
     val voteDeadline: LocalDateTime,
-    val roomId: UUID? = null,
-)
+    val roomId: UUID,
+) {
+
+    fun updateVoteDeadline(voteDeadline: LocalDateTime): Room {
+        return Room(
+            meetingName = this.meetingName,
+            message = this.message,
+            address = this.address,
+            meetDay = this.meetDay,
+            thumbnailLinks = this.thumbnailLinks,
+            password = this.password,
+            voteDeadline = voteDeadline,
+            roomId = this.roomId
+        )
+    }
+}

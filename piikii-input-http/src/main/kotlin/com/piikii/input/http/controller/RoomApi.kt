@@ -12,6 +12,7 @@ import com.piikii.input.http.message.RoomMessage
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -74,9 +75,9 @@ class RoomApi(
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/vote")
-    override fun generateVote(request: VoteGenerateRequestForm): ResponseForm<Any> {
-        roomUseCase.generateVote(request)
+    @PatchMapping("/vote")
+    override fun addVoteDeadline(request: VoteGenerateRequestForm): ResponseForm<Any> {
+        roomUseCase.addVoteDeadline(request)
         return ResponseForm(
             message = RoomMessage.SUCCESS_GENERATE_VOTE,
         )
