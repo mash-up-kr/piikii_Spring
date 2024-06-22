@@ -5,13 +5,13 @@ import com.piikii.application.domain.room.Room
 import java.time.LocalDate
 import java.util.UUID
 
-class RoomSaveRequestForm(
-    private val meetingName: String,
-    private val message: String?,
-    private val address: String,
-    private val thumbnailLinks: List<String>,
-    private val password: Short,
-    private val meetDay: LocalDate,
+data class RoomSaveRequestForm(
+    val meetingName: String,
+    val message: String?,
+    val address: String,
+    val thumbnailLinks: List<String>,
+    val password: Short,
+    val meetDay: LocalDate,
 ) {
     fun toDomain(): Room {
         return Room(

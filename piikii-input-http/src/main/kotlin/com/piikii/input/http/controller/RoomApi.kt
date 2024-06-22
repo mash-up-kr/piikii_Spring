@@ -73,9 +73,9 @@ class RoomApi(
         )
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/vote")
-    override fun changeVoteDeadline(request: VoteGenerateRequestForm): ResponseForm<Any> {
+    override fun changeVoteDeadline(@RequestBody request: VoteGenerateRequestForm): ResponseForm<Any> {
         roomUseCase.changeVoteDeadline(request)
         return ResponseForm(
             message = RoomMessage.SUCCESS_GENERATE_VOTE,
