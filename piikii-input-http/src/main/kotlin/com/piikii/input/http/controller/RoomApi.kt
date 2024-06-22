@@ -29,10 +29,10 @@ class RoomApi(
 ) : RoomApiDocs {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    override fun make(
+    override fun generate(
         @RequestBody request: RoomSaveRequestForm,
     ): ResponseForm<RoomSaveResponseForm> {
-        val response = roomUseCase.make(request)
+        val response = roomUseCase.generate(request)
         return ResponseForm(
             data = response,
             message = RoomMessage.SUCCESS_CREATE_ROOM,
@@ -40,12 +40,11 @@ class RoomApi(
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/{roomId}")
+    @PutMapping
     override fun modifyInformation(
         @RequestBody request: RoomUpdateRequestForm,
-        @PathVariable roomId: Long,
     ): ResponseForm<Any> {
-        roomUseCase.modify(request, roomId)
+        roomUseCase.modify(request)
         return ResponseForm(
             message = RoomMessage.SUCCESS_UPDATE_ROOM,
         )
@@ -54,7 +53,7 @@ class RoomApi(
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{roomId}")
     override fun remove(
-        @PathVariable roomId: Long,
+        @PathVariable roomId: UUID,
     ): ResponseForm<Any> {
         roomUseCase.remove(roomId)
         return ResponseForm(
@@ -76,8 +75,8 @@ class RoomApi(
 
     @ResponseStatus(HttpStatus.CREATED)
     @PatchMapping("/vote")
-    override fun addVoteDeadline(request: VoteGenerateRequestForm): ResponseForm<Any> {
-        roomUseCase.addVoteDeadline(request)
+    override fun changeVoteDeadline(request: VoteGenerateRequestForm): ResponseForm<Any> {
+        roomUseCase.changeVoteDeadline(request)
         return ResponseForm(
             message = RoomMessage.SUCCESS_GENERATE_VOTE,
         )

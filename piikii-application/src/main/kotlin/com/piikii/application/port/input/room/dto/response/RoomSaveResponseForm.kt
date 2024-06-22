@@ -7,6 +7,6 @@ class RoomSaveResponseForm(
     private val roomId: UUID,
 ) {
     constructor(room: Room) : this(
-        roomId = room.roomId!!,
+        roomId = room.roomId,
     )
 }

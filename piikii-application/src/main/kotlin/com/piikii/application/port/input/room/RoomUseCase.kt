@@ -8,16 +8,13 @@ import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 import java.util.UUID
 
 interface RoomUseCase {
-    fun make(request: RoomSaveRequestForm): RoomSaveResponseForm
+    fun generate(request: RoomSaveRequestForm): RoomSaveResponseForm
 
-    fun modify(
-        request: RoomUpdateRequestForm,
-        roomId: Long,
-    )
+    fun modify(request: RoomUpdateRequestForm)
 
-    fun remove(roomId: Long)
+    fun remove(roomId: UUID)
 
     fun search(roomId: UUID): RoomGetResponseForm
 
-    fun addVoteDeadline(request: VoteGenerateRequestForm)
+    fun changeVoteDeadline(request: VoteGenerateRequestForm)
 }

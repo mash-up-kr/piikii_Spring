@@ -6,5 +6,4 @@ import java.util.UUID
 class VoteGenerateRequestForm(
     val roomId: UUID,
     val voteDeadline: LocalDateTime,
-) {
-}
+)

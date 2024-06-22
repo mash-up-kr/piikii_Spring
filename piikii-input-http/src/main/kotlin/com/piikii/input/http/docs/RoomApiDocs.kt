@@ -17,19 +17,16 @@ import java.util.UUID
 interface RoomApiDocs {
     @Operation(summary = "make room API", description = "방 생성 요청 메서드")
     @ApiResponses(value = [ApiResponse(responseCode = "201", description = "CREATED success")])
-    fun make(request: RoomSaveRequestForm): ResponseForm<RoomSaveResponseForm>
+    fun generate(request: RoomSaveRequestForm): ResponseForm<RoomSaveResponseForm>
 
     @Operation(summary = "modify room information API", description = "방 정보 수정 요청 메서드")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "UPDATED success")])
-    fun modifyInformation(
-        request: RoomUpdateRequestForm,
-        @PathVariable(name = "방 id") roomId: Long,
-    ): ResponseForm<Any>
+    fun modifyInformation(request: RoomUpdateRequestForm): ResponseForm<Any>
 
     @Operation(summary = "remove room API", description = "방 삭제 요청 메서드")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "DELETED success")])
     fun remove(
-        @PathVariable(name = "방 id") roomId: Long,
+        @PathVariable(name = "방 id") roomId: UUID,
     ): ResponseForm<Any>
 
     @Operation(summary = "search room API", description = "방 조회 요청 메서드")
@@ -40,5 +37,5 @@ interface RoomApiDocs {
 
     @Operation(summary = "generate vote of room API", description = "방 투표 생성 요청 메서드")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "CREATED success")])
-    fun addVoteDeadline(request: VoteGenerateRequestForm): ResponseForm<Any>
+    fun changeVoteDeadline(request: VoteGenerateRequestForm): ResponseForm<Any>
 }

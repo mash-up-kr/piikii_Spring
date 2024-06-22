@@ -8,14 +8,13 @@ import java.util.UUID
 class Room(
     val meetingName: String,
     val message: String? = null,
-    val address: String? = null,
+    val address: String,
     val meetDay: LocalDate,
-    val thumbnailLinks: ThumbnailLinks? = null,
+    val thumbnailLinks: ThumbnailLinks,
     val password: Short,
-    val voteDeadline: LocalDateTime,
+    val voteDeadline: LocalDateTime?,
     val roomId: UUID,
 ) {
-
     fun updateVoteDeadline(voteDeadline: LocalDateTime): Room {
         return Room(
             meetingName = this.meetingName,
@@ -25,7 +24,7 @@ class Room(
             thumbnailLinks = this.thumbnailLinks,
             password = this.password,
             voteDeadline = voteDeadline,
-            roomId = this.roomId
+            roomId = this.roomId,
         )
     }
 }

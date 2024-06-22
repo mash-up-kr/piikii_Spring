@@ -13,7 +13,8 @@ class RoomVoteService(
 ) {
     fun vote(roomId: UUID) {
         val room = roomQueryPort.retrieve(roomId)
-        if (room.voteDeadline.isBefore(LocalDateTime.now())) {
+
+        if (room.voteDeadline == null || room.voteDeadline.isBefore(LocalDateTime.now())) {
             throw PiikiiException(
                 exceptionCode = ExceptionCode.ACCESS_DENIED,
                 detailMessage = VOTE_IS_CLOSED,

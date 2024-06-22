@@ -5,7 +5,7 @@ CREATE TABLE piikii.room
     meet_day       DATE         not null,
     thumbnail_link VARCHAR(255) null,
     password       SMALLINT     not null,
-    vote_deadline  TIMESTAMP    not null,
+    vote_deadline  TIMESTAMP    null,
     room_id        UUID         not null unique default uuid_generate_v4(),
     meeting_name   VARCHAR(255) not null,
     message        VARCHAR(255) null,

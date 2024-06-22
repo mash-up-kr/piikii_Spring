@@ -21,12 +21,12 @@ class RoomEntity(
     var address: String,
     @Column(name = "meet_day", nullable = false)
     var meetDay: LocalDate,
-    @Column(name = "thumbnail_links", nullable = false, length = 255)
-    var thumbnailLinks: String,
+    @Column(name = "thumbnail_links", length = 255)
+    var thumbnailLinks: String?,
     @Column(name = "password", nullable = false)
     var password: Short,
-    @Column(name = "vote_deadline", nullable = false)
-    var voteDeadline: LocalDateTime,
+    @Column(name = "vote_deadline")
+    var voteDeadline: LocalDateTime?,
     @Column(name = "room_id", nullable = false, unique = true)
     val roomId: UUID,
     @Column(name = "meeting_name", nullable = false)
@@ -35,15 +35,14 @@ class RoomEntity(
     var message: String?,
 ) : BaseEntity() {
     constructor(room: Room) : this(
+        address = room.address,
+        meetDay = room.meetDay,
+        thumbnailLinks = room.thumbnailLinks.contents,
+        password = room.password,
+        voteDeadline = room.voteDeadline,
+        roomId = room.roomId,
         meetingName = room.meetingName,
         message = room.message,
-        password = room.password,
-        roomId = UUID.randomUUID(),
-        // TODO: 기능&ERD 확정 후 정리
-        address = room.address ?: "",
-        meetDay = room.meetDay,
-        thumbnailLinks = room.thumbnailLinks?.contents ?: "",
-        voteDeadline = room.voteDeadline,
     )
 
     fun update(room: Room) {
@@ -56,18 +55,20 @@ class RoomEntity(
         this.voteDeadline = room.voteDeadline
     }
 
-    fun updateVoteDeadline(voteDeadline: LocalDateTime) {
+    fun updateVoteDeadline(voteDeadline: LocalDateTime?) {
         this.voteDeadline = voteDeadline
     }
 }
 
 fun RoomEntity.toDomain(): Room {
     return Room(
+        meetingName = this.meetingName,
+        message = this.message,
         address = this.address,
         meetDay = this.meetDay,
         thumbnailLinks = ThumbnailLinks(this.thumbnailLinks),
         password = this.password,
-        voteDeadline = this.voteDeadline,
-        meetingName = this.meetingName,
+        voteDeadline = voteDeadline,
+        roomId = this.roomId,
     )
 }

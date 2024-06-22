@@ -6,4 +6,6 @@ import java.util.UUID
 
 interface RoomRepository : JpaRepository<RoomEntity, Long> {
     fun findByRoomId(roomId: UUID): RoomEntity?
+
+    fun deleteByRoomId(roomId: UUID)
 }
