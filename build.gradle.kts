@@ -63,7 +63,7 @@ subprojects {
     }
 
     tasks.named("bootJar") {
-        dependsOn("clean", "ktlintFormat")
+        dependsOn("ktlintFormat")
     }
 }
 
@@ -77,8 +77,4 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(Versions.JAVA_VERSION)
 
 tasks.bootJar {
     enabled = false
-}
-
-tasks.jar {
-    enabled = true
 }
