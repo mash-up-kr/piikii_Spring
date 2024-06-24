@@ -19,6 +19,16 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Gradle 의존성 캐싱
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: 이미지 빌드 및 푸쉬
         env:
           SECRET_MANAGER_TOKEN: ${{ secrets.SECRET_MANAGER_TOKEN }}
