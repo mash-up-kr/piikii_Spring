@@ -1,9 +1,0 @@
-object Versions {
-    const val SPRING_BOOT = "3.3.0"
-    const val SPRING_DEPENDENCY_MANAGEMENT = "1.1.5"
-    const val KOTLIN = "2.0.0"
-    const val JPA_PLUGIN = "2.0.0"
-    const val KAPT_PLUGIN = "2.0.0"
-    const val KT_LINT_VERSION = "12.1.1"
-    const val JAVA_VERSION = "21"
-}
