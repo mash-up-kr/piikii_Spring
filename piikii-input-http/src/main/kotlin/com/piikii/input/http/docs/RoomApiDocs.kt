@@ -13,29 +13,29 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.PathVariable
 import java.util.UUID
 
-@Tag(name = "SourcePlaceApi", description = "SourcePlace Api 입니다.")
+@Tag(name = "RoomApi", description = "Room Api 입니다.")
 interface RoomApiDocs {
-    @Operation(summary = "make room API", description = "방 생성 요청 메서드")
+    @Operation(summary = "방 생성 api", description = "방(Room)을 생성합니다.")
     @ApiResponses(value = [ApiResponse(responseCode = "201", description = "CREATED success")])
     fun generate(request: RoomSaveRequestForm): ResponseForm<RoomSaveResponseForm>
 
-    @Operation(summary = "modify room information API", description = "방 정보 수정 요청 메서드")
+    @Operation(summary = "방 수정 api", description = "방(Room) 정보를 수정합니다.")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "UPDATED success")])
     fun modifyInformation(request: RoomUpdateRequestForm): ResponseForm<Any>
 
-    @Operation(summary = "remove room API", description = "방 삭제 요청 메서드")
+    @Operation(summary = "방 삭제 api", description = "방(Room) 정보를 삭제합니다.")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "DELETED success")])
     fun remove(
         @PathVariable(name = "방 id") roomId: UUID,
     ): ResponseForm<Any>
 
-    @Operation(summary = "search room API", description = "방 조회 요청 메서드")
+    @Operation(summary = "방 조회 api", description = "방(Room) 정보를 조회합니다.")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "GET success")])
     fun search(
         @PathVariable(name = "방 id") roomId: UUID,
     ): ResponseForm<RoomGetResponseForm>
 
-    @Operation(summary = "generate vote of room API", description = "방 투표 생성 요청 메서드")
+    @Operation(summary = "방 투표 마감일 설정 api", description = "방(Room)의 투표 마감일을 설정합니다.")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "CREATED success")])
     fun changeVoteDeadline(request: VoteGenerateRequestForm): ResponseForm<Any>
 }
