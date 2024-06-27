@@ -14,4 +14,9 @@ data class Room(
     val password: Short,
     val voteDeadline: LocalDateTime?,
     val roomId: UUID,
-)
+) {
+
+    fun isUnavailableToVote(): Boolean {
+        return this.voteDeadline == null || this.voteDeadline.isBefore(LocalDateTime.now())
+    }
+}
