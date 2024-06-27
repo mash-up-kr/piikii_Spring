@@ -34,6 +34,7 @@ class RoomAdapter(
         roomRepository.deleteByRoomId(roomId)
     }
 
+    @Transactional
     override fun updateVoteDeadline(room: Room) {
         val foundRoom = findByRoomId(room.roomId)
         foundRoom.updateVoteDeadline(room.voteDeadline)
