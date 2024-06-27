@@ -46,11 +46,11 @@ class RoomEntity(
     )
 
     fun update(room: Room) {
-        this.thumbnailLinks = room.thumbnailLinks?.contents ?: this.thumbnailLinks
+        this.thumbnailLinks = room.thumbnailLinks.contents ?: this.thumbnailLinks
         this.meetingName = room.meetingName
         this.message = room.message ?: this.message
         this.password = room.password
-        this.address = room.address ?: this.address
+        this.address = room.address
         this.meetDay = room.meetDay
         this.voteDeadline = room.voteDeadline
     }
