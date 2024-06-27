@@ -4,7 +4,6 @@ import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 import java.util.UUID
 
 @Service
