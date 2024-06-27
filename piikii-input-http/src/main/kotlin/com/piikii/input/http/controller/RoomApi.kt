@@ -32,9 +32,8 @@ class RoomApi(
     override fun generate(
         @RequestBody request: RoomSaveRequestForm,
     ): ResponseForm<RoomSaveResponseForm> {
-        val response = roomUseCase.generate(request)
         return ResponseForm(
-            data = response,
+            data = roomUseCase.generate(request),
             message = RoomMessage.SUCCESS_CREATE_ROOM,
         )
     }
@@ -66,9 +65,8 @@ class RoomApi(
     override fun search(
         @PathVariable roomId: UUID,
     ): ResponseForm<RoomGetResponseForm> {
-        val response = roomUseCase.search(roomId)
         return ResponseForm(
-            data = response,
+            data = roomUseCase.search(roomId),
             message = RoomMessage.SUCCESS_GET_ROOM,
         )
     }
