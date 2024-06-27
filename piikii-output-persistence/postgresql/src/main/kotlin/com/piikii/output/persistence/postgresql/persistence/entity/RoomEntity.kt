@@ -54,10 +54,6 @@ class RoomEntity(
         this.meetDay = room.meetDay
         this.voteDeadline = room.voteDeadline
     }
-
-    fun updateVoteDeadline(voteDeadline: LocalDateTime?) {
-        this.voteDeadline = voteDeadline
-    }
 }
 
 fun RoomEntity.toDomain(): Room {
