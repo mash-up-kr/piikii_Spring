@@ -1,10 +1,10 @@
 package com.piikii.common.logutil
 
 import com.piikii.common.logutil.client.HookLoggerConfig
-import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.Async
+import org.springframework.stereotype.Component
 
-@Configuration
+@Component
 class SlackHookLogger(
     private val hookLoggerConfig: HookLoggerConfig,
 ) {
