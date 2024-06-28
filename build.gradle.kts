@@ -15,6 +15,15 @@ plugins {
 allprojects {
     group = "com.piikii"
     version = "0.0.1-SNAPSHOT"
+
+    repositories {
+        mavenCentral()
+    }
+
+    tasks.withType<JavaCompile>().configureEach {
+        options.isIncremental = true
+        options.isFork = true
+    }
 }
 
 subprojects {
@@ -73,4 +82,11 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(libs.versions.javaVersio
 
 tasks.bootJar {
     enabled = false
+}
+
+configurations.all {
+    resolutionStrategy {
+        cacheDynamicVersionsFor(10 * 60, TimeUnit.SECONDS)
+        cacheChangingModulesFor(4, TimeUnit.HOURS)
+    }
 }
