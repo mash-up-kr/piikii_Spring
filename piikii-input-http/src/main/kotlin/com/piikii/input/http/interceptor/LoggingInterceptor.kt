@@ -1,7 +1,7 @@
 package com.piikii.input.http.interceptor
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.piikii.common.logutil.HookLogger
+import com.piikii.common.logutil.SlackHookLogger
 import com.piikii.common.logutil.SystemLogger.logger
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -13,8 +13,8 @@ import org.springframework.web.util.ContentCachingResponseWrapper
 
 @Component
 class LoggingInterceptor(
-    private val hookLogger: HookLogger,
     private val objectMapper: ObjectMapper,
+    private val slackHookLogger: SlackHookLogger,
 ) : HandlerInterceptor {
     override fun preHandle(
         request: HttpServletRequest,
@@ -78,7 +78,7 @@ class LoggingInterceptor(
             in 400..499 -> logger.warn(logMessage)
             500 -> {
                 logger.error(logMessage)
-                hookLogger.send(logMessage)
+                slackHookLogger.send(logMessage)
             }
         }
     }

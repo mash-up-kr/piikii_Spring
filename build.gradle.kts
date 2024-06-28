@@ -36,6 +36,9 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.springframework.boot:spring-boot-autoconfigure")
         implementation("org.springframework.boot:spring-boot-starter-logging")
+        implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+        implementation("ch.qos.logback:logback-classic")
+
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
