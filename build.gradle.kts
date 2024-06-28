@@ -42,6 +42,9 @@ subprojects {
         // for spring commons
         implementation("org.springframework.boot:spring-boot-autoconfigure")
         implementation("org.springframework.boot:spring-boot-starter-logging")
+        implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+        implementation("ch.qos.logback:logback-classic")
+
         // for test
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
