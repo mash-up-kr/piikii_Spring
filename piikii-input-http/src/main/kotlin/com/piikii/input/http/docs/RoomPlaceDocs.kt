@@ -93,7 +93,7 @@ interface RoomPlaceDocs {
             `in` = ParameterIn.PATH,
         ) @NotNull targetRoomPlaceId: Long,
         modifyRoomPlaceRequest: ModifyRoomPlaceRequest,
-    ): ResponseForm<Any>
+    ): ResponseForm<Unit>
 
     @Operation(summary = "방 장소 삭제 API", description = "방에 추가한 장소를 삭제합니다.")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "DELETED success")])
@@ -109,5 +109,5 @@ interface RoomPlaceDocs {
             required = true,
             content = [Content(schema = Schema(implementation = DeleteRoomPlaceRequest::class))],
         ) deleteRoomPlaceRequest: DeleteRoomPlaceRequest,
-    ): ResponseForm<Any>
+    ): ResponseForm<Unit>
 }

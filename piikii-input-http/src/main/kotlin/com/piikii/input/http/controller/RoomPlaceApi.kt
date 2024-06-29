@@ -11,7 +11,9 @@ import com.piikii.input.http.dto.ResponseForm
 import com.piikii.input.http.dto.RoomMessage.SUCCESS_CREATE_ROOM_PLACE
 import com.piikii.input.http.dto.RoomMessage.SUCCESS_DELETE_ROOM_PLACE
 import com.piikii.input.http.dto.RoomMessage.SUCCESS_UPDATE_ROOM_PLACE
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
+@Validated
 @RestController
 @RequestMapping("/v1/room/")
 class RoomPlaceApi(
@@ -32,7 +35,7 @@ class RoomPlaceApi(
     @PostMapping("/{roomId}/place")
     override fun addRoomPlace(
         @PathVariable("roomId") roomId: UUID,
-        @RequestBody addRoomPlaceRequest: AddRoomPlaceRequest,
+        @RequestBody @Valid addRoomPlaceRequest: AddRoomPlaceRequest,
     ): ResponseForm<RoomPlaceResponse> {
         return ResponseForm(
             data = roomPlaceUseCase.addRoomPlace(roomId, addRoomPlaceRequest),
@@ -54,8 +57,8 @@ class RoomPlaceApi(
     override fun modifyRoomPlace(
         @PathVariable("roomId") roomId: UUID,
         @PathVariable("targetRoomPlaceId") targetRoomPlaceId: Long,
-        @RequestBody modifyRoomPlaceRequest: ModifyRoomPlaceRequest,
-    ): ResponseForm<Any> {
+        @RequestBody @Valid modifyRoomPlaceRequest: ModifyRoomPlaceRequest,
+    ): ResponseForm<Unit> {
         return ResponseForm(
             data = roomPlaceUseCase.modify(targetRoomPlaceId, modifyRoomPlaceRequest),
             message = SUCCESS_UPDATE_ROOM_PLACE,
@@ -65,8 +68,8 @@ class RoomPlaceApi(
     @DeleteMapping("/{roomId}/place")
     override fun deleteRoomPlace(
         @PathVariable("roomId") roomId: UUID,
-        @RequestBody deleteRoomPlaceRequest: DeleteRoomPlaceRequest,
-    ): ResponseForm<Any> {
+        @RequestBody @Valid deleteRoomPlaceRequest: DeleteRoomPlaceRequest,
+    ): ResponseForm<Unit> {
         return ResponseForm(
             data = roomPlaceUseCase.delete(deleteRoomPlaceRequest.targetRoomPlaceId),
             message = SUCCESS_DELETE_ROOM_PLACE,
