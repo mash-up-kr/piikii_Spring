@@ -2,6 +2,6 @@ package com.piikii.application.port.output.persistence
 
 import java.util.UUID
 
-interface CourseCommandPort {
+interface CourseQueryPort {
     fun isExistCourse(roomId: UUID): Boolean
 }

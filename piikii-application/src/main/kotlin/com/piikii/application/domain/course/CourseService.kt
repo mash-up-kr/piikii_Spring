@@ -2,17 +2,17 @@ package com.piikii.application.domain.course
 
 import com.piikii.application.port.input.course.CourseUseCase
 import com.piikii.application.port.input.course.dto.response.CourseExistenceResponse
-import com.piikii.application.port.output.persistence.CourseCommandPort
+import com.piikii.application.port.output.persistence.CourseQueryPort
 import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
 class CourseService(
-    private val courseCommandPort: CourseCommandPort,
+    private val courseQueryPort: CourseQueryPort,
 ) : CourseUseCase {
     override fun readCourseExistenceInRoom(roomId: UUID): CourseExistenceResponse {
         return CourseExistenceResponse(
-            courseCommandPort.isExistCourse(roomId),
+            courseQueryPort.isExistCourse(roomId),
         )
     }
 }
