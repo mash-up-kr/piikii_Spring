@@ -27,12 +27,12 @@ import java.util.UUID
 
 @Validated
 @RestController
-@RequestMapping("/v1/room/")
+@RequestMapping("/v1/rooms/{roomId}/places")
 class RoomPlaceApi(
     private val roomPlaceUseCase: RoomPlaceUseCase,
 ) : RoomPlaceDocs {
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/{roomId}/place")
+    @PostMapping
     override fun addRoomPlace(
         @PathVariable roomId: UUID,
         @RequestBody @Valid addRoomPlaceRequest: AddRoomPlaceRequest,
@@ -43,7 +43,7 @@ class RoomPlaceApi(
         )
     }
 
-    @GetMapping("/{roomId}/place")
+    @GetMapping
     override fun retrieveAll(
         @PathVariable roomId: UUID,
     ): ResponseForm<List<RoomPlaceCategoryGroupResponse>> {
@@ -53,7 +53,7 @@ class RoomPlaceApi(
         )
     }
 
-    @PatchMapping("/{roomId}/place/{targetRoomPlaceId}")
+    @PatchMapping("/{targetRoomPlaceId}")
     override fun modifyRoomPlace(
         @PathVariable roomId: UUID,
         @PathVariable targetRoomPlaceId: Long,
@@ -65,7 +65,7 @@ class RoomPlaceApi(
         )
     }
 
-    @DeleteMapping("/{roomId}/place")
+    @DeleteMapping
     override fun deleteRoomPlace(
         @PathVariable roomId: UUID,
         @RequestBody @Valid deleteRoomPlaceRequest: DeleteRoomPlaceRequest,
