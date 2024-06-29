@@ -22,7 +22,7 @@ import java.util.UUID
 @DynamicUpdate
 class RoomPlaceEntity(
     @Column(name = "roomId")
-    var roomId: UUID,
+    val roomId: UUID,
     @Column(name = "url", length = 255)
     var url: String?,
     @Column(name = "thumbnail_links", nullable = false, length = 255)
