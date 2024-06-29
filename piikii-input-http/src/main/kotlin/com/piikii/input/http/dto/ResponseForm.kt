@@ -1,4 +1,4 @@
-package com.piikii.input.http.generic
+package com.piikii.input.http.dto
 
 class ResponseForm<T>(
     val data: T? = null,

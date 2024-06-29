@@ -1,4 +1,4 @@
-package com.piikii.input.http.filter
+package com.piikii.input.http.web.filter
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest

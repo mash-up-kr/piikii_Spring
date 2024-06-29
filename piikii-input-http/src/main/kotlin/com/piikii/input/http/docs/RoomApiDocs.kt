@@ -5,7 +5,7 @@ import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
 import com.piikii.application.port.input.room.dto.request.VoteDeadlineSetRequest
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
-import com.piikii.input.http.generic.ResponseForm
+import com.piikii.input.http.dto.ResponseForm
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.responses.ApiResponse
