@@ -48,7 +48,6 @@ class VoteService(
     }
 
     companion object {
-        const val VOTE_DATE_FAILURE = "투표 요청 데이터가 올바르지 않습니다."
         const val VOTE_UNAVAILABLE = "투표가 시작되지 않았거나, 마감되었습니다"
         const val VOTE_NOT_STARTED = "투표가 시작되지 않았습니다"
     }
