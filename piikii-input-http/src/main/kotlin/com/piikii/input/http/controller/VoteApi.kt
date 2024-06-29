@@ -7,6 +7,7 @@ import com.piikii.input.http.docs.VoteApiDocs
 import com.piikii.input.http.dto.ResponseForm
 import com.piikii.input.http.dto.request.VoteRequest
 import com.piikii.input.http.dto.response.VoteStatusResponse
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
+@Validated
 @RestController
 @RequestMapping("/room/{roomId}/votes")
 class VoteApi(
@@ -29,7 +31,7 @@ class VoteApi(
     @PatchMapping("/deadline")
     override fun changeVoteDeadline(
         @PathVariable roomId: UUID,
-        @Validated @RequestBody request: VoteDeadlineSetRequest,
+        @Valid @RequestBody request: VoteDeadlineSetRequest,
     ): ResponseForm<Unit> {
         roomUseCase.changeVoteDeadline(roomId, request.password, request.voteDeadline)
         return ResponseForm.EMPTY_RESPONSE
