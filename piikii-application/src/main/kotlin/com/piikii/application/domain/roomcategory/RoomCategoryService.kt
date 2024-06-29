@@ -14,8 +14,11 @@ class RoomCategoryService(
     private val roomCategoryQueryPort: RoomCategoryQueryPort,
     private val roomCategoryCommandPort: RoomCategoryCommandPort,
 ) : RoomCategoryUseCase {
-    override fun createRoomCategories(request: RoomCategoriesCreateRequest) {
-        roomCategoryCommandPort.saveRoomCategories(request.toDomains())
+    override fun createRoomCategories(
+        roomId: UUID,
+        request: RoomCategoriesCreateRequest,
+    ) {
+        roomCategoryCommandPort.saveRoomCategories(request.toDomains(roomId))
     }
 
     override fun readRoomCategories(roomId: UUID): RoomCategoriesReadResponse {

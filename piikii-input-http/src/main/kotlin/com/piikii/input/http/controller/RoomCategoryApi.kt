@@ -28,7 +28,7 @@ class RoomCategoryApi(
         @PathVariable roomId: UUID,
         @RequestBody request: RoomCategoriesCreateRequest,
     ): ResponseForm<Unit> {
-        roomCategoryUseCase.createRoomCategories(request)
+        roomCategoryUseCase.createRoomCategories(roomId, request)
         return ResponseForm(
             message = SUCCESS_CREATE_ROOM_CATEGORIES_MESSAGE,
         )
