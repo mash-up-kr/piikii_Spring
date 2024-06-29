@@ -13,7 +13,10 @@ class VoteService(
     private val voteCommandPort: VoteCommandPort,
     private val roomQueryPort: RoomQueryPort,
 ) : VoteUseCase {
-    override fun vote(roomId: UUID, votes: List<Vote>) {
+    override fun vote(
+        roomId: UUID,
+        votes: List<Vote>,
+    ) {
         if (roomQueryPort.retrieve(roomId).isUnavailableToVote()) {
             throw PiikiiException(
                 exceptionCode = ExceptionCode.ACCESS_DENIED,

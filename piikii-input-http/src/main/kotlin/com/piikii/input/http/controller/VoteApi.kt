@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/room/votes")
 class VoteApi(private val voteUseCase: VoteUseCase) : VoteApiDocs {
-
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    override fun vote(@RequestBody voteRequest: VoteRequest): ResponseForm<Unit> {
+    override fun vote(
+        @RequestBody voteRequest: VoteRequest,
+    ): ResponseForm<Unit> {
         voteUseCase.vote(voteRequest.roomId, voteRequest.toDomain())
         return ResponseForm.EMPTY_RESPONSE
     }
-
 }

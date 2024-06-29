@@ -17,5 +17,4 @@ class ThumbnailLinks(
     companion object {
         const val THUMBNAIL_LINK_SEPARATOR = ","
     }
-
 }

@@ -7,7 +7,7 @@ import java.util.UUID
 data class VoteRequest(
     val userId: UUID,
     val roomId: UUID,
-    val votes: List<PlaceVoteResult>
+    val votes: List<PlaceVoteResult>,
 ) {
     fun toDomain(): List<Vote> {
         return this.votes.map { Vote(userId = userId, roomPlaceId = it.roomPlaceId, result = it.voteResult) }
@@ -16,5 +16,5 @@ data class VoteRequest(
 
 data class PlaceVoteResult(
     val roomPlaceId: Long,
-    val voteResult: VoteResult
+    val voteResult: VoteResult,
 )

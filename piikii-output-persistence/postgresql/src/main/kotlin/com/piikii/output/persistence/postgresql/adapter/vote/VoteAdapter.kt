@@ -13,10 +13,8 @@ import org.springframework.transaction.annotation.Transactional
 class VoteAdapter(
     private val voteRepository: VoteRepository,
 ) : VoteCommandPort, VoteQueryPort {
-
     @Transactional
     override fun vote(votes: List<Vote>) {
         voteRepository.saveAll(votes.map(VoteEntity::from))
     }
-
 }

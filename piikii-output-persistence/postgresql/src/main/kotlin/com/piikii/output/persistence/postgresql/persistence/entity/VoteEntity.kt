@@ -25,7 +25,6 @@ class VoteEntity(
     @Column(name = "result", nullable = false, length = 10)
     val result: VoteResult,
 ) : BaseEntity() {
-
     fun toDomain(): Vote {
         return Vote(
             userId = this.userId,
@@ -43,5 +42,4 @@ class VoteEntity(
             )
         }
     }
-
 }
