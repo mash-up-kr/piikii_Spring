@@ -7,10 +7,10 @@ import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 import com.piikii.input.http.generic.ResponseForm
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
-import org.springframework.web.bind.annotation.PathVariable
 import java.util.UUID
 
 @Tag(name = "RoomApi", description = "방 관련 API")
@@ -26,13 +26,13 @@ interface RoomApiDocs {
     @Operation(summary = "방 삭제 api", description = "방(Room) 정보를 삭제합니다.")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "DELETED success")])
     fun remove(
-        @PathVariable(name = "방 id") roomId: UUID,
+        @Parameter(name = "방 id", description = "삭제하고자 하는 방 id") roomId: UUID,
     ): ResponseForm<Unit>
 
     @Operation(summary = "방 조회 api", description = "방(Room) 정보를 조회합니다.")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "GET success")])
     fun search(
-        @PathVariable(name = "방 id") roomId: UUID,
+        @Parameter(name = "방 id", description = "조회하고자 하는 방 id") roomId: UUID,
     ): ResponseForm<RoomGetResponseForm>
 
     @Operation(summary = "방 투표 마감일 설정 api", description = "방(Room)의 투표 마감일을 설정합니다.")
