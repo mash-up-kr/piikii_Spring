@@ -3,6 +3,7 @@ package com.piikii.input.http.advice
 import com.piikii.common.exception.PiikiiException
 import com.piikii.common.logutil.SystemLogger.logger
 import com.piikii.input.http.dto.response.ExceptionResponse
+import jakarta.validation.ConstraintDeclarationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -19,6 +20,22 @@ class ExceptionAdvice {
                 ExceptionResponse(
                     message = piikiiException.defaultMessage,
                     cause = piikiiException.detailMessage,
+                    timestamp = System.currentTimeMillis(),
+                ),
+            )
+    }
+
+    @ExceptionHandler(ConstraintDeclarationException::class)
+    fun handleConstraintDeclarationException(
+        exception: ConstraintDeclarationException,
+    ): ResponseEntity<ExceptionResponse> {
+        logger.error(exception) { "RequestBody Validation Failure" }
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(
+                ExceptionResponse(
+                    message = "요청 형식이 잘못됬습니다 (Request Validation Failure)",
+                    cause = exception.message,
                     timestamp = System.currentTimeMillis(),
                 ),
             )
