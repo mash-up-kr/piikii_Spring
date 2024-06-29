@@ -1,6 +1,6 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
-import com.piikii.application.domain.generic.CategoryName
+import com.piikii.application.domain.roomcategory.PlaceCategory
 import com.piikii.application.domain.roomcategory.RoomCategory
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
@@ -10,6 +10,7 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.SQLRestriction
+import java.util.UUID
 
 @Entity
 @Table(name = "room_category", schema = "piikii")
@@ -17,22 +18,29 @@ import org.hibernate.annotations.SQLRestriction
 @DynamicUpdate
 class RoomCategoryEntity(
     @Column(name = "room_id", nullable = false)
-    val roomId: Long,
+    val roomId: UUID,
     @Column(name = "name", nullable = false)
+    val name: String,
+    @Column(name = "place_category", nullable = false)
     @Enumerated(EnumType.STRING)
-    val name: CategoryName,
-) : BaseEntity()
-
-fun RoomCategoryEntity.toDomain(): RoomCategory {
-    return RoomCategory(
-        roomId = this.roomId,
-        name = this.name,
+    val category: PlaceCategory,
+    @Column(name = "sequence", nullable = false)
+    val sequence: Int,
+) : BaseEntity() {
+    constructor(roomCategory: RoomCategory) : this(
+        roomId = roomCategory.roomId,
+        name = roomCategory.name,
+        category = roomCategory.category,
+        sequence = roomCategory.sequence,
     )
-}
 
-fun RoomCategory.toEntity(): RoomCategoryEntity {
-    return RoomCategoryEntity(
-        roomId = this.roomId,
-        name = this.name,
-    )
+    fun toDomain(): RoomCategory {
+        return RoomCategory(
+            id = this.id,
+            roomId = this.roomId,
+            name = this.name,
+            category = this.category,
+            sequence = this.sequence,
+        )
+    }
 }
