@@ -40,6 +40,7 @@ data class VoteResultPlaceResponse(
         placeName = place.name,
         phoneNumber = place.phoneNumber,
         address = place.address,
-        distanceToNextPlace = 0, // TODO: calculate with redis
+        distanceToNextPlace = 0,
+        // TODO: calculate with redis
     )
 }
