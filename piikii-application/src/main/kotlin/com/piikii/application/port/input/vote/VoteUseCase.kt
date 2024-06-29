@@ -8,4 +8,6 @@ interface VoteUseCase {
         roomId: UUID,
         votes: List<Vote>,
     )
+
+    fun isVoteFinished(roomId: UUID): Boolean
 }

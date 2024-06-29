@@ -3,6 +3,7 @@ package com.piikii.input.http.docs
 import com.piikii.application.port.input.room.dto.request.VoteDeadlineSetRequest
 import com.piikii.input.http.dto.ResponseForm
 import com.piikii.input.http.dto.request.VoteRequest
+import com.piikii.input.http.dto.response.VoteStatusResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn
@@ -32,12 +33,31 @@ interface VoteApiDocs {
         ) request: VoteDeadlineSetRequest,
     ): ResponseForm<Unit>
 
-    @Operation(summary = "투표 API", description = "투표를 진행합니다")
+    @Operation(summary = "방 투표 마감 상태조회 API", description = "투표 마감 상태를 조회합니다")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Vote status check succeed",
+                content = [Content(schema = Schema(implementation = VoteStatusResponse::class))],
+            ),
+        ],
+    )
+    fun getVoteStatus(
+        @Parameter(
+            name = "roomId",
+            description = "조회하고자 하는 방 id",
+            required = true,
+            `in` = ParameterIn.PATH,
+        ) roomId: UUID,
+    ): ResponseForm<VoteStatusResponse>
+
+    @Operation(summary = "투표하기 API", description = "투표를 진행합니다")
     @ApiResponses(value = [ApiResponse(responseCode = "201", description = "Vote succeed")])
     fun vote(
         @Parameter(
             name = "roomId",
-            description = "투표하고자 하는 id",
+            description = "투표하고자 하는 방 id",
             required = true,
             `in` = ParameterIn.PATH,
         ) roomId: UUID,
