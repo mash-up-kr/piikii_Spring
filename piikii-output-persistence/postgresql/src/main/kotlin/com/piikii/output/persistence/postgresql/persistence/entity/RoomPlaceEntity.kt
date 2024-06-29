@@ -31,28 +31,30 @@ class RoomPlaceEntity(
     val starGrade: Float? = null,
     @Enumerated(EnumType.STRING)
     val source: Source,
-) : BaseEntity()
+) : BaseEntity() {
+    fun toDomain(): RoomPlace {
+        return RoomPlace(
+            roomId = this.roomId,
+            url = this.url,
+            thumbnailLinks = ThumbnailLinks(this.thumbnailLinks),
+            address = this.address,
+            phoneNumber = this.phoneNumber,
+            starGrade = this.starGrade,
+            source = this.source,
+        )
+    }
 
-fun RoomPlaceEntity.toDomain(): RoomPlace {
-    return RoomPlace(
-        roomId = this.roomId,
-        url = this.url,
-        thumbnailLinks = ThumbnailLinks(this.thumbnailLinks),
-        address = this.address,
-        phoneNumber = this.phoneNumber,
-        starGrade = this.starGrade,
-        source = this.source,
-    )
-}
-
-fun RoomPlace.toEntity(): RoomPlaceEntity {
-    return RoomPlaceEntity(
-        roomId = this.roomId,
-        url = this.url,
-        thumbnailLinks = this.thumbnailLinks.contents.toString(),
-        address = this.address,
-        phoneNumber = this.phoneNumber,
-        starGrade = this.starGrade,
-        source = this.source,
-    )
+    companion object {
+        fun toEntity(roomPlace: RoomPlace): RoomPlaceEntity {
+            return RoomPlaceEntity(
+                roomId = roomPlace.roomId,
+                url = roomPlace.url,
+                thumbnailLinks = roomPlace.thumbnailLinks.contents.toString(),
+                address = roomPlace.address,
+                phoneNumber = roomPlace.phoneNumber,
+                starGrade = roomPlace.starGrade,
+                source = roomPlace.source,
+            )
+        }
+    }
 }

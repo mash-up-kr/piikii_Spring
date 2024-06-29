@@ -1,4 +1,4 @@
-package com.piikii.input.http.message
+package com.piikii.input.http.dto
 
 object RoomMessage {
     const val SUCCESS_CREATE_ROOM = "방 생성 성공"

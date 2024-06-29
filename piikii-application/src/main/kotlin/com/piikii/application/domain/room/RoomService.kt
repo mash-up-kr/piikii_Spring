@@ -3,12 +3,12 @@ package com.piikii.application.domain.room
 import com.piikii.application.port.input.room.RoomUseCase
 import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
-import com.piikii.application.port.input.room.dto.request.VoteDeadlineSetRequest
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 import com.piikii.application.port.output.persistence.RoomCommandPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 import java.util.UUID
 
 @Service
@@ -34,8 +34,11 @@ class RoomService(
         return RoomGetResponseForm(retrievedRoom)
     }
 
-    override fun changeVoteDeadline(request: VoteDeadlineSetRequest) {
-        val foundRoom = roomQueryPort.retrieve(request.roomId)
-        roomCommandPort.update(foundRoom.copy(voteDeadline = request.voteDeadline))
+    override fun changeVoteDeadline(
+        roomId: UUID,
+        voteDeadline: LocalDateTime,
+    ) {
+        val room = roomQueryPort.retrieve(roomId).copy(voteDeadline = voteDeadline)
+        roomCommandPort.update(room)
     }
 }

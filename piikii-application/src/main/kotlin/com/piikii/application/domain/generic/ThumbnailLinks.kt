@@ -2,7 +2,6 @@ package com.piikii.application.domain.generic
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.piikii.application.consts.THUMBNAIL_LINK_SEPARATOR
 import java.io.Serializable
 
 class ThumbnailLinks(
@@ -14,4 +13,8 @@ class ThumbnailLinks(
     @get:JsonProperty("contents")
     val convertToList: List<String>
         get() = contents?.split(THUMBNAIL_LINK_SEPARATOR) ?: emptyList()
+
+    companion object {
+        const val THUMBNAIL_LINK_SEPARATOR = ","
+    }
 }

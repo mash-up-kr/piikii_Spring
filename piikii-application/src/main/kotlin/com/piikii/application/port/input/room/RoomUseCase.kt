@@ -2,9 +2,9 @@ package com.piikii.application.port.input.room
 
 import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
-import com.piikii.application.port.input.room.dto.request.VoteDeadlineSetRequest
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
+import java.time.LocalDateTime
 import java.util.UUID
 
 interface RoomUseCase {
@@ -16,5 +16,8 @@ interface RoomUseCase {
 
     fun search(roomId: UUID): RoomGetResponseForm
 
-    fun changeVoteDeadline(request: VoteDeadlineSetRequest)
+    fun changeVoteDeadline(
+        roomId: UUID,
+        voteDeadline: LocalDateTime,
+    )
 }
