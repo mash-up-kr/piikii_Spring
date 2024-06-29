@@ -29,12 +29,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: ktlint check
+        run: ./gradlew ktlintCheck
+
       - name: 프로젝트 빌드
         env:
           SECRET_MANAGER_TOKEN: ${{ secrets.SECRET_MANAGER_TOKEN }}
           SECRET_MANAGER_WORKSPACE: ${{ secrets.SECRET_MANAGER_WORKSPACE }}
-        run: |
-          ./gradlew build
+        run: ./gradlew build
 
       - name: Set build status output
         id: set_status
