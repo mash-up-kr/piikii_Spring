@@ -1,8 +1,8 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
-import com.piikii.application.domain.generic.PlaceCategory
 import com.piikii.application.domain.generic.Source
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.roomcategory.PlaceCategory
 import com.piikii.application.domain.roomplace.RoomPlace
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column

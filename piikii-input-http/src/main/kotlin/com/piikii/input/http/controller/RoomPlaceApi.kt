@@ -7,10 +7,10 @@ import com.piikii.application.port.input.roomplace.dto.ModifyRoomPlaceRequest
 import com.piikii.application.port.input.roomplace.dto.RoomPlaceCategoryGroupResponse
 import com.piikii.application.port.input.roomplace.dto.RoomPlaceResponse
 import com.piikii.input.http.docs.RoomPlaceDocs
-import com.piikii.input.http.generic.ResponseForm
-import com.piikii.input.http.message.RoomMessage.SUCCESS_CREATE_ROOM_PLACE
-import com.piikii.input.http.message.RoomMessage.SUCCESS_DELETE_ROOM_PLACE
-import com.piikii.input.http.message.RoomMessage.SUCCESS_UPDATE_ROOM_PLACE
+import com.piikii.input.http.dto.ResponseForm
+import com.piikii.input.http.dto.RoomMessage.SUCCESS_CREATE_ROOM_PLACE
+import com.piikii.input.http.dto.RoomMessage.SUCCESS_DELETE_ROOM_PLACE
+import com.piikii.input.http.dto.RoomMessage.SUCCESS_UPDATE_ROOM_PLACE
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -37,7 +37,6 @@ class RoomPlaceApi(
         return ResponseForm(
             data = roomPlaceUseCase.addRoomPlace(roomId, addRoomPlaceRequest),
             message = SUCCESS_CREATE_ROOM_PLACE,
-            timestamp = System.currentTimeMillis(),
         )
     }
 
@@ -48,7 +47,6 @@ class RoomPlaceApi(
         return ResponseForm(
             data = roomPlaceUseCase.retrieveAllByRoomId(roomId),
             message = "",
-            timestamp = System.currentTimeMillis(),
         )
     }
 
@@ -61,7 +59,6 @@ class RoomPlaceApi(
         return ResponseForm(
             data = roomPlaceUseCase.modify(targetRoomPlaceId, modifyRoomPlaceRequest),
             message = SUCCESS_UPDATE_ROOM_PLACE,
-            timestamp = System.currentTimeMillis(),
         )
     }
 
@@ -73,7 +70,6 @@ class RoomPlaceApi(
         return ResponseForm(
             data = roomPlaceUseCase.delete(deleteRoomPlaceRequest.targetRoomPlaceId),
             message = SUCCESS_DELETE_ROOM_PLACE,
-            timestamp = System.currentTimeMillis(),
         )
     }
 }

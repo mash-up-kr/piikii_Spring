@@ -1,8 +1,8 @@
 package com.piikii.application.port.input.roomplace.dto
 
-import com.piikii.application.domain.generic.PlaceCategory
 import com.piikii.application.domain.generic.Source
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.roomcategory.PlaceCategory
 import com.piikii.application.domain.roomplace.RoomPlace
 
 data class RoomPlaceResponse(

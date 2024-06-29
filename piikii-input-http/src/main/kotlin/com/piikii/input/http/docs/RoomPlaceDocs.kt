@@ -5,7 +5,7 @@ import com.piikii.application.port.input.roomplace.dto.DeleteRoomPlaceRequest
 import com.piikii.application.port.input.roomplace.dto.ModifyRoomPlaceRequest
 import com.piikii.application.port.input.roomplace.dto.RoomPlaceCategoryGroupResponse
 import com.piikii.application.port.input.roomplace.dto.RoomPlaceResponse
-import com.piikii.input.http.generic.ResponseForm
+import com.piikii.input.http.dto.ResponseForm
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn

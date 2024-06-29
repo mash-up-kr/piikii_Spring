@@ -1,8 +1,8 @@
 package com.piikii.application.domain.roomplace
 
-import com.piikii.application.domain.generic.PlaceCategory
 import com.piikii.application.domain.generic.Source
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.roomcategory.PlaceCategory
 
 data class RoomPlace(
     val id: Long?,
