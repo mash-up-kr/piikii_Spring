@@ -19,7 +19,7 @@ class CourseApi(
 ) : CourseApiDocs {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/existence")
-    override fun readCourseExistenceInRoom(
+    override fun checkCourseExist(
         @PathVariable roomId: UUID,
     ): ResponseForm<CourseExistenceResponse> {
         return ResponseForm(

@@ -24,7 +24,7 @@ interface CourseApiDocs {
             ),
         ],
     )
-    fun readCourseExistenceInRoom(
+    fun checkCourseExist(
         @Parameter(
             name = "roomId",
             description = "코스 생성 여부를 조회할 방 uuid",
