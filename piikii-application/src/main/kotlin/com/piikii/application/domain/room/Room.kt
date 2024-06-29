@@ -5,13 +5,17 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
 
-class Room(
+data class Room(
     val meetingName: String,
     val message: String? = null,
-    val address: String? = null,
+    val address: String,
     val meetDay: LocalDate,
-    val thumbnailLinks: ThumbnailLinks? = null,
+    val thumbnailLinks: ThumbnailLinks,
     val password: Short,
-    val voteDeadline: LocalDateTime,
-    val roomId: UUID? = null,
-)
+    val voteDeadline: LocalDateTime?,
+    val roomId: UUID,
+) {
+    fun isUnavailableToVote(): Boolean {
+        return this.voteDeadline == null || this.voteDeadline.isBefore(LocalDateTime.now())
+    }
+}
