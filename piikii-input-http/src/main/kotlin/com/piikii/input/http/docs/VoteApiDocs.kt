@@ -34,7 +34,15 @@ interface VoteApiDocs {
     ): ResponseForm<Unit>
 
     @Operation(summary = "방 투표 마감 상태조회 API", description = "투표 마감 상태를 조회합니다")
-    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "Vote status check succeed")])
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Vote status check succeed",
+                content = [Content(schema = Schema(implementation = VoteStatusResponse::class))],
+            ),
+        ],
+    )
     fun getVoteStatus(
         @Parameter(
             name = "roomId",
