@@ -1,4 +1,4 @@
-package com.piikii.application.port.input.course.dto.response
+package com.piikii.input.http.dto.response
 
 import io.swagger.v3.oas.annotations.media.Schema
 

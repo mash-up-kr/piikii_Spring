@@ -1,7 +1,7 @@
 package com.piikii.input.http.docs
 
-import com.piikii.application.port.input.course.dto.response.CourseExistenceResponse
-import com.piikii.input.http.generic.ResponseForm
+import com.piikii.input.http.dto.ResponseForm
+import com.piikii.input.http.dto.response.CourseExistenceResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn

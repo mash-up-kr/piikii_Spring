@@ -3,7 +3,7 @@ package com.piikii.input.http.docs
 import com.piikii.application.port.input.roomcategory.dto.request.RoomCategoriesCreateRequest
 import com.piikii.application.port.input.roomcategory.dto.request.RoomCategoryIdsRequest
 import com.piikii.application.port.input.roomcategory.dto.response.RoomCategoriesReadResponse
-import com.piikii.input.http.generic.ResponseForm
+import com.piikii.input.http.dto.ResponseForm
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn

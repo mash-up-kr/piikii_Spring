@@ -5,7 +5,7 @@ import com.piikii.application.port.input.roomcategory.dto.request.RoomCategories
 import com.piikii.application.port.input.roomcategory.dto.request.RoomCategoryIdsRequest
 import com.piikii.application.port.input.roomcategory.dto.response.RoomCategoriesReadResponse
 import com.piikii.input.http.docs.RoomCategoryApiDocs
-import com.piikii.input.http.generic.ResponseForm
+import com.piikii.input.http.dto.ResponseForm
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping

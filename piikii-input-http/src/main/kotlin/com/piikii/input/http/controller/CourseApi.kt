@@ -1,9 +1,9 @@
 package com.piikii.input.http.controller
 
 import com.piikii.application.port.input.course.CourseUseCase
-import com.piikii.application.port.input.course.dto.response.CourseExistenceResponse
 import com.piikii.input.http.docs.CourseApiDocs
-import com.piikii.input.http.generic.ResponseForm
+import com.piikii.input.http.dto.ResponseForm
+import com.piikii.input.http.dto.response.CourseExistenceResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -23,7 +23,7 @@ class CourseApi(
         @PathVariable roomId: UUID,
     ): ResponseForm<CourseExistenceResponse> {
         return ResponseForm(
-            data = courseUseCase.readCourseExistenceInRoom(roomId),
+            data = CourseExistenceResponse(courseUseCase.isCourseExist(roomId)),
             message = SUCCESS_GET_COURSE_EXISTENCE_MESSAGE,
         )
     }
