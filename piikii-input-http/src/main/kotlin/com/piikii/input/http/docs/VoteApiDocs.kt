@@ -17,7 +17,7 @@ import java.util.UUID
 @Tag(name = "VoteApi", description = "Vote (투표) API")
 interface VoteApiDocs {
     @Operation(summary = "방 투표 마감일 설정 api", description = "방(Room)의 투표 마감일을 설정합니다.")
-    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "UPDATED success")])
+    @ApiResponses(value = [ApiResponse(responseCode = "204", description = "UPDATED success")])
     fun changeVoteDeadline(
         @Parameter(
             name = "roomId",
