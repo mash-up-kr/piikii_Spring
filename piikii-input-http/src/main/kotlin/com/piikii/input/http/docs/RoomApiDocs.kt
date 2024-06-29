@@ -36,6 +36,6 @@ interface RoomApiDocs {
     ): ResponseForm<RoomGetResponseForm>
 
     @Operation(summary = "방 투표 마감일 설정 api", description = "방(Room)의 투표 마감일을 설정합니다.")
-    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "CREATED success")])
-    fun changeVoteDeadline(request: VoteGenerateRequestForm): ResponseForm<Any>
+    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "UPDATED success")])
+    fun changeVoteDeadline(request: VoteDeadlineSetRequest): ResponseForm<Unit>
 }

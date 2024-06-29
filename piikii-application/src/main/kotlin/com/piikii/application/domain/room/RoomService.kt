@@ -3,7 +3,7 @@ package com.piikii.application.domain.room
 import com.piikii.application.port.input.room.RoomUseCase
 import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
-import com.piikii.application.port.input.room.dto.request.VoteGenerateRequestForm
+import com.piikii.application.port.input.room.dto.request.VoteDeadlineSetRequest
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 import com.piikii.application.port.output.persistence.RoomCommandPort
@@ -34,7 +34,7 @@ class RoomService(
         return RoomGetResponseForm(retrievedRoom)
     }
 
-    override fun changeVoteDeadline(request: VoteGenerateRequestForm) {
+    override fun changeVoteDeadline(request: VoteDeadlineSetRequest) {
         val foundRoom = roomQueryPort.retrieve(request.roomId)
         roomCommandPort.update(foundRoom.copy(voteDeadline = request.voteDeadline))
     }
