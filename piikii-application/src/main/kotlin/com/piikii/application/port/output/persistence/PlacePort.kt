@@ -7,6 +7,8 @@ interface PlaceQueryPort {
     fun retrieveByPlaceId(placeId: Long): Place?
 
     fun retrieveAllByRoomId(roomId: UUID): List<Place>
+
+    fun findMostPopularPlaceByScheduleId(scheduleId: Long): Place
 }
 
 interface PlaceCommandPort {

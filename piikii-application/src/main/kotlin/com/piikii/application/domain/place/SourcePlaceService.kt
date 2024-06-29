@@ -26,6 +26,7 @@ class SourcePlaceService(
                     originMapId = 1L,
                     url = "https://k-diger.github.io",
                     thumbnailLinks = ThumbnailLinks(test),
+                    name = "올댓마인드",
                     address = "화성시",
                     phoneNumber = "010-1234-5678",
                     starGrade = 5F,

@@ -3,7 +3,7 @@ package com.piikii.output.persistence.postgresql.persistence.entity
 import com.piikii.application.domain.generic.Source
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
-import com.piikii.application.domain.schedule.PlaceType
+import com.piikii.application.domain.schedule.Schedule
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -37,10 +37,12 @@ class PlaceEntity(
     var starGrade: Float? = null,
     @Enumerated(EnumType.STRING)
     var source: Source,
-    @Enumerated(EnumType.STRING)
-    var placeType: PlaceType,
+    @Column(name = "schedule_id", nullable = false)
+    var scheduleId: Long,
+    @Column(name = "vote_like_count", nullable = false)
+    var voteLikeCount: Int = 0,
 ) : BaseEntity() {
-    fun toDomain(): Place {
+    fun toDomain(schedule: Schedule): Place {
         return Place(
             id = id,
             url = url,
@@ -50,7 +52,7 @@ class PlaceEntity(
             starGrade = starGrade,
             source = source,
             name = name,
-            placeType = placeType,
+            schedule = schedule,
         )
     }
 
@@ -61,7 +63,7 @@ class PlaceEntity(
         phoneNumber = place.phoneNumber
         starGrade = place.starGrade
         source = place.source
-        placeType = place.placeType
+        scheduleId = place.schedule.id!!
     }
 
     companion object {
@@ -78,7 +80,7 @@ class PlaceEntity(
                 starGrade = place.starGrade,
                 source = place.source,
                 name = place.name,
-                placeType = place.placeType,
+                scheduleId = place.schedule.id!!,
             )
         }
     }

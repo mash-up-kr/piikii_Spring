@@ -6,7 +6,9 @@ import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
 import com.piikii.output.persistence.postgresql.persistence.entity.PlaceEntity
+import com.piikii.output.persistence.postgresql.persistence.entity.ScheduleEntity
 import com.piikii.output.persistence.postgresql.persistence.repository.PlaceRepository
+import com.piikii.output.persistence.postgresql.persistence.repository.ScheduleRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -16,6 +18,7 @@ import java.util.UUID
 @Transactional(readOnly = true)
 class PlaceAdapter(
     private val placeRepository: PlaceRepository,
+    private val scheduleRepository: ScheduleRepository,
 ) : PlaceQueryPort, PlaceCommandPort {
     @Transactional
     override fun save(
@@ -27,7 +30,9 @@ class PlaceAdapter(
                 place = place,
                 roomId = targetRoomId,
             )
-        return placeRepository.save(placeEntity).toDomain()
+        return placeRepository.save(placeEntity).toDomain(
+            schedule = place.schedule,
+        )
     }
 
     @Transactional
@@ -53,13 +58,44 @@ class PlaceAdapter(
     }
 
     override fun retrieveByPlaceId(placeId: Long): Place {
-        return placeRepository.findByIdOrNull(placeId)?.toDomain() ?: throw PiikiiException(
-            exceptionCode = ExceptionCode.NOT_FOUNDED,
-            detailMessage = "placeId : $placeId",
+        val placeEntity =
+            placeRepository.findByIdOrNull(placeId) ?: throw PiikiiException(
+                exceptionCode = ExceptionCode.NOT_FOUNDED,
+                detailMessage = "placeId : $placeId",
+            )
+        return placeEntity.toDomain(
+            schedule = findScheduleById(placeEntity.scheduleId).toDomain(),
         )
     }
 
     override fun retrieveAllByRoomId(roomId: UUID): List<Place> {
-        return placeRepository.findAllByRoomId(roomId).map { it.toDomain() }
+        return placeRepository.findAllByRoomId(roomId).map {
+            it.toDomain(
+                schedule = findScheduleById(it.scheduleId).toDomain(),
+            )
+        }
+    }
+
+    override fun findMostPopularPlaceByScheduleId(scheduleId: Long): Place {
+        val schedule = findScheduleById(scheduleId).toDomain()
+        val places = placeRepository.findAllByScheduleIdOrderByVoteLikeCountDescCreatedAtAsc(scheduleId)
+        if (places.isEmpty()) {
+            throw PiikiiException(
+                exceptionCode = ExceptionCode.ACCESS_DENIED,
+                detailMessage = "$NO_PLACE_IN_SCHEDULE ScheduleId: $scheduleId",
+            )
+        }
+        return places[0].toDomain(schedule)
+    }
+
+    private fun findScheduleById(scheduleId: Long): ScheduleEntity {
+        return scheduleRepository.findByIdOrNull(scheduleId) ?: throw PiikiiException(
+            exceptionCode = ExceptionCode.NOT_FOUNDED,
+            detailMessage = "ScheduleId: $scheduleId",
+        )
+    }
+
+    companion object {
+        const val NO_PLACE_IN_SCHEDULE = "스케줄에 후보지가 없습니다."
     }
 }

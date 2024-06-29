@@ -33,6 +33,7 @@ data class RoomSaveRequestForm(
             password = this.password,
             voteDeadline = null,
             roomId = UUID.randomUUID(),
+            isCourseCreated = false,
         )
     }
 }
@@ -66,6 +67,8 @@ data class RoomUpdateRequestForm(
             meetDay = meetDay,
             voteDeadline = this.voteDeadLine,
             roomId = this.roomId,
+            isCourseCreated = false,
+            // TODO: 따로 이슈 파서 수정
         )
     }
 }

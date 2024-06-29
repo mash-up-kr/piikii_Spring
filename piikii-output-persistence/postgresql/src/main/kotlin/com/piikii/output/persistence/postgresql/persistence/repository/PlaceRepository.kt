@@ -6,4 +6,6 @@ import java.util.UUID
 
 interface PlaceRepository : JpaRepository<PlaceEntity, Long> {
     fun findAllByRoomId(roomId: UUID): List<PlaceEntity>
+
+    fun findAllByScheduleIdOrderByVoteLikeCountDescCreatedAtAsc(scheduleId: Long): List<PlaceEntity>
 }

@@ -32,10 +32,10 @@ data class PlaceTypeGroupResponse(
     companion object {
         fun groupingByPlaceType(places: List<Place>): List<PlaceTypeGroupResponse> {
             return places
-                .groupBy { it.placeType }
-                .map { (placeType, places) ->
+                .groupBy { it.schedule }
+                .map { (schedule, places) ->
                     PlaceTypeGroupResponse(
-                        placeType = placeType,
+                        placeType = schedule!!.placeType,
                         places = places.map { PlaceResponse(it) },
                     )
                 }

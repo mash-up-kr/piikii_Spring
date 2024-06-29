@@ -8,6 +8,7 @@ import com.piikii.application.domain.schedule.PlaceType
 data class AddPlaceRequest(
     val url: String? = null,
     val thumbnailLinks: ThumbnailLinks,
+    val name: String,
     val address: String? = null,
     val phoneNumber: String? = null,
     val starGrade: Float? = null,
@@ -19,11 +20,12 @@ data class AddPlaceRequest(
             id = null,
             url = url,
             thumbnailLinks = thumbnailLinks,
+            name = name,
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
             source = source,
-            placeType = placeType,
+            schedule = null,
         )
     }
 }
@@ -31,6 +33,7 @@ data class AddPlaceRequest(
 data class ModifyPlaceRequest(
     val url: String,
     val thumbnailLinks: ThumbnailLinks,
+    val name: String,
     val address: String,
     val phoneNumber: String,
     val starGrade: Float,
@@ -42,11 +45,12 @@ data class ModifyPlaceRequest(
             id = targetPlaceId,
             url = url,
             thumbnailLinks = thumbnailLinks,
+            name = name,
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
             source = source,
-            placeType = placeType,
+            schedule = null,
         )
     }
 }

@@ -1,5 +1,6 @@
 package com.piikii.input.http.controller.docs
 
+import com.piikii.application.port.input.dto.response.CourseResponse
 import com.piikii.input.http.controller.dto.ResponseForm
 import com.piikii.input.http.controller.dto.response.CourseExistenceResponse
 import io.swagger.v3.oas.annotations.Operation
@@ -32,4 +33,23 @@ interface CourseApiDocs {
             `in` = ParameterIn.PATH,
         ) roomId: UUID,
     ): ResponseForm<CourseExistenceResponse>
+
+    @Operation(summary = "코스 생성 api", description = "코스를 생성합니다.")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "201",
+                description = "CREATED success",
+                content = [Content(schema = Schema(implementation = CourseResponse::class))],
+            ),
+        ],
+    )
+    fun createCourse(
+        @Parameter(
+            name = "roomId",
+            description = "코스를 생성할 방 uuid",
+            required = true,
+            `in` = ParameterIn.PATH,
+        ) roomId: UUID,
+    ): ResponseForm<CourseResponse>
 }
