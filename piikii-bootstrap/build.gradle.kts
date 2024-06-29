@@ -9,14 +9,24 @@ dependencies {
 }
 
 tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootBuildImage>("bootBuildImage") {
-    imageName.set("mashupmz/piikii")
-    environment.set(mapOf("BP_JVM_VERSION" to "21"))
+    imageName.set("${System.getenv("NCP_CONTAINER_REGISTRY")}/piikii")
+    environment.set(
+        mapOf(
+            "BP_JVM_VERSION" to "21",
+            "BPE_SPRING_PROFILES_ACTIVE" to "prod",
+            "BPE_JAVA_TOOL_OPTIONS" to "-XX:+UseG1GC -XX:+UseContainerSupport",
+        ),
+    )
     docker {
         publishRegistry {
-            username.set(System.getenv("DOCKER_HUB_USERNAME"))
-            password.set(System.getenv("DOCKER_HUB_PASSWORD"))
-            url.set(System.getenv("DOCKER_HUB_REPOSITORY"))
+            url.set(System.getenv("NCP_CONTAINER_REGISTRY"))
+            username.set(System.getenv("NCP_API_ACCESS_KEY"))
+            password.set(System.getenv("NCP_API_SECRET_KEY"))
         }
     }
     publish.set(true)
+}
+
+tasks.bootJar {
+    enabled = true
 }

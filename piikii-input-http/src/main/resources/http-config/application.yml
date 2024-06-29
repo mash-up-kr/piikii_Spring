@@ -6,3 +6,6 @@ springdoc:
   api-docs:
     groups:
       enabled: true
+webhook:
+  slack:
+    url: ${SLACK_HOOK_URL}
