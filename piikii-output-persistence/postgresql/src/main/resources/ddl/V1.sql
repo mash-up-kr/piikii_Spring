@@ -3,7 +3,7 @@ CREATE TABLE piikii.room
     id             BIGSERIAL primary key,
     address        VARCHAR(255) not null,
     meet_day       DATE         not null,
-    thumbnail_links VARCHAR(255) null,
+    thumbnail_link VARCHAR(255) not null,
     password       SMALLINT     not null,
     vote_deadline  TIMESTAMP    null,
     room_id        UUID         not null,

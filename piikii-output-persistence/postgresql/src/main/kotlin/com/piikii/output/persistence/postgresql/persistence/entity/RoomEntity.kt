@@ -1,6 +1,5 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
-import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.room.Room
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
@@ -21,8 +20,8 @@ class RoomEntity(
     var address: String,
     @Column(name = "meet_day", nullable = false)
     var meetDay: LocalDate,
-    @Column(name = "thumbnail_links", length = 255)
-    var thumbnailLinks: String?,
+    @Column(name = "thumbnail_link", length = 255)
+    var thumbnailLink: String,
     @Column(name = "password", nullable = false)
     var password: Short,
     @Column(name = "vote_deadline")
@@ -37,7 +36,7 @@ class RoomEntity(
     constructor(room: Room) : this(
         address = room.address,
         meetDay = room.meetDay,
-        thumbnailLinks = room.thumbnailLinks.contents,
+        thumbnailLink = room.thumbnailLink,
         password = room.password,
         voteDeadline = room.voteDeadline,
         roomId = room.roomId,
@@ -46,7 +45,7 @@ class RoomEntity(
     )
 
     fun update(room: Room) {
-        this.thumbnailLinks = room.thumbnailLinks.contents ?: this.thumbnailLinks
+        this.thumbnailLink = room.thumbnailLink
         this.meetingName = room.meetingName
         this.message = room.message ?: this.message
         this.password = room.password
@@ -62,7 +61,7 @@ fun RoomEntity.toDomain(): Room {
         message = this.message,
         address = this.address,
         meetDay = this.meetDay,
-        thumbnailLinks = ThumbnailLinks(this.thumbnailLinks),
+        thumbnailLink = this.thumbnailLink,
         password = this.password,
         voteDeadline = voteDeadline,
         roomId = this.roomId,
