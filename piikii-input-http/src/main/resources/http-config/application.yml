@@ -14,4 +14,3 @@ spring:
 webhook:
   slack:
     url: ${SLACK_HOOK_URL}
-
