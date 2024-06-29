@@ -1,5 +1,6 @@
 package com.piikii.application.port.input.room
 
+import com.piikii.application.domain.room.Password
 import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
@@ -18,6 +19,7 @@ interface RoomUseCase {
 
     fun changeVoteDeadline(
         roomId: UUID,
+        password: Password,
         voteDeadline: LocalDateTime,
     )
 }
