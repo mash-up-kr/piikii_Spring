@@ -27,6 +27,10 @@ class VoteService(
         voteCommandPort.vote(votes)
     }
 
+    override fun isVoteFinished(roomId: UUID): Boolean {
+        return !roomQueryPort.retrieve(roomId).isUnavailableToVote()
+    }
+
     companion object {
         const val VOTE_ACCESS_DENIED = "투표가 시작되지 않았거나, 마감되었습니다."
     }
