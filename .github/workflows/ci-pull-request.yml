@@ -10,8 +10,19 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '출격준비')}}
     steps:
+      - name: Get PR branch
+        id: get_branch
+        run: |
+          PR_NUMBER=$(jq --raw-output .issue.number "$GITHUB_EVENT_PATH")
+          BRANCH_NAME=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER" | \
+            jq -r .head.ref)
+          echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
       - name: Repository 접근
         uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.get_branch.outputs.branch }}
 
       - name: JDK 21 셋팅
         uses: actions/setup-java@v4
