@@ -6,6 +6,12 @@ springdoc:
   api-docs:
     groups:
       enabled: true
+
+spring:
+  jackson:
+    default-property-inclusion: NON_NULL
+
 webhook:
   slack:
     url: ${SLACK_HOOK_URL}
+
