@@ -27,6 +27,8 @@ class PlaceEntity(
     var url: String?,
     @Column(name = "thumbnail_links", nullable = false, length = 255)
     var thumbnailLinks: String,
+    @Column(name = "name", nullable = false)
+    var name: String,
     @Column(name = "address", length = 255)
     var address: String? = null,
     @Column(name = "phone_number", length = 15)
@@ -47,6 +49,7 @@ class PlaceEntity(
             phoneNumber = phoneNumber,
             starGrade = starGrade,
             source = source,
+            name = name,
             placeType = placeType,
         )
     }
@@ -74,6 +77,7 @@ class PlaceEntity(
                 phoneNumber = place.phoneNumber,
                 starGrade = place.starGrade,
                 source = place.source,
+                name = place.name,
                 placeType = place.placeType,
             )
         }

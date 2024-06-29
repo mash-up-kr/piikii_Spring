@@ -21,6 +21,8 @@ class SourcePlaceEntity(
     val url: String,
     @Column(name = "thumbnail_links", nullable = false, length = 255)
     val thumbnailLinks: String,
+    @Column(name = "name", nullable = false)
+    var name: String,
     @Column(name = "address", length = 255)
     val address: String? = null,
     @Column(name = "phone_number", length = 15)
@@ -35,6 +37,7 @@ class SourcePlaceEntity(
             originMapId = this.originMapId,
             url = this.url,
             thumbnailLinks = ThumbnailLinks(this.thumbnailLinks),
+            name = this.name,
             address = this.address,
             phoneNumber = this.phoneNumber,
             starGrade = this.starGrade,
@@ -49,6 +52,7 @@ class SourcePlaceEntity(
                 url = sourcePlace.url,
                 thumbnailLinks = sourcePlace.thumbnailLinks.contents.toString(),
                 address = sourcePlace.address,
+                name = sourcePlace.name,
                 phoneNumber = sourcePlace.phoneNumber,
                 starGrade = sourcePlace.starGrade,
                 source = sourcePlace.source,

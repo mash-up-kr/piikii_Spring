@@ -9,6 +9,7 @@ data class Place(
     val placeType: PlaceType,
     val url: String? = null,
     val thumbnailLinks: ThumbnailLinks,
+    val name: String,
     val address: String? = null,
     val phoneNumber: String? = null,
     val starGrade: Float? = null,

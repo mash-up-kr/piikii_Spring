@@ -8,6 +8,7 @@ class SourcePlace(
     val url: String,
     val thumbnailLinks: ThumbnailLinks,
     val address: String? = null,
+    val name: String,
     val phoneNumber: String? = null,
     val starGrade: Float? = null,
     val source: Source,
