@@ -9,6 +9,7 @@ import com.piikii.input.http.docs.RoomApiDocs
 import com.piikii.input.http.dto.ResponseForm
 import com.piikii.input.http.dto.RoomMessage
 import org.springframework.http.HttpStatus
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -28,7 +29,7 @@ class RoomApi(
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     override fun generate(
-        @RequestBody request: RoomSaveRequestForm,
+        @Validated @RequestBody request: RoomSaveRequestForm,
     ): ResponseForm<RoomSaveResponseForm> {
         return ResponseForm(
             data = roomUseCase.generate(request),
@@ -39,7 +40,7 @@ class RoomApi(
     @ResponseStatus(HttpStatus.OK)
     @PutMapping
     override fun modifyInformation(
-        @RequestBody request: RoomUpdateRequestForm,
+        @Validated @RequestBody request: RoomUpdateRequestForm,
     ): ResponseForm<Unit> {
         roomUseCase.modify(request)
         return ResponseForm(

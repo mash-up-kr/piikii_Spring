@@ -10,7 +10,7 @@ data class Room(
     val address: String,
     val meetDay: LocalDate,
     val thumbnailLink: String,
-    val password: Short,
+    val password: Password,
     val voteDeadline: LocalDateTime?,
     val roomId: UUID,
 ) {
@@ -18,3 +18,6 @@ data class Room(
         return this.voteDeadline == null || this.voteDeadline.isBefore(LocalDateTime.now())
     }
 }
+
+@JvmInline
+value class Password(val value: String)

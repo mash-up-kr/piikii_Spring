@@ -1,5 +1,6 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
+import com.piikii.application.domain.room.Password
 import com.piikii.application.domain.room.Room
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
@@ -22,8 +23,8 @@ class RoomEntity(
     var meetDay: LocalDate,
     @Column(name = "thumbnail_link", length = 255)
     var thumbnailLink: String,
-    @Column(name = "password", nullable = false)
-    var password: Short,
+    @Column(name = "password", nullable = false, length = 4)
+    var password: Password,
     @Column(name = "vote_deadline")
     var voteDeadline: LocalDateTime?,
     @Column(name = "room_id", nullable = false, unique = true)
