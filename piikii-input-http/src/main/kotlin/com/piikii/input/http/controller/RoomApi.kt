@@ -1,13 +1,12 @@
 package com.piikii.input.http.controller
 
-import com.piikii.application.port.input.room.RoomUseCase
-import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
-import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
-import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
-import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
-import com.piikii.input.http.docs.RoomApiDocs
-import com.piikii.input.http.dto.ResponseForm
-import com.piikii.input.http.dto.RoomMessage
+import com.piikii.application.port.input.RoomUseCase
+import com.piikii.application.port.input.dto.request.RoomSaveRequestForm
+import com.piikii.application.port.input.dto.request.RoomUpdateRequestForm
+import com.piikii.application.port.input.dto.response.RoomResponse
+import com.piikii.application.port.input.dto.response.SaveRoomResponse
+import com.piikii.input.http.controller.docs.RoomApiDocs
+import com.piikii.input.http.controller.dto.ResponseForm
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
@@ -30,12 +29,11 @@ class RoomApi(
 ) : RoomApiDocs {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    override fun generate(
+    override fun create(
         @Valid @RequestBody request: RoomSaveRequestForm,
-    ): ResponseForm<RoomSaveResponseForm> {
+    ): ResponseForm<SaveRoomResponse> {
         return ResponseForm(
-            data = roomUseCase.generate(request),
-            message = RoomMessage.SUCCESS_CREATE_ROOM,
+            data = roomUseCase.create(request),
         )
     }
 
@@ -45,9 +43,7 @@ class RoomApi(
         @Valid @RequestBody request: RoomUpdateRequestForm,
     ): ResponseForm<Unit> {
         roomUseCase.modify(request)
-        return ResponseForm(
-            message = RoomMessage.SUCCESS_UPDATE_ROOM,
-        )
+        return ResponseForm.EMPTY_RESPONSE
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -56,19 +52,16 @@ class RoomApi(
         @PathVariable roomId: UUID,
     ): ResponseForm<Unit> {
         roomUseCase.remove(roomId)
-        return ResponseForm(
-            message = RoomMessage.SUCCESS_DELETE_ROOM,
-        )
+        return ResponseForm.EMPTY_RESPONSE
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{roomId}")
     override fun search(
         @PathVariable roomId: UUID,
-    ): ResponseForm<RoomGetResponseForm> {
+    ): ResponseForm<RoomResponse> {
         return ResponseForm(
             data = roomUseCase.search(roomId),
-            message = RoomMessage.SUCCESS_GET_ROOM,
         )
     }
 }

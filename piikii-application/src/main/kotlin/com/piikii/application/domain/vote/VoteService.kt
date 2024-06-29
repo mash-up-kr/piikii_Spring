@@ -1,6 +1,6 @@
 package com.piikii.application.domain.vote
 
-import com.piikii.application.port.input.vote.VoteUseCase
+import com.piikii.application.port.input.VoteUseCase
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.application.port.output.persistence.VoteCommandPort
 import com.piikii.common.exception.ExceptionCode
@@ -24,7 +24,7 @@ class VoteService(
                 detailMessage = VOTE_UNAVAILABLE,
             )
         }
-        // TODO: votes.map { it.roomPlaceId } 존재여부 검증 필요 -> 도현이 작업 완료되면 붙일 예정
+        // TODO: votes.map { it.placeId } 존재여부 검증 필요 -> 도현이 작업 완료되면 붙일 예정
         voteCommandPort.vote(votes)
     }
 

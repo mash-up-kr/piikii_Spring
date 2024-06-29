@@ -2,7 +2,7 @@ package com.piikii.output.persistence.postgresql.persistence.entity
 
 import com.piikii.application.domain.generic.Source
 import com.piikii.application.domain.generic.ThumbnailLinks
-import com.piikii.application.domain.sourceplace.SourcePlace
+import com.piikii.application.domain.place.SourcePlace
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -29,28 +29,30 @@ class SourcePlaceEntity(
     val starGrade: Float? = null,
     @Enumerated(EnumType.STRING)
     val source: Source,
-) : BaseEntity()
+) : BaseEntity() {
+    fun toDomain(): SourcePlace {
+        return SourcePlace(
+            originMapId = this.originMapId,
+            url = this.url,
+            thumbnailLinks = ThumbnailLinks(this.thumbnailLinks),
+            address = this.address,
+            phoneNumber = this.phoneNumber,
+            starGrade = this.starGrade,
+            source = this.source,
+        )
+    }
 
-fun SourcePlaceEntity.toDomain(): SourcePlace {
-    return SourcePlace(
-        originMapId = this.originMapId,
-        url = this.url,
-        thumbnailLinks = ThumbnailLinks(this.thumbnailLinks),
-        address = this.address,
-        phoneNumber = this.phoneNumber,
-        starGrade = this.starGrade,
-        source = this.source,
-    )
-}
-
-fun SourcePlace.toEntity(): SourcePlaceEntity {
-    return SourcePlaceEntity(
-        originMapId = this.originMapId,
-        url = this.url,
-        thumbnailLinks = this.thumbnailLinks.contents.toString(),
-        address = this.address,
-        phoneNumber = this.phoneNumber,
-        starGrade = this.starGrade,
-        source = this.source,
-    )
+    companion object {
+        fun from(sourcePlace: SourcePlace): SourcePlaceEntity {
+            return SourcePlaceEntity(
+                originMapId = sourcePlace.originMapId,
+                url = sourcePlace.url,
+                thumbnailLinks = sourcePlace.thumbnailLinks.contents.toString(),
+                address = sourcePlace.address,
+                phoneNumber = sourcePlace.phoneNumber,
+                starGrade = sourcePlace.starGrade,
+                source = sourcePlace.source,
+            )
+        }
+    }
 }

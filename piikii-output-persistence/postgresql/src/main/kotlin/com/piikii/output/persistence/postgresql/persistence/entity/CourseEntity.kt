@@ -15,8 +15,8 @@ import java.util.UUID
 class CourseEntity(
     @Column(name = "room_id", nullable = false)
     val roomId: UUID,
-    @Column(name = "room_category_id", nullable = false, unique = true)
-    val roomCategoryId: Long,
-    @Column(name = "room_place_id", nullable = false)
-    val roomPlaceId: Long,
+    @Column(name = "schedule_id", nullable = false, unique = true)
+    val scheduleId: Long,
+    @Column(name = "place_id", nullable = false)
+    val placeId: Long,
 ) : BaseEntity()

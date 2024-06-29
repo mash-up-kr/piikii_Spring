@@ -19,8 +19,8 @@ import java.util.UUID
 class VoteEntity(
     @Column(name = "user_id", nullable = false)
     val userId: UUID,
-    @Column(name = "room_place_id", nullable = false)
-    val roomPlaceId: Long,
+    @Column(name = "place_id", nullable = false)
+    val placeId: Long,
     @Enumerated(EnumType.STRING)
     @Column(name = "result", nullable = false, length = 10)
     val result: VoteResult,
@@ -28,7 +28,7 @@ class VoteEntity(
     fun toDomain(): Vote {
         return Vote(
             userId = this.userId,
-            roomPlaceId = this.roomPlaceId,
+            placeId = this.placeId,
             result = this.result,
         )
     }
@@ -37,7 +37,7 @@ class VoteEntity(
         fun from(vote: Vote): VoteEntity {
             return VoteEntity(
                 userId = vote.userId,
-                roomPlaceId = vote.roomPlaceId,
+                placeId = vote.placeId,
                 result = vote.result,
             )
         }

@@ -4,6 +4,6 @@ import java.util.UUID
 
 data class Vote(
     val userId: UUID,
-    val roomPlaceId: Long,
+    val placeId: Long,
     val result: VoteResult,
 )

@@ -1,8 +1,8 @@
 package com.piikii.input.http.controller
 
-import com.piikii.application.domain.sourceplace.SourcePlace
+import com.piikii.application.domain.place.SourcePlace
 import com.piikii.application.port.input.SourcePlaceUseCase
-import com.piikii.input.http.docs.SourcePlaceApiDocs
+import com.piikii.input.http.controller.docs.SourcePlaceApiDocs
 import org.springframework.web.bind.annotation.RestController
 
 @RestController

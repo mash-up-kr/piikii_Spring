@@ -34,16 +34,18 @@ class RoomEntity(
     @Column(name = "message")
     var message: String?,
 ) : BaseEntity() {
-    constructor(room: Room) : this(
-        address = room.address,
-        meetDay = room.meetDay,
-        thumbnailLink = room.thumbnailLink,
-        password = room.password,
-        voteDeadline = room.voteDeadline,
-        roomId = room.roomId,
-        meetingName = room.meetingName,
-        message = room.message,
-    )
+    fun toDomain(): Room {
+        return Room(
+            meetingName = this.meetingName,
+            message = this.message,
+            address = this.address,
+            meetDay = this.meetDay,
+            thumbnailLink = this.thumbnailLink,
+            password = this.password,
+            voteDeadline = voteDeadline,
+            roomId = this.roomId,
+        )
+    }
 
     fun update(room: Room) {
         this.thumbnailLink = room.thumbnailLink
@@ -54,17 +56,19 @@ class RoomEntity(
         this.meetDay = room.meetDay
         this.voteDeadline = room.voteDeadline
     }
-}
 
-fun RoomEntity.toDomain(): Room {
-    return Room(
-        meetingName = this.meetingName,
-        message = this.message,
-        address = this.address,
-        meetDay = this.meetDay,
-        thumbnailLink = this.thumbnailLink,
-        password = this.password,
-        voteDeadline = voteDeadline,
-        roomId = this.roomId,
-    )
+    companion object {
+        fun from(room: Room): RoomEntity {
+            return RoomEntity(
+                thumbnailLink = room.thumbnailLink,
+                meetingName = room.meetingName,
+                message = room.message,
+                password = room.password,
+                address = room.address,
+                meetDay = room.meetDay,
+                voteDeadline = room.voteDeadline,
+                roomId = room.roomId,
+            )
+        }
+    }
 }

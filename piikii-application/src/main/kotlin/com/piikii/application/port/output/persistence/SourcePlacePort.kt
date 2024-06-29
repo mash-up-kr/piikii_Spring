@@ -1,6 +1,6 @@
 package com.piikii.application.port.output.persistence
 
-import com.piikii.application.domain.sourceplace.SourcePlace
+import com.piikii.application.domain.place.SourcePlace
 
 interface SourcePlaceQueryPort {
     fun retrieve(id: Long): SourcePlace

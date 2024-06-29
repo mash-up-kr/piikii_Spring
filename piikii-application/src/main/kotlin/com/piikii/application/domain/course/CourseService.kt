@@ -1,6 +1,6 @@
 package com.piikii.application.domain.course
 
-import com.piikii.application.port.input.course.CourseUseCase
+import com.piikii.application.port.input.CourseUseCase
 import com.piikii.application.port.output.persistence.CourseQueryPort
 import org.springframework.stereotype.Service
 import java.util.UUID

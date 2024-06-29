@@ -1,12 +1,12 @@
 package com.piikii.input.http.controller
 
-import com.piikii.application.port.input.room.RoomUseCase
-import com.piikii.application.port.input.room.dto.request.VoteDeadlineSetRequest
-import com.piikii.application.port.input.vote.VoteUseCase
-import com.piikii.input.http.docs.VoteApiDocs
-import com.piikii.input.http.dto.ResponseForm
-import com.piikii.input.http.dto.request.VoteRequest
-import com.piikii.input.http.dto.response.VoteStatusResponse
+import com.piikii.application.port.input.RoomUseCase
+import com.piikii.application.port.input.VoteUseCase
+import com.piikii.application.port.input.dto.request.VoteDeadlineSetRequest
+import com.piikii.input.http.controller.docs.VoteApiDocs
+import com.piikii.input.http.controller.dto.ResponseForm
+import com.piikii.input.http.controller.dto.request.VoteRequest
+import com.piikii.input.http.controller.dto.response.VoteStatusResponse
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated

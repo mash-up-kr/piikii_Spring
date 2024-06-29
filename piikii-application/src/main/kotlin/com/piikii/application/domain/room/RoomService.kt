@@ -1,10 +1,10 @@
 package com.piikii.application.domain.room
 
-import com.piikii.application.port.input.room.RoomUseCase
-import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
-import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
-import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
-import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
+import com.piikii.application.port.input.RoomUseCase
+import com.piikii.application.port.input.dto.request.RoomSaveRequestForm
+import com.piikii.application.port.input.dto.request.RoomUpdateRequestForm
+import com.piikii.application.port.input.dto.response.RoomResponse
+import com.piikii.application.port.input.dto.response.SaveRoomResponse
 import com.piikii.application.port.output.persistence.RoomCommandPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.common.exception.ExceptionCode
@@ -18,9 +18,8 @@ class RoomService(
     private val roomCommandPort: RoomCommandPort,
     private val roomQueryPort: RoomQueryPort,
 ) : RoomUseCase {
-    override fun generate(request: RoomSaveRequestForm): RoomSaveResponseForm {
-        val savedRoom = roomCommandPort.save(request.toDomain())
-        return RoomSaveResponseForm(savedRoom)
+    override fun create(request: RoomSaveRequestForm): SaveRoomResponse {
+        return SaveRoomResponse(roomCommandPort.save(request.toDomain()).roomId)
     }
 
     override fun modify(request: RoomUpdateRequestForm) {
@@ -31,9 +30,9 @@ class RoomService(
         roomCommandPort.delete(roomId)
     }
 
-    override fun search(roomId: UUID): RoomGetResponseForm {
+    override fun search(roomId: UUID): RoomResponse {
         val retrievedRoom = roomQueryPort.retrieve(roomId)
-        return RoomGetResponseForm(retrievedRoom)
+        return RoomResponse.fromDomain(retrievedRoom)
     }
 
     override fun changeVoteDeadline(
