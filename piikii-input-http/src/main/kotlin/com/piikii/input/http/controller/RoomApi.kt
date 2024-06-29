@@ -3,7 +3,6 @@ package com.piikii.input.http.controller
 import com.piikii.application.port.input.room.RoomUseCase
 import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
-import com.piikii.application.port.input.room.dto.request.VoteDeadlineSetRequest
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 import com.piikii.input.http.docs.RoomApiDocs
@@ -12,7 +11,6 @@ import com.piikii.input.http.dto.RoomMessage
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -68,17 +66,6 @@ class RoomApi(
         return ResponseForm(
             data = roomUseCase.search(roomId),
             message = RoomMessage.SUCCESS_GET_ROOM,
-        )
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @PatchMapping("/vote")
-    override fun changeVoteDeadline(
-        @RequestBody request: VoteDeadlineSetRequest,
-    ): ResponseForm<Unit> {
-        roomUseCase.changeVoteDeadline(request)
-        return ResponseForm(
-            message = RoomMessage.SUCCESS_GENERATE_VOTE,
         )
     }
 }

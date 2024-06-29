@@ -1,5 +1,6 @@
 package com.piikii.input.http.docs
 
+import com.piikii.application.port.input.room.dto.request.VoteDeadlineSetRequest
 import com.piikii.input.http.dto.ResponseForm
 import com.piikii.input.http.dto.request.VoteRequest
 import io.swagger.v3.oas.annotations.Operation
@@ -12,6 +13,10 @@ import io.swagger.v3.oas.annotations.tags.Tag
 
 @Tag(name = "VoteApi", description = "Vote (투표) API")
 interface VoteApiDocs {
+    @Operation(summary = "방 투표 마감일 설정 api", description = "방(Room)의 투표 마감일을 설정합니다.")
+    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "UPDATED success")])
+    fun changeVoteDeadline(request: VoteDeadlineSetRequest): ResponseForm<Unit>
+
     @Operation(summary = "투표 API", description = "투표를 진행합니다")
     @ApiResponses(value = [ApiResponse(responseCode = "201", description = "Vote succeed")])
     fun vote(
