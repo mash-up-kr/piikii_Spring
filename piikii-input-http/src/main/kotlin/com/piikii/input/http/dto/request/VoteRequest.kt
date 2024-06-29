@@ -9,7 +9,7 @@ data class VoteRequest(
     val roomId: UUID,
     val votes: List<PlaceVoteResult>,
 ) {
-    fun toDomain(): List<Vote> {
+    fun toDomains(): List<Vote> {
         return this.votes.map { Vote(userId = userId, roomPlaceId = it.roomPlaceId, result = it.voteResult) }
     }
 }

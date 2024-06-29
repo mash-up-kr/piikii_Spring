@@ -19,7 +19,7 @@ class VoteApi(private val voteUseCase: VoteUseCase) : VoteApiDocs {
     override fun vote(
         @RequestBody voteRequest: VoteRequest,
     ): ResponseForm<Unit> {
-        voteUseCase.vote(voteRequest.roomId, voteRequest.toDomain())
+        voteUseCase.vote(voteRequest.roomId, voteRequest.toDomains())
         return ResponseForm.EMPTY_RESPONSE
     }
 }

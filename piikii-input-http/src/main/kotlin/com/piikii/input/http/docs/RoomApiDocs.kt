@@ -9,11 +9,7 @@ import com.piikii.input.http.dto.ResponseForm
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 
-<<<<<<< HEAD
-=======
 import io.swagger.v3.oas.annotations.enums.ParameterIn
-
->>>>>>> 66e9487 (fix: fix Parameter anntation values)
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
