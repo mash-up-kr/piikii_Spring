@@ -5,7 +5,7 @@ import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.roomcategory.PlaceCategory
 
 data class RoomPlace(
-    val id: Long?,
+    val id: Long? = 0L,
     val placeCategory: PlaceCategory,
     val url: String? = null,
     val thumbnailLinks: ThumbnailLinks,
