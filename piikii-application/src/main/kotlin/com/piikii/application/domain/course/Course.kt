@@ -1,6 +1,6 @@
-package com.piikii.application.domain.roomcourresult
+package com.piikii.application.domain.course
 
-class RoomCourseResult(
+class Course(
     val roomId: Long,
     val courseCategoryId: Long,
     val roomPlaceId: Long,
