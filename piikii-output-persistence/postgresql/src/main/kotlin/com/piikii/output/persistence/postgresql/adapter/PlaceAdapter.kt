@@ -30,9 +30,7 @@ class PlaceAdapter(
                 place = place,
                 roomId = targetRoomId,
             )
-        return placeRepository.save(placeEntity).toDomain(
-            schedule = place.schedule,
-        )
+        return placeRepository.save(placeEntity).toDomain()
     }
 
     @Transactional

@@ -42,7 +42,7 @@ class PlaceEntity(
     @Column(name = "vote_like_count", nullable = false)
     var voteLikeCount: Int = 0,
 ) : BaseEntity() {
-    fun toDomain(schedule: Schedule): Place {
+    fun toDomain(schedule: Schedule?): Place {
         return Place(
             id = id,
             url = url,
@@ -56,6 +56,20 @@ class PlaceEntity(
         )
     }
 
+    fun toDomain(): Place {
+        return Place(
+            id = id,
+            url = url,
+            thumbnailLinks = ThumbnailLinks(thumbnailLinks),
+            address = address,
+            phoneNumber = phoneNumber,
+            starGrade = starGrade,
+            source = source,
+            name = name,
+            schedule = null,
+        )
+    }
+
     fun update(place: Place) {
         url = place.url
         thumbnailLinks = place.thumbnailLinks.contents ?: ""
@@ -63,7 +77,7 @@ class PlaceEntity(
         phoneNumber = place.phoneNumber
         starGrade = place.starGrade
         source = place.source
-        scheduleId = place.schedule.id!!
+        scheduleId = place.schedule!!.id!!
     }
 
     companion object {
@@ -80,7 +94,7 @@ class PlaceEntity(
                 starGrade = place.starGrade,
                 source = place.source,
                 name = place.name,
-                scheduleId = place.schedule.id!!,
+                scheduleId = place.schedule!!.id!!,
             )
         }
     }
