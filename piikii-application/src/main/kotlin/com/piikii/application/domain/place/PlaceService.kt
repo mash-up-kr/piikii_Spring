@@ -31,7 +31,7 @@ class PlaceService(
         )
     }
 
-    override fun retrieveAllByRoomId(roomId: UUID): List<PlaceTypeGroupResponse> {
+    override fun findAllByRoomId(roomId: UUID): List<PlaceTypeGroupResponse> {
         return groupingByPlaceType(placeQueryPort.retrieveAllByRoomId(roomId))
     }
 

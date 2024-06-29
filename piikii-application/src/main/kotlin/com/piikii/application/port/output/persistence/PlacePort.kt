@@ -4,7 +4,9 @@ import com.piikii.application.domain.place.Place
 import java.util.UUID
 
 interface PlaceQueryPort {
-    fun retrieveByPlaceId(placeId: Long): Place?
+    fun findByPlaceId(placeId: Long): Place?
+
+    fun findAllByPlaceIds(placeIds: List<Long>): List<Place>
 
     fun retrieveAllByRoomId(roomId: UUID): List<Place>
 }

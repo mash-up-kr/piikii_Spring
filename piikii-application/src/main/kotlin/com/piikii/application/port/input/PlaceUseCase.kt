@@ -12,7 +12,7 @@ interface PlaceUseCase {
         addPlaceRequest: AddPlaceRequest,
     ): PlaceResponse
 
-    fun retrieveAllByRoomId(roomId: UUID): List<PlaceTypeGroupResponse>
+    fun findAllByRoomId(roomId: UUID): List<PlaceTypeGroupResponse>
 
     fun modify(
         targetPlaceId: Long,

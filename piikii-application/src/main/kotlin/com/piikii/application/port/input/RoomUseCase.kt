@@ -15,7 +15,7 @@ interface RoomUseCase {
 
     fun remove(roomId: UUID)
 
-    fun search(roomId: UUID): RoomResponse
+    fun findById(roomId: UUID): RoomResponse
 
     fun changeVoteDeadline(
         roomId: UUID,

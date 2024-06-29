@@ -61,7 +61,7 @@ class RoomApi(
         @PathVariable roomId: UUID,
     ): ResponseForm<RoomResponse> {
         return ResponseForm(
-            data = roomUseCase.search(roomId),
+            data = roomUseCase.findById(roomId),
         )
     }
 }

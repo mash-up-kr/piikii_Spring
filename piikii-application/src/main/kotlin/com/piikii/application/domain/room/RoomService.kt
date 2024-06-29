@@ -30,9 +30,9 @@ class RoomService(
         roomCommandPort.delete(roomId)
     }
 
-    override fun search(roomId: UUID): RoomResponse {
-        val retrievedRoom = roomQueryPort.retrieve(roomId)
-        return RoomResponse.fromDomain(retrievedRoom)
+    override fun findById(roomId: UUID): RoomResponse {
+        val retrievedRoom = roomQueryPort.findById(roomId)
+        return RoomResponse.from(retrievedRoom)
     }
 
     override fun changeVoteDeadline(
@@ -40,7 +40,7 @@ class RoomService(
         password: Password,
         voteDeadline: LocalDateTime,
     ) {
-        roomQueryPort.retrieve(roomId).let { room ->
+        roomQueryPort.findById(roomId).let { room ->
             verifyPassword(room, password)
             roomCommandPort.update(room.copy(voteDeadline = voteDeadline))
         }
