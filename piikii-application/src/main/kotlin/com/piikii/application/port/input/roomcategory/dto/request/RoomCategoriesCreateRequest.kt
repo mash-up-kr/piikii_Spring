@@ -11,6 +11,6 @@ data class RoomCategoriesCreateRequest(
     val roomCategories: List<RoomCategoryCreateRequest>,
 ) {
     fun toDomains(): List<RoomCategory> {
-        return roomCategories.map { it.toDomain(this.roomId) }.toList()
+        return roomCategories.map { it.toDomain(this.roomId) }
     }
 }

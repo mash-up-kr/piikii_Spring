@@ -11,7 +11,7 @@ data class RoomCategoriesReadResponse(
     companion object {
         fun from(roomCategories: List<RoomCategory>): RoomCategoriesReadResponse {
             return RoomCategoriesReadResponse(
-                roomCategories.map { RoomCategoryResponse(it) }.toList(),
+                roomCategories.map { RoomCategoryResponse(it) },
             )
         }
     }

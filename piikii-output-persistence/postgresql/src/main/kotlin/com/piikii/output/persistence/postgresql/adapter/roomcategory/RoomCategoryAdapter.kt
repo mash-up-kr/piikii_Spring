@@ -20,19 +20,19 @@ class RoomCategoryAdapter(
     @Transactional
     override fun saveRoomCategories(roomCategories: List<RoomCategory>) {
         roomCategoryRepository.saveAll(
-            roomCategories.map { RoomCategoryEntity(it) }.toList(),
+            roomCategories.map { RoomCategoryEntity(it) },
         )
     }
 
     @Transactional
     override fun deleteRoomCategories(roomCategoryIds: List<Long>) {
         roomCategoryRepository.deleteAll(
-            roomCategoryIds.map { findRoomCategoryById(it) }.toList(),
+            roomCategoryIds.map { findRoomCategoryById(it) },
         )
     }
 
     override fun findRoomCategoriesByRoomId(roomId: UUID): List<RoomCategory> {
-        return roomCategoryRepository.findByRoomIdOrderBySequenceAsc(roomId).map { it.toDomain() }.toList()
+        return roomCategoryRepository.findByRoomIdOrderBySequenceAsc(roomId).map { it.toDomain() }
     }
 
     private fun findRoomCategoryById(id: Long): RoomCategoryEntity {
