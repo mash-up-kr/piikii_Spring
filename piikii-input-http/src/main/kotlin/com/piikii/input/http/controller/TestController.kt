@@ -1,8 +1,8 @@
-package com.piikii.input.http
+package com.piikii.input.http.controller
 
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
-import com.piikii.input.http.generic.ResponseForm
+import com.piikii.input.http.dto.ResponseForm
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 

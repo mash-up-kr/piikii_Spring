@@ -1,4 +1,4 @@
-package com.piikii.input.http.exception
+package com.piikii.input.http.dto.response
 
 import com.fasterxml.jackson.annotation.JsonInclude
 

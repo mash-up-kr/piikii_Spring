@@ -7,8 +7,8 @@ import com.piikii.application.port.input.room.dto.request.VoteDeadlineSetRequest
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 import com.piikii.input.http.docs.RoomApiDocs
-import com.piikii.input.http.generic.ResponseForm
-import com.piikii.input.http.message.RoomMessage
+import com.piikii.input.http.dto.ResponseForm
+import com.piikii.input.http.dto.RoomMessage
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -27,7 +27,6 @@ import java.util.UUID
 class RoomApi(
     private val roomUseCase: RoomUseCase,
 ) : RoomApiDocs {
-
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     override fun generate(

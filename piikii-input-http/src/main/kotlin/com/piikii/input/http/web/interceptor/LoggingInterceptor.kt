@@ -1,4 +1,4 @@
-package com.piikii.input.http.interceptor
+package com.piikii.input.http.web.interceptor
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.piikii.common.logutil.SlackHookLogger

@@ -2,7 +2,7 @@ package com.piikii.input.http.advice
 
 import com.piikii.common.exception.PiikiiException
 import com.piikii.common.logutil.SystemLogger.logger
-import com.piikii.input.http.exception.ExceptionResponse
+import com.piikii.input.http.dto.response.ExceptionResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler

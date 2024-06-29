@@ -1,6 +1,6 @@
 package com.piikii.input.http.config
 
-import com.piikii.input.http.interceptor.LoggingInterceptor
+import com.piikii.input.http.web.interceptor.LoggingInterceptor
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
