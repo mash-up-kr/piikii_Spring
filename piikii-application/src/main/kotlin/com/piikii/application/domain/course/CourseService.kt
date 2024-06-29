@@ -10,7 +10,7 @@ import java.util.UUID
 class CourseService(
     private val courseCommandPort: CourseCommandPort,
 ) : CourseUseCase {
-    override fun isExistCourse(roomId: UUID): CourseExistenceResponse {
+    override fun readCourseExistenceInRoom(roomId: UUID): CourseExistenceResponse {
         return CourseExistenceResponse(
             courseCommandPort.isExistCourse(roomId),
         )

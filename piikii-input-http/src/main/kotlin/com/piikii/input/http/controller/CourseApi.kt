@@ -4,21 +4,26 @@ import com.piikii.application.port.input.course.CourseUseCase
 import com.piikii.application.port.input.course.dto.response.CourseExistenceResponse
 import com.piikii.input.http.docs.CourseApiDocs
 import com.piikii.input.http.generic.ResponseForm
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @RestController
-@RequestMapping("/rooms/{roomId}/courses")
+@RequestMapping("/v1/rooms/{roomId}/courses")
 class CourseApi(
     private val courseUseCase: CourseUseCase,
 ) : CourseApiDocs {
-    override fun isExistCourse(
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/existence")
+    override fun readCourseExistenceInRoom(
         @PathVariable roomId: UUID,
     ): ResponseForm<CourseExistenceResponse> {
         return ResponseForm(
-            data = courseUseCase.isExistCourse(roomId),
+            data = courseUseCase.readCourseExistenceInRoom(roomId),
             message = SUCCESS_GET_COURSE_EXISTENCE_MESSAGE,
         )
     }

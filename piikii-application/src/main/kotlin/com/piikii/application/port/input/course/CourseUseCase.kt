@@ -4,5 +4,5 @@ import com.piikii.application.port.input.course.dto.response.CourseExistenceResp
 import java.util.UUID
 
 interface CourseUseCase {
-    fun isExistCourse(roomId: UUID): CourseExistenceResponse
+    fun readCourseExistenceInRoom(roomId: UUID): CourseExistenceResponse
 }
