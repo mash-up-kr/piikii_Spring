@@ -27,7 +27,6 @@ import java.util.UUID
 class RoomApi(
     private val roomUseCase: RoomUseCase,
 ) : RoomApiDocs {
-
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     override fun generate(

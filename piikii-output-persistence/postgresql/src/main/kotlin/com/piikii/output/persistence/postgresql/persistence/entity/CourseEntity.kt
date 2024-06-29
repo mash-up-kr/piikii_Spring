@@ -6,6 +6,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.SQLRestriction
+import java.util.UUID
 
 @Entity
 @Table(name = "course", schema = "piikii")
@@ -13,7 +14,7 @@ import org.hibernate.annotations.SQLRestriction
 @DynamicUpdate
 class CourseEntity(
     @Column(name = "room_id", nullable = false)
-    val roomId: Long,
+    val roomId: UUID,
     @Column(name = "room_category_id", nullable = false, unique = true)
     val roomCategoryId: Long,
     @Column(name = "room_place_id", nullable = false)
