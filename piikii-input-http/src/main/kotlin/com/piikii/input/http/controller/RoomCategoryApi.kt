@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @RestController
-@RequestMapping("/v1/rooms/categories")
+@RequestMapping("/v1/rooms/{roomId}/categories")
 class RoomCategoryApi(
     private val roomCategoryUseCase: RoomCategoryUseCase,
 ) : RoomCategoryApiDocs {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     override fun createRoomCategories(
+        @PathVariable roomId: UUID,
         @RequestBody request: RoomCategoriesCreateRequest,
     ): ResponseForm<Unit> {
         roomCategoryUseCase.createRoomCategories(request)
@@ -34,7 +35,7 @@ class RoomCategoryApi(
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/room/{roomId}")
+    @GetMapping
     override fun readRoomCategories(
         @PathVariable roomId: UUID,
     ): ResponseForm<RoomCategoriesReadResponse> {
@@ -47,6 +48,7 @@ class RoomCategoryApi(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
     override fun deleteRoomCategories(
+        @PathVariable roomId: UUID,
         @RequestBody request: RoomCategoryIdsRequest,
     ): ResponseForm<Unit> {
         roomCategoryUseCase.deleteRoomCategories(request)
