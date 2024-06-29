@@ -23,7 +23,7 @@ class CourseApi(
         @PathVariable roomId: UUID,
     ): ResponseForm<CourseExistenceResponse> {
         return ResponseForm(
-            data = CourseExistenceResponse(courseUseCase.isCourseExist(roomId)),
+            data = CourseExistenceResponse(isExist = courseUseCase.isCourseExist(roomId)),
             message = SUCCESS_GET_COURSE_EXISTENCE_MESSAGE,
         )
     }
