@@ -1,19 +1,22 @@
 package com.piikii.common.exception
 
-class PiikiiException(
-    var statusCode: Int,
-    var defaultMessage: String,
-    var detailMessage: String?,
-) : RuntimeException() {
-    constructor(exceptionCode: ExceptionCode, detailMessage: String) : this(
-        statusCode = exceptionCode.statusCode,
-        defaultMessage = exceptionCode.defaultMessage,
-        detailMessage = detailMessage,
-    )
+class PiikiiException : RuntimeException {
+    var statusCode: Int
+    var defaultMessage: String
+    var detailMessage: String? = null
 
-    constructor(exceptionCode: ExceptionCode) : this(
-        statusCode = exceptionCode.statusCode,
-        defaultMessage = exceptionCode.defaultMessage,
-        detailMessage = null,
-    )
+    constructor(
+        exceptionCode: ExceptionCode,
+        detailMessage: String,
+    ) : super("[$exceptionCode] $detailMessage") {
+        this.statusCode = exceptionCode.statusCode
+        this.defaultMessage = exceptionCode.defaultMessage
+        this.detailMessage = detailMessage
+    }
+
+    constructor(exceptionCode: ExceptionCode) :
+        super("[$exceptionCode] ${exceptionCode.defaultMessage}") {
+        this.statusCode = exceptionCode.statusCode
+        this.defaultMessage = exceptionCode.defaultMessage
+    }
 }
