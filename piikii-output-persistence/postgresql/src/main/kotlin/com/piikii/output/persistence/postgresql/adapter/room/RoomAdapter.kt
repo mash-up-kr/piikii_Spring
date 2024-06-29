@@ -35,8 +35,7 @@ class RoomAdapter(
     }
 
     override fun retrieve(roomId: UUID): Room {
-        val foundRoom = findByRoomId(roomId)
-        return foundRoom.toDomain()
+        return findByRoomId(roomId).toDomain()
     }
 
     private fun findByRoomId(roomId: UUID): RoomEntity {
