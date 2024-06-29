@@ -37,12 +37,12 @@ class PlaceService(
 
     @Transactional
     override fun modify(
-        targetRoomId: Long,
+        targetPlaceId: Long,
         modifyPlaceRequest: ModifyPlaceRequest,
     ) {
         placeCommandPort.update(
-            targetPlaceId = targetRoomId,
-            place = modifyPlaceRequest.toDomain(targetRoomId),
+            targetPlaceId = targetPlaceId,
+            place = modifyPlaceRequest.toDomain(targetPlaceId),
         )
     }
 
