@@ -38,6 +38,17 @@ class RoomPlaceEntity(
     @Enumerated(EnumType.STRING)
     var placeCategory: PlaceCategory,
 ) : BaseEntity() {
+    constructor(targetRoomId: UUID, roomPlace: RoomPlace) : this(
+        roomId = targetRoomId,
+        url = roomPlace.url,
+        thumbnailLinks = roomPlace.thumbnailLinks.contents ?: "",
+        address = roomPlace.address,
+        phoneNumber = roomPlace.phoneNumber,
+        starGrade = roomPlace.starGrade,
+        source = roomPlace.source,
+        placeCategory = roomPlace.placeCategory,
+    )
+
     fun toDomain(): RoomPlace {
         return RoomPlace(
             id = id,

@@ -24,14 +24,8 @@ class RoomPlaceAdapter(
     ): RoomPlace {
         return roomPlaceRepository.save(
             RoomPlaceEntity(
-                roomId = targetRoomId,
-                url = roomPlace.url,
-                thumbnailLinks = roomPlace.thumbnailLinks.contents ?: "",
-                address = roomPlace.address,
-                phoneNumber = roomPlace.phoneNumber,
-                starGrade = roomPlace.starGrade,
-                source = roomPlace.source,
-                placeCategory = roomPlace.placeCategory,
+                targetRoomId = targetRoomId,
+                roomPlace = roomPlace,
             ),
         ).toDomain()
     }
