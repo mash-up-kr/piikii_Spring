@@ -33,6 +33,8 @@ class RoomEntity(
     var meetingName: String,
     @Column(name = "message")
     var message: String?,
+    @Column(name = "is_course_created", nullable = false)
+    var isCourseCreated: Boolean = false,
 ) : BaseEntity() {
     fun toDomain(): Room {
         return Room(
@@ -44,6 +46,7 @@ class RoomEntity(
             password = this.password,
             voteDeadline = voteDeadline,
             roomId = this.roomId,
+            isCourseCreated = this.isCourseCreated,
         )
     }
 
@@ -68,6 +71,7 @@ class RoomEntity(
                 meetDay = room.meetDay,
                 voteDeadline = room.voteDeadline,
                 roomId = room.roomId,
+                isCourseCreated = room.isCourseCreated,
             )
         }
     }

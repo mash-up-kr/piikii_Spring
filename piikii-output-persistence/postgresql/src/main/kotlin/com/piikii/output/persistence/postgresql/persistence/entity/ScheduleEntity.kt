@@ -26,12 +26,15 @@ class ScheduleEntity(
     val placeType: PlaceType,
     @Column(name = "sequence", nullable = false)
     val sequence: Int,
+    @Column(name = "vote_result_place_id")
+    val voteResultPlaceId: Long? = null,
 ) : BaseEntity() {
     constructor(schedule: Schedule) : this(
         roomId = schedule.roomId,
         name = schedule.name,
         placeType = schedule.placeType,
         sequence = schedule.sequence,
+        voteResultPlaceId = schedule.voteResultPlaceId,
     )
 
     fun toDomain(): Schedule {
@@ -41,6 +44,7 @@ class ScheduleEntity(
             name = this.name,
             placeType = this.placeType,
             sequence = this.sequence,
+            voteResultPlaceId = this.voteResultPlaceId,
         )
     }
 }

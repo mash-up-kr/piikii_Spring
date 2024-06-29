@@ -8,4 +8,5 @@ class Schedule(
     val name: String,
     val placeType: PlaceType,
     val sequence: Int,
+    val voteResultPlaceId: Long? = null,
 )
