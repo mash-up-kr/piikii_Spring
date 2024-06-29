@@ -2,13 +2,11 @@ package com.piikii.input.http.docs
 
 import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
-import com.piikii.application.port.input.room.dto.request.VoteDeadlineSetRequest
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 import com.piikii.input.http.dto.ResponseForm
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
-
 import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
@@ -46,8 +44,4 @@ interface RoomApiDocs {
             `in` = ParameterIn.PATH,
         ) roomId: UUID,
     ): ResponseForm<RoomGetResponseForm>
-
-    @Operation(summary = "방 투표 마감일 설정 api", description = "방(Room)의 투표 마감일을 설정합니다.")
-    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "UPDATED success")])
-    fun changeVoteDeadline(request: VoteDeadlineSetRequest): ResponseForm<Unit>
 }
