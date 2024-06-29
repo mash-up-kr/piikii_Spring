@@ -1,8 +1,11 @@
 package com.piikii.application.domain.roomcategory
 
-import com.piikii.application.domain.generic.CategoryName
+import java.util.UUID
 
 class RoomCategory(
-    val roomId: Long,
-    val name: CategoryName,
+    val id: Long? = null,
+    val roomId: UUID,
+    val name: String,
+    val category: PlaceCategory,
+    val sequence: Int,
 )
