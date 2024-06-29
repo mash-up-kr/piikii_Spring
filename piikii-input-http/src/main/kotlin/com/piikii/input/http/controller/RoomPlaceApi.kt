@@ -34,7 +34,7 @@ class RoomPlaceApi(
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{roomId}/place")
     override fun addRoomPlace(
-        @PathVariable("roomId") roomId: UUID,
+        @PathVariable roomId: UUID,
         @RequestBody @Valid addRoomPlaceRequest: AddRoomPlaceRequest,
     ): ResponseForm<RoomPlaceResponse> {
         return ResponseForm(
@@ -45,7 +45,7 @@ class RoomPlaceApi(
 
     @GetMapping("/{roomId}/place")
     override fun retrieveAll(
-        @PathVariable("roomId") roomId: UUID,
+        @PathVariable roomId: UUID,
     ): ResponseForm<List<RoomPlaceCategoryGroupResponse>> {
         return ResponseForm(
             data = roomPlaceUseCase.retrieveAllByRoomId(roomId),
@@ -55,8 +55,8 @@ class RoomPlaceApi(
 
     @PatchMapping("/{roomId}/place/{targetRoomPlaceId}")
     override fun modifyRoomPlace(
-        @PathVariable("roomId") roomId: UUID,
-        @PathVariable("targetRoomPlaceId") targetRoomPlaceId: Long,
+        @PathVariable roomId: UUID,
+        @PathVariable targetRoomPlaceId: Long,
         @RequestBody @Valid modifyRoomPlaceRequest: ModifyRoomPlaceRequest,
     ): ResponseForm<Unit> {
         return ResponseForm(
@@ -67,7 +67,7 @@ class RoomPlaceApi(
 
     @DeleteMapping("/{roomId}/place")
     override fun deleteRoomPlace(
-        @PathVariable("roomId") roomId: UUID,
+        @PathVariable roomId: UUID,
         @RequestBody @Valid deleteRoomPlaceRequest: DeleteRoomPlaceRequest,
     ): ResponseForm<Unit> {
         return ResponseForm(
