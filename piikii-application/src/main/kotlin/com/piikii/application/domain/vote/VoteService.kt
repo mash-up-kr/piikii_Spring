@@ -1,4 +1,4 @@
-package com.piikii.application.domain.roomvote
+package com.piikii.application.domain.vote
 
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.common.exception.ExceptionCode
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
-class RoomVoteService(
+class VoteService(
     private val roomQueryPort: RoomQueryPort,
 ) {
     fun vote(roomId: UUID) {
