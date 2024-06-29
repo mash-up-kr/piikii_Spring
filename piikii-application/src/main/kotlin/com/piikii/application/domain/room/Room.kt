@@ -10,11 +10,18 @@ data class Room(
     val address: String,
     val meetDay: LocalDate,
     val thumbnailLink: String,
-    val password: Short,
+    val password: Password,
     val voteDeadline: LocalDateTime?,
     val roomId: UUID,
 ) {
     fun isVoteUnavailable(): Boolean {
         return this.voteDeadline == null || this.voteDeadline.isBefore(LocalDateTime.now())
     }
+
+    fun isPasswordValid(password: Password): Boolean {
+        return this.password == password
+    }
 }
+
+@JvmInline
+value class Password(val value: String)
