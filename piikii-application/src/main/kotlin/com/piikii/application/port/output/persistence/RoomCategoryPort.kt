@@ -1,14 +1,28 @@
 package com.piikii.application.port.output.persistence
 
 import com.piikii.application.domain.roomcategory.RoomCategory
+import com.piikii.application.domain.roomplace.RoomPlace
 import java.util.UUID
 
 interface RoomCategoryQueryPort {
-    fun findRoomCategoriesByRoomId(roomId: UUID): List<RoomCategory>
+    fun retrieveById(id: Long): RoomCategory
+
+    fun retrieveAllByRoomId(roomId: UUID): List<RoomCategory>
 }
 
 interface RoomCategoryCommandPort {
-    fun saveRoomCategories(roomCategories: List<RoomCategory>)
+    fun save(
+        roomId: UUID,
+        roomPlace: RoomPlace,
+    ): RoomPlace
 
-    fun deleteRoomCategories(roomCategoryIds: List<Long>)
+    fun update(
+        roomId: UUID,
+        roomPlace: RoomPlace,
+    )
+
+    fun delete(
+        roomId: UUID,
+        targetRoomPlaceId: Long,
+    )
 }

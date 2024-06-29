@@ -1,6 +1,6 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
-import com.piikii.application.domain.roomcategory.PlaceCategory
+import com.piikii.application.domain.generic.PlaceCategory
 import com.piikii.application.domain.roomcategory.RoomCategory
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
@@ -23,24 +23,36 @@ class RoomCategoryEntity(
     val name: String,
     @Column(name = "place_category", nullable = false)
     @Enumerated(EnumType.STRING)
-    val category: PlaceCategory,
+    val placeCategory: PlaceCategory,
     @Column(name = "sequence", nullable = false)
     val sequence: Int,
 ) : BaseEntity() {
-    constructor(roomCategory: RoomCategory) : this(
-        roomId = roomCategory.roomId,
-        name = roomCategory.name,
-        category = roomCategory.category,
-        sequence = roomCategory.sequence,
-    )
-
     fun toDomain(): RoomCategory {
         return RoomCategory(
-            id = this.id,
-            roomId = this.roomId,
-            name = this.name,
-            category = this.category,
-            sequence = this.sequence,
+            id = id,
+            roomId = roomId,
+            name = name,
+            placeCategory = placeCategory,
+            sequence = sequence,
         )
     }
+}
+
+fun RoomCategoryEntity.toDomain(): RoomCategory {
+    return RoomCategory(
+        id = id,
+        roomId = roomId,
+        name = name,
+        placeCategory = placeCategory,
+        sequence = sequence,
+    )
+}
+
+fun RoomCategory.toEntity(): RoomCategoryEntity {
+    return RoomCategoryEntity(
+        roomId = roomId,
+        name = name,
+        placeCategory = placeCategory,
+        sequence = sequence,
+    )
 }
