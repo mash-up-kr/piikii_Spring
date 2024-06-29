@@ -17,8 +17,8 @@ data class RoomGetResponseForm(
     val address: String,
     @Schema(description = "모임 날짜")
     val meetDay: LocalDate,
-    @Schema(description = "썸네일 이미지 목록")
-    val thumbnailLinks: List<String>,
+    @Schema(description = "썸네일 이미지")
+    val thumbnailLinks: String,
     @Schema(description = "투표 마감일")
     val voteDeadline: LocalDateTime?,
     @Schema(description = "방(Room) id")
@@ -29,7 +29,7 @@ data class RoomGetResponseForm(
         message = room.message,
         address = room.address,
         meetDay = room.meetDay,
-        thumbnailLinks = room.thumbnailLinks.convertToList,
+        thumbnailLinks = room.thumbnailLink,
         voteDeadline = room.voteDeadline,
         roomId = room.roomId,
     )

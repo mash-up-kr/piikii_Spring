@@ -1,6 +1,7 @@
 package com.piikii.input.http.advice
 
 import com.piikii.common.exception.PiikiiException
+import com.piikii.common.logutil.SystemLogger.logger
 import com.piikii.input.http.exception.ExceptionResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class ExceptionAdvice {
     @ExceptionHandler(PiikiiException::class)
     fun handlePiikiiException(piikiiException: PiikiiException): ResponseEntity<ExceptionResponse> {
+        logger.error(piikiiException) { "Occurred PiikiiException" }
         return ResponseEntity
             .status(piikiiException.statusCode)
             .body(
@@ -24,6 +26,7 @@ class ExceptionAdvice {
 
     @ExceptionHandler(Exception::class)
     fun handleException(exception: Exception): ResponseEntity<ExceptionResponse> {
+        logger.error(exception) { "Occurred Exception" }
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(

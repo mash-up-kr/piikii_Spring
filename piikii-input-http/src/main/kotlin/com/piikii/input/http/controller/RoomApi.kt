@@ -3,7 +3,7 @@ package com.piikii.input.http.controller
 import com.piikii.application.port.input.room.RoomUseCase
 import com.piikii.application.port.input.room.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.room.dto.request.RoomUpdateRequestForm
-import com.piikii.application.port.input.room.dto.request.VoteGenerateRequestForm
+import com.piikii.application.port.input.room.dto.request.VoteDeadlineSetRequest
 import com.piikii.application.port.input.room.dto.response.RoomGetResponseForm
 import com.piikii.application.port.input.room.dto.response.RoomSaveResponseForm
 import com.piikii.input.http.docs.RoomApiDocs
@@ -27,6 +27,7 @@ import java.util.UUID
 class RoomApi(
     private val roomUseCase: RoomUseCase,
 ) : RoomApiDocs {
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     override fun generate(
@@ -42,7 +43,7 @@ class RoomApi(
     @PutMapping
     override fun modifyInformation(
         @RequestBody request: RoomUpdateRequestForm,
-    ): ResponseForm<Any> {
+    ): ResponseForm<Unit> {
         roomUseCase.modify(request)
         return ResponseForm(
             message = RoomMessage.SUCCESS_UPDATE_ROOM,
@@ -53,7 +54,7 @@ class RoomApi(
     @DeleteMapping("/{roomId}")
     override fun remove(
         @PathVariable roomId: UUID,
-    ): ResponseForm<Any> {
+    ): ResponseForm<Unit> {
         roomUseCase.remove(roomId)
         return ResponseForm(
             message = RoomMessage.SUCCESS_DELETE_ROOM,
@@ -74,8 +75,8 @@ class RoomApi(
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/vote")
     override fun changeVoteDeadline(
-        @RequestBody request: VoteGenerateRequestForm,
-    ): ResponseForm<Any> {
+        @RequestBody request: VoteDeadlineSetRequest,
+    ): ResponseForm<Unit> {
         roomUseCase.changeVoteDeadline(request)
         return ResponseForm(
             message = RoomMessage.SUCCESS_GENERATE_VOTE,
