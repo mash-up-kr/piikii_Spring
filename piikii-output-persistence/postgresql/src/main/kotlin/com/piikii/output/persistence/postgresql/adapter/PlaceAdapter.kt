@@ -20,11 +20,13 @@ class PlaceAdapter(
     @Transactional
     override fun save(
         targetRoomId: UUID,
+        scheduleId: Long,
         place: Place,
     ): Place {
         val placeEntity =
             PlaceEntity.of(
                 place = place,
+                scheduleId = scheduleId,
                 roomId = targetRoomId,
             )
         return placeRepository.save(placeEntity).toDomain()
@@ -34,13 +36,14 @@ class PlaceAdapter(
     override fun update(
         targetPlaceId: Long,
         place: Place,
-    ) {
+    ): Place {
         val placeEntity =
             placeRepository.findByIdOrNull(targetPlaceId) ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.NOT_FOUNDED,
                 detailMessage = "targetPlaceId : $targetPlaceId",
             )
         placeEntity.update(place)
+        return placeEntity.toDomain()
     }
 
     @Transactional

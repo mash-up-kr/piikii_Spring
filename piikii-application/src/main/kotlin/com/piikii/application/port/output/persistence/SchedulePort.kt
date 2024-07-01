@@ -5,6 +5,8 @@ import java.util.UUID
 
 interface ScheduleQueryPort {
     fun findSchedulesByRoomId(roomId: UUID): List<Schedule>
+
+    fun findScheduleById(id: Long): Schedule
 }
 
 interface ScheduleCommandPort {

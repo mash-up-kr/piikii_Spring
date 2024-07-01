@@ -14,13 +14,14 @@ interface PlaceQueryPort {
 interface PlaceCommandPort {
     fun save(
         targetRoomId: UUID,
+        scheduleId: Long,
         place: Place,
     ): Place
 
     fun update(
         targetPlaceId: Long,
         place: Place,
-    )
+    ): Place
 
     fun delete(targetPlaceId: Long)
 }

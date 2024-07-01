@@ -18,7 +18,7 @@ interface PlaceUseCase {
         roomId: UUID,
         targetPlaceId: Long,
         modifyPlaceRequest: ModifyPlaceRequest,
-    )
+    ): PlaceResponse
 
     fun delete(targetPlaceId: Long)
 }
