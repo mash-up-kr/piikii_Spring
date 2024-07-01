@@ -29,7 +29,7 @@ interface PlaceDocs {
         value = [
             ApiResponse(
                 responseCode = "201",
-                description = "CREATED success",
+                description = "추가 성공",
                 content = [
                     Content(
                         mediaType = "application/json",
@@ -58,7 +58,7 @@ interface PlaceDocs {
         value = [
             ApiResponse(
                 responseCode = "200",
-                description = "CREATED success",
+                description = "조회 성공",
                 content = [
                     Content(
                         mediaType = "application/json",
@@ -78,7 +78,20 @@ interface PlaceDocs {
     ): ResponseForm<List<PlaceTypeGroupResponse>>
 
     @Operation(summary = "방 장소 수정 API", description = "방에 추가한 장소를 수정합니다.")
-    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "UPDATED success")])
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "수정 성공",
+                content = [
+                    Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = SuccessPlaceResponse::class),
+                    ),
+                ],
+            ),
+        ],
+    )
     fun modifyPlace(
         @Parameter(
             name = "roomId",
@@ -93,10 +106,10 @@ interface PlaceDocs {
             `in` = ParameterIn.PATH,
         ) @NotNull targetPlaceId: Long,
         modifyPlaceRequest: ModifyPlaceRequest,
-    ): ResponseForm<Unit>
+    ): ResponseForm<PlaceResponse>
 
     @Operation(summary = "방 장소 삭제 API", description = "방에 추가한 장소를 삭제합니다.")
-    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "DELETED success")])
+    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "삭제 성공")])
     fun deletePlace(
         @Parameter(
             name = "roomId",

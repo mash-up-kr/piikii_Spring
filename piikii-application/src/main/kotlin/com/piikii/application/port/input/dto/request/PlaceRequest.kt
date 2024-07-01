@@ -3,50 +3,67 @@ package com.piikii.application.port.input.dto.request
 import com.piikii.application.domain.generic.Source
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
-import com.piikii.application.domain.schedule.PlaceType
+import java.util.UUID
 
 data class AddPlaceRequest(
-    val url: String? = null,
+    val scheduleId: Long,
+    val url: String?,
     val thumbnailLinks: ThumbnailLinks,
-    val address: String? = null,
-    val phoneNumber: String? = null,
-    val starGrade: Float? = null,
+    val address: String?,
+    val phoneNumber: String?,
+    val starGrade: Float?,
     val source: Source,
-    val placeType: PlaceType,
+    val note: String,
+    val voteLikeCount: Short?,
+    val voteDislikeCount: Short?,
 ) {
-    fun toDomain(): Place {
+    fun toDomain(roomId: UUID): Place {
         return Place(
-            id = null,
+            id = 0L,
+            roomId = roomId,
+            scheduleId = scheduleId,
             url = url,
             thumbnailLinks = thumbnailLinks,
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
             source = source,
-            placeType = placeType,
+            note = note,
+            voteLikeCount = voteLikeCount,
+            voteDislikeCount = voteDislikeCount,
         )
     }
 }
 
 data class ModifyPlaceRequest(
-    val url: String,
+    val scheduleId: Long,
+    val url: String?,
     val thumbnailLinks: ThumbnailLinks,
-    val address: String,
-    val phoneNumber: String,
-    val starGrade: Float,
+    val address: String?,
+    val phoneNumber: String?,
+    val starGrade: Float?,
     val source: Source,
-    val placeType: PlaceType,
+    val note: String,
+    val voteLikeCount: Short?,
+    val voteDislikeCount: Short?,
 ) {
-    fun toDomain(targetPlaceId: Long): Place {
+    fun toDomain(
+        targetPlaceId: Long,
+        roomId: UUID,
+    ): Place {
         return Place(
             id = targetPlaceId,
+            roomId = roomId,
+            scheduleId = scheduleId,
             url = url,
             thumbnailLinks = thumbnailLinks,
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
             source = source,
-            placeType = placeType,
+            note = note,
+            voteLikeCount = voteLikeCount,
+            voteDislikeCount = voteDislikeCount,
         )
     }
 }

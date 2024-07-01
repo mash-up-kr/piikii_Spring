@@ -34,18 +34,14 @@ class PlaceApi(
         @PathVariable roomId: UUID,
         @RequestBody @Valid addPlaceRequest: AddPlaceRequest,
     ): ResponseForm<PlaceResponse> {
-        return ResponseForm(
-            data = placeUseCase.addPlace(roomId, addPlaceRequest),
-        )
+        return ResponseForm(placeUseCase.addPlace(roomId, addPlaceRequest))
     }
 
     @GetMapping
     override fun retrieveAll(
         @PathVariable roomId: UUID,
     ): ResponseForm<List<PlaceTypeGroupResponse>> {
-        return ResponseForm(
-            data = placeUseCase.retrieveAllByRoomId(roomId),
-        )
+        return ResponseForm(placeUseCase.retrieveAllByRoomId(roomId))
     }
 
     @PatchMapping("/{targetPlaceId}")
@@ -53,10 +49,8 @@ class PlaceApi(
         @PathVariable roomId: UUID,
         @PathVariable targetPlaceId: Long,
         @RequestBody @Valid modifyPlaceRequest: ModifyPlaceRequest,
-    ): ResponseForm<Unit> {
-        return ResponseForm(
-            data = placeUseCase.modify(targetPlaceId, modifyPlaceRequest),
-        )
+    ): ResponseForm<PlaceResponse> {
+        return ResponseForm(placeUseCase.modify(roomId, targetPlaceId, modifyPlaceRequest))
     }
 
     @DeleteMapping
@@ -64,8 +58,7 @@ class PlaceApi(
         @PathVariable roomId: UUID,
         @RequestBody @Valid deletePlaceRequest: DeletePlaceRequest,
     ): ResponseForm<Unit> {
-        return ResponseForm(
-            data = placeUseCase.delete(deletePlaceRequest.targetPlaceId),
-        )
+        placeUseCase.delete(deletePlaceRequest.targetPlaceId)
+        return ResponseForm.EMPTY_RESPONSE
     }
 }

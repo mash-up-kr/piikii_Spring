@@ -15,9 +15,10 @@ interface PlaceUseCase {
     fun retrieveAllByRoomId(roomId: UUID): List<PlaceTypeGroupResponse>
 
     fun modify(
+        roomId: UUID,
         targetPlaceId: Long,
         modifyPlaceRequest: ModifyPlaceRequest,
-    )
+    ): PlaceResponse
 
     fun delete(targetPlaceId: Long)
 }
