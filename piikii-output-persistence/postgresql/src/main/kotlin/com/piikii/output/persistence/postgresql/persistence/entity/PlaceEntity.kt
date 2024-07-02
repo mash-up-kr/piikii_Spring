@@ -32,7 +32,7 @@ class PlaceEntity(
     var address: String?,
     @Column(name = "phone_number", length = 15)
     var phoneNumber: String?,
-    @Column(name = "star_grade", precision = 2, scale = 1, nullable = false)
+    @Column(name = "star_grade", columnDefinition = "DECIMAL(2,1) DEFAULT 0.0", nullable = false)
     var starGrade: Float? = 0.0F,
     @Enumerated(EnumType.STRING)
     @Column(name = "source", nullable = false)
