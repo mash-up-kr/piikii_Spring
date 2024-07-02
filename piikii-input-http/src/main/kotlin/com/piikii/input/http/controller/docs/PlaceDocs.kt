@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
+import org.springframework.web.multipart.MultipartFile
 import java.util.UUID
 
 @Tag(name = "Place Api", description = "방 장소 관련 API")
@@ -52,6 +53,7 @@ interface PlaceDocs {
             required = true,
             content = [Content(schema = Schema(implementation = AddPlaceRequest::class))],
         ) @Valid addPlaceRequest: AddPlaceRequest,
+        multipartFile: MultipartFile,
     ): ResponseForm<PlaceResponse>
 
     @Operation(summary = "방 장소 조회 API", description = "방에 등록된 장소를 모두 조회합니다.")
