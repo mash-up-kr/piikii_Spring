@@ -8,7 +8,6 @@ import com.piikii.application.port.input.dto.response.PlaceResponse
 import com.piikii.application.port.input.dto.response.PlaceTypeGroupResponse
 import com.piikii.input.http.controller.docs.PlaceDocs
 import com.piikii.input.http.controller.dto.ResponseForm
-import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -32,7 +31,7 @@ class PlaceApi(
     @PostMapping
     override fun addPlace(
         @PathVariable roomId: UUID,
-        @RequestBody @Valid addPlaceRequest: AddPlaceRequest,
+        @RequestBody addPlaceRequest: AddPlaceRequest,
     ): ResponseForm<PlaceResponse> {
         return ResponseForm(placeUseCase.addPlace(roomId, addPlaceRequest))
     }
@@ -48,7 +47,7 @@ class PlaceApi(
     override fun modifyPlace(
         @PathVariable roomId: UUID,
         @PathVariable targetPlaceId: Long,
-        @RequestBody @Valid modifyPlaceRequest: ModifyPlaceRequest,
+        @RequestBody modifyPlaceRequest: ModifyPlaceRequest,
     ): ResponseForm<PlaceResponse> {
         return ResponseForm(placeUseCase.modify(roomId, targetPlaceId, modifyPlaceRequest))
     }
@@ -56,7 +55,7 @@ class PlaceApi(
     @DeleteMapping
     override fun deletePlace(
         @PathVariable roomId: UUID,
-        @RequestBody @Valid deletePlaceRequest: DeletePlaceRequest,
+        @RequestBody deletePlaceRequest: DeletePlaceRequest,
     ): ResponseForm<Unit> {
         placeUseCase.delete(deletePlaceRequest.targetPlaceId)
         return ResponseForm.EMPTY_RESPONSE

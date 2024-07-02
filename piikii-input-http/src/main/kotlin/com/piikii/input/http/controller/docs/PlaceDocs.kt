@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
 import java.util.UUID
 
@@ -50,7 +51,7 @@ interface PlaceDocs {
             description = "방 장소 생성 Request body",
             required = true,
             content = [Content(schema = Schema(implementation = AddPlaceRequest::class))],
-        ) addPlaceRequest: AddPlaceRequest,
+        ) @Valid addPlaceRequest: AddPlaceRequest,
     ): ResponseForm<PlaceResponse>
 
     @Operation(summary = "방 장소 조회 API", description = "방에 등록된 장소를 모두 조회합니다.")
@@ -105,7 +106,7 @@ interface PlaceDocs {
             required = true,
             `in` = ParameterIn.PATH,
         ) @NotNull targetPlaceId: Long,
-        modifyPlaceRequest: ModifyPlaceRequest,
+        @Valid modifyPlaceRequest: ModifyPlaceRequest,
     ): ResponseForm<PlaceResponse>
 
     @Operation(summary = "방 장소 삭제 API", description = "방에 추가한 장소를 삭제합니다.")
@@ -121,6 +122,6 @@ interface PlaceDocs {
             description = "방 장소 생성 Request body",
             required = true,
             content = [Content(schema = Schema(implementation = DeletePlaceRequest::class))],
-        ) deletePlaceRequest: DeletePlaceRequest,
+        ) @Valid deletePlaceRequest: DeletePlaceRequest,
     ): ResponseForm<Unit>
 }
