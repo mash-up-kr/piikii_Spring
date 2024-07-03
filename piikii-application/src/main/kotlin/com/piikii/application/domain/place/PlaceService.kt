@@ -20,13 +20,13 @@ class PlaceService(
 ) : PlaceUseCase {
     @Transactional
     override fun addPlace(
-        targetRoomId: UUID,
+        roomId: UUID,
         addPlaceRequest: AddPlaceRequest,
     ): PlaceResponse {
         return PlaceResponse(
             placeCommandPort.save(
-                targetRoomId = targetRoomId,
-                place = addPlaceRequest.toDomain(),
+                targetRoomId = roomId,
+                place = addPlaceRequest.toDomain(roomId),
             ),
         )
     }
@@ -37,12 +37,13 @@ class PlaceService(
 
     @Transactional
     override fun modify(
+        roomId: UUID,
         targetPlaceId: Long,
         modifyPlaceRequest: ModifyPlaceRequest,
     ) {
         placeCommandPort.update(
             targetPlaceId = targetPlaceId,
-            place = modifyPlaceRequest.toDomain(targetPlaceId),
+            place = modifyPlaceRequest.toDomain(roomId, targetPlaceId),
         )
     }
 

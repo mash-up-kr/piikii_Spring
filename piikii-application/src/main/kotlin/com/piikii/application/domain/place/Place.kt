@@ -14,5 +14,5 @@ data class Place(
     val phoneNumber: String? = null,
     val starGrade: Float? = null,
     val source: Source,
-    val roomId: UUID? = null,
+    val roomId: UUID,
 )

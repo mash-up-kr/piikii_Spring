@@ -8,13 +8,14 @@ import java.util.UUID
 
 interface PlaceUseCase {
     fun addPlace(
-        targetRoomId: UUID,
+        roomId: UUID,
         addPlaceRequest: AddPlaceRequest,
     ): PlaceResponse
 
     fun findAllByRoomId(roomId: UUID): List<PlaceTypeGroupResponse>
 
     fun modify(
+        roomId: UUID,
         targetPlaceId: Long,
         modifyPlaceRequest: ModifyPlaceRequest,
     )
