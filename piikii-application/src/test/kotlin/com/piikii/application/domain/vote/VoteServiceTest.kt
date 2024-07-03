@@ -89,13 +89,12 @@ class VoteServiceTest {
                 roomId = roomId,
             )
 
-        // when
         given(roomQueryPort.findById(room.roomId))
             .willReturn(room)
         given(placeQueryPort.findAllByPlaceIds(votes.map { it.placeId }))
             .willReturn(listOf(place))
 
-        // then
+        // when & then
         assertThatThrownBy { voteService.vote(room.roomId, votes) }
             .isExactlyInstanceOf(PiikiiException::class.java)
             .hasMessageContaining("투표 항목 데이터(Place Id)이 올바르지 않습니다")
@@ -149,13 +148,12 @@ class VoteServiceTest {
                 ),
             )
 
-        // when
         given(roomQueryPort.findById(room.roomId))
             .willReturn(room)
         given(placeQueryPort.findAllByPlaceIds(votes.map { it.placeId }))
             .willReturn(places)
 
-        // then
+        // when & then
         assertThatThrownBy { voteService.vote(room.roomId, votes) }
             .isExactlyInstanceOf(PiikiiException::class.java)
             .hasMessageContaining("투표 항목 데이터(Place Id)이 올바르지 않습니다")
@@ -209,13 +207,12 @@ class VoteServiceTest {
                 ),
             )
 
-        // when
         given(roomQueryPort.findById(roomId))
             .willReturn(room)
         given(placeQueryPort.findAllByPlaceIds(votes.map { it.placeId }))
             .willReturn(places)
 
-        // then
+        // when & then
         assertDoesNotThrow { voteService.vote(roomId, votes) }
         verify(voteCommandPort).vote(votes)
     }
