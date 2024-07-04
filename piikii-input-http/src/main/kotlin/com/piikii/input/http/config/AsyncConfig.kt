@@ -8,12 +8,22 @@ import java.util.concurrent.Executor
 @EnableAsync
 class AsyncConfig {
     @Bean(name = ["hookLoggerTaskExecutor"])
-    fun taskExecutor(): Executor =
+    fun taskExecutorForHookLogger(): Executor =
         ThreadPoolTaskExecutor().apply {
             corePoolSize = 2
             maxPoolSize = 2
             queueCapacity = 500
             setThreadNamePrefix("AsyncHookLogger-")
+            initialize()
+        }
+
+    @Bean(name = ["StorageTaskExecutor"])
+    fun taskExecutorForExternalStorage(): Executor =
+        ThreadPoolTaskExecutor().apply {
+            corePoolSize = 2
+            maxPoolSize = 2
+            queueCapacity = 500
+            setThreadNamePrefix("AsyncStorageExecutor-")
             initialize()
         }
 }

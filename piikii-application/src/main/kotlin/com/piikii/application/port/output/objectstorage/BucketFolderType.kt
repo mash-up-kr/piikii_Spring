@@ -1,6 +1,6 @@
 package com.piikii.application.port.output.objectstorage
 
-enum class UploadType {
+enum class BucketFolderType {
     ROOM,
     PLACE,
 }

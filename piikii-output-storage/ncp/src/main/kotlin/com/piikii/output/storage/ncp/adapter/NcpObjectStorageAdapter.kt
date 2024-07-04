@@ -1,14 +1,14 @@
 package com.piikii.output.storage.ncp.adapter
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider
-import com.amazonaws.auth.BasicAWSCredentials
-import com.amazonaws.client.builder.AwsClientBuilder
-import com.amazonaws.services.s3.AmazonS3ClientBuilder
+import com.amazonaws.services.s3.model.CannedAccessControlList
+import com.amazonaws.services.s3.model.DeleteObjectRequest
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
+import com.piikii.application.port.output.objectstorage.BucketFolderType
 import com.piikii.application.port.output.objectstorage.ObjectStoragePort
-import com.piikii.application.port.output.objectstorage.UploadType
 import com.piikii.output.storage.ncp.config.NcpProperties
+import com.piikii.output.storage.ncp.config.StorageConfig
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
 import java.io.InputStream
@@ -16,53 +16,63 @@ import java.io.InputStream
 @Component
 class NcpObjectStorageAdapter(
     private val ncpProperties: NcpProperties,
+    private val storageConfig: StorageConfig,
 ) : ObjectStoragePort {
-    override fun upload(
-        uploadType: UploadType,
-        multipartFile: MultipartFile,
-    ): String {
-        val s3 =
-            AmazonS3ClientBuilder.standard()
-                .withEndpointConfiguration(
-                    AwsClientBuilder.EndpointConfiguration(
-                        OBJECT_STORAGE_BASE_ENDPOINT,
-                        REGION_NAME,
-                    ),
-                )
-                .withCredentials(
-                    AWSStaticCredentialsProvider(
-                        BasicAWSCredentials(
-                            ncpProperties.key.access,
-                            ncpProperties.key.secret,
-                        ),
-                    ),
-                )
-                .build()
+    @Async("StorageTaskExecutor")
+    override fun uploadAll(
+        bucketFolderType: BucketFolderType,
+        multipartFiles: List<MultipartFile>,
+    ): List<String> {
+        val contentUrls = mutableListOf<String>()
 
-        val folderName = getFolderName(uploadType)
-        val fileName = getFileName(multipartFile)
-        val objectKey = createObjectKey(folderName, fileName)
+        for (multipartFile in multipartFiles) {
+            val folderName = getFolderName(bucketFolderType)
+            val fileName = getFileName(multipartFile)
+            val objectKey = createObjectKey(folderName, fileName)
 
-        val objectMetadata =
-            ObjectMetadata().apply {
-                contentType = multipartFile.contentType
-                contentLength = multipartFile.size
-            }
+            val objectMetadata =
+                ObjectMetadata().apply {
+                    contentType = multipartFile.contentType
+                    contentLength = multipartFile.size
+                }
 
-        val inputStream = multipartFile.inputStream
-        val putObjectRequest = createPutObjectRequest(objectKey, inputStream, objectMetadata)
+            val inputStream = multipartFile.inputStream
+            val putObjectRequest = createPutObjectRequest(objectKey, inputStream, objectMetadata)
+            storageConfig.storageClient().putObject(putObjectRequest)
+            contentUrls.add(ncpProperties.bucket.path + objectKey)
+        }
+        return contentUrls
+    }
 
-        s3.putObject(putObjectRequest)
+    @Async("StorageTaskExecutor")
+    override fun updateAllByUrls(
+        bucketFolderType: BucketFolderType,
+        deleteTargetUrls: List<String>,
+        newMultipartFiles: List<MultipartFile>,
+    ): List<String> {
+        deleteAllByUrls(bucketFolderType, deleteTargetUrls)
+        return uploadAll(bucketFolderType, newMultipartFiles)
+    }
 
-        return "$OBJECT_STORAGE_BASE_ENDPOINT/${ncpProperties.bucket.name}/$objectKey"
+    @Async("StorageTaskExecutor")
+    override fun deleteAllByUrls(
+        bucketFolderType: BucketFolderType,
+        deleteTargetUrls: List<String>,
+    ) {
+        val storageClient = storageConfig.storageClient()
+        deleteTargetUrls.map {
+            storageClient.deleteObject(
+                DeleteObjectRequest(ncpProperties.bucket.name, it.substringAfter(ncpProperties.bucket.path)),
+            )
+        }
     }
 
     private fun getFileName(multipartFile: MultipartFile) = "${multipartFile.originalFilename}"
 
-    private fun getFolderName(uploadType: UploadType): String {
-        return when (uploadType) {
-            UploadType.ROOM -> ncpProperties.bucket.folder.roomFolder
-            UploadType.PLACE -> ncpProperties.bucket.folder.placeFolder
+    private fun getFolderName(bucketFolderType: BucketFolderType): String {
+        return when (bucketFolderType) {
+            BucketFolderType.ROOM -> ncpProperties.bucket.folder.roomFolder
+            BucketFolderType.PLACE -> ncpProperties.bucket.folder.placeFolder
         }
     }
 
@@ -75,10 +85,7 @@ class NcpObjectStorageAdapter(
         objectKey: String,
         inputStream: InputStream,
         objectMetadata: ObjectMetadata,
-    ) = PutObjectRequest(ncpProperties.bucket.name, objectKey, inputStream, objectMetadata)
-
-    companion object {
-        private const val REGION_NAME = "kr-standard"
-        private const val OBJECT_STORAGE_BASE_ENDPOINT = "https://kr.object.ncloudstorage.com"
-    }
+    ) = PutObjectRequest(ncpProperties.bucket.name, objectKey, inputStream, objectMetadata).withCannedAcl(
+        CannedAccessControlList.PublicReadWrite,
+    )
 }
