@@ -33,7 +33,7 @@ class RoomAdapter(
         roomRepository.deleteByRoomId(roomId)
     }
 
-    override fun retrieve(roomId: UUID): Room {
+    override fun findById(roomId: UUID): Room {
         return findByRoomId(roomId).toDomain()
     }
 

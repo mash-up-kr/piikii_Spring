@@ -4,7 +4,7 @@ import com.piikii.application.domain.room.Room
 import java.util.UUID
 
 interface RoomQueryPort {
-    fun retrieve(roomId: UUID): Room
+    fun findById(roomId: UUID): Room
 }
 
 interface RoomCommandPort {

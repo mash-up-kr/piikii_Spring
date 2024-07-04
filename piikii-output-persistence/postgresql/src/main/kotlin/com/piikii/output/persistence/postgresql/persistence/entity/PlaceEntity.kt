@@ -40,6 +40,7 @@ class PlaceEntity(
 ) : BaseEntity() {
     fun toDomain(): Place {
         return Place(
+            roomId = roomId,
             id = id,
             url = url,
             thumbnailLinks = ThumbnailLinks(thumbnailLinks),

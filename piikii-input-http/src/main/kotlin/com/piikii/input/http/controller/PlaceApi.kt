@@ -44,7 +44,7 @@ class PlaceApi(
         @PathVariable roomId: UUID,
     ): ResponseForm<List<PlaceTypeGroupResponse>> {
         return ResponseForm(
-            data = placeUseCase.retrieveAllByRoomId(roomId),
+            data = placeUseCase.findAllByRoomId(roomId),
         )
     }
 
@@ -55,7 +55,7 @@ class PlaceApi(
         @RequestBody @Valid modifyPlaceRequest: ModifyPlaceRequest,
     ): ResponseForm<Unit> {
         return ResponseForm(
-            data = placeUseCase.modify(targetPlaceId, modifyPlaceRequest),
+            data = placeUseCase.modify(roomId, targetPlaceId, modifyPlaceRequest),
         )
     }
 

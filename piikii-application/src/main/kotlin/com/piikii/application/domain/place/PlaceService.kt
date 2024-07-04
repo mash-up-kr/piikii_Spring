@@ -20,29 +20,30 @@ class PlaceService(
 ) : PlaceUseCase {
     @Transactional
     override fun addPlace(
-        targetRoomId: UUID,
+        roomId: UUID,
         addPlaceRequest: AddPlaceRequest,
     ): PlaceResponse {
         return PlaceResponse(
             placeCommandPort.save(
-                targetRoomId = targetRoomId,
-                place = addPlaceRequest.toDomain(),
+                targetRoomId = roomId,
+                place = addPlaceRequest.toDomain(roomId),
             ),
         )
     }
 
-    override fun retrieveAllByRoomId(roomId: UUID): List<PlaceTypeGroupResponse> {
+    override fun findAllByRoomId(roomId: UUID): List<PlaceTypeGroupResponse> {
         return groupingByPlaceType(placeQueryPort.retrieveAllByRoomId(roomId))
     }
 
     @Transactional
     override fun modify(
-        targetRoomId: Long,
+        roomId: UUID,
+        targetPlaceId: Long,
         modifyPlaceRequest: ModifyPlaceRequest,
     ) {
         placeCommandPort.update(
-            targetPlaceId = targetRoomId,
-            place = modifyPlaceRequest.toDomain(targetRoomId),
+            targetPlaceId = targetPlaceId,
+            place = modifyPlaceRequest.toDomain(roomId, targetPlaceId),
         )
     }
 

@@ -52,11 +52,15 @@ class PlaceAdapter(
         placeRepository.deleteById(targetPlaceId)
     }
 
-    override fun retrieveByPlaceId(placeId: Long): Place {
+    override fun findByPlaceId(placeId: Long): Place {
         return placeRepository.findByIdOrNull(placeId)?.toDomain() ?: throw PiikiiException(
             exceptionCode = ExceptionCode.NOT_FOUNDED,
             detailMessage = "placeId : $placeId",
         )
+    }
+
+    override fun findAllByPlaceIds(placeIds: List<Long>): List<Place> {
+        return placeRepository.findAllById(placeIds).map { it.toDomain() }
     }
 
     override fun retrieveAllByRoomId(roomId: UUID): List<Place> {

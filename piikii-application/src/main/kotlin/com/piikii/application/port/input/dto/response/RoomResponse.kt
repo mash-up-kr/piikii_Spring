@@ -23,7 +23,7 @@ data class RoomResponse(
     val roomId: UUID,
 ) {
     companion object {
-        fun fromDomain(room: Room): RoomResponse {
+        fun from(room: Room): RoomResponse {
             return RoomResponse(
                 meetingName = room.meetingName,
                 message = room.message,

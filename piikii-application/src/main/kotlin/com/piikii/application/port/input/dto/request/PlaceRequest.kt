@@ -4,6 +4,7 @@ import com.piikii.application.domain.generic.Source
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.schedule.PlaceType
+import java.util.UUID
 
 data class AddPlaceRequest(
     val url: String? = null,
@@ -14,7 +15,7 @@ data class AddPlaceRequest(
     val source: Source,
     val placeType: PlaceType,
 ) {
-    fun toDomain(): Place {
+    fun toDomain(roomId: UUID): Place {
         return Place(
             id = null,
             url = url,
@@ -24,6 +25,7 @@ data class AddPlaceRequest(
             starGrade = starGrade,
             source = source,
             placeType = placeType,
+            roomId = roomId,
         )
     }
 }
@@ -37,7 +39,10 @@ data class ModifyPlaceRequest(
     val source: Source,
     val placeType: PlaceType,
 ) {
-    fun toDomain(targetPlaceId: Long): Place {
+    fun toDomain(
+        roomId: UUID,
+        targetPlaceId: Long,
+    ): Place {
         return Place(
             id = targetPlaceId,
             url = url,
@@ -47,6 +52,7 @@ data class ModifyPlaceRequest(
             starGrade = starGrade,
             source = source,
             placeType = placeType,
+            roomId = roomId,
         )
     }
 }
