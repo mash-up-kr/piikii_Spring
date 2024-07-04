@@ -66,7 +66,7 @@ class PlaceAdapter(
         return placeRepository.findAllById(placeIds).map { it.toDomain() }
     }
 
-    override fun retrieveAllByRoomId(roomId: UUID): List<Place> {
+    override fun findAllByRoomId(roomId: UUID): List<Place> {
         return placeRepository.findAllByRoomId(roomId).map { it.toDomain() }
     }
 }

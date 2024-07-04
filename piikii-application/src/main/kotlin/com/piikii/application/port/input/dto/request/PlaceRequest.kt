@@ -41,14 +41,16 @@ data class AddPlaceRequest(
     @Schema(description = "싫어요 수", example = "2")
     val voteDislikeCount: Short?,
 ) {
-    fun toDomain(roomId: UUID): Place {
+    fun toDomain(
+        roomId: UUID,
+        imageUrls: List<String>,
+    ): Place {
         return Place(
             id = 0L,
             roomId = roomId,
             scheduleId = scheduleId,
             url = url,
-            // TODO 이미지 업로드 후 링크 받아와서 넣기
-            thumbnailLinks = ThumbnailLinks(""),
+            thumbnailLinks = ThumbnailLinks(imageUrls),
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
@@ -67,9 +69,9 @@ data class ModifyPlaceRequest(
     @field:Size(max = 255)
     @Schema(description = "장소 URL", example = "https://example.com")
     val url: String?,
+    @Schema(description = "삭제할 이미지 URL 리스트", example = "[https://example.com, https://example.com]")
+    val deleteTargetUrls: List<String>,
     @field:NotNull
-    @Schema(description = "썸네일 링크")
-    val thumbnailLinks: ThumbnailLinks,
     @field:Size(max = 255)
     @Schema(description = "주소", example = "서울시 강남구")
     val address: String?,
@@ -95,13 +97,14 @@ data class ModifyPlaceRequest(
     fun toDomain(
         targetPlaceId: Long,
         roomId: UUID,
+        updatedUrls: List<String>,
     ): Place {
         return Place(
             id = targetPlaceId,
             roomId = roomId,
             scheduleId = scheduleId,
             url = url,
-            thumbnailLinks = thumbnailLinks,
+            thumbnailLinks = ThumbnailLinks(updatedUrls),
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,

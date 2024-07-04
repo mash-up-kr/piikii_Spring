@@ -33,26 +33,34 @@ class PlaceApi(
     @PostMapping
     override fun addPlace(
         @PathVariable roomId: UUID,
-        @RequestBody addPlaceRequest: AddPlaceRequest,
-        @RequestPart multipartFile: MultipartFile,
+        @RequestPart addPlaceRequest: AddPlaceRequest,
+        @RequestPart(required = false) multipartFiles: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse> {
-        return ResponseForm(placeUseCase.addPlace(roomId, addPlaceRequest))
+        return ResponseForm(placeUseCase.addPlace(roomId, addPlaceRequest, multipartFiles))
     }
 
     @GetMapping
     override fun retrieveAll(
         @PathVariable roomId: UUID,
     ): ResponseForm<List<PlaceTypeGroupResponse>> {
-        return ResponseForm(placeUseCase.retrieveAllByRoomId(roomId))
+        return ResponseForm(placeUseCase.findAllByRoomId(roomId))
     }
 
     @PatchMapping("/{targetPlaceId}")
     override fun modifyPlace(
         @PathVariable roomId: UUID,
         @PathVariable targetPlaceId: Long,
-        @RequestBody modifyPlaceRequest: ModifyPlaceRequest,
+        @RequestPart modifyPlaceRequest: ModifyPlaceRequest,
+        @RequestPart(required = false) multipartFiles: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse> {
-        return ResponseForm(placeUseCase.modify(roomId, targetPlaceId, modifyPlaceRequest))
+        return ResponseForm(
+            placeUseCase.modify(
+                roomId = roomId,
+                targetPlaceId = targetPlaceId,
+                modifyPlaceRequest = modifyPlaceRequest,
+                newMultipartFiles = multipartFiles,
+            ),
+        )
     }
 
     @DeleteMapping

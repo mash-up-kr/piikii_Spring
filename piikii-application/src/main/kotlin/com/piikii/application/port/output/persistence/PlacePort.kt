@@ -8,7 +8,7 @@ interface PlaceQueryPort {
 
     fun findAllByPlaceIds(placeIds: List<Long>): List<Place>
 
-    fun retrieveAllByRoomId(roomId: UUID): List<Place>
+    fun findAllByRoomId(roomId: UUID): List<Place>
 }
 
 interface PlaceCommandPort {

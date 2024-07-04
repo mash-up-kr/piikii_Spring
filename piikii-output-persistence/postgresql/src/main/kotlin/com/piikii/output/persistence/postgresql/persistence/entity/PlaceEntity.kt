@@ -48,7 +48,6 @@ class PlaceEntity(
         return Place(
             roomId = roomId,
             id = id,
-            roomId = roomId,
             scheduleId = scheduleId,
             url = url,
             thumbnailLinks = ThumbnailLinks(thumbnailLinks),
