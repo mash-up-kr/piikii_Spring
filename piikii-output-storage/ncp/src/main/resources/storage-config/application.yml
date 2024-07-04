@@ -1,0 +1,9 @@
+ncp:
+  key:
+    access: ${NCP_API_ACCESS_KEY}
+    secret: ${NCP_API_SECRET_KEY}
+  bucket:
+    name: ${NCP_BUCKET_NAME}
+    folder:
+      place-folder: ${NCP_BUCKET_FOLDER_PLACE}
+      room-folder: ${NCP_BUCKET_FOLDER_ROOM}

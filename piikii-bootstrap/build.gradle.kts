@@ -4,6 +4,7 @@ dependencies {
     implementation(project(":piikii-output-persistence:postgresql"))
     implementation(project(":piikii-output-cache:redis"))
     implementation(project(":piikii-output-cache:caffeine"))
+    implementation(project(":piikii-output-storage:ncp"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
 }

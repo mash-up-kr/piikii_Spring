@@ -35,4 +35,4 @@ module-input-adapter:
 
 module-output-adapter:
   - changed-files:
-      - any-glob-to-any-file: [ 'piikii-output-cache/**', 'piikii-output-eventbroker/**', 'piikii-output-persistence/**' ]
+      - any-glob-to-any-file: [ 'piikii-output-cache/**', 'piikii-output-eventbroker/**', 'piikii-output-persistence/**', 'piikii-output-storage/**']
