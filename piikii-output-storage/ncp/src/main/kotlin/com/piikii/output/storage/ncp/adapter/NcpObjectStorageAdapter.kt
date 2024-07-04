@@ -61,8 +61,8 @@ class NcpObjectStorageAdapter(
 
     private fun getFolderName(uploadType: UploadType): String {
         return when (uploadType) {
-            UploadType.ROOM -> ncpProperties.bucket.folder.name.roomFolder
-            UploadType.PLACE -> ncpProperties.bucket.folder.name.placeFolder
+            UploadType.ROOM -> ncpProperties.bucket.folder.roomFolder
+            UploadType.PLACE -> ncpProperties.bucket.folder.placeFolder
         }
     }
 

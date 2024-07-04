@@ -5,6 +5,5 @@ ncp:
   bucket:
     name: ${NCP_BUCKET_NAME}
     folder:
-      name:
-        place-folder: ${NCP_BUCKET_FOLDER_PLACE}
-        room-folder: ${NCP_BUCKET_FOLDER_ROOM}
+      place-folder: ${NCP_BUCKET_FOLDER_PLACE}
+      room-folder: ${NCP_BUCKET_FOLDER_ROOM}

@@ -17,12 +17,8 @@ data class NcpProperties(
         val folder: FolderProperties,
     ) {
         data class FolderProperties(
-            val name: NameProperties,
-        ) {
-            data class NameProperties(
-                val placeFolder: String,
-                val roomFolder: String,
-            )
-        }
+            val placeFolder: String,
+            val roomFolder: String,
+        )
     }
 }
