@@ -55,7 +55,7 @@ class PlaceApi(
     ): ResponseForm<PlaceResponse> {
         return ResponseForm(
             placeUseCase.modify(
-                roomId = roomId,
+                targetRoomId = roomId,
                 targetPlaceId = targetPlaceId,
                 modifyPlaceRequest = modifyPlaceRequest,
                 newMultipartFiles = multipartFiles,

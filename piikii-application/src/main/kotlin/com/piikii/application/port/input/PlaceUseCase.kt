@@ -9,15 +9,15 @@ import java.util.UUID
 
 interface PlaceUseCase {
     fun addPlace(
-        roomId: UUID,
+        targetRoomId: UUID,
         addPlaceRequest: AddPlaceRequest,
         multipartFiles: List<MultipartFile>?,
     ): PlaceResponse
 
-    fun findAllByRoomId(roomId: UUID): List<PlaceTypeGroupResponse>
+    fun findAllByRoomId(targetRoomId: UUID): List<PlaceTypeGroupResponse>
 
     fun modify(
-        roomId: UUID,
+        targetRoomId: UUID,
         targetPlaceId: Long,
         modifyPlaceRequest: ModifyPlaceRequest,
         newMultipartFiles: List<MultipartFile>?,
