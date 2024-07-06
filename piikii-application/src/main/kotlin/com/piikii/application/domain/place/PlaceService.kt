@@ -33,14 +33,13 @@ class PlaceService(
         addPlaceRequest: AddPlaceRequest,
         multipartFiles: List<MultipartFile>?,
     ): PlaceResponse {
-        var imageUrls = listOf<String>()
-        if (multipartFiles != null) {
-            imageUrls =
+        val imageUrls =
+            multipartFiles?.let {
                 objectStoragePort.uploadAll(
                     bucketFolderType = BUCKET_TYPE,
-                    multipartFiles = multipartFiles,
+                    multipartFiles = it,
                 )
-        }
+            } ?: listOf()
 
         return PlaceResponse(
             placeCommandPort.save(
@@ -51,9 +50,9 @@ class PlaceService(
         )
     }
 
-    override fun findAllByRoomId(roomId: UUID): List<PlaceTypeGroupResponse> {
+    override fun findAllByRoomId(targetRoomId: UUID): List<PlaceTypeGroupResponse> {
         val placeScheduleMap = mutableMapOf<Place, Schedule>()
-        val places = placeQueryPort.findAllByRoomId(roomId)
+        val places = placeQueryPort.findAllByRoomId(targetRoomId)
         for (place in places) {
             placeScheduleMap[place] = scheduleQueryPort.findScheduleById(place.scheduleId)
         }
@@ -62,20 +61,19 @@ class PlaceService(
 
     @Transactional
     override fun modify(
-        roomId: UUID,
+        targetRoomId: UUID,
         targetPlaceId: Long,
         modifyPlaceRequest: ModifyPlaceRequest,
         newMultipartFiles: List<MultipartFile>?,
     ): PlaceResponse {
-        var updatedUrls = listOf<String>()
-        if (newMultipartFiles != null) {
-            updatedUrls =
+        val updatedUrls =
+            newMultipartFiles?.let {
                 objectStoragePort.updateAllByUrls(
                     bucketFolderType = BUCKET_TYPE,
                     deleteTargetUrls = modifyPlaceRequest.deleteTargetUrls,
-                    newMultipartFiles = newMultipartFiles,
+                    newMultipartFiles = it,
                 )
-        }
+            } ?: listOf()
 
         val place = isPlaceNullOrGet(targetPlaceId)
         return PlaceResponse(
@@ -84,7 +82,7 @@ class PlaceService(
                 place =
                     modifyPlaceRequest.toDomain(
                         targetPlaceId,
-                        roomId,
+                        targetRoomId,
                         combineOriginalAndNewUrls(updatedUrls, place),
                     ),
             ),
