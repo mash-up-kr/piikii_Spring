@@ -12,17 +12,19 @@ import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
 import java.io.InputStream
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Future
 
 @Component
 class NcpObjectStorageAdapter(
     private val ncpProperties: NcpProperties,
     private val storageConfig: StorageConfig,
 ) : ObjectStoragePort {
-    @Async("StorageTaskExecutor")
+    @Async("AsyncStorageExecutor")
     override fun uploadAll(
         bucketFolderType: BucketFolderType,
         multipartFiles: List<MultipartFile>,
-    ): List<String> {
+    ): Future<List<String>> {
         val contentUrls = mutableListOf<String>()
 
         for (multipartFile in multipartFiles) {
@@ -41,20 +43,20 @@ class NcpObjectStorageAdapter(
             storageConfig.storageClient().putObject(putObjectRequest)
             contentUrls.add(ncpProperties.bucket.path + objectKey)
         }
-        return contentUrls
+        return CompletableFuture.completedFuture(contentUrls)
     }
 
-    @Async("StorageTaskExecutor")
+    @Async("TaskExecutorForExternalStorage")
     override fun updateAllByUrls(
         bucketFolderType: BucketFolderType,
         deleteTargetUrls: List<String>,
         newMultipartFiles: List<MultipartFile>,
-    ): List<String> {
+    ): Future<List<String>> {
         deleteAllByUrls(bucketFolderType, deleteTargetUrls)
         return uploadAll(bucketFolderType, newMultipartFiles)
     }
 
-    @Async("StorageTaskExecutor")
+    @Async("TaskExecutorForExternalStorage")
     override fun deleteAllByUrls(
         bucketFolderType: BucketFolderType,
         deleteTargetUrls: List<String>,
