@@ -45,7 +45,7 @@ class PlaceApi(
     override fun retrieveAll(
         @NotNull @PathVariable roomId: UUID,
     ): ResponseForm<List<PlaceTypeGroupResponse>> {
-        return ResponseForm(placeUseCase.findAllByRoomId(roomId))
+        return ResponseForm(placeUseCase.findAllByRoomIdGroupByPlaceType(roomId))
     }
 
     @PatchMapping("/{targetPlaceId}")

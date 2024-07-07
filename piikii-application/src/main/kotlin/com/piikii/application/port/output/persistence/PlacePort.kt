@@ -1,7 +1,7 @@
 package com.piikii.application.port.output.persistence
 
 import com.piikii.application.domain.place.Place
-import com.piikii.application.domain.schedule.Schedule
+import com.piikii.application.domain.schedule.PlaceType
 import java.util.UUID
 
 interface PlaceQueryPort {
@@ -9,14 +9,12 @@ interface PlaceQueryPort {
 
     fun findAllByPlaceIds(placeIds: List<Long>): List<Place>
 
-    fun findAllByRoomId(roomId: UUID): List<Place>
-
-    fun findAllWithSchedulesByRoomId(roomId: UUID): List<Pair<Place, Schedule>>
+    fun findAllByRoomIdGroupByPlaceType(roomId: UUID): Map<PlaceType, List<Place>>
 }
 
 interface PlaceCommandPort {
     fun save(
-        targetRoomId: UUID,
+        roomId: UUID,
         scheduleId: Long,
         place: Place,
     ): Place

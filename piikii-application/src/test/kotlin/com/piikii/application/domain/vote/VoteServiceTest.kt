@@ -5,6 +5,7 @@ import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.room.Password
 import com.piikii.application.domain.room.Room
+import com.piikii.application.domain.schedule.PlaceType
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.application.port.output.persistence.VoteCommandPort
@@ -89,6 +90,7 @@ class VoteServiceTest {
                 voteLikeCount = null,
                 voteDislikeCount = null,
                 note = null,
+                placeType = PlaceType.DISH,
             )
 
         given(roomQueryPort.findById(room.roomId))
@@ -139,6 +141,7 @@ class VoteServiceTest {
                     voteLikeCount = null,
                     voteDislikeCount = null,
                     note = null,
+                    placeType = PlaceType.DISH,
                 ),
                 Place(
                     id = 1L,
@@ -153,6 +156,7 @@ class VoteServiceTest {
                     voteLikeCount = null,
                     voteDislikeCount = null,
                     note = null,
+                    placeType = PlaceType.DISH,
                 ),
             )
 
@@ -204,6 +208,7 @@ class VoteServiceTest {
                     voteLikeCount = null,
                     voteDislikeCount = null,
                     note = null,
+                    placeType = PlaceType.DISH,
                 ),
                 Place(
                     id = 2,
@@ -218,6 +223,7 @@ class VoteServiceTest {
                     voteLikeCount = null,
                     voteDislikeCount = null,
                     note = null,
+                    placeType = PlaceType.DISH,
                 ),
             )
 

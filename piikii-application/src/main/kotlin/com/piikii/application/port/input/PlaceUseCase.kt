@@ -14,7 +14,7 @@ interface PlaceUseCase {
         placeImages: List<MultipartFile>?,
     ): PlaceResponse
 
-    fun findAllByRoomId(targetRoomId: UUID): List<PlaceTypeGroupResponse>
+    fun findAllByRoomIdGroupByPlaceType(targetRoomId: UUID): List<PlaceTypeGroupResponse>
 
     fun modify(
         targetRoomId: UUID,

@@ -3,6 +3,7 @@ package com.piikii.output.persistence.postgresql.persistence.entity
 import com.piikii.application.domain.generic.Source
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
+import com.piikii.application.domain.schedule.PlaceType
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -22,8 +23,10 @@ import java.util.UUID
 class PlaceEntity(
     @Column(name = "roomId", nullable = false, updatable = false)
     val roomId: UUID,
-    @Column(name = "schedule_id", nullable = false, updatable = false)
+    @Column(name = "scheduleId", nullable = false, updatable = false)
     var scheduleId: Long,
+    @Enumerated(EnumType.STRING)
+    var placeType: PlaceType,
     @Column(name = "url", length = 255)
     var url: String?,
     @Column(name = "thumbnail_links", nullable = false, length = 255)
@@ -44,11 +47,27 @@ class PlaceEntity(
     @Column(name = "vote_dislike_count", nullable = false)
     var voteDislikeCount: Short? = 0,
 ) : BaseEntity() {
+    constructor(roomId: UUID, scheduleId: Long, place: Place) : this(
+        roomId = roomId,
+        scheduleId = scheduleId,
+        placeType = place.placeType,
+        url = place.url,
+        thumbnailLinks = place.thumbnailLinks.contents ?: "",
+        address = place.address,
+        phoneNumber = place.phoneNumber,
+        starGrade = place.starGrade,
+        source = place.source,
+        note = place.note,
+        voteLikeCount = place.voteLikeCount,
+        voteDislikeCount = place.voteDislikeCount,
+    )
+
     fun toDomain(): Place {
         return Place(
-            roomId = roomId,
             id = id,
+            roomId = roomId,
             scheduleId = scheduleId,
+            placeType = placeType,
             url = url,
             thumbnailLinks = ThumbnailLinks(thumbnailLinks),
             address = address,
@@ -62,6 +81,7 @@ class PlaceEntity(
     }
 
     fun update(place: Place) {
+        placeType = placeType
         url = place.url
         thumbnailLinks = place.thumbnailLinks.contents ?: ""
         address = place.address
@@ -71,27 +91,5 @@ class PlaceEntity(
         note = place.note
         voteLikeCount = place.voteLikeCount
         voteDislikeCount = place.voteDislikeCount
-    }
-
-    companion object {
-        fun of(
-            roomId: UUID,
-            scheduleId: Long,
-            place: Place,
-        ): PlaceEntity {
-            return PlaceEntity(
-                roomId = roomId,
-                scheduleId = scheduleId,
-                url = place.url,
-                thumbnailLinks = place.thumbnailLinks.contents ?: "",
-                address = place.address,
-                phoneNumber = place.phoneNumber,
-                starGrade = place.starGrade,
-                source = place.source,
-                note = place.note,
-                voteLikeCount = place.voteLikeCount,
-                voteDislikeCount = place.voteDislikeCount,
-            )
-        }
     }
 }

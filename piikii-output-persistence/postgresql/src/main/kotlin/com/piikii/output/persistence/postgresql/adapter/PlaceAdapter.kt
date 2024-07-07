@@ -1,7 +1,7 @@
 package com.piikii.output.persistence.postgresql.adapter
 
 import com.piikii.application.domain.place.Place
-import com.piikii.application.domain.schedule.Schedule
+import com.piikii.application.domain.schedule.PlaceType
 import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.common.exception.ExceptionCode
@@ -20,15 +20,15 @@ class PlaceAdapter(
 ) : PlaceQueryPort, PlaceCommandPort {
     @Transactional
     override fun save(
-        targetRoomId: UUID,
+        roomId: UUID,
         scheduleId: Long,
         place: Place,
     ): Place {
         val placeEntity =
-            PlaceEntity.of(
-                place = place,
+            PlaceEntity(
+                roomId = roomId,
                 scheduleId = scheduleId,
-                roomId = targetRoomId,
+                place = place,
             )
         return placeRepository.save(placeEntity).toDomain()
     }
@@ -67,13 +67,9 @@ class PlaceAdapter(
         return placeRepository.findAllById(placeIds).map { it.toDomain() }
     }
 
-    override fun findAllByRoomId(roomId: UUID): List<Place> {
-        return placeRepository.findAllByRoomId(roomId).map { it.toDomain() }
-    }
-
-    override fun findAllWithSchedulesByRoomId(roomId: UUID): List<Pair<Place, Schedule>> {
-        return placeRepository.findAllWithSchedulesByRoomId(roomId).map {
-            it.getPlace().toDomain() to it.getSchedule().toDomain()
-        }
+    override fun findAllByRoomIdGroupByPlaceType(roomId: UUID): Map<PlaceType, List<Place>> {
+        return placeRepository.findAllByRoomId(roomId)
+            .map { it.toDomain() }
+            .groupBy { it.placeType }
     }
 }

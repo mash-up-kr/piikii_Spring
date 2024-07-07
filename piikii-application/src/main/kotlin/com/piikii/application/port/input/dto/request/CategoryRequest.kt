@@ -29,9 +29,9 @@ data class CreateScheduleRequest(
 ) {
     fun toDomain(roomId: UUID): Schedule {
         return Schedule(
+            id = 0L,
             roomId = roomId,
             name = this.name,
-            placeType = this.placeType,
             sequence = this.sequence,
         )
     }

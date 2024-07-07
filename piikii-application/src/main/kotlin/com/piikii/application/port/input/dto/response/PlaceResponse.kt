@@ -23,7 +23,7 @@ data class PlaceResponse(
     constructor(place: Place) : this(
         id = place.id,
         roomId = place.roomId,
-        scheduleId = place.scheduleId,
+        scheduleId = place.id,
         url = place.url,
         placeImageUrls = place.thumbnailLinks,
         address = place.address,
