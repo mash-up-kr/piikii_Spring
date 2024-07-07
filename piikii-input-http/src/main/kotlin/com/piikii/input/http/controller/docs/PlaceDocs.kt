@@ -108,7 +108,7 @@ interface PlaceDocs {
             required = true,
             `in` = ParameterIn.PATH,
         ) @NotNull targetPlaceId: Long,
-        @Valid modifyPlaceRequest: ModifyPlaceRequest,
+        @Valid @NotNull modifyPlaceRequest: ModifyPlaceRequest,
         multipartFiles: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse>
 
@@ -125,6 +125,6 @@ interface PlaceDocs {
             description = "방 장소 생성 Request body",
             required = true,
             content = [Content(schema = Schema(implementation = DeletePlaceRequest::class))],
-        ) @Valid deletePlaceRequest: DeletePlaceRequest,
+        ) @Valid @NotNull deletePlaceRequest: DeletePlaceRequest,
     ): ResponseForm<Unit>
 }

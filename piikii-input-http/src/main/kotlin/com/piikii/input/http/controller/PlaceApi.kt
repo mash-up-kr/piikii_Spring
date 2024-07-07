@@ -8,6 +8,8 @@ import com.piikii.application.port.input.dto.response.PlaceResponse
 import com.piikii.application.port.input.dto.response.PlaceTypeGroupResponse
 import com.piikii.input.http.controller.docs.PlaceDocs
 import com.piikii.input.http.controller.dto.ResponseForm
+import jakarta.validation.Valid
+import jakarta.validation.constraints.NotNull
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -32,8 +34,8 @@ class PlaceApi(
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     override fun addPlace(
-        @PathVariable roomId: UUID,
-        @RequestPart addPlaceRequest: AddPlaceRequest,
+        @NotNull @PathVariable roomId: UUID,
+        @Valid @RequestPart addPlaceRequest: AddPlaceRequest,
         @RequestPart(required = false) multipartFiles: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse> {
         return ResponseForm(placeUseCase.addPlace(roomId, addPlaceRequest, multipartFiles))
@@ -41,16 +43,16 @@ class PlaceApi(
 
     @GetMapping
     override fun retrieveAll(
-        @PathVariable roomId: UUID,
+        @NotNull @PathVariable roomId: UUID,
     ): ResponseForm<List<PlaceTypeGroupResponse>> {
         return ResponseForm(placeUseCase.findAllByRoomId(roomId))
     }
 
     @PatchMapping("/{targetPlaceId}")
     override fun modifyPlace(
-        @PathVariable roomId: UUID,
-        @PathVariable targetPlaceId: Long,
-        @RequestPart modifyPlaceRequest: ModifyPlaceRequest,
+        @NotNull @PathVariable roomId: UUID,
+        @NotNull @PathVariable targetPlaceId: Long,
+        @Valid @NotNull @RequestPart modifyPlaceRequest: ModifyPlaceRequest,
         @RequestPart(required = false) multipartFiles: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse> {
         return ResponseForm(
@@ -65,8 +67,8 @@ class PlaceApi(
 
     @DeleteMapping
     override fun deletePlace(
-        @PathVariable roomId: UUID,
-        @RequestBody deletePlaceRequest: DeletePlaceRequest,
+        @NotNull @PathVariable roomId: UUID,
+        @Valid @NotNull @RequestBody deletePlaceRequest: DeletePlaceRequest,
     ): ResponseForm<Unit> {
         placeUseCase.delete(deletePlaceRequest.targetPlaceId)
         return ResponseForm.EMPTY_RESPONSE
