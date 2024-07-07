@@ -1,7 +1,5 @@
 project(":piikii-input-http") {
     dependencies {
-        implementation(project(":piikii-application"))
-
         implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-aop")
 
@@ -10,5 +8,19 @@ project(":piikii-input-http") {
 
         // for validation
         implementation("org.springframework.boot:spring-boot-starter-validation")
+    }
+}
+
+allprojects {
+    dependencies {
+        implementation(project(":piikii-application"))
+    }
+
+    tasks.bootJar {
+        enabled = false
+    }
+
+    tasks.jar {
+        enabled = true
     }
 }
