@@ -53,7 +53,7 @@ interface PlaceDocs {
             required = true,
             content = [Content(schema = Schema(implementation = AddPlaceRequest::class))],
         ) @Valid addPlaceRequest: AddPlaceRequest,
-        multipartFiles: List<MultipartFile>?,
+        placeImages: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse>
 
     @Operation(summary = "방 장소 조회 API", description = "방에 등록된 장소를 모두 조회합니다.")
@@ -109,7 +109,7 @@ interface PlaceDocs {
             `in` = ParameterIn.PATH,
         ) @NotNull targetPlaceId: Long,
         @Valid @NotNull modifyPlaceRequest: ModifyPlaceRequest,
-        multipartFiles: List<MultipartFile>?,
+        newPlaceImages: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse>
 
     @Operation(summary = "방 장소 삭제 API", description = "방에 추가한 장소를 삭제합니다.")

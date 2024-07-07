@@ -36,9 +36,9 @@ class PlaceApi(
     override fun addPlace(
         @NotNull @PathVariable roomId: UUID,
         @Valid @RequestPart addPlaceRequest: AddPlaceRequest,
-        @RequestPart(required = false) multipartFiles: List<MultipartFile>?,
+        @RequestPart(required = false) placeImages: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse> {
-        return ResponseForm(placeUseCase.addPlace(roomId, addPlaceRequest, multipartFiles))
+        return ResponseForm(placeUseCase.addPlace(roomId, addPlaceRequest, placeImages))
     }
 
     @GetMapping
@@ -53,14 +53,14 @@ class PlaceApi(
         @NotNull @PathVariable roomId: UUID,
         @NotNull @PathVariable targetPlaceId: Long,
         @Valid @NotNull @RequestPart modifyPlaceRequest: ModifyPlaceRequest,
-        @RequestPart(required = false) multipartFiles: List<MultipartFile>?,
+        @RequestPart(required = false) newPlaceImages: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse> {
         return ResponseForm(
             placeUseCase.modify(
                 targetRoomId = roomId,
                 targetPlaceId = targetPlaceId,
                 modifyPlaceRequest = modifyPlaceRequest,
-                newMultipartFiles = multipartFiles,
+                newPlaceImages = newPlaceImages,
             ),
         )
     }

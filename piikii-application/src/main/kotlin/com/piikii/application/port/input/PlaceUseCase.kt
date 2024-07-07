@@ -11,7 +11,7 @@ interface PlaceUseCase {
     fun addPlace(
         targetRoomId: UUID,
         addPlaceRequest: AddPlaceRequest,
-        multipartFiles: List<MultipartFile>?,
+        placeImages: List<MultipartFile>?,
     ): PlaceResponse
 
     fun findAllByRoomId(targetRoomId: UUID): List<PlaceTypeGroupResponse>
@@ -20,7 +20,7 @@ interface PlaceUseCase {
         targetRoomId: UUID,
         targetPlaceId: Long,
         modifyPlaceRequest: ModifyPlaceRequest,
-        newMultipartFiles: List<MultipartFile>?,
+        newPlaceImages: List<MultipartFile>?,
     ): PlaceResponse
 
     fun delete(targetPlaceId: Long)

@@ -1,17 +1,17 @@
 package com.piikii.application.domain.place
 
+import com.piikii.application.domain.schedule.PlaceType
 import com.piikii.application.domain.schedule.Schedule
 import com.piikii.application.port.input.PlaceUseCase
 import com.piikii.application.port.input.dto.request.AddPlaceRequest
 import com.piikii.application.port.input.dto.request.ModifyPlaceRequest
 import com.piikii.application.port.input.dto.response.PlaceResponse
 import com.piikii.application.port.input.dto.response.PlaceTypeGroupResponse
-import com.piikii.application.port.input.dto.response.PlaceTypeGroupResponse.Companion.groupingByPlaceType
 import com.piikii.application.port.output.objectstorage.BucketFolderType
 import com.piikii.application.port.output.objectstorage.ObjectStoragePort
 import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
-import com.piikii.application.port.output.persistence.ScheduleQueryPort
+import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
 import org.springframework.stereotype.Service
@@ -22,23 +22,25 @@ import java.util.UUID
 @Service
 @Transactional(readOnly = true)
 class PlaceService(
+    private val roomQueryPort: RoomQueryPort,
     private val placeQueryPort: PlaceQueryPort,
     private val placeCommandPort: PlaceCommandPort,
-    private val scheduleQueryPort: ScheduleQueryPort,
     private val objectStoragePort: ObjectStoragePort,
 ) : PlaceUseCase {
     @Transactional
     override fun addPlace(
         targetRoomId: UUID,
         addPlaceRequest: AddPlaceRequest,
-        multipartFiles: List<MultipartFile>?,
+        placeImages: List<MultipartFile>?,
     ): PlaceResponse {
+        checkRoomExistsOrThrow(targetRoomId)
+
         val imageUrls =
-            multipartFiles?.let {
+            placeImages?.let {
                 objectStoragePort.uploadAll(
                     bucketFolderType = BUCKET_TYPE,
                     multipartFiles = it,
-                )
+                ).get()
             } ?: listOf()
 
         return PlaceResponse(
@@ -51,28 +53,47 @@ class PlaceService(
     }
 
     override fun findAllByRoomId(targetRoomId: UUID): List<PlaceTypeGroupResponse> {
-        val placeScheduleMap = mutableMapOf<Place, Schedule>()
-        val places = placeQueryPort.findAllByRoomId(targetRoomId)
-        for (place in places) {
-            placeScheduleMap[place] = scheduleQueryPort.findScheduleById(place.scheduleId)
+        val placeTypeGroups = mutableMapOf<PlaceType, MutableList<PlaceSchedulePair>>()
+
+        val placesWithSchedules = placeQueryPort.findAllWithSchedulesByRoomId(targetRoomId)
+
+        for ((place, schedule) in placesWithSchedules) {
+            val placeType = schedule.placeType
+            val pair = PlaceSchedulePair(place, schedule)
+            placeTypeGroups.getOrPut(placeType) { mutableListOf() }.add(pair)
         }
-        return groupingByPlaceType(placeScheduleMap)
+
+        return placeTypeGroups.map { (placeType, pairs) ->
+            PlaceTypeGroupResponse(
+                placeType = placeType,
+                places =
+                    pairs.map {
+                        PlaceResponse(
+                            it.place,
+                        )
+                    },
+            )
+        }
     }
+
+    data class PlaceSchedulePair(val place: Place, val schedule: Schedule)
 
     @Transactional
     override fun modify(
         targetRoomId: UUID,
         targetPlaceId: Long,
         modifyPlaceRequest: ModifyPlaceRequest,
-        newMultipartFiles: List<MultipartFile>?,
+        newPlaceImages: List<MultipartFile>?,
     ): PlaceResponse {
+        checkRoomExistsOrThrow(targetRoomId)
+
         val updatedUrls =
-            newMultipartFiles?.let {
+            newPlaceImages?.let {
                 objectStoragePort.updateAllByUrls(
                     bucketFolderType = BUCKET_TYPE,
                     deleteTargetUrls = modifyPlaceRequest.deleteTargetUrls,
                     newMultipartFiles = it,
-                )
+                ).get()
             } ?: listOf()
 
         val place = isPlaceNullOrGet(targetPlaceId)
@@ -96,6 +117,15 @@ class PlaceService(
             deleteTargetUrls = isPlaceNullOrGet(targetPlaceId).thumbnailLinks.convertToList,
         )
         placeCommandPort.delete(targetPlaceId)
+    }
+
+    private fun checkRoomExistsOrThrow(targetRoomId: UUID) {
+        if (roomQueryPort.findById(targetRoomId) == null) {
+            throw PiikiiException(
+                exceptionCode = ExceptionCode.NOT_FOUNDED,
+                detailMessage = "targetRoomId : $targetRoomId",
+            )
+        }
     }
 
     private fun isPlaceNullOrGet(targetPlaceId: Long): Place {

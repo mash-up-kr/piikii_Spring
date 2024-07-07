@@ -4,7 +4,6 @@ import com.piikii.application.domain.generic.Source
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.schedule.PlaceType
-import com.piikii.application.domain.schedule.Schedule
 import java.util.UUID
 
 data class PlaceResponse(
@@ -12,7 +11,7 @@ data class PlaceResponse(
     val roomId: UUID,
     val scheduleId: Long,
     val url: String? = null,
-    val thumbnailLinks: ThumbnailLinks,
+    val placeImageUrls: ThumbnailLinks,
     val address: String? = null,
     val phoneNumber: String? = null,
     val starGrade: Float?,
@@ -26,7 +25,7 @@ data class PlaceResponse(
         roomId = place.roomId,
         scheduleId = place.scheduleId,
         url = place.url,
-        thumbnailLinks = place.thumbnailLinks,
+        placeImageUrls = place.thumbnailLinks,
         address = place.address,
         phoneNumber = place.phoneNumber,
         starGrade = place.starGrade,
@@ -40,17 +39,4 @@ data class PlaceResponse(
 data class PlaceTypeGroupResponse(
     val placeType: PlaceType,
     val places: List<PlaceResponse>,
-) {
-    companion object {
-        fun groupingByPlaceType(placesScheduleMap: Map<Place, Schedule>): List<PlaceTypeGroupResponse> {
-            return placesScheduleMap.entries
-                .groupBy { (place, schedule) -> schedule.placeType }
-                .map { (placeType, entries) ->
-                    PlaceTypeGroupResponse(
-                        placeType = placeType,
-                        places = entries.map { (place, _) -> PlaceResponse(place) },
-                    )
-                }
-        }
-    }
-}
+)
