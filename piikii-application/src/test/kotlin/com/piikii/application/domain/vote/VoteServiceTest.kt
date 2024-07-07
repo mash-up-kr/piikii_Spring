@@ -5,7 +5,6 @@ import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.room.Password
 import com.piikii.application.domain.room.Room
-import com.piikii.application.domain.schedule.PlaceType
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.application.port.output.persistence.VoteCommandPort
@@ -78,8 +77,7 @@ class VoteServiceTest {
             )
         val place =
             Place(
-                id = null,
-                placeType = PlaceType.ARCADE,
+                id = 0L,
                 url = null,
                 thumbnailLinks = ThumbnailLinks(contents = null),
                 address = null,
@@ -87,6 +85,10 @@ class VoteServiceTest {
                 starGrade = null,
                 source = Source.MANUAL,
                 roomId = roomId,
+                scheduleId = 0L,
+                voteLikeCount = null,
+                voteDislikeCount = null,
+                note = null,
             )
 
         given(roomQueryPort.findById(room.roomId))
@@ -125,8 +127,7 @@ class VoteServiceTest {
         val places =
             listOf(
                 Place(
-                    id = null,
-                    placeType = PlaceType.ARCADE,
+                    id = 0L,
                     url = null,
                     thumbnailLinks = ThumbnailLinks(contents = null),
                     address = null,
@@ -134,10 +135,13 @@ class VoteServiceTest {
                     starGrade = null,
                     source = Source.MANUAL,
                     roomId = UUID.randomUUID(),
+                    scheduleId = 0L,
+                    voteLikeCount = null,
+                    voteDislikeCount = null,
+                    note = null,
                 ),
                 Place(
-                    id = null,
-                    placeType = PlaceType.ARCADE,
+                    id = 1L,
                     url = null,
                     thumbnailLinks = ThumbnailLinks(contents = null),
                     address = null,
@@ -145,6 +149,10 @@ class VoteServiceTest {
                     starGrade = null,
                     source = Source.MANUAL,
                     roomId = UUID.randomUUID(),
+                    scheduleId = 0L,
+                    voteLikeCount = null,
+                    voteDislikeCount = null,
+                    note = null,
                 ),
             )
 
@@ -184,8 +192,7 @@ class VoteServiceTest {
         val places =
             listOf(
                 Place(
-                    id = null,
-                    placeType = PlaceType.ARCADE,
+                    id = 1,
                     url = null,
                     thumbnailLinks = ThumbnailLinks(contents = null),
                     address = null,
@@ -193,10 +200,13 @@ class VoteServiceTest {
                     starGrade = null,
                     source = Source.MANUAL,
                     roomId = roomId,
+                    scheduleId = 0,
+                    voteLikeCount = null,
+                    voteDislikeCount = null,
+                    note = null,
                 ),
                 Place(
-                    id = null,
-                    placeType = PlaceType.ARCADE,
+                    id = 2,
                     url = null,
                     thumbnailLinks = ThumbnailLinks(contents = null),
                     address = null,
@@ -204,6 +214,10 @@ class VoteServiceTest {
                     starGrade = null,
                     source = Source.MANUAL,
                     roomId = roomId,
+                    scheduleId = 0,
+                    voteLikeCount = null,
+                    voteDislikeCount = null,
+                    note = null,
                 ),
             )
 
