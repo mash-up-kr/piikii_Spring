@@ -14,6 +14,7 @@ data class NcpProperties(
 
     data class BucketProperties(
         val name: String,
+        val path: String,
         val folder: FolderProperties,
     ) {
         data class FolderProperties(

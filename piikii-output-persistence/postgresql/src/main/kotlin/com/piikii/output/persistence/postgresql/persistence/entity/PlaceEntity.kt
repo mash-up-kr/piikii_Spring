@@ -21,62 +21,75 @@ import java.util.UUID
 @SQLDelete(sql = "UPDATE piikii.place SET is_deleted = true WHERE id = ?")
 @DynamicUpdate
 class PlaceEntity(
-    @Column(name = "roomId")
+    @Column(name = "roomId", nullable = false, updatable = false)
     val roomId: UUID,
+    @Column(name = "scheduleId", nullable = false, updatable = false)
+    var scheduleId: Long,
+    @Enumerated(EnumType.STRING)
+    var placeType: PlaceType,
     @Column(name = "url", length = 255)
     var url: String?,
     @Column(name = "thumbnail_links", nullable = false, length = 255)
     var thumbnailLinks: String,
     @Column(name = "address", length = 255)
-    var address: String? = null,
+    var address: String?,
     @Column(name = "phone_number", length = 15)
-    var phoneNumber: String? = null,
-    @Column(name = "star_grade")
-    var starGrade: Float? = null,
+    var phoneNumber: String?,
+    @Column(name = "star_grade", columnDefinition = "DECIMAL(2,1) DEFAULT 0.0", nullable = false)
+    var starGrade: Float? = 0.0F,
     @Enumerated(EnumType.STRING)
+    @Column(name = "source", nullable = false)
     var source: Source,
-    @Enumerated(EnumType.STRING)
-    var placeType: PlaceType,
+    @Column(name = "note", length = 150, columnDefinition = "VARCHAR(150)")
+    var note: String?,
+    @Column(name = "vote_like_count", nullable = false)
+    var voteLikeCount: Short? = 0,
+    @Column(name = "vote_dislike_count", nullable = false)
+    var voteDislikeCount: Short? = 0,
 ) : BaseEntity() {
+    constructor(roomId: UUID, scheduleId: Long, place: Place) : this(
+        roomId = roomId,
+        scheduleId = scheduleId,
+        placeType = place.placeType,
+        url = place.url,
+        thumbnailLinks = place.thumbnailLinks.contents ?: "",
+        address = place.address,
+        phoneNumber = place.phoneNumber,
+        starGrade = place.starGrade,
+        source = place.source,
+        note = place.note,
+        voteLikeCount = place.voteLikeCount,
+        voteDislikeCount = place.voteDislikeCount,
+    )
+
     fun toDomain(): Place {
         return Place(
-            roomId = roomId,
             id = id,
+            roomId = roomId,
+            scheduleId = scheduleId,
+            placeType = placeType,
             url = url,
             thumbnailLinks = ThumbnailLinks(thumbnailLinks),
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
             source = source,
-            placeType = placeType,
+            note = note,
+            voteLikeCount = voteLikeCount,
+            voteDislikeCount = voteDislikeCount,
         )
     }
 
     fun update(place: Place) {
+        placeType = placeType
         url = place.url
         thumbnailLinks = place.thumbnailLinks.contents ?: ""
         address = place.address
         phoneNumber = place.phoneNumber
         starGrade = place.starGrade
         source = place.source
-        placeType = place.placeType
-    }
-
-    companion object {
-        fun of(
-            roomId: UUID,
-            place: Place,
-        ): PlaceEntity {
-            return PlaceEntity(
-                roomId = roomId,
-                url = place.url,
-                thumbnailLinks = place.thumbnailLinks.contents ?: "",
-                address = place.address,
-                phoneNumber = place.phoneNumber,
-                starGrade = place.starGrade,
-                source = place.source,
-                placeType = place.placeType,
-            )
-        }
+        note = place.note
+        voteLikeCount = place.voteLikeCount
+        voteDislikeCount = place.voteDislikeCount
     }
 }

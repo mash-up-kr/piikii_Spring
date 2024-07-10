@@ -4,59 +4,129 @@ import com.piikii.application.domain.generic.Source
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.schedule.PlaceType
+import io.swagger.v3.oas.annotations.media.Schema
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.PositiveOrZero
+import jakarta.validation.constraints.Size
 import java.util.UUID
 
 data class AddPlaceRequest(
-    val url: String? = null,
-    val thumbnailLinks: ThumbnailLinks,
-    val address: String? = null,
-    val phoneNumber: String? = null,
-    val starGrade: Float? = null,
-    val source: Source,
+    @field:NotNull
+    @Schema(description = "일정 ID", example = "1")
+    val scheduleId: Long,
+    @field:NotNull
     val placeType: PlaceType,
+    @field:Size(max = 255)
+    @Schema(description = "장소 URL", example = "https://example.com")
+    val url: String?,
+    @field:Size(max = 255)
+    @Schema(description = "주소", example = "서울시 강남구")
+    val address: String?,
+    @field:Size(max = 255)
+    @Schema(description = "전화번호", example = "02-1234-5678")
+    val phoneNumber: String?,
+    @field:Min(0) @field:Max(5)
+    @Schema(description = "별점 (0-5)", example = "4.5")
+    val starGrade: Float?,
+    @field:NotNull
+    @Schema(description = "출처")
+    val source: Source,
+    @field:NotBlank @field:Size(max = 50)
+    @Schema(description = "메모", example = "맛있는 레스토랑")
+    val note: String,
+    @field:PositiveOrZero
+    @Schema(description = "좋아요 수", example = "10")
+    val voteLikeCount: Short?,
+    @field:PositiveOrZero
+    @Schema(description = "싫어요 수", example = "2")
+    val voteDislikeCount: Short?,
 ) {
-    fun toDomain(roomId: UUID): Place {
+    fun toDomain(
+        roomId: UUID,
+        scheduleId: Long,
+        imageUrls: List<String>,
+    ): Place {
         return Place(
-            id = null,
+            id = 0L,
+            roomId = roomId,
+            scheduleId = scheduleId,
+            placeType = placeType,
             url = url,
-            thumbnailLinks = thumbnailLinks,
+            thumbnailLinks = ThumbnailLinks(imageUrls),
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
             source = source,
-            placeType = placeType,
-            roomId = roomId,
+            note = note,
+            voteLikeCount = voteLikeCount,
+            voteDislikeCount = voteDislikeCount,
         )
     }
 }
 
 data class ModifyPlaceRequest(
-    val url: String,
-    val thumbnailLinks: ThumbnailLinks,
-    val address: String,
-    val phoneNumber: String,
-    val starGrade: Float,
-    val source: Source,
+    @field:NotNull
+    @Schema(description = "일정 ID", example = "1")
+    val scheduleId: Long,
+    @field:NotNull
     val placeType: PlaceType,
+    @field:Size(max = 255)
+    @Schema(description = "장소 URL", example = "https://example.com")
+    val url: String?,
+    @Schema(description = "삭제할 이미지 URL 리스트", example = "[https://example.com, https://example.com]")
+    val deleteTargetUrls: List<String>,
+    @field:NotNull
+    @field:Size(max = 255)
+    @Schema(description = "주소", example = "서울시 강남구")
+    val address: String?,
+    @field:Size(max = 255)
+    @Schema(description = "전화번호", example = "02-1234-5678")
+    val phoneNumber: String?,
+    @field:Min(0) @field:Max(5)
+    @Schema(description = "별점 (0-5)", example = "4.5")
+    val starGrade: Float?,
+    @field:NotNull
+    @Schema(description = "출처")
+    val source: Source,
+    @field:NotBlank @field:Size(max = 50)
+    @Schema(description = "메모", example = "맛있는 레스토랑")
+    val note: String,
+    @field:PositiveOrZero
+    @Schema(description = "좋아요 수", example = "10")
+    val voteLikeCount: Short?,
+    @field:PositiveOrZero
+    @Schema(description = "싫어요 수", example = "2")
+    val voteDislikeCount: Short?,
 ) {
     fun toDomain(
-        roomId: UUID,
         targetPlaceId: Long,
+        roomId: UUID,
+        scheduleId: Long,
+        updatedUrls: List<String>,
     ): Place {
         return Place(
             id = targetPlaceId,
+            roomId = roomId,
+            scheduleId = scheduleId,
+            placeType = placeType,
             url = url,
-            thumbnailLinks = thumbnailLinks,
+            thumbnailLinks = ThumbnailLinks(updatedUrls),
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
             source = source,
-            placeType = placeType,
-            roomId = roomId,
+            note = note,
+            voteLikeCount = voteLikeCount,
+            voteDislikeCount = voteDislikeCount,
         )
     }
 }
 
 data class DeletePlaceRequest(
+    @field:NotNull
+    @Schema(description = "삭제할 장소 ID", example = "1")
     val targetPlaceId: Long,
 )

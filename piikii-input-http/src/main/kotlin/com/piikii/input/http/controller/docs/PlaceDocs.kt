@@ -15,7 +15,9 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
+import org.springframework.web.multipart.MultipartFile
 import java.util.UUID
 
 @Tag(name = "Place Api", description = "방 장소 관련 API")
@@ -29,7 +31,7 @@ interface PlaceDocs {
         value = [
             ApiResponse(
                 responseCode = "201",
-                description = "CREATED success",
+                description = "추가 성공",
                 content = [
                     Content(
                         mediaType = "application/json",
@@ -50,7 +52,8 @@ interface PlaceDocs {
             description = "방 장소 생성 Request body",
             required = true,
             content = [Content(schema = Schema(implementation = AddPlaceRequest::class))],
-        ) addPlaceRequest: AddPlaceRequest,
+        ) @Valid addPlaceRequest: AddPlaceRequest,
+        placeImages: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse>
 
     @Operation(summary = "방 장소 조회 API", description = "방에 등록된 장소를 모두 조회합니다.")
@@ -58,7 +61,7 @@ interface PlaceDocs {
         value = [
             ApiResponse(
                 responseCode = "200",
-                description = "CREATED success",
+                description = "조회 성공",
                 content = [
                     Content(
                         mediaType = "application/json",
@@ -78,7 +81,20 @@ interface PlaceDocs {
     ): ResponseForm<List<PlaceTypeGroupResponse>>
 
     @Operation(summary = "방 장소 수정 API", description = "방에 추가한 장소를 수정합니다.")
-    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "UPDATED success")])
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "수정 성공",
+                content = [
+                    Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = SuccessPlaceResponse::class),
+                    ),
+                ],
+            ),
+        ],
+    )
     fun modifyPlace(
         @Parameter(
             name = "roomId",
@@ -92,11 +108,12 @@ interface PlaceDocs {
             required = true,
             `in` = ParameterIn.PATH,
         ) @NotNull targetPlaceId: Long,
-        modifyPlaceRequest: ModifyPlaceRequest,
-    ): ResponseForm<Unit>
+        @Valid @NotNull modifyPlaceRequest: ModifyPlaceRequest,
+        newPlaceImages: List<MultipartFile>?,
+    ): ResponseForm<PlaceResponse>
 
     @Operation(summary = "방 장소 삭제 API", description = "방에 추가한 장소를 삭제합니다.")
-    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "DELETED success")])
+    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "삭제 성공")])
     fun deletePlace(
         @Parameter(
             name = "roomId",
@@ -108,6 +125,6 @@ interface PlaceDocs {
             description = "방 장소 생성 Request body",
             required = true,
             content = [Content(schema = Schema(implementation = DeletePlaceRequest::class))],
-        ) deletePlaceRequest: DeletePlaceRequest,
+        ) @Valid @NotNull deletePlaceRequest: DeletePlaceRequest,
     ): ResponseForm<Unit>
 }

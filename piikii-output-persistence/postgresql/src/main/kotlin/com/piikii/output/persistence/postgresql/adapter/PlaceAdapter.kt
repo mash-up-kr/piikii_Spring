@@ -1,6 +1,7 @@
 package com.piikii.output.persistence.postgresql.adapter
 
 import com.piikii.application.domain.place.Place
+import com.piikii.application.domain.schedule.PlaceType
 import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.common.exception.ExceptionCode
@@ -19,13 +20,15 @@ class PlaceAdapter(
 ) : PlaceQueryPort, PlaceCommandPort {
     @Transactional
     override fun save(
-        targetRoomId: UUID,
+        roomId: UUID,
+        scheduleId: Long,
         place: Place,
     ): Place {
         val placeEntity =
-            PlaceEntity.of(
+            PlaceEntity(
+                roomId = roomId,
+                scheduleId = scheduleId,
                 place = place,
-                roomId = targetRoomId,
             )
         return placeRepository.save(placeEntity).toDomain()
     }
@@ -34,13 +37,14 @@ class PlaceAdapter(
     override fun update(
         targetPlaceId: Long,
         place: Place,
-    ) {
+    ): Place {
         val placeEntity =
             placeRepository.findByIdOrNull(targetPlaceId) ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.NOT_FOUNDED,
                 detailMessage = "targetPlaceId : $targetPlaceId",
             )
         placeEntity.update(place)
+        return placeEntity.toDomain()
     }
 
     @Transactional
@@ -63,7 +67,9 @@ class PlaceAdapter(
         return placeRepository.findAllById(placeIds).map { it.toDomain() }
     }
 
-    override fun retrieveAllByRoomId(roomId: UUID): List<Place> {
-        return placeRepository.findAllByRoomId(roomId).map { it.toDomain() }
+    override fun findAllByRoomIdGroupByPlaceType(roomId: UUID): Map<PlaceType, List<Place>> {
+        return placeRepository.findAllByRoomId(roomId)
+            .map { it.toDomain() }
+            .groupBy { it.placeType }
     }
 }

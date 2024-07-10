@@ -78,8 +78,7 @@ class VoteServiceTest {
             )
         val place =
             Place(
-                id = null,
-                placeType = PlaceType.ARCADE,
+                id = 0L,
                 url = null,
                 thumbnailLinks = ThumbnailLinks(contents = null),
                 address = null,
@@ -87,6 +86,11 @@ class VoteServiceTest {
                 starGrade = null,
                 source = Source.MANUAL,
                 roomId = roomId,
+                scheduleId = 0L,
+                voteLikeCount = null,
+                voteDislikeCount = null,
+                note = null,
+                placeType = PlaceType.DISH,
             )
 
         given(roomQueryPort.findById(room.roomId))
@@ -125,8 +129,7 @@ class VoteServiceTest {
         val places =
             listOf(
                 Place(
-                    id = null,
-                    placeType = PlaceType.ARCADE,
+                    id = 0L,
                     url = null,
                     thumbnailLinks = ThumbnailLinks(contents = null),
                     address = null,
@@ -134,10 +137,14 @@ class VoteServiceTest {
                     starGrade = null,
                     source = Source.MANUAL,
                     roomId = UUID.randomUUID(),
+                    scheduleId = 0L,
+                    voteLikeCount = null,
+                    voteDislikeCount = null,
+                    note = null,
+                    placeType = PlaceType.DISH,
                 ),
                 Place(
-                    id = null,
-                    placeType = PlaceType.ARCADE,
+                    id = 1L,
                     url = null,
                     thumbnailLinks = ThumbnailLinks(contents = null),
                     address = null,
@@ -145,6 +152,11 @@ class VoteServiceTest {
                     starGrade = null,
                     source = Source.MANUAL,
                     roomId = UUID.randomUUID(),
+                    scheduleId = 0L,
+                    voteLikeCount = null,
+                    voteDislikeCount = null,
+                    note = null,
+                    placeType = PlaceType.DISH,
                 ),
             )
 
@@ -184,8 +196,7 @@ class VoteServiceTest {
         val places =
             listOf(
                 Place(
-                    id = null,
-                    placeType = PlaceType.ARCADE,
+                    id = 1,
                     url = null,
                     thumbnailLinks = ThumbnailLinks(contents = null),
                     address = null,
@@ -193,10 +204,14 @@ class VoteServiceTest {
                     starGrade = null,
                     source = Source.MANUAL,
                     roomId = roomId,
+                    scheduleId = 0,
+                    voteLikeCount = null,
+                    voteDislikeCount = null,
+                    note = null,
+                    placeType = PlaceType.DISH,
                 ),
                 Place(
-                    id = null,
-                    placeType = PlaceType.ARCADE,
+                    id = 2,
                     url = null,
                     thumbnailLinks = ThumbnailLinks(contents = null),
                     address = null,
@@ -204,6 +219,11 @@ class VoteServiceTest {
                     starGrade = null,
                     source = Source.MANUAL,
                     roomId = roomId,
+                    scheduleId = 0,
+                    voteLikeCount = null,
+                    voteDislikeCount = null,
+                    note = null,
+                    placeType = PlaceType.DISH,
                 ),
             )
 

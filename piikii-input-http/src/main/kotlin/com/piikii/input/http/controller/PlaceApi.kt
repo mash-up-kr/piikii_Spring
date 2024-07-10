@@ -9,6 +9,7 @@ import com.piikii.application.port.input.dto.response.PlaceTypeGroupResponse
 import com.piikii.input.http.controller.docs.PlaceDocs
 import com.piikii.input.http.controller.dto.ResponseForm
 import jakarta.validation.Valid
+import jakarta.validation.constraints.NotNull
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 import java.util.UUID
 
 @Validated
@@ -31,41 +34,43 @@ class PlaceApi(
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     override fun addPlace(
-        @PathVariable roomId: UUID,
-        @RequestBody @Valid addPlaceRequest: AddPlaceRequest,
+        @NotNull @PathVariable roomId: UUID,
+        @Valid @RequestPart addPlaceRequest: AddPlaceRequest,
+        @RequestPart(required = false) placeImages: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse> {
-        return ResponseForm(
-            data = placeUseCase.addPlace(roomId, addPlaceRequest),
-        )
+        return ResponseForm(placeUseCase.addPlace(roomId, addPlaceRequest, placeImages))
     }
 
     @GetMapping
     override fun retrieveAll(
-        @PathVariable roomId: UUID,
+        @NotNull @PathVariable roomId: UUID,
     ): ResponseForm<List<PlaceTypeGroupResponse>> {
-        return ResponseForm(
-            data = placeUseCase.findAllByRoomId(roomId),
-        )
+        return ResponseForm(placeUseCase.findAllByRoomIdGroupByPlaceType(roomId))
     }
 
     @PatchMapping("/{targetPlaceId}")
     override fun modifyPlace(
-        @PathVariable roomId: UUID,
-        @PathVariable targetPlaceId: Long,
-        @RequestBody @Valid modifyPlaceRequest: ModifyPlaceRequest,
-    ): ResponseForm<Unit> {
+        @NotNull @PathVariable roomId: UUID,
+        @NotNull @PathVariable targetPlaceId: Long,
+        @Valid @NotNull @RequestPart modifyPlaceRequest: ModifyPlaceRequest,
+        @RequestPart(required = false) newPlaceImages: List<MultipartFile>?,
+    ): ResponseForm<PlaceResponse> {
         return ResponseForm(
-            data = placeUseCase.modify(roomId, targetPlaceId, modifyPlaceRequest),
+            placeUseCase.modify(
+                targetRoomId = roomId,
+                targetPlaceId = targetPlaceId,
+                modifyPlaceRequest = modifyPlaceRequest,
+                newPlaceImages = newPlaceImages,
+            ),
         )
     }
 
     @DeleteMapping
     override fun deletePlace(
-        @PathVariable roomId: UUID,
-        @RequestBody @Valid deletePlaceRequest: DeletePlaceRequest,
+        @NotNull @PathVariable roomId: UUID,
+        @Valid @NotNull @RequestBody deletePlaceRequest: DeletePlaceRequest,
     ): ResponseForm<Unit> {
-        return ResponseForm(
-            data = placeUseCase.delete(deletePlaceRequest.targetPlaceId),
-        )
+        placeUseCase.delete(deletePlaceRequest.targetPlaceId)
+        return ResponseForm.EMPTY_RESPONSE
     }
 }

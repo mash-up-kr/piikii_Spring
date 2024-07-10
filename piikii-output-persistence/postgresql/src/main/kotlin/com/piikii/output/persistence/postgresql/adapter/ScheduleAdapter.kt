@@ -27,7 +27,7 @@ class ScheduleAdapter(
     @Transactional
     override fun deleteSchedules(scheduleIds: List<Long>) {
         scheduleRepository.deleteAll(
-            scheduleIds.map { findScheduleById(it) },
+            scheduleIds.map { findScheduleEntityById(it) },
         )
     }
 
@@ -35,7 +35,15 @@ class ScheduleAdapter(
         return scheduleRepository.findByRoomIdOrderBySequenceAsc(roomId).map { it.toDomain() }
     }
 
-    private fun findScheduleById(id: Long): ScheduleEntity {
+    override fun findScheduleById(id: Long): Schedule {
+        return scheduleRepository.findByIdOrNull(id)?.toDomain()
+            ?: throw PiikiiException(
+                exceptionCode = ExceptionCode.NOT_FOUNDED,
+                detailMessage = "Schedule ID: $id",
+            )
+    }
+
+    fun findScheduleEntityById(id: Long): ScheduleEntity {
         return scheduleRepository.findByIdOrNull(id)
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.NOT_FOUNDED,
