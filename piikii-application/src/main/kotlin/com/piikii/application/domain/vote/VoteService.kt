@@ -34,7 +34,7 @@ class VoteService(
             throw PiikiiException(exceptionCode = ExceptionCode.VOTE_PLACE_ID_INVALID)
         }
 
-        voteCommandPort.vote(votes)
+        voteCommandPort.saveVotes(votes)
     }
 
     override fun isVoteFinished(roomUid: UUID): Boolean {

@@ -5,5 +5,5 @@ import com.piikii.application.domain.vote.Vote
 interface VoteQueryPort
 
 interface VoteCommandPort {
-    fun vote(votes: List<Vote>)
+    fun saveVotes(votes: List<Vote>)
 }
