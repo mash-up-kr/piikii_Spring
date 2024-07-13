@@ -2,8 +2,10 @@ package com.piikii.application.port.output.persistence
 
 import com.piikii.application.domain.vote.Vote
 
-interface VoteQueryPort
+interface VoteQueryPort {
+    fun findAllByPlaceIds(placeIds: List<Long>): List<Vote>
+}
 
 interface VoteCommandPort {
-    fun saveVotes(votes: List<Vote>)
+    fun save(votes: List<Vote>)
 }

@@ -14,7 +14,11 @@ class VoteAdapter(
     private val voteRepository: VoteRepository,
 ) : VoteCommandPort, VoteQueryPort {
     @Transactional
-    override fun saveVote(votes: List<Vote>) {
+    override fun save(votes: List<Vote>) {
         voteRepository.saveAll(votes.map(VoteEntity::from))
+    }
+
+    override fun findAllByPlaceIds(placeIds: List<Long>): List<Vote> {
+        return voteRepository.findAllByPlaceIdIn(placeIds).map { it.toDomain() }
     }
 }
