@@ -21,7 +21,6 @@ import org.mockito.BDDMockito.verify
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
 import java.util.stream.Stream
@@ -61,10 +60,8 @@ class VoteServiceTest {
 
         val room =
             Room(
-                meetingName = "BB Kim",
+                name = "BB Kim",
                 message = null,
-                address = "gunpo si",
-                meetDay = LocalDate.now(),
                 thumbnailLink = "https://test",
                 password = Password("1234"),
                 voteDeadline = LocalDateTime.now().plusDays(1),
@@ -112,10 +109,8 @@ class VoteServiceTest {
 
         val room =
             Room(
-                meetingName = "BB Kim",
+                name = "BB Kim",
                 message = null,
-                address = "gunpo si",
-                meetDay = LocalDate.now(),
                 thumbnailLink = "https://test",
                 password = Password("1234"),
                 voteDeadline = LocalDateTime.now().plusDays(1),
@@ -179,10 +174,8 @@ class VoteServiceTest {
 
         val room =
             Room(
-                meetingName = "BB Kim",
+                name = "BB Kim",
                 message = null,
-                address = "gunpo si",
-                meetDay = LocalDate.now(),
                 thumbnailLink = "https://test",
                 password = Password("1234"),
                 voteDeadline = LocalDateTime.now().plusDays(1),
@@ -243,20 +236,16 @@ class VoteServiceTest {
             val roomId = UUID.randomUUID()
             return Stream.of(
                 Room(
-                    meetingName = "BB Kim",
+                    name = "BB Kim",
                     message = null,
-                    address = "gunpo si",
-                    meetDay = LocalDate.now(),
                     thumbnailLink = "https://test",
                     password = Password("1234"),
                     voteDeadline = null,
                     roomId = roomId,
                 ),
                 Room(
-                    meetingName = "BB Kim",
+                    name = "BB Kim",
                     message = null,
-                    address = "gunpo si",
-                    meetDay = LocalDate.now(),
                     thumbnailLink = "https://test",
                     password = Password("1234"),
                     voteDeadline = LocalDateTime.of(1995, 9, 25, 1, 1, 1),

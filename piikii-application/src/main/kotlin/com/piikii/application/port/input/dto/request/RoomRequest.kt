@@ -25,14 +25,12 @@ data class RoomSaveRequestForm(
 ) {
     fun toDomain(): Room {
         return Room(
-            meetingName = this.meetingName,
+            roomId = UUID.randomUUID(),
+            name = this.meetingName,
             message = this.message,
-            address = this.address,
-            meetDay = this.meetDay,
             thumbnailLink = this.thumbnailLink,
             password = this.password,
             voteDeadline = null,
-            roomId = UUID.randomUUID(),
         )
     }
 }
@@ -58,14 +56,12 @@ data class RoomUpdateRequestForm(
 ) {
     fun toDomain(): Room {
         return Room(
-            meetingName = this.meetingName,
+            roomId = this.roomId,
+            name = this.meetingName,
             message = this.message,
-            address = this.address,
             thumbnailLink = this.thumbnailLink,
             password = this.password,
-            meetDay = meetDay,
             voteDeadline = this.voteDeadLine,
-            roomId = this.roomId,
         )
     }
 }
