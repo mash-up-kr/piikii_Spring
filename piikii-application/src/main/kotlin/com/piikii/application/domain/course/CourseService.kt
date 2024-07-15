@@ -9,7 +9,7 @@ import java.util.UUID
 class CourseService(
     private val courseQueryPort: CourseQueryPort,
 ) : CourseUseCase {
-    override fun isCourseExist(roomId: UUID): Boolean {
-        return courseQueryPort.isCourseExist(roomId)
+    override fun isCourseExist(roomUid: UUID): Boolean {
+        return courseQueryPort.isCourseExist(roomUid)
     }
 }

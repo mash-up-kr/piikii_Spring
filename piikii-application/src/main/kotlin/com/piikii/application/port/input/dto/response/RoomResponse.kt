@@ -15,7 +15,7 @@ data class RoomResponse(
     @Schema(description = "투표 마감일")
     val voteDeadline: LocalDateTime?,
     @Schema(description = "방(Room) id")
-    val roomId: UUID,
+    val roomUid: UUID,
 ) {
     companion object {
         fun from(room: Room): RoomResponse {
@@ -24,7 +24,7 @@ data class RoomResponse(
                 message = room.message,
                 thumbnailLinks = room.thumbnailLink,
                 voteDeadline = room.voteDeadline,
-                roomId = room.roomId,
+                roomUid = room.roomUid,
             )
         }
     }
@@ -32,5 +32,5 @@ data class RoomResponse(
 
 data class SaveRoomResponse(
     @Schema(description = "방(Room) id")
-    val roomId: UUID,
+    val roomUid: UUID,
 )

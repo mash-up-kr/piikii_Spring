@@ -15,14 +15,14 @@ import java.util.UUID
 @DynamicUpdate
 class ScheduleEntity(
     @Column(name = "room_id", nullable = false)
-    val roomId: UUID,
+    val roomUid: UUID,
     @Column(name = "name", nullable = false)
     val name: String,
     @Column(name = "sequence", nullable = false)
     val sequence: Int,
 ) : BaseEntity() {
     constructor(schedule: Schedule) : this(
-        roomId = schedule.roomId,
+        roomUid = schedule.roomUid,
         name = schedule.name,
         sequence = schedule.sequence,
     )
@@ -30,7 +30,7 @@ class ScheduleEntity(
     fun toDomain(): Schedule {
         return Schedule(
             id = this.id,
-            roomId = this.roomId,
+            roomUid = this.roomUid,
             name = this.name,
             sequence = this.sequence,
         )

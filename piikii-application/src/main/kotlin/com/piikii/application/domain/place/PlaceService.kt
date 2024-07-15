@@ -29,7 +29,7 @@ class PlaceService(
 ) : PlaceUseCase {
     @Transactional
     override fun addPlace(
-        targetRoomId: UUID,
+        targetroomUid: UUID,
         addPlaceRequest: AddPlaceRequest,
         placeImages: List<MultipartFile>?,
     ): PlaceResponse {
@@ -41,27 +41,27 @@ class PlaceService(
                 ).get()
             } ?: listOf()
 
-        val room = roomQueryPort.findById(targetRoomId)
+        val room = roomQueryPort.findById(targetroomUid)
         val schedule = scheduleQueryPort.findScheduleById(addPlaceRequest.scheduleId)
 
         val place =
             addPlaceRequest.toDomain(
-                roomId = room.roomId,
+                roomUid = room.roomUid,
                 scheduleId = schedule.id,
                 imageUrls = imageUrls,
             )
 
         return PlaceResponse(
             placeCommandPort.save(
-                roomId = room.roomId,
+                roomUid = room.roomUid,
                 scheduleId = schedule.id,
                 place = place,
             ),
         )
     }
 
-    override fun findAllByRoomIdGroupByPlaceType(targetRoomId: UUID): List<PlaceTypeGroupResponse> {
-        return placeQueryPort.findAllByRoomIdGroupByPlaceType(targetRoomId).map { (placeType, places) ->
+    override fun findAllByroomUidGroupByPlaceType(targetroomUid: UUID): List<PlaceTypeGroupResponse> {
+        return placeQueryPort.findAllByroomUidGroupByPlaceType(targetroomUid).map { (placeType, places) ->
             PlaceTypeGroupResponse(
                 placeType = placeType,
                 places = places.map { place -> PlaceResponse(place = place) },
@@ -71,7 +71,7 @@ class PlaceService(
 
     @Transactional
     override fun modify(
-        targetRoomId: UUID,
+        targetroomUid: UUID,
         targetPlaceId: Long,
         modifyPlaceRequest: ModifyPlaceRequest,
         newPlaceImages: List<MultipartFile>?,
@@ -92,7 +92,7 @@ class PlaceService(
                 place =
                     modifyPlaceRequest.toDomain(
                         targetPlaceId,
-                        targetRoomId,
+                        targetroomUid,
                         modifyPlaceRequest.scheduleId,
                         filterDuplicateUrls(updatedUrls, place),
                     ),

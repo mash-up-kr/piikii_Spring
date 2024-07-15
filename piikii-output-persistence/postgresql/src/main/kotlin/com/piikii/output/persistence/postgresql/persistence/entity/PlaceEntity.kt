@@ -21,8 +21,8 @@ import java.util.UUID
 @SQLDelete(sql = "UPDATE piikii.place SET is_deleted = true WHERE id = ?")
 @DynamicUpdate
 class PlaceEntity(
-    @Column(name = "roomId", nullable = false, updatable = false)
-    val roomId: UUID,
+    @Column(name = "roomUid", nullable = false, updatable = false)
+    val roomUid: UUID,
     @Column(name = "scheduleId", nullable = false, updatable = false)
     var scheduleId: Long,
     @Enumerated(EnumType.STRING)
@@ -47,8 +47,8 @@ class PlaceEntity(
     @Column(name = "vote_dislike_count", nullable = false)
     var voteDislikeCount: Short? = 0,
 ) : BaseEntity() {
-    constructor(roomId: UUID, scheduleId: Long, place: Place) : this(
-        roomId = roomId,
+    constructor(roomUid: UUID, scheduleId: Long, place: Place) : this(
+        roomUid = roomUid,
         scheduleId = scheduleId,
         placeType = place.placeType,
         url = place.url,
@@ -65,7 +65,7 @@ class PlaceEntity(
     fun toDomain(): Place {
         return Place(
             id = id,
-            roomId = roomId,
+            roomUid = roomUid,
             scheduleId = scheduleId,
             placeType = placeType,
             url = url,

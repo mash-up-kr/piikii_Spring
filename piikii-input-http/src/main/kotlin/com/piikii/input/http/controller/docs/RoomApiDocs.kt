@@ -27,21 +27,21 @@ interface RoomApiDocs {
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "DELETED success")])
     fun remove(
         @Parameter(
-            name = "roomId",
+            name = "roomUid",
             description = "삭제하고자 하는 방 id",
             required = true,
             `in` = ParameterIn.PATH,
-        ) roomId: UUID,
+        ) roomUid: UUID,
     ): ResponseForm<Unit>
 
     @Operation(summary = "방 조회 api", description = "방(Room) 정보를 조회합니다.")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "GET success")])
     fun search(
         @Parameter(
-            name = "roomId",
+            name = "roomUid",
             description = "삭제하고자 하는 방 id",
             required = true,
             `in` = ParameterIn.PATH,
-        ) roomId: UUID,
+        ) roomUid: UUID,
     ): ResponseForm<RoomResponse>
 }

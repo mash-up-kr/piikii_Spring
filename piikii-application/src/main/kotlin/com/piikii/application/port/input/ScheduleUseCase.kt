@@ -7,11 +7,11 @@ import java.util.UUID
 
 interface ScheduleUseCase {
     fun createSchedules(
-        roomId: UUID,
+        roomUid: UUID,
         request: CreateSchedulesRequest,
     )
 
-    fun getSchedules(roomId: UUID): SchedulesResponse
+    fun getSchedules(roomUid: UUID): SchedulesResponse
 
     fun deleteSchedules(request: DeleteSchedulesRequest)
 }

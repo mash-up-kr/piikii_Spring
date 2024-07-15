@@ -16,8 +16,8 @@ import java.util.UUID
 @SQLRestriction("is_deleted = false")
 @DynamicUpdate
 class RoomEntity(
-    @Column(name = "room_id", nullable = false, unique = true)
-    val roomId: UUID,
+    @Column(name = "room_uid", nullable = false, unique = true)
+    val roomUid: UUID,
     @Column(name = "name", nullable = false)
     var name: String,
     @Column(name = "thumbnail_link", nullable = false, length = 255)
@@ -36,7 +36,7 @@ class RoomEntity(
             thumbnailLink = this.thumbnailLink,
             password = this.password,
             voteDeadline = voteDeadline,
-            roomId = this.roomId,
+            roomUid = this.roomUid,
         )
     }
 
@@ -56,7 +56,7 @@ class RoomEntity(
                 message = room.message,
                 password = room.password,
                 voteDeadline = room.voteDeadline,
-                roomId = room.roomId,
+                roomUid = room.roomUid,
             )
         }
     }

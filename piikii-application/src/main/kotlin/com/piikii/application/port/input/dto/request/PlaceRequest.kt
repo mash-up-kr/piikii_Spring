@@ -45,13 +45,13 @@ data class AddPlaceRequest(
     val voteDislikeCount: Short?,
 ) {
     fun toDomain(
-        roomId: UUID,
+        roomUid: UUID,
         scheduleId: Long,
         imageUrls: List<String>,
     ): Place {
         return Place(
             id = 0L,
-            roomId = roomId,
+            roomUid = roomUid,
             scheduleId = scheduleId,
             placeType = placeType,
             url = url,
@@ -103,13 +103,13 @@ data class ModifyPlaceRequest(
 ) {
     fun toDomain(
         targetPlaceId: Long,
-        roomId: UUID,
+        roomUid: UUID,
         scheduleId: Long,
         updatedUrls: List<String>,
     ): Place {
         return Place(
             id = targetPlaceId,
-            roomId = roomId,
+            roomUid = roomUid,
             scheduleId = scheduleId,
             placeType = placeType,
             url = url,

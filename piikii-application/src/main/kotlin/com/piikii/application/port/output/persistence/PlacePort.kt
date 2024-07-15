@@ -9,12 +9,12 @@ interface PlaceQueryPort {
 
     fun findAllByPlaceIds(placeIds: List<Long>): List<Place>
 
-    fun findAllByRoomIdGroupByPlaceType(roomId: UUID): Map<PlaceType, List<Place>>
+    fun findAllByroomUidGroupByPlaceType(roomUid: UUID): Map<PlaceType, List<Place>>
 }
 
 interface PlaceCommandPort {
     fun save(
-        roomId: UUID,
+        roomUid: UUID,
         scheduleId: Long,
         place: Place,
     ): Place

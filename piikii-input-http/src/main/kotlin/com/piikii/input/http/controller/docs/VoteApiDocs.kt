@@ -21,11 +21,11 @@ interface VoteApiDocs {
     @ApiResponses(value = [ApiResponse(responseCode = "204", description = "UPDATED success")])
     fun changeVoteDeadline(
         @Parameter(
-            name = "roomId",
+            name = "roomUid",
             description = "투표 마감일 설정하고자 하는 방 id",
             required = true,
             `in` = ParameterIn.PATH,
-        ) roomId: UUID,
+        ) roomUid: UUID,
         @RequestBody(
             description = "투표 마감일 설정 요청 Body",
             required = true,
@@ -45,22 +45,22 @@ interface VoteApiDocs {
     )
     fun getVoteStatus(
         @Parameter(
-            name = "roomId",
+            name = "roomUid",
             description = "조회하고자 하는 방 id",
             required = true,
             `in` = ParameterIn.PATH,
-        ) roomId: UUID,
+        ) roomUid: UUID,
     ): ResponseForm<VoteStatusResponse>
 
     @Operation(summary = "투표하기 API", description = "투표를 진행합니다")
     @ApiResponses(value = [ApiResponse(responseCode = "201", description = "Vote succeed")])
     fun vote(
         @Parameter(
-            name = "roomId",
+            name = "roomUid",
             description = "투표하고자 하는 방 id",
             required = true,
             `in` = ParameterIn.PATH,
-        ) roomId: UUID,
+        ) roomUid: UUID,
         @RequestBody(
             description = "투표 생성 요청 body",
             required = true,

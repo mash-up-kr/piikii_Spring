@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @RestController
-@RequestMapping("/v1/rooms/{roomId}/courses")
+@RequestMapping("/v1/rooms/{roomUid}/courses")
 class CourseApi(
     private val courseUseCase: CourseUseCase,
 ) : CourseApiDocs {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/existence")
     override fun checkCourseExist(
-        @PathVariable roomId: UUID,
+        @PathVariable roomUid: UUID,
     ): ResponseForm<CourseExistenceResponse> {
         return ResponseForm(
-            data = CourseExistenceResponse(isExist = courseUseCase.isCourseExist(roomId)),
+            data = CourseExistenceResponse(isExist = courseUseCase.isCourseExist(roomUid)),
         )
     }
 }

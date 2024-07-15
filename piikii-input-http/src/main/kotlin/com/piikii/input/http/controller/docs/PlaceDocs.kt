@@ -43,11 +43,11 @@ interface PlaceDocs {
     )
     fun addPlace(
         @Parameter(
-            name = "roomId",
+            name = "roomUid",
             description = "장소를 추가하고자 하는 방 id",
             required = true,
             `in` = ParameterIn.PATH,
-        ) @NotNull roomId: UUID,
+        ) @NotNull roomUid: UUID,
         @RequestBody(
             description = "방 장소 생성 Request body",
             required = true,
@@ -73,11 +73,11 @@ interface PlaceDocs {
     )
     fun retrieveAll(
         @Parameter(
-            name = "roomId",
+            name = "roomUid",
             description = "장소를 조회 하는 방 id",
             required = true,
             `in` = ParameterIn.PATH,
-        ) @NotNull roomId: UUID,
+        ) @NotNull roomUid: UUID,
     ): ResponseForm<List<PlaceTypeGroupResponse>>
 
     @Operation(summary = "방 장소 수정 API", description = "방에 추가한 장소를 수정합니다.")
@@ -97,11 +97,11 @@ interface PlaceDocs {
     )
     fun modifyPlace(
         @Parameter(
-            name = "roomId",
+            name = "roomUid",
             description = "수정하고자 하는 장소의 방 id",
             required = true,
             `in` = ParameterIn.PATH,
-        ) @NotNull roomId: UUID,
+        ) @NotNull roomUid: UUID,
         @Parameter(
             name = "targetPlaceId",
             description = "수정하고자 하는 장소의 id",
@@ -116,11 +116,11 @@ interface PlaceDocs {
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "삭제 성공")])
     fun deletePlace(
         @Parameter(
-            name = "roomId",
+            name = "roomUid",
             description = "수정하고자 하는 장소의 방 id",
             required = true,
             `in` = ParameterIn.PATH,
-        ) @NotNull roomId: UUID,
+        ) @NotNull roomUid: UUID,
         @RequestBody(
             description = "방 장소 생성 Request body",
             required = true,

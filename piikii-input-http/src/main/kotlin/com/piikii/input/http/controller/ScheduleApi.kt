@@ -18,34 +18,34 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @RestController
-@RequestMapping("/v1/rooms/{roomId}/schedules")
+@RequestMapping("/v1/rooms/{roomUid}/schedules")
 class ScheduleApi(
     private val scheduleUseCase: ScheduleUseCase,
 ) : ScheduleApiDocs {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     override fun createSchedules(
-        @PathVariable roomId: UUID,
+        @PathVariable roomUid: UUID,
         @RequestBody request: CreateSchedulesRequest,
     ): ResponseForm<Unit> {
-        scheduleUseCase.createSchedules(roomId, request)
+        scheduleUseCase.createSchedules(roomUid, request)
         return ResponseForm.EMPTY_RESPONSE
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     override fun getSchedules(
-        @PathVariable roomId: UUID,
+        @PathVariable roomUid: UUID,
     ): ResponseForm<SchedulesResponse> {
         return ResponseForm(
-            data = scheduleUseCase.getSchedules(roomId),
+            data = scheduleUseCase.getSchedules(roomUid),
         )
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
     override fun deleteSchedules(
-        @PathVariable roomId: UUID,
+        @PathVariable roomUid: UUID,
         @RequestBody request: DeleteSchedulesRequest,
     ): ResponseForm<Unit> {
         scheduleUseCase.deleteSchedules(request)

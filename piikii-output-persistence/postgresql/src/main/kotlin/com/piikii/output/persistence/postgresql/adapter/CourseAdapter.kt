@@ -9,7 +9,7 @@ import java.util.UUID
 class CourseAdapter(
     private val courseRepository: CourseRepository,
 ) : CourseQueryPort {
-    override fun isCourseExist(roomId: UUID): Boolean {
-        return courseRepository.existsByRoomId(roomId)
+    override fun isCourseExist(roomUid: UUID): Boolean {
+        return courseRepository.existsByroomUid(roomUid)
     }
 }

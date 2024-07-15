@@ -15,15 +15,15 @@ class ScheduleService(
     private val scheduleCommandPort: ScheduleCommandPort,
 ) : ScheduleUseCase {
     override fun createSchedules(
-        roomId: UUID,
+        roomUid: UUID,
         request: CreateSchedulesRequest,
     ) {
-        scheduleCommandPort.saveSchedules(request.toDomains(roomId))
+        scheduleCommandPort.saveSchedules(request.toDomains(roomUid))
     }
 
-    override fun getSchedules(roomId: UUID): SchedulesResponse {
+    override fun getSchedules(roomUid: UUID): SchedulesResponse {
         return SchedulesResponse.from(
-            scheduleQueryPort.findSchedulesByRoomId(roomId),
+            scheduleQueryPort.findSchedulesByroomUid(roomUid),
         )
     }
 

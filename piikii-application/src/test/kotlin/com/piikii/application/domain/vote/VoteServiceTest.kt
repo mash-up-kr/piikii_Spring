@@ -43,11 +43,11 @@ class VoteServiceTest {
     @ParameterizedTest
     fun `Room Vote가 불가능한 상황에서 vote 요청 시 Exception이 발생한다`(room: Room) {
         // given, when
-        given(roomQueryPort.findById(room.roomId))
+        given(roomQueryPort.findById(room.roomUid))
             .willReturn(room)
 
         // then
-        assertThatThrownBy { voteService.vote(room.roomId, emptyList()) }
+        assertThatThrownBy { voteService.vote(room.roomUid, emptyList()) }
             .isExactlyInstanceOf(PiikiiException::class.java)
             .hasMessageContaining("투표가 시작되지 않았거나, 마감되었습니다")
     }
@@ -56,7 +56,7 @@ class VoteServiceTest {
     fun `Vote Place Id가 존재하지 않으면 Exception이 발생한다`() {
         // given
         val userId = UUID.randomUUID()
-        val roomId = UUID.randomUUID()
+        val roomUid = UUID.randomUUID()
 
         val room =
             Room(
@@ -65,7 +65,7 @@ class VoteServiceTest {
                 thumbnailLink = "https://test",
                 password = Password("1234"),
                 voteDeadline = LocalDateTime.now().plusDays(1),
-                roomId = roomId,
+                roomUid = roomUid,
             )
         val votes =
             listOf(
@@ -82,7 +82,7 @@ class VoteServiceTest {
                 phoneNumber = null,
                 starGrade = null,
                 source = Source.MANUAL,
-                roomId = roomId,
+                roomUid = roomUid,
                 scheduleId = 0L,
                 voteLikeCount = null,
                 voteDislikeCount = null,
@@ -90,13 +90,13 @@ class VoteServiceTest {
                 placeType = PlaceType.DISH,
             )
 
-        given(roomQueryPort.findById(room.roomId))
+        given(roomQueryPort.findById(room.roomUid))
             .willReturn(room)
         given(placeQueryPort.findAllByPlaceIds(votes.map { it.placeId }))
             .willReturn(listOf(place))
 
         // when & then
-        assertThatThrownBy { voteService.vote(room.roomId, votes) }
+        assertThatThrownBy { voteService.vote(room.roomUid, votes) }
             .isExactlyInstanceOf(PiikiiException::class.java)
             .hasMessageContaining("투표 항목 데이터(Place Id)이 올바르지 않습니다")
     }
@@ -105,7 +105,7 @@ class VoteServiceTest {
     fun `Vote Place Id가 해당 Room에 속하지 않을 경우, Exception이 발생한다`() {
         // given
         val userId = UUID.randomUUID()
-        val roomId = UUID.randomUUID()
+        val roomUid = UUID.randomUUID()
 
         val room =
             Room(
@@ -114,7 +114,7 @@ class VoteServiceTest {
                 thumbnailLink = "https://test",
                 password = Password("1234"),
                 voteDeadline = LocalDateTime.now().plusDays(1),
-                roomId = roomId,
+                roomUid = roomUid,
             )
         val votes =
             listOf(
@@ -131,7 +131,7 @@ class VoteServiceTest {
                     phoneNumber = null,
                     starGrade = null,
                     source = Source.MANUAL,
-                    roomId = UUID.randomUUID(),
+                    roomUid = UUID.randomUUID(),
                     scheduleId = 0L,
                     voteLikeCount = null,
                     voteDislikeCount = null,
@@ -146,7 +146,7 @@ class VoteServiceTest {
                     phoneNumber = null,
                     starGrade = null,
                     source = Source.MANUAL,
-                    roomId = UUID.randomUUID(),
+                    roomUid = UUID.randomUUID(),
                     scheduleId = 0L,
                     voteLikeCount = null,
                     voteDislikeCount = null,
@@ -155,13 +155,13 @@ class VoteServiceTest {
                 ),
             )
 
-        given(roomQueryPort.findById(room.roomId))
+        given(roomQueryPort.findById(room.roomUid))
             .willReturn(room)
         given(placeQueryPort.findAllByPlaceIds(votes.map { it.placeId }))
             .willReturn(places)
 
         // when & then
-        assertThatThrownBy { voteService.vote(room.roomId, votes) }
+        assertThatThrownBy { voteService.vote(room.roomUid, votes) }
             .isExactlyInstanceOf(PiikiiException::class.java)
             .hasMessageContaining("투표 항목 데이터(Place Id)이 올바르지 않습니다")
     }
@@ -170,7 +170,7 @@ class VoteServiceTest {
     fun `올바른 데이터에서 vote는 성공한다`() {
         // given
         val userId = UUID.randomUUID()
-        val roomId = UUID.randomUUID()
+        val roomUid = UUID.randomUUID()
 
         val room =
             Room(
@@ -179,7 +179,7 @@ class VoteServiceTest {
                 thumbnailLink = "https://test",
                 password = Password("1234"),
                 voteDeadline = LocalDateTime.now().plusDays(1),
-                roomId = roomId,
+                roomUid = roomUid,
             )
         val votes =
             listOf(
@@ -196,7 +196,7 @@ class VoteServiceTest {
                     phoneNumber = null,
                     starGrade = null,
                     source = Source.MANUAL,
-                    roomId = roomId,
+                    roomUid = roomUid,
                     scheduleId = 0,
                     voteLikeCount = null,
                     voteDislikeCount = null,
@@ -211,7 +211,7 @@ class VoteServiceTest {
                     phoneNumber = null,
                     starGrade = null,
                     source = Source.MANUAL,
-                    roomId = roomId,
+                    roomUid = roomUid,
                     scheduleId = 0,
                     voteLikeCount = null,
                     voteDislikeCount = null,
@@ -220,20 +220,20 @@ class VoteServiceTest {
                 ),
             )
 
-        given(roomQueryPort.findById(roomId))
+        given(roomQueryPort.findById(roomUid))
             .willReturn(room)
         given(placeQueryPort.findAllByPlaceIds(votes.map { it.placeId }))
             .willReturn(places)
 
         // when & then
-        assertDoesNotThrow { voteService.vote(roomId, votes) }
+        assertDoesNotThrow { voteService.vote(roomUid, votes) }
         verify(voteCommandPort).vote(votes)
     }
 
     companion object {
         @JvmStatic
         fun voteUnavailableRoom(): Stream<Room> {
-            val roomId = UUID.randomUUID()
+            val roomUid = UUID.randomUUID()
             return Stream.of(
                 Room(
                     name = "BB Kim",
@@ -241,7 +241,7 @@ class VoteServiceTest {
                     thumbnailLink = "https://test",
                     password = Password("1234"),
                     voteDeadline = null,
-                    roomId = roomId,
+                    roomUid = roomUid,
                 ),
                 Room(
                     name = "BB Kim",
@@ -249,7 +249,7 @@ class VoteServiceTest {
                     thumbnailLink = "https://test",
                     password = Password("1234"),
                     voteDeadline = LocalDateTime.of(1995, 9, 25, 1, 1, 1),
-                    roomId = roomId,
+                    roomUid = roomUid,
                 ),
             )
         }

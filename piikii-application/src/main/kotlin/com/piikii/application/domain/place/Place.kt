@@ -7,7 +7,7 @@ import java.util.UUID
 
 data class Place(
     val id: Long,
-    val roomId: UUID,
+    val roomUid: UUID,
     val scheduleId: Long,
     val placeType: PlaceType,
     val url: String? = null,

@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.UUID
 
 interface ScheduleRepository : JpaRepository<ScheduleEntity, Long> {
-    fun findByRoomIdOrderBySequenceAsc(roomId: UUID): List<ScheduleEntity>
+    fun findByroomUidOrderBySequenceAsc(roomUid: UUID): List<ScheduleEntity>
 }

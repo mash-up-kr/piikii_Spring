@@ -20,13 +20,13 @@ class PlaceAdapter(
 ) : PlaceQueryPort, PlaceCommandPort {
     @Transactional
     override fun save(
-        roomId: UUID,
+        roomUid: UUID,
         scheduleId: Long,
         place: Place,
     ): Place {
         val placeEntity =
             PlaceEntity(
-                roomId = roomId,
+                roomUid = roomUid,
                 scheduleId = scheduleId,
                 place = place,
             )
@@ -67,8 +67,8 @@ class PlaceAdapter(
         return placeRepository.findAllById(placeIds).map { it.toDomain() }
     }
 
-    override fun findAllByRoomIdGroupByPlaceType(roomId: UUID): Map<PlaceType, List<Place>> {
-        return placeRepository.findAllByRoomId(roomId)
+    override fun findAllByroomUidGroupByPlaceType(roomUid: UUID): Map<PlaceType, List<Place>> {
+        return placeRepository.findAllByroomUid(roomUid)
             .map { it.toDomain() }
             .groupBy { it.placeType }
     }

@@ -21,11 +21,11 @@ interface ScheduleApiDocs {
     @ApiResponses(value = [ApiResponse(responseCode = "201", description = "CREATED success")])
     fun createSchedules(
         @Parameter(
-            name = "roomId",
+            name = "roomUid",
             description = "스케줄를 생성할 방 uuid",
             required = true,
             `in` = ParameterIn.PATH,
-        ) roomId: UUID,
+        ) roomUid: UUID,
         @RequestBody(
             description = "스케줄 생성 Request Body",
             required = true,
@@ -45,22 +45,22 @@ interface ScheduleApiDocs {
     )
     fun getSchedules(
         @Parameter(
-            name = "roomId",
+            name = "roomUid",
             description = "스케줄를 조회할 방 uuid",
             required = true,
             `in` = ParameterIn.PATH,
-        ) roomId: UUID,
+        ) roomUid: UUID,
     ): ResponseForm<SchedulesResponse>
 
     @Operation(summary = "방 스케줄 삭제 api", description = "방 스케줄를 삭제합니다.")
     @ApiResponses(value = [ApiResponse(responseCode = "204", description = "NO_CONTENT success")])
     fun deleteSchedules(
         @Parameter(
-            name = "roomId",
+            name = "roomUid",
             description = "스케줄를 삭제할 방 uuid",
             required = true,
             `in` = ParameterIn.PATH,
-        ) roomId: UUID,
+        ) roomUid: UUID,
         @RequestBody(
             description = "스케줄 삭제 Request Body",
             required = true,

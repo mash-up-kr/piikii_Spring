@@ -14,8 +14,8 @@ data class CreateSchedulesRequest(
     @Schema(description = "추가할 방 카테고리 목록")
     val categories: List<CreateScheduleRequest>,
 ) {
-    fun toDomains(roomId: UUID): List<Schedule> {
-        return categories.map { it.toDomain(roomId) }
+    fun toDomains(roomUid: UUID): List<Schedule> {
+        return categories.map { it.toDomain(roomUid) }
     }
 }
 
@@ -27,10 +27,10 @@ data class CreateScheduleRequest(
     @Schema(description = "방 카테고리의 순서")
     val sequence: Int,
 ) {
-    fun toDomain(roomId: UUID): Schedule {
+    fun toDomain(roomUid: UUID): Schedule {
         return Schedule(
             id = 0L,
-            roomId = roomId,
+            roomUid = roomUid,
             name = this.name,
             sequence = this.sequence,
         )

@@ -13,12 +13,12 @@ interface RoomUseCase {
 
     fun modify(request: RoomUpdateRequestForm)
 
-    fun remove(roomId: UUID)
+    fun remove(roomUid: UUID)
 
-    fun findById(roomId: UUID): RoomResponse
+    fun findById(roomUid: UUID): RoomResponse
 
     fun changeVoteDeadline(
-        roomId: UUID,
+        roomUid: UUID,
         password: Password,
         voteDeadline: LocalDateTime,
     )

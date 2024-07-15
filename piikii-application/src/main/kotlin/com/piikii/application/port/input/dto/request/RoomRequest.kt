@@ -4,13 +4,12 @@ import com.piikii.application.domain.room.Password
 import com.piikii.application.domain.room.Room
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Size
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
 
 data class RoomSaveRequestForm(
     @Schema(description = "모임 이름")
-    val meetingName: String,
+    val name: String,
     @Schema(description = "적고 싶은 메시지")
     val message: String?,
     @Schema(description = "모임 장소")
@@ -20,13 +19,11 @@ data class RoomSaveRequestForm(
     @Schema(description = "모임 비밀번호")
     @Size(max = 4, message = "Data must be 4 characters or less")
     val password: Password,
-    @Schema(description = "모임 날짜")
-    val meetDay: LocalDate,
 ) {
     fun toDomain(): Room {
         return Room(
-            roomId = UUID.randomUUID(),
-            name = this.meetingName,
+            roomUid = UUID.randomUUID(),
+            name = this.name,
             message = this.message,
             thumbnailLink = this.thumbnailLink,
             password = this.password,
@@ -36,28 +33,24 @@ data class RoomSaveRequestForm(
 }
 
 data class RoomUpdateRequestForm(
+    @Schema(description = "방(Room) id")
+    val roomUid: UUID,
     @Schema(description = "모임 이름")
-    val meetingName: String,
+    val name: String,
     @Schema(description = "적고 싶은 메시지")
     val message: String?,
-    @Schema(description = "모임 장소")
-    val address: String,
     @Schema(description = "썸네일 이미지")
     val thumbnailLink: String,
     @Schema(description = "모임 비밀번호")
     @Size(max = 4, message = "Data must be 4 characters or less")
     val password: Password,
-    @Schema(description = "모임 날짜")
-    val meetDay: LocalDate,
     @Schema(description = "투표 마감일")
     val voteDeadLine: LocalDateTime?,
-    @Schema(description = "방(Room) id")
-    val roomId: UUID,
 ) {
     fun toDomain(): Room {
         return Room(
-            roomId = this.roomId,
-            name = this.meetingName,
+            roomUid = this.roomUid,
+            name = this.name,
             message = this.message,
             thumbnailLink = this.thumbnailLink,
             password = this.password,

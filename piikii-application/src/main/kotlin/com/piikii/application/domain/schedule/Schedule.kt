@@ -4,7 +4,7 @@ import java.util.UUID
 
 data class Schedule(
     val id: Long,
-    val roomId: UUID,
+    val roomUid: UUID,
     val name: String,
     val sequence: Int,
 )

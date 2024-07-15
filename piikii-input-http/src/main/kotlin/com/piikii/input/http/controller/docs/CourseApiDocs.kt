@@ -26,10 +26,10 @@ interface CourseApiDocs {
     )
     fun checkCourseExist(
         @Parameter(
-            name = "roomId",
+            name = "roomUid",
             description = "코스 생성 여부를 조회할 방 uuid",
             required = true,
             `in` = ParameterIn.PATH,
-        ) roomId: UUID,
+        ) roomUid: UUID,
     ): ResponseForm<CourseExistenceResponse>
 }

@@ -19,28 +19,28 @@ class RoomService(
     private val roomQueryPort: RoomQueryPort,
 ) : RoomUseCase {
     override fun create(request: RoomSaveRequestForm): SaveRoomResponse {
-        return SaveRoomResponse(roomCommandPort.save(request.toDomain()).roomId)
+        return SaveRoomResponse(roomCommandPort.save(request.toDomain()).roomUid)
     }
 
     override fun modify(request: RoomUpdateRequestForm) {
         roomCommandPort.update(request.toDomain())
     }
 
-    override fun remove(roomId: UUID) {
-        roomCommandPort.delete(roomId)
+    override fun remove(roomUid: UUID) {
+        roomCommandPort.delete(roomUid)
     }
 
-    override fun findById(roomId: UUID): RoomResponse {
-        val retrievedRoom = roomQueryPort.findById(roomId)
+    override fun findById(roomUid: UUID): RoomResponse {
+        val retrievedRoom = roomQueryPort.findById(roomUid)
         return RoomResponse.from(retrievedRoom)
     }
 
     override fun changeVoteDeadline(
-        roomId: UUID,
+        roomUid: UUID,
         password: Password,
         voteDeadline: LocalDateTime,
     ) {
-        roomQueryPort.findById(roomId).let { room ->
+        roomQueryPort.findById(roomUid).let { room ->
             verifyPassword(room, password)
             roomCommandPort.update(room.copy(voteDeadline = voteDeadline))
         }

@@ -8,7 +8,7 @@ import java.util.UUID
 
 data class PlaceResponse(
     val id: Long,
-    val roomId: UUID,
+    val roomUid: UUID,
     val scheduleId: Long,
     val url: String? = null,
     val placeImageUrls: ThumbnailLinks,
@@ -22,7 +22,7 @@ data class PlaceResponse(
 ) {
     constructor(place: Place) : this(
         id = place.id,
-        roomId = place.roomId,
+        roomUid = place.roomUid,
         scheduleId = place.id,
         url = place.url,
         placeImageUrls = place.thumbnailLinks,

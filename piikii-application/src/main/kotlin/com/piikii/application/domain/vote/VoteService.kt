@@ -17,10 +17,10 @@ class VoteService(
     private val placeQueryPort: PlaceQueryPort,
 ) : VoteUseCase {
     override fun vote(
-        roomId: UUID,
+        roomUid: UUID,
         votes: List<Vote>,
     ) {
-        val room = roomQueryPort.findById(roomId)
+        val room = roomQueryPort.findById(roomUid)
         require(!room.isVoteUnavailable()) {
             throw PiikiiException(
                 exceptionCode = ExceptionCode.ACCESS_DENIED,
@@ -29,7 +29,7 @@ class VoteService(
         }
 
         val placeIds = votes.map { it.placeId }
-        val placesOfRoom = placeQueryPort.findAllByPlaceIds(placeIds).filter { it.roomId == roomId }
+        val placesOfRoom = placeQueryPort.findAllByPlaceIds(placeIds).filter { it.roomUid == roomUid }
         require(placesOfRoom.count() == votes.size) {
             throw PiikiiException(exceptionCode = ExceptionCode.VOTE_PLACE_ID_INVALID)
         }
@@ -37,9 +37,9 @@ class VoteService(
         voteCommandPort.vote(votes)
     }
 
-    override fun isVoteFinished(roomId: UUID): Boolean {
+    override fun isVoteFinished(roomUid: UUID): Boolean {
         val voteDeadline =
-            roomQueryPort.findById(roomId).voteDeadline
+            roomQueryPort.findById(roomUid).voteDeadline
                 ?: throw PiikiiException(
                     exceptionCode = ExceptionCode.ACCESS_DENIED,
                     detailMessage = VOTE_NOT_STARTED,

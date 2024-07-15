@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.UUID
 
 interface RoomRepository : JpaRepository<RoomEntity, Long> {
-    fun findByRoomId(roomId: UUID): RoomEntity?
+    fun findByroomUid(roomUid: UUID): RoomEntity?
 
-    fun deleteByRoomId(roomId: UUID)
+    fun deleteByroomUid(roomUid: UUID)
 }
