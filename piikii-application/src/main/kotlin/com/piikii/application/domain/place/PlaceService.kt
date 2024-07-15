@@ -43,11 +43,11 @@ class PlaceService(
 
         val room = roomQueryPort.findById(targetroomUid)
         val schedule = scheduleQueryPort.findScheduleById(addPlaceRequest.scheduleId)
-
         val place =
             addPlaceRequest.toDomain(
                 roomUid = room.roomUid,
-                scheduleId = schedule.id,
+                // TODO 이거 좀 예쁘게 처리하는법 알아보기
+                scheduleId = schedule.id!!,
                 imageUrls = imageUrls,
             )
 
@@ -63,7 +63,7 @@ class PlaceService(
     override fun findAllByroomUidGroupByPlaceType(targetroomUid: UUID): List<PlaceTypeGroupResponse> {
         return placeQueryPort.findAllByroomUidGroupByPlaceType(targetroomUid).map { (placeType, places) ->
             PlaceTypeGroupResponse(
-                placeType = placeType,
+                scheduleType = placeType,
                 places = places.map { place -> PlaceResponse(place = place) },
             )
         }

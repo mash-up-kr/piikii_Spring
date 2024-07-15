@@ -3,7 +3,7 @@ package com.piikii.output.persistence.postgresql.persistence.entity
 import com.piikii.application.domain.generic.Source
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
-import com.piikii.application.domain.schedule.PlaceType
+import com.piikii.application.domain.schedule.ScheduleType
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -26,7 +26,7 @@ class PlaceEntity(
     @Column(name = "scheduleId", nullable = false, updatable = false)
     var scheduleId: Long,
     @Enumerated(EnumType.STRING)
-    var placeType: PlaceType,
+    var scheduleType: ScheduleType,
     @Column(name = "url", length = 255)
     var url: String?,
     @Column(name = "thumbnail_links", nullable = false, length = 255)
@@ -50,7 +50,7 @@ class PlaceEntity(
     constructor(roomUid: UUID, scheduleId: Long, place: Place) : this(
         roomUid = roomUid,
         scheduleId = scheduleId,
-        placeType = place.placeType,
+        scheduleType = place.scheduleType,
         url = place.url,
         thumbnailLinks = place.thumbnailLinks.contents ?: "",
         address = place.address,
@@ -67,7 +67,7 @@ class PlaceEntity(
             id = id,
             roomUid = roomUid,
             scheduleId = scheduleId,
-            placeType = placeType,
+            scheduleType = scheduleType,
             url = url,
             thumbnailLinks = ThumbnailLinks(thumbnailLinks),
             address = address,
@@ -81,7 +81,7 @@ class PlaceEntity(
     }
 
     fun update(place: Place) {
-        placeType = placeType
+        scheduleType = scheduleType
         url = place.url
         thumbnailLinks = place.thumbnailLinks.contents ?: ""
         address = place.address

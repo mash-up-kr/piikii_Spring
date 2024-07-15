@@ -3,7 +3,7 @@ package com.piikii.application.port.input.dto.request
 import com.piikii.application.domain.generic.Source
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
-import com.piikii.application.domain.schedule.PlaceType
+import com.piikii.application.domain.schedule.ScheduleType
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
@@ -18,7 +18,7 @@ data class AddPlaceRequest(
     @Schema(description = "일정 ID", example = "1")
     val scheduleId: Long,
     @field:NotNull
-    val placeType: PlaceType,
+    val scheduleType: ScheduleType,
     @field:Size(max = 255)
     @Schema(description = "장소 URL", example = "https://example.com")
     val url: String?,
@@ -53,7 +53,7 @@ data class AddPlaceRequest(
             id = 0L,
             roomUid = roomUid,
             scheduleId = scheduleId,
-            placeType = placeType,
+            scheduleType = scheduleType,
             url = url,
             thumbnailLinks = ThumbnailLinks(imageUrls),
             address = address,
@@ -72,7 +72,7 @@ data class ModifyPlaceRequest(
     @Schema(description = "일정 ID", example = "1")
     val scheduleId: Long,
     @field:NotNull
-    val placeType: PlaceType,
+    val scheduleType: ScheduleType,
     @field:Size(max = 255)
     @Schema(description = "장소 URL", example = "https://example.com")
     val url: String?,
@@ -111,7 +111,7 @@ data class ModifyPlaceRequest(
             id = targetPlaceId,
             roomUid = roomUid,
             scheduleId = scheduleId,
-            placeType = placeType,
+            scheduleType = scheduleType,
             url = url,
             thumbnailLinks = ThumbnailLinks(updatedUrls),
             address = address,

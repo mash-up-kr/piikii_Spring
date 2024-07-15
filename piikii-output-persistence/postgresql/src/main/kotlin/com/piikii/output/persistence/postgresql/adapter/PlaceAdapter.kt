@@ -1,7 +1,7 @@
 package com.piikii.output.persistence.postgresql.adapter
 
 import com.piikii.application.domain.place.Place
-import com.piikii.application.domain.schedule.PlaceType
+import com.piikii.application.domain.schedule.ScheduleType
 import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.common.exception.ExceptionCode
@@ -67,9 +67,9 @@ class PlaceAdapter(
         return placeRepository.findAllById(placeIds).map { it.toDomain() }
     }
 
-    override fun findAllByroomUidGroupByPlaceType(roomUid: UUID): Map<PlaceType, List<Place>> {
+    override fun findAllByroomUidGroupByPlaceType(roomUid: UUID): Map<ScheduleType, List<Place>> {
         return placeRepository.findAllByroomUid(roomUid)
             .map { it.toDomain() }
-            .groupBy { it.placeType }
+            .groupBy { it.scheduleType }
     }
 }

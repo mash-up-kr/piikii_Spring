@@ -3,7 +3,7 @@ package com.piikii.application.port.input.dto.response
 import com.piikii.application.domain.generic.Source
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
-import com.piikii.application.domain.schedule.PlaceType
+import com.piikii.application.domain.schedule.ScheduleType
 import java.util.UUID
 
 data class PlaceResponse(
@@ -37,6 +37,6 @@ data class PlaceResponse(
 }
 
 data class PlaceTypeGroupResponse(
-    val placeType: PlaceType,
+    val scheduleType: ScheduleType,
     val places: List<PlaceResponse>,
 )
