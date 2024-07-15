@@ -5,7 +5,7 @@ import com.piikii.application.port.input.dto.request.AddPlaceRequest
 import com.piikii.application.port.input.dto.request.DeletePlaceRequest
 import com.piikii.application.port.input.dto.request.ModifyPlaceRequest
 import com.piikii.application.port.input.dto.response.PlaceResponse
-import com.piikii.application.port.input.dto.response.PlaceTypeGroupResponse
+import com.piikii.application.port.input.dto.response.ScheduleTypeGroupResponse
 import com.piikii.input.http.controller.docs.PlaceDocs
 import com.piikii.input.http.controller.dto.ResponseForm
 import jakarta.validation.Valid
@@ -27,37 +27,37 @@ import java.util.UUID
 
 @Validated
 @RestController
-@RequestMapping("/v1/rooms/{roomId}/places")
+@RequestMapping("/v1/rooms/{roomUid}/places")
 class PlaceApi(
     private val placeUseCase: PlaceUseCase,
 ) : PlaceDocs {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     override fun addPlace(
-        @NotNull @PathVariable roomId: UUID,
+        @NotNull @PathVariable roomUid: UUID,
         @Valid @RequestPart addPlaceRequest: AddPlaceRequest,
         @RequestPart(required = false) placeImages: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse> {
-        return ResponseForm(placeUseCase.addPlace(roomId, addPlaceRequest, placeImages))
+        return ResponseForm(placeUseCase.addPlace(roomUid, addPlaceRequest, placeImages))
     }
 
     @GetMapping
     override fun retrieveAll(
-        @NotNull @PathVariable roomId: UUID,
-    ): ResponseForm<List<PlaceTypeGroupResponse>> {
-        return ResponseForm(placeUseCase.findAllByRoomIdGroupByPlaceType(roomId))
+        @NotNull @PathVariable roomUid: UUID,
+    ): ResponseForm<List<ScheduleTypeGroupResponse>> {
+        return ResponseForm(placeUseCase.findAllByRoomUidGroupByPlaceType(roomUid))
     }
 
     @PatchMapping("/{targetPlaceId}")
     override fun modifyPlace(
-        @NotNull @PathVariable roomId: UUID,
+        @NotNull @PathVariable roomUid: UUID,
         @NotNull @PathVariable targetPlaceId: Long,
         @Valid @NotNull @RequestPart modifyPlaceRequest: ModifyPlaceRequest,
         @RequestPart(required = false) newPlaceImages: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse> {
         return ResponseForm(
             placeUseCase.modify(
-                targetRoomId = roomId,
+                targetRoomUid = roomUid,
                 targetPlaceId = targetPlaceId,
                 modifyPlaceRequest = modifyPlaceRequest,
                 newPlaceImages = newPlaceImages,
@@ -67,7 +67,7 @@ class PlaceApi(
 
     @DeleteMapping
     override fun deletePlace(
-        @NotNull @PathVariable roomId: UUID,
+        @NotNull @PathVariable roomUid: UUID,
         @Valid @NotNull @RequestBody deletePlaceRequest: DeletePlaceRequest,
     ): ResponseForm<Unit> {
         placeUseCase.delete(deletePlaceRequest.targetPlaceId)

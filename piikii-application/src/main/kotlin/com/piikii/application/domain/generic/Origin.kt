@@ -1,6 +1,6 @@
 package com.piikii.application.domain.generic
 
-enum class Source {
+enum class Origin {
     AVOCADO,
     LEMON,
     MANUAL,

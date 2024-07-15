@@ -4,7 +4,7 @@ import com.piikii.application.port.input.PlaceUseCase
 import com.piikii.application.port.input.dto.request.AddPlaceRequest
 import com.piikii.application.port.input.dto.request.ModifyPlaceRequest
 import com.piikii.application.port.input.dto.response.PlaceResponse
-import com.piikii.application.port.input.dto.response.PlaceTypeGroupResponse
+import com.piikii.application.port.input.dto.response.ScheduleTypeGroupResponse
 import com.piikii.application.port.output.objectstorage.BucketFolderType
 import com.piikii.application.port.output.objectstorage.ObjectStoragePort
 import com.piikii.application.port.output.persistence.PlaceCommandPort
@@ -29,7 +29,7 @@ class PlaceService(
 ) : PlaceUseCase {
     @Transactional
     override fun addPlace(
-        targetRoomId: UUID,
+        targetRoomUid: UUID,
         addPlaceRequest: AddPlaceRequest,
         placeImages: List<MultipartFile>?,
     ): PlaceResponse {
@@ -41,37 +41,40 @@ class PlaceService(
                 ).get()
             } ?: listOf()
 
-        val room = roomQueryPort.findById(targetRoomId)
+        val room = roomQueryPort.findById(targetRoomUid)
         val schedule = scheduleQueryPort.findScheduleById(addPlaceRequest.scheduleId)
-
         val place =
             addPlaceRequest.toDomain(
-                roomId = room.roomId,
-                scheduleId = schedule.id,
+                roomUid = room.roomUid,
+                // TODO 이거 좀 예쁘게 처리하는법 알아보기
+                scheduleId = schedule.id!!,
                 imageUrls = imageUrls,
             )
 
         return PlaceResponse(
             placeCommandPort.save(
-                roomId = room.roomId,
+                roomUid = room.roomUid,
                 scheduleId = schedule.id,
                 place = place,
             ),
         )
     }
 
-    override fun findAllByRoomIdGroupByPlaceType(targetRoomId: UUID): List<PlaceTypeGroupResponse> {
-        return placeQueryPort.findAllByRoomIdGroupByPlaceType(targetRoomId).map { (placeType, places) ->
-            PlaceTypeGroupResponse(
-                placeType = placeType,
-                places = places.map { place -> PlaceResponse(place = place) },
-            )
-        }
+    override fun findAllByRoomUidGroupByPlaceType(roomUid: UUID): List<ScheduleTypeGroupResponse> {
+        val scheduleById = scheduleQueryPort.findSchedulesByRoomUid(roomUid).associateBy { it.id }
+        return placeQueryPort.findAllByRoomUid(roomUid).groupBy { it.scheduleId }
+            .map { (scheduleId, places) ->
+                val schedule = scheduleById[scheduleId] ?: throw PiikiiException(ExceptionCode.NOT_FOUNDED)
+                ScheduleTypeGroupResponse(
+                    scheduleType = schedule.type,
+                    places = places.map { place -> PlaceResponse(place = place) },
+                )
+            }
     }
 
     @Transactional
     override fun modify(
-        targetRoomId: UUID,
+        targetRoomUid: UUID,
         targetPlaceId: Long,
         modifyPlaceRequest: ModifyPlaceRequest,
         newPlaceImages: List<MultipartFile>?,
@@ -92,7 +95,7 @@ class PlaceService(
                 place =
                     modifyPlaceRequest.toDomain(
                         targetPlaceId,
-                        targetRoomId,
+                        targetRoomUid,
                         modifyPlaceRequest.scheduleId,
                         filterDuplicateUrls(updatedUrls, place),
                     ),

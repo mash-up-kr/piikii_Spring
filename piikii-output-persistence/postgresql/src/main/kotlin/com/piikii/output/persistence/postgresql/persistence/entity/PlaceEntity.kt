@@ -1,9 +1,8 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
-import com.piikii.application.domain.generic.Source
+import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
-import com.piikii.application.domain.schedule.PlaceType
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -21,75 +20,60 @@ import java.util.UUID
 @SQLDelete(sql = "UPDATE piikii.place SET is_deleted = true WHERE id = ?")
 @DynamicUpdate
 class PlaceEntity(
-    @Column(name = "roomId", nullable = false, updatable = false)
-    val roomId: UUID,
+    @Column(name = "roomUid", nullable = false, updatable = false)
+    val roomUid: UUID,
     @Column(name = "scheduleId", nullable = false, updatable = false)
     var scheduleId: Long,
-    @Enumerated(EnumType.STRING)
-    var placeType: PlaceType,
     @Column(name = "url", length = 255)
     var url: String?,
-    @Column(name = "thumbnail_links", nullable = false, length = 255)
-    var thumbnailLinks: String,
+    @Column(name = "thumbnail_links", length = 255, nullable = false)
+    var thumbnailLinks: String?,
     @Column(name = "address", length = 255)
     var address: String?,
     @Column(name = "phone_number", length = 15)
     var phoneNumber: String?,
-    @Column(name = "star_grade", columnDefinition = "DECIMAL(2,1) DEFAULT 0.0", nullable = false)
-    var starGrade: Float? = 0.0F,
+    @Column(name = "star_grade", nullable = false)
+    var starGrade: Float?,
     @Enumerated(EnumType.STRING)
-    @Column(name = "source", nullable = false)
-    var source: Source,
-    @Column(name = "note", length = 150, columnDefinition = "VARCHAR(150)")
-    var note: String?,
-    @Column(name = "vote_like_count", nullable = false)
-    var voteLikeCount: Short? = 0,
-    @Column(name = "vote_dislike_count", nullable = false)
-    var voteDislikeCount: Short? = 0,
+    @Column(name = "origin", nullable = false)
+    var origin: Origin,
+    @Column(name = "memo", length = 150)
+    var memo: String?,
 ) : BaseEntity() {
-    constructor(roomId: UUID, scheduleId: Long, place: Place) : this(
-        roomId = roomId,
+    constructor(roomUid: UUID, scheduleId: Long, place: Place) : this(
+        roomUid = roomUid,
         scheduleId = scheduleId,
-        placeType = place.placeType,
         url = place.url,
         thumbnailLinks = place.thumbnailLinks.contents ?: "",
         address = place.address,
         phoneNumber = place.phoneNumber,
         starGrade = place.starGrade,
-        source = place.source,
-        note = place.note,
-        voteLikeCount = place.voteLikeCount,
-        voteDislikeCount = place.voteDislikeCount,
+        origin = place.origin,
+        memo = place.memo,
     )
 
     fun toDomain(): Place {
         return Place(
             id = id,
-            roomId = roomId,
+            roomUid = roomUid,
             scheduleId = scheduleId,
-            placeType = placeType,
             url = url,
             thumbnailLinks = ThumbnailLinks(thumbnailLinks),
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
-            source = source,
-            note = note,
-            voteLikeCount = voteLikeCount,
-            voteDislikeCount = voteDislikeCount,
+            origin = origin,
+            memo = memo,
         )
     }
 
     fun update(place: Place) {
-        placeType = placeType
         url = place.url
         thumbnailLinks = place.thumbnailLinks.contents ?: ""
         address = place.address
         phoneNumber = place.phoneNumber
         starGrade = place.starGrade
-        source = place.source
-        note = place.note
-        voteLikeCount = place.voteLikeCount
-        voteDislikeCount = place.voteDislikeCount
+        origin = place.origin
+        memo = place.memo
     }
 }

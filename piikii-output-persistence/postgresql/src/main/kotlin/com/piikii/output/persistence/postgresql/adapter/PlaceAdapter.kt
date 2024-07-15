@@ -1,7 +1,6 @@
 package com.piikii.output.persistence.postgresql.adapter
 
 import com.piikii.application.domain.place.Place
-import com.piikii.application.domain.schedule.PlaceType
 import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.common.exception.ExceptionCode
@@ -20,13 +19,13 @@ class PlaceAdapter(
 ) : PlaceQueryPort, PlaceCommandPort {
     @Transactional
     override fun save(
-        roomId: UUID,
+        roomUid: UUID,
         scheduleId: Long,
         place: Place,
     ): Place {
         val placeEntity =
             PlaceEntity(
-                roomId = roomId,
+                roomUid = roomUid,
                 scheduleId = scheduleId,
                 place = place,
             )
@@ -67,9 +66,7 @@ class PlaceAdapter(
         return placeRepository.findAllById(placeIds).map { it.toDomain() }
     }
 
-    override fun findAllByRoomIdGroupByPlaceType(roomId: UUID): Map<PlaceType, List<Place>> {
-        return placeRepository.findAllByRoomId(roomId)
-            .map { it.toDomain() }
-            .groupBy { it.placeType }
+    override fun findAllByRoomUid(roomUid: UUID): List<Place> {
+        return placeRepository.findAllByRoomUid(roomUid).map { it.toDomain() }
     }
 }

@@ -14,7 +14,7 @@ import java.util.UUID
 @DynamicUpdate
 class CourseEntity(
     @Column(name = "room_id", nullable = false)
-    val roomId: UUID,
+    val roomUid: UUID,
     @Column(name = "schedule_id", nullable = false, unique = true)
     val scheduleId: Long,
     @Column(name = "place_id", nullable = false)

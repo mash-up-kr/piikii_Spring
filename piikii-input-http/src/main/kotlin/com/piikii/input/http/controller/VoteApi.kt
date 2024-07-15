@@ -22,7 +22,7 @@ import java.util.UUID
 
 @Validated
 @RestController
-@RequestMapping("/room/{roomId}/votes")
+@RequestMapping("/room/{roomUid}/votes")
 class VoteApi(
     private val voteUseCase: VoteUseCase,
     private val roomUseCase: RoomUseCase,
@@ -30,29 +30,29 @@ class VoteApi(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/deadline")
     override fun changeVoteDeadline(
-        @PathVariable roomId: UUID,
+        @PathVariable roomUid: UUID,
         @Valid @RequestBody request: VoteDeadlineSetRequest,
     ): ResponseForm<Unit> {
-        roomUseCase.changeVoteDeadline(roomId, request.password, request.voteDeadline)
+        roomUseCase.changeVoteDeadline(roomUid, request.password, request.voteDeadline)
         return ResponseForm.EMPTY_RESPONSE
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     override fun getVoteStatus(
-        @PathVariable roomId: UUID,
+        @PathVariable roomUid: UUID,
     ): ResponseForm<VoteStatusResponse> {
-        val voteFinished = voteUseCase.isVoteFinished(roomId)
+        val voteFinished = voteUseCase.isVoteFinished(roomUid)
         return ResponseForm(data = VoteStatusResponse(voteFinished))
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     override fun vote(
-        @PathVariable roomId: UUID,
+        @PathVariable roomUid: UUID,
         @RequestBody voteRequest: VoteRequest,
     ): ResponseForm<Unit> {
-        voteUseCase.vote(roomId, voteRequest.toDomains())
+        voteUseCase.vote(roomUid, voteRequest.toDomains())
         return ResponseForm.EMPTY_RESPONSE
     }
 }

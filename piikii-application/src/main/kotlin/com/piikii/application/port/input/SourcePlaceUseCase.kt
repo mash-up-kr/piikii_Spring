@@ -1,9 +1,9 @@
 package com.piikii.application.port.input
 
-import com.piikii.application.domain.place.SourcePlace
+import com.piikii.application.domain.place.OriginPlace
 
 interface SourcePlaceUseCase {
-    fun save(): SourcePlace
+    fun save(): OriginPlace
 
-    fun retrieve(): SourcePlace
+    fun retrieve(): OriginPlace
 }

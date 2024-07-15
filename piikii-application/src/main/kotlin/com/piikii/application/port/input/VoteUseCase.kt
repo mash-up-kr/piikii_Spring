@@ -5,9 +5,9 @@ import java.util.UUID
 
 interface VoteUseCase {
     fun vote(
-        roomId: UUID,
+        roomUid: UUID,
         votes: List<Vote>,
     )
 
-    fun isVoteFinished(roomId: UUID): Boolean
+    fun isVoteFinished(roomUid: UUID): Boolean
 }

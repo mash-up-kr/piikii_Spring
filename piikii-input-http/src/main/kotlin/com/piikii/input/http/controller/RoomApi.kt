@@ -47,21 +47,21 @@ class RoomApi(
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/{roomId}")
+    @DeleteMapping("/{roomUid}")
     override fun remove(
-        @PathVariable roomId: UUID,
+        @PathVariable roomUid: UUID,
     ): ResponseForm<Unit> {
-        roomUseCase.remove(roomId)
+        roomUseCase.remove(roomUid)
         return ResponseForm.EMPTY_RESPONSE
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{roomId}")
+    @GetMapping("/{roomUid}")
     override fun search(
-        @PathVariable roomId: UUID,
+        @PathVariable roomUid: UUID,
     ): ResponseForm<RoomResponse> {
         return ResponseForm(
-            data = roomUseCase.findById(roomId),
+            data = roomUseCase.findById(roomUid),
         )
     }
 }

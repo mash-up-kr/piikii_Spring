@@ -1,9 +1,9 @@
 package com.piikii.output.persistence.postgresql.adapter
 
-import com.piikii.application.domain.place.SourcePlace
+import com.piikii.application.domain.place.OriginPlace
 import com.piikii.application.port.output.persistence.SourcePlaceCommandPort
 import com.piikii.application.port.output.persistence.SourcePlaceQueryPort
-import com.piikii.output.persistence.postgresql.persistence.entity.SourcePlaceEntity
+import com.piikii.output.persistence.postgresql.persistence.entity.OriginPlaceEntity
 import com.piikii.output.persistence.postgresql.persistence.repository.SourcePlaceRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Repository
@@ -15,15 +15,15 @@ class SourcePlaceAdapter(
     private val sourcePlaceRepository: SourcePlaceRepository,
 ) : SourcePlaceCommandPort, SourcePlaceQueryPort {
     @Transactional
-    override fun save(sourcePlace: SourcePlace): SourcePlace {
-        val entity = SourcePlaceEntity.from(sourcePlace)
+    override fun save(originPlace: OriginPlace): OriginPlace {
+        val entity = OriginPlaceEntity.from(originPlace)
         sourcePlaceRepository.save(entity)
         return entity.toDomain()
     }
 
     @Transactional
     override fun update(
-        sourcePlace: SourcePlace,
+        originPlace: OriginPlace,
         id: Long,
     ) {
         TODO("Not yet implemented")
@@ -34,7 +34,7 @@ class SourcePlaceAdapter(
         TODO("Not yet implemented")
     }
 
-    override fun retrieve(id: Long): SourcePlace {
+    override fun retrieve(id: Long): OriginPlace {
         val sourcePlaceEntity = sourcePlaceRepository.findById(id)
         if (sourcePlaceEntity.isPresent) {
             return sourcePlaceEntity.get().toDomain()
@@ -43,7 +43,7 @@ class SourcePlaceAdapter(
         throw EntityNotFoundException()
     }
 
-    override fun retrieveAll(ids: List<Long>): List<SourcePlace> {
+    override fun retrieveAll(ids: List<Long>): List<OriginPlace> {
         TODO("Not yet implemented")
     }
 }
