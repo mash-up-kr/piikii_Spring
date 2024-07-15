@@ -1,6 +1,6 @@
 package com.piikii.application.port.input.dto.request
 
-import com.piikii.application.domain.generic.Source
+import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.schedule.ScheduleType
@@ -33,10 +33,10 @@ data class AddPlaceRequest(
     val starGrade: Float?,
     @field:NotNull
     @Schema(description = "출처")
-    val source: Source,
+    val origin: Origin,
     @field:NotBlank @field:Size(max = 50)
     @Schema(description = "메모", example = "맛있는 레스토랑")
-    val note: String,
+    val memo: String,
     @field:PositiveOrZero
     @Schema(description = "좋아요 수", example = "10")
     val voteLikeCount: Short?,
@@ -53,16 +53,13 @@ data class AddPlaceRequest(
             id = 0L,
             roomUid = roomUid,
             scheduleId = scheduleId,
-            scheduleType = scheduleType,
             url = url,
             thumbnailLinks = ThumbnailLinks(imageUrls),
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
-            source = source,
-            note = note,
-            voteLikeCount = voteLikeCount,
-            voteDislikeCount = voteDislikeCount,
+            origin = origin,
+            memo = memo,
         )
     }
 }
@@ -90,10 +87,10 @@ data class ModifyPlaceRequest(
     val starGrade: Float?,
     @field:NotNull
     @Schema(description = "출처")
-    val source: Source,
+    val origin: Origin,
     @field:NotBlank @field:Size(max = 50)
     @Schema(description = "메모", example = "맛있는 레스토랑")
-    val note: String,
+    val memo: String,
     @field:PositiveOrZero
     @Schema(description = "좋아요 수", example = "10")
     val voteLikeCount: Short?,
@@ -111,16 +108,13 @@ data class ModifyPlaceRequest(
             id = targetPlaceId,
             roomUid = roomUid,
             scheduleId = scheduleId,
-            scheduleType = scheduleType,
             url = url,
             thumbnailLinks = ThumbnailLinks(updatedUrls),
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
-            source = source,
-            note = note,
-            voteLikeCount = voteLikeCount,
-            voteDislikeCount = voteDislikeCount,
+            origin = origin,
+            memo = memo,
         )
     }
 }

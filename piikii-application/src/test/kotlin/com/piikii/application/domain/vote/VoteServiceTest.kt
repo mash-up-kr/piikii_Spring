@@ -1,11 +1,10 @@
 package com.piikii.application.domain.vote
 
-import com.piikii.application.domain.generic.Source
+import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.room.Password
 import com.piikii.application.domain.room.Room
-import com.piikii.application.domain.schedule.ScheduleType
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.application.port.output.persistence.VoteCommandPort
@@ -81,13 +80,10 @@ class VoteServiceTest {
                 address = null,
                 phoneNumber = null,
                 starGrade = null,
-                source = Source.MANUAL,
+                origin = Origin.MANUAL,
                 roomUid = roomUid,
                 scheduleId = 0L,
-                voteLikeCount = null,
-                voteDislikeCount = null,
-                note = null,
-                scheduleType = ScheduleType.DISH,
+                memo = null,
             )
 
         given(roomQueryPort.findById(room.roomUid))
@@ -130,13 +126,10 @@ class VoteServiceTest {
                     address = null,
                     phoneNumber = null,
                     starGrade = null,
-                    source = Source.MANUAL,
+                    origin = Origin.MANUAL,
                     roomUid = UUID.randomUUID(),
                     scheduleId = 0L,
-                    voteLikeCount = null,
-                    voteDislikeCount = null,
-                    note = null,
-                    scheduleType = ScheduleType.DISH,
+                    memo = null,
                 ),
                 Place(
                     id = 1L,
@@ -145,13 +138,10 @@ class VoteServiceTest {
                     address = null,
                     phoneNumber = null,
                     starGrade = null,
-                    source = Source.MANUAL,
+                    origin = Origin.MANUAL,
                     roomUid = UUID.randomUUID(),
                     scheduleId = 0L,
-                    voteLikeCount = null,
-                    voteDislikeCount = null,
-                    note = null,
-                    scheduleType = ScheduleType.DISH,
+                    memo = null,
                 ),
             )
 
@@ -195,13 +185,10 @@ class VoteServiceTest {
                     address = null,
                     phoneNumber = null,
                     starGrade = null,
-                    source = Source.MANUAL,
+                    origin = Origin.MANUAL,
                     roomUid = roomUid,
                     scheduleId = 0,
-                    voteLikeCount = null,
-                    voteDislikeCount = null,
-                    note = null,
-                    scheduleType = ScheduleType.DISH,
+                    memo = null,
                 ),
                 Place(
                     id = 2,
@@ -210,13 +197,10 @@ class VoteServiceTest {
                     address = null,
                     phoneNumber = null,
                     starGrade = null,
-                    source = Source.MANUAL,
+                    origin = Origin.MANUAL,
                     roomUid = roomUid,
                     scheduleId = 0,
-                    voteLikeCount = null,
-                    voteDislikeCount = null,
-                    note = null,
-                    scheduleType = ScheduleType.DISH,
+                    memo = null,
                 ),
             )
 

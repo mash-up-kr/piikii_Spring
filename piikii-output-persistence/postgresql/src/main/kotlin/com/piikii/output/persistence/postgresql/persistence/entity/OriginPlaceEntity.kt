@@ -1,8 +1,8 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
-import com.piikii.application.domain.generic.Source
+import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
-import com.piikii.application.domain.place.SourcePlace
+import com.piikii.application.domain.place.OriginPlace
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -12,9 +12,9 @@ import jakarta.persistence.Table
 import org.hibernate.annotations.SQLRestriction
 
 @Entity
-@Table(name = "source_place", schema = "piikii")
+@Table(name = "origin_place", schema = "piikii")
 @SQLRestriction("is_deleted = false")
-class SourcePlaceEntity(
+class OriginPlaceEntity(
     @Column(name = "origin_map_id", nullable = false)
     val originMapId: Long,
     @Column(name = "url", nullable = false, length = 255)
@@ -28,30 +28,30 @@ class SourcePlaceEntity(
     @Column(name = "star_grade")
     val starGrade: Float? = null,
     @Enumerated(EnumType.STRING)
-    val source: Source,
+    val origin: Origin,
 ) : BaseEntity() {
-    fun toDomain(): SourcePlace {
-        return SourcePlace(
+    fun toDomain(): OriginPlace {
+        return OriginPlace(
             originMapId = this.originMapId,
             url = this.url,
             thumbnailLinks = ThumbnailLinks(this.thumbnailLinks),
             address = this.address,
             phoneNumber = this.phoneNumber,
             starGrade = this.starGrade,
-            source = this.source,
+            origin = this.origin,
         )
     }
 
     companion object {
-        fun from(sourcePlace: SourcePlace): SourcePlaceEntity {
-            return SourcePlaceEntity(
-                originMapId = sourcePlace.originMapId,
-                url = sourcePlace.url,
-                thumbnailLinks = sourcePlace.thumbnailLinks.contents.toString(),
-                address = sourcePlace.address,
-                phoneNumber = sourcePlace.phoneNumber,
-                starGrade = sourcePlace.starGrade,
-                source = sourcePlace.source,
+        fun from(originPlace: OriginPlace): OriginPlaceEntity {
+            return OriginPlaceEntity(
+                originMapId = originPlace.originMapId,
+                url = originPlace.url,
+                thumbnailLinks = originPlace.thumbnailLinks.contents.toString(),
+                address = originPlace.address,
+                phoneNumber = originPlace.phoneNumber,
+                starGrade = originPlace.starGrade,
+                origin = originPlace.origin,
             )
         }
     }
