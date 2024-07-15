@@ -31,7 +31,7 @@ class ScheduleAdapter(
         )
     }
 
-    override fun findSchedulesByroomUid(roomUid: UUID): List<Schedule> {
+    override fun findSchedulesByRoomUid(roomUid: UUID): List<Schedule> {
         return scheduleRepository.findByroomUidOrderBySequenceAsc(roomUid).map { it.toDomain() }
     }
 

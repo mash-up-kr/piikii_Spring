@@ -32,7 +32,7 @@ data class PlaceResponse(
     )
 }
 
-data class PlaceTypeGroupResponse(
+data class ScheduleTypeGroupResponse(
     val scheduleType: ScheduleType,
     val places: List<PlaceResponse>,
 )

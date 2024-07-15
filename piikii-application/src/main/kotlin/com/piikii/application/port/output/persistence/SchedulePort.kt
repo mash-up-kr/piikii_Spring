@@ -4,7 +4,7 @@ import com.piikii.application.domain.schedule.Schedule
 import java.util.UUID
 
 interface ScheduleQueryPort {
-    fun findSchedulesByroomUid(roomUid: UUID): List<Schedule>
+    fun findSchedulesByRoomUid(roomUid: UUID): List<Schedule>
 
     fun findScheduleById(id: Long): Schedule
 }

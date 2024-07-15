@@ -23,7 +23,7 @@ class ScheduleService(
 
     override fun getSchedules(roomUid: UUID): SchedulesResponse {
         return SchedulesResponse.from(
-            scheduleQueryPort.findSchedulesByroomUid(roomUid),
+            scheduleQueryPort.findSchedulesByRoomUid(roomUid),
         )
     }
 

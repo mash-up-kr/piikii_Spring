@@ -5,7 +5,7 @@ import com.piikii.application.port.input.dto.request.AddPlaceRequest
 import com.piikii.application.port.input.dto.request.DeletePlaceRequest
 import com.piikii.application.port.input.dto.request.ModifyPlaceRequest
 import com.piikii.application.port.input.dto.response.PlaceResponse
-import com.piikii.application.port.input.dto.response.PlaceTypeGroupResponse
+import com.piikii.application.port.input.dto.response.ScheduleTypeGroupResponse
 import com.piikii.input.http.controller.docs.PlaceDocs
 import com.piikii.input.http.controller.dto.ResponseForm
 import jakarta.validation.Valid
@@ -44,8 +44,8 @@ class PlaceApi(
     @GetMapping
     override fun retrieveAll(
         @NotNull @PathVariable roomUid: UUID,
-    ): ResponseForm<List<PlaceTypeGroupResponse>> {
-        return ResponseForm(placeUseCase.findAllByroomUidGroupByPlaceType(roomUid))
+    ): ResponseForm<List<ScheduleTypeGroupResponse>> {
+        return ResponseForm(placeUseCase.findAllByRoomUidGroupByPlaceType(roomUid))
     }
 
     @PatchMapping("/{targetPlaceId}")
@@ -57,7 +57,7 @@ class PlaceApi(
     ): ResponseForm<PlaceResponse> {
         return ResponseForm(
             placeUseCase.modify(
-                targetroomUid = roomUid,
+                targetRoomUid = roomUid,
                 targetPlaceId = targetPlaceId,
                 modifyPlaceRequest = modifyPlaceRequest,
                 newPlaceImages = newPlaceImages,

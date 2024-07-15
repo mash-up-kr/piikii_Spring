@@ -4,7 +4,7 @@ import com.piikii.application.port.input.dto.request.AddPlaceRequest
 import com.piikii.application.port.input.dto.request.DeletePlaceRequest
 import com.piikii.application.port.input.dto.request.ModifyPlaceRequest
 import com.piikii.application.port.input.dto.response.PlaceResponse
-import com.piikii.application.port.input.dto.response.PlaceTypeGroupResponse
+import com.piikii.application.port.input.dto.response.ScheduleTypeGroupResponse
 import com.piikii.input.http.controller.dto.ResponseForm
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -24,7 +24,7 @@ import java.util.UUID
 interface PlaceDocs {
     class SuccessPlaceResponse : ResponseForm<PlaceResponse>()
 
-    class SuccessPlaceTypeGroupResponse : ResponseForm<PlaceTypeGroupResponse>()
+    class SuccessPlaceTypeGroupResponse : ResponseForm<ScheduleTypeGroupResponse>()
 
     @Operation(summary = "방 장소 추가 API", description = "방에 장소를 추가합니다.")
     @ApiResponses(
@@ -78,7 +78,7 @@ interface PlaceDocs {
             required = true,
             `in` = ParameterIn.PATH,
         ) @NotNull roomUid: UUID,
-    ): ResponseForm<List<PlaceTypeGroupResponse>>
+    ): ResponseForm<List<ScheduleTypeGroupResponse>>
 
     @Operation(summary = "방 장소 수정 API", description = "방에 추가한 장소를 수정합니다.")
     @ApiResponses(
