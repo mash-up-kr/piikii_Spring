@@ -9,6 +9,10 @@ import com.piikii.application.domain.place.Place
 data class VoteStatusResponse(val voteFinished: Boolean)
 
 
+data class VoteResultResponse(
+    val result: List<VoteResultByScheduleResponse>,
+)
+
 data class VoteResultByScheduleResponse(
     val scheduleId: Long,
     val scheduleName: String,

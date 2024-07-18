@@ -5,16 +5,22 @@ import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.room.Password
 import com.piikii.application.domain.room.Room
+import com.piikii.application.domain.schedule.Schedule
+import com.piikii.application.domain.schedule.ScheduleType
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
+import com.piikii.application.port.output.persistence.ScheduleQueryPort
 import com.piikii.application.port.output.persistence.VoteCommandPort
+import com.piikii.application.port.output.persistence.VoteQueryPort
 import com.piikii.common.exception.PiikiiException
+import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
+import org.mockito.BDDMockito.anyList
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.verify
 import org.mockito.InjectMocks
@@ -30,6 +36,9 @@ class VoteServiceTest {
     lateinit var voteService: VoteService
 
     @Mock
+    lateinit var voteQueryPort: VoteQueryPort
+
+    @Mock
     lateinit var voteCommandPort: VoteCommandPort
 
     @Mock
@@ -37,6 +46,9 @@ class VoteServiceTest {
 
     @Mock
     lateinit var placeQueryPort: PlaceQueryPort
+
+    @Mock
+    lateinit var scheduleQueryPort: ScheduleQueryPort
 
     @MethodSource("voteUnavailableRoom")
     @ParameterizedTest
@@ -54,7 +66,7 @@ class VoteServiceTest {
     @Test
     fun `Vote Place Id가 존재하지 않으면 Exception이 발생한다`() {
         // given
-        val userId = UUID.randomUUID()
+        val userUid = UUID.randomUUID()
         val roomUid = UUID.randomUUID()
 
         val room =
@@ -68,13 +80,14 @@ class VoteServiceTest {
             )
         val votes =
             listOf(
-                Vote(userId = userId, placeId = 1, result = VoteResult.GOOD),
-                Vote(userId = userId, placeId = 2, result = VoteResult.BAD),
-                Vote(userId = userId, placeId = 3, result = VoteResult.GOOD),
+                Vote(userUid = userUid, placeId = 1, result = VoteResult.AGREE),
+                Vote(userUid = userUid, placeId = 2, result = VoteResult.DISAGREE),
+                Vote(userUid = userUid, placeId = 3, result = VoteResult.AGREE),
             )
         val place =
             Place(
                 id = 0L,
+                name = "",
                 url = null,
                 thumbnailLinks = ThumbnailLinks(contents = null),
                 address = null,
@@ -100,7 +113,7 @@ class VoteServiceTest {
     @Test
     fun `Vote Place Id가 해당 Room에 속하지 않을 경우, Exception이 발생한다`() {
         // given
-        val userId = UUID.randomUUID()
+        val userUid = UUID.randomUUID()
         val roomUid = UUID.randomUUID()
 
         val room =
@@ -114,14 +127,15 @@ class VoteServiceTest {
             )
         val votes =
             listOf(
-                Vote(userId = userId, placeId = 1, result = VoteResult.GOOD),
-                Vote(userId = userId, placeId = 2, result = VoteResult.BAD),
+                Vote(userUid = userUid, placeId = 1, result = VoteResult.AGREE),
+                Vote(userUid = userUid, placeId = 2, result = VoteResult.DISAGREE),
             )
         val places =
             listOf(
                 Place(
                     id = 0L,
                     url = null,
+                    name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
                     address = null,
                     phoneNumber = null,
@@ -134,6 +148,7 @@ class VoteServiceTest {
                 Place(
                     id = 1L,
                     url = null,
+                    name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
                     address = null,
                     phoneNumber = null,
@@ -159,7 +174,7 @@ class VoteServiceTest {
     @Test
     fun `올바른 데이터에서 vote는 성공한다`() {
         // given
-        val userId = UUID.randomUUID()
+        val userUid = UUID.randomUUID()
         val roomUid = UUID.randomUUID()
 
         val room =
@@ -173,14 +188,15 @@ class VoteServiceTest {
             )
         val votes =
             listOf(
-                Vote(userId = userId, placeId = 1, result = VoteResult.GOOD),
-                Vote(userId = userId, placeId = 2, result = VoteResult.BAD),
+                Vote(userUid = userUid, placeId = 1, result = VoteResult.AGREE),
+                Vote(userUid = userUid, placeId = 2, result = VoteResult.DISAGREE),
             )
         val places =
             listOf(
                 Place(
                     id = 1,
                     url = null,
+                    name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
                     address = null,
                     phoneNumber = null,
@@ -193,6 +209,7 @@ class VoteServiceTest {
                 Place(
                     id = 2,
                     url = null,
+                    name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
                     address = null,
                     phoneNumber = null,
@@ -212,6 +229,87 @@ class VoteServiceTest {
         // when & then
         assertDoesNotThrow { voteService.vote(roomUid, votes) }
         verify(voteCommandPort).save(votes)
+    }
+
+    @Test
+    fun `투표 결과 정상조회 테스트`() {
+        // given
+        val userUid = UUID.randomUUID()
+        val roomUid = UUID.randomUUID()
+
+        val votes =
+            listOf(
+                Vote(userUid = userUid, placeId = 1, result = VoteResult.AGREE),
+                Vote(userUid = userUid, placeId = 3, result = VoteResult.AGREE),
+                Vote(userUid = userUid, placeId = 3, result = VoteResult.AGREE),
+                Vote(userUid = userUid, placeId = 2, result = VoteResult.DISAGREE),
+            )
+        val schedules = listOf(
+            Schedule(id = 1, roomUid = roomUid, name = "식사", sequence = 1, type = ScheduleType.DISH),
+            Schedule(id = 2, roomUid = roomUid, name = "술", sequence = 2, type = ScheduleType.ALCOHOL),
+            Schedule(id = 3, roomUid = roomUid, name = "카페", sequence = 3, type = ScheduleType.DESSERT),
+        )
+        val places =
+            listOf(
+                Place(
+                    id = 1,
+                    url = null,
+                    name = "",
+                    thumbnailLinks = ThumbnailLinks(contents = null),
+                    address = null,
+                    phoneNumber = null,
+                    starGrade = null,
+                    origin = Origin.MANUAL,
+                    roomUid = roomUid,
+                    scheduleId = 1,
+                    memo = null,
+                ),
+                Place(
+                    id = 2,
+                    url = null,
+                    name = "",
+                    thumbnailLinks = ThumbnailLinks(contents = null),
+                    address = null,
+                    phoneNumber = null,
+                    starGrade = null,
+                    origin = Origin.MANUAL,
+                    roomUid = roomUid,
+                    scheduleId = 2,
+                    memo = null,
+                ),
+                Place(
+                    id = 3,
+                    url = null,
+                    name = "",
+                    thumbnailLinks = ThumbnailLinks(contents = null),
+                    address = null,
+                    phoneNumber = null,
+                    starGrade = null,
+                    origin = Origin.MANUAL,
+                    roomUid = roomUid,
+                    scheduleId = 2,
+                    memo = null,
+                ),
+            )
+
+        given(placeQueryPort.findAllByRoomUid(roomUid))
+            .willReturn(places)
+        given(scheduleQueryPort.findSchedulesByRoomUid(roomUid))
+            .willReturn(schedules)
+        given(voteQueryPort.findAllByPlaceIds(anyList()))
+            .willReturn(votes)
+
+        // when
+        val voteResultResponse = assertDoesNotThrow { voteService.getVoteResultOfRoom(roomUid) }
+
+        // then
+        assertThat(voteResultResponse.result).hasSize(schedules.size)
+
+        val scheduleTwoResponse = voteResultResponse.result.find { it.scheduleId == 2L }!!
+        assertThat(scheduleTwoResponse.places).hasSize(2)
+
+        // 동의 투표 수 기준 내림차순 정렬 여부 확인
+        assertThat(scheduleTwoResponse.places[0].countOfAgree).isEqualTo(2)
     }
 
     companion object {
