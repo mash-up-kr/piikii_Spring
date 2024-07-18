@@ -68,9 +68,9 @@ class VoteServiceTest {
             )
         val votes =
             listOf(
-                Vote(userId = userId, placeId = 1, result = VoteResult.O),
-                Vote(userId = userId, placeId = 2, result = VoteResult.X),
-                Vote(userId = userId, placeId = 3, result = VoteResult.O),
+                Vote(userId = userId, placeId = 1, result = VoteResult.GOOD),
+                Vote(userId = userId, placeId = 2, result = VoteResult.BAD),
+                Vote(userId = userId, placeId = 3, result = VoteResult.GOOD),
             )
         val place =
             Place(
@@ -114,8 +114,8 @@ class VoteServiceTest {
             )
         val votes =
             listOf(
-                Vote(userId = userId, placeId = 1, result = VoteResult.O),
-                Vote(userId = userId, placeId = 2, result = VoteResult.X),
+                Vote(userId = userId, placeId = 1, result = VoteResult.GOOD),
+                Vote(userId = userId, placeId = 2, result = VoteResult.BAD),
             )
         val places =
             listOf(
@@ -173,8 +173,8 @@ class VoteServiceTest {
             )
         val votes =
             listOf(
-                Vote(userId = userId, placeId = 1, result = VoteResult.O),
-                Vote(userId = userId, placeId = 2, result = VoteResult.X),
+                Vote(userId = userId, placeId = 1, result = VoteResult.GOOD),
+                Vote(userId = userId, placeId = 2, result = VoteResult.BAD),
             )
         val places =
             listOf(
@@ -211,7 +211,7 @@ class VoteServiceTest {
 
         // when & then
         assertDoesNotThrow { voteService.vote(roomUid, votes) }
-        verify(voteCommandPort).vote(votes)
+        verify(voteCommandPort).save(votes)
     }
 
     companion object {
