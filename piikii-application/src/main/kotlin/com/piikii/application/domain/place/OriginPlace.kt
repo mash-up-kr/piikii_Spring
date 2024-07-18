@@ -3,7 +3,7 @@ package com.piikii.application.domain.place
 import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
 
-class OriginPlace(
+data class OriginPlace(
     val originMapId: Long,
     val url: String,
     val thumbnailLinks: ThumbnailLinks,
