@@ -14,7 +14,7 @@ data class VoteSaveRequest(
                 Vote(
                     userUid = userUid,
                     placeId = it.placeId,
-                    result = it.voteResult
+                    result = it.voteResult,
                 )
             }
     }

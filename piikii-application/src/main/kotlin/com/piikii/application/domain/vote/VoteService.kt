@@ -60,23 +60,26 @@ class VoteService(
 
         val placeByScheduleId = places.groupBy { it.scheduleId }
         val scheduleById = scheduleQueryPort.findSchedulesByRoomUid(roomUid).associateBy { it.id!! }
-        val agreeCountByPlaceId = voteQueryPort.findAllByPlaceIds(placeIds)
-            .filter { it.result == VoteResult.AGREE }
-            .groupingBy { it.placeId }
-            .eachCount()
+        val agreeCountByPlaceId =
+            voteQueryPort.findAllByPlaceIds(placeIds)
+                .filter { it.result == VoteResult.AGREE }
+                .groupingBy { it.placeId }
+                .eachCount()
 
-        val voteResultByScheduleResponses = scheduleById.map { (scheduleId, schedule) ->
-            val places1 = placeByScheduleId[scheduleId] ?: emptyList()
-            val votePlaceResponses = places1.map {
-                val countOfAgree = agreeCountByPlaceId.getOrDefault(it.id, 0)
-                VotePlaceResponse(it, countOfAgree)
+        val voteResultByScheduleResponses =
+            scheduleById.map { (scheduleId, schedule) ->
+                val placesOfSchedule = placeByScheduleId[scheduleId] ?: emptyList()
+                val votePlaceResponses =
+                    placesOfSchedule.map {
+                        val countOfAgree = agreeCountByPlaceId.getOrDefault(it.id, 0)
+                        VotePlaceResponse(it, countOfAgree)
+                    }
+                VoteResultByScheduleResponse(
+                    scheduleId = scheduleId,
+                    scheduleName = schedule.name,
+                    places = votePlaceResponses.sortedByDescending { it.countOfAgree },
+                )
             }
-            VoteResultByScheduleResponse(
-                scheduleId = scheduleId,
-                scheduleName = schedule.name,
-                places = votePlaceResponses.sortedByDescending { it.countOfAgree }
-            )
-        }
         return VoteResultResponse(voteResultByScheduleResponses)
     }
 

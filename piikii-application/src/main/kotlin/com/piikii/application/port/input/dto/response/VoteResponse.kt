@@ -4,10 +4,7 @@ import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
 
-//data class VoteResultResponse(val )
-
 data class VoteStatusResponse(val voteFinished: Boolean)
-
 
 data class VoteResultResponse(
     val result: List<VoteResultByScheduleResponse>,
@@ -16,7 +13,7 @@ data class VoteResultResponse(
 data class VoteResultByScheduleResponse(
     val scheduleId: Long,
     val scheduleName: String,
-    val places: List<VotePlaceResponse>
+    val places: List<VotePlaceResponse>,
 )
 
 data class VotePlaceResponse(
@@ -41,6 +38,6 @@ data class VotePlaceResponse(
         starGrade = place.starGrade,
         origin = place.origin,
         memo = place.memo,
-        countOfAgree = countOfAgree
+        countOfAgree = countOfAgree,
     )
 }

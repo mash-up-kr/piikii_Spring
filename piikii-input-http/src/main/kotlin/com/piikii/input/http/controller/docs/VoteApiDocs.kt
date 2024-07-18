@@ -79,5 +79,4 @@ interface VoteApiDocs {
             `in` = ParameterIn.PATH,
         ) roomUid: UUID,
     ): ResponseForm<VoteResultResponse>
-
 }

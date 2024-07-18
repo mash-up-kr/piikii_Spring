@@ -65,5 +65,4 @@ class VoteApi(
         val voteResult = voteUseCase.getVoteResultOfRoom(roomUid)
         return ResponseForm(data = voteResult)
     }
-
 }

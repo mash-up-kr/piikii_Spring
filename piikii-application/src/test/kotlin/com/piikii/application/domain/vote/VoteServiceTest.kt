@@ -244,11 +244,12 @@ class VoteServiceTest {
                 Vote(userUid = userUid, placeId = 3, result = VoteResult.AGREE),
                 Vote(userUid = userUid, placeId = 2, result = VoteResult.DISAGREE),
             )
-        val schedules = listOf(
-            Schedule(id = 1, roomUid = roomUid, name = "식사", sequence = 1, type = ScheduleType.DISH),
-            Schedule(id = 2, roomUid = roomUid, name = "술", sequence = 2, type = ScheduleType.ALCOHOL),
-            Schedule(id = 3, roomUid = roomUid, name = "카페", sequence = 3, type = ScheduleType.DESSERT),
-        )
+        val schedules =
+            listOf(
+                Schedule(id = 1, roomUid = roomUid, name = "식사", sequence = 1, type = ScheduleType.DISH),
+                Schedule(id = 2, roomUid = roomUid, name = "술", sequence = 2, type = ScheduleType.ALCOHOL),
+                Schedule(id = 3, roomUid = roomUid, name = "카페", sequence = 3, type = ScheduleType.DESSERT),
+            )
         val places =
             listOf(
                 Place(

@@ -5,7 +5,6 @@ import com.piikii.application.port.input.dto.response.VoteResultResponse
 import java.util.UUID
 
 interface VoteUseCase {
-
     fun vote(
         roomUid: UUID,
         votes: List<Vote>,
@@ -14,5 +13,4 @@ interface VoteUseCase {
     fun isVoteFinished(roomUid: UUID): Boolean
 
     fun getVoteResultOfRoom(roomUid: UUID): VoteResultResponse
-
 }

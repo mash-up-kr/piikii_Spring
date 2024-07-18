@@ -69,5 +69,4 @@ class PlaceAdapter(
     override fun findAllByRoomUid(roomUid: UUID): List<Place> {
         return placeRepository.findAllByRoomUid(roomUid).map { it.toDomain() }
     }
-
 }
