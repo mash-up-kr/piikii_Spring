@@ -5,6 +5,8 @@ dependencies {
     implementation(project(":piikii-output-cache:redis"))
     implementation(project(":piikii-output-cache:caffeine"))
     implementation(project(":piikii-output-storage:ncp"))
+    implementation(project(":piikii-output-web:avocado"))
+    implementation(project(":piikii-output-web:lemon"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
 }
