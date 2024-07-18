@@ -18,7 +18,7 @@ import java.util.UUID
 @DynamicUpdate
 class VoteEntity(
     @Column(name = "user_id", nullable = false)
-    val userId: UUID,
+    val userUid: UUID,
     @Column(name = "place_id", nullable = false)
     val placeId: Long,
     @Enumerated(EnumType.STRING)
@@ -27,7 +27,7 @@ class VoteEntity(
 ) : BaseEntity() {
     fun toDomain(): Vote {
         return Vote(
-            userId = this.userId,
+            userUid = this.userUid,
             placeId = this.placeId,
             result = this.result,
         )
@@ -36,7 +36,7 @@ class VoteEntity(
     companion object {
         fun from(vote: Vote): VoteEntity {
             return VoteEntity(
-                userId = vote.userId,
+                userUid = vote.userUid,
                 placeId = vote.placeId,
                 result = vote.result,
             )
