@@ -1,18 +1,17 @@
 package com.piikii.output.web.lemon.util
 
+import com.piikii.output.web.lemon.config.LemonProperties
 import org.springframework.stereotype.Component
 
 @Component
-class SaltAdditive {
-    companion object {
-        private const val SALT = "main/v/"
-    }
-
+class SaltAdditive(
+    private val lemonProperties: LemonProperties,
+) {
     fun execute(url: String): String {
-        val regex = """(https://place\.map\.kakao\.com/m/)(\d+)""".toRegex()
+        val regex = """(${lemonProperties.baseUrl})(\d+)""".toRegex()
         return regex.replace(url) { matchResult ->
             val (baseUrl, id) = matchResult.destructured
-            "$baseUrl$SALT$id"
+            "$baseUrl${lemonProperties.salt}$id"
         }
     }
 }

@@ -3,6 +3,7 @@ spring:
     import:
       - classpath:http-config/application.yml
       - classpath:storage-config/application.yml
+      - classpath:lemon-config/application.yml
   application:
     name: "piikii"
   messages:

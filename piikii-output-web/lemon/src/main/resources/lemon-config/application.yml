@@ -1,0 +1,3 @@
+lemon:
+  base-url: ${LEMON_BASE_URL}
+  salt: ${LEMON_SALT}
