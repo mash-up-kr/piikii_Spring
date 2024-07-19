@@ -62,7 +62,7 @@ class ScheduleAdapter(
             )
     }
 
-    fun findScheduleEntityById(id: Long): ScheduleEntity {
+    private fun findScheduleEntityById(id: Long): ScheduleEntity {
         return scheduleRepository.findByIdOrNull(id)
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.NOT_FOUNDED,
