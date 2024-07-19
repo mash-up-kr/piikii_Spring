@@ -32,9 +32,11 @@ class ScheduleApi(
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    override fun getSchedules(@PathVariable roomUid: UUID): ResponseForm<SchedulesResponse> {
+    override fun getSchedules(
+        @PathVariable roomUid: UUID,
+    ): ResponseForm<SchedulesResponse> {
         return ResponseForm(
-            data = scheduleUseCase.getSchedules(roomUid)
+            data = scheduleUseCase.getSchedules(roomUid),
         )
     }
 }

@@ -38,7 +38,7 @@ interface ScheduleApiDocs {
             ApiResponse(
                 responseCode = "200",
                 description = "OK success",
-                content = [Content(schema = Schema(implementation = SchedulesResponse::class))]
+                content = [Content(schema = Schema(implementation = SchedulesResponse::class))],
             ),
         ],
     )
