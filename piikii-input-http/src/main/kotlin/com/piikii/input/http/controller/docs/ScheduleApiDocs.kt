@@ -1,6 +1,7 @@
 package com.piikii.input.http.controller.docs
 
 import com.piikii.application.port.input.dto.request.RegisterSchedulesRequest
+import com.piikii.application.port.input.dto.response.SchedulesResponse
 import com.piikii.input.http.controller.dto.ResponseForm
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -31,5 +32,22 @@ interface ScheduleApiDocs {
         ) request: RegisterSchedulesRequest,
     ): ResponseForm<Unit>
 
-    // TODO: GET
+    @Operation(summary = "스케줄 조회", description = "스케줄을 조회합니다.")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "OK success",
+                content = [Content(schema = Schema(implementation = SchedulesResponse::class))]
+            ),
+        ],
+    )
+    fun getSchedules(
+        @Parameter(
+            name = "roomUid",
+            description = "스케줄를 등록할 방 uuid",
+            required = true,
+            `in` = ParameterIn.PATH,
+        ) roomUid: UUID,
+    ): ResponseForm<SchedulesResponse>
 }

@@ -2,6 +2,7 @@ package com.piikii.application.domain.schedule
 
 import com.piikii.application.port.input.ScheduleUseCase
 import com.piikii.application.port.input.dto.request.RegisterSchedulesRequest
+import com.piikii.application.port.input.dto.response.SchedulesResponse
 import com.piikii.application.port.output.persistence.ScheduleCommandPort
 import com.piikii.application.port.output.persistence.ScheduleQueryPort
 import org.springframework.stereotype.Service
@@ -22,6 +23,11 @@ class ScheduleService(
         saveSchedules(schedulesToRegister)
         updateSchedules(schedulesToRegister)
         deleteSchedules(roomUid, schedulesToRegister)
+    }
+
+    override fun getSchedules(roomUid: UUID): SchedulesResponse {
+        val schedules = scheduleQueryPort.findSchedulesByRoomUid(roomUid)
+        return SchedulesResponse.from(schedules)
     }
 
     private fun saveSchedules(schedulesToRegister: List<Schedule>) {

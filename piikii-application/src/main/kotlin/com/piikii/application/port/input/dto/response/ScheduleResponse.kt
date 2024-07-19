@@ -1,6 +1,7 @@
 package com.piikii.application.port.input.dto.response
 
 import com.piikii.application.domain.schedule.Schedule
+import com.piikii.application.domain.schedule.ScheduleType
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
 import io.swagger.v3.oas.annotations.media.Schema
@@ -19,12 +20,14 @@ data class SchedulesResponse(
 }
 
 data class ScheduleResponse(
-    @Schema(description = "방 스케줄의 id")
+    @Schema(description = "조회하려는 스케줄의 id")
     val scheduleId: Long,
-    @Schema(description = "방 스케줄의 이름")
+    @Schema(description = "조회하려는 스케줄의 이름")
     val name: String,
-    @Schema(description = "방 스케줄의 순서")
+    @Schema(description = "조회하려는 스케줄의 순서")
     val sequence: Int,
+    @Schema(description = "조회하려는 스케줄의 타입")
+    val type: ScheduleType,
 ) {
     companion object {
         fun from(schedule: Schedule): ScheduleResponse {
@@ -39,6 +42,7 @@ data class ScheduleResponse(
                 scheduleId = scheduleId,
                 name = schedule.name,
                 sequence = schedule.sequence,
+                type = schedule.type,
             )
         }
     }
