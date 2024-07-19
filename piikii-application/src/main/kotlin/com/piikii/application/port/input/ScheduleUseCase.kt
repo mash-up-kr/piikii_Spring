@@ -1,17 +1,11 @@
 package com.piikii.application.port.input
 
-import com.piikii.application.port.input.dto.request.CreateSchedulesRequest
-import com.piikii.application.port.input.dto.request.DeleteSchedulesRequest
-import com.piikii.application.port.input.dto.response.SchedulesResponse
+import com.piikii.application.port.input.dto.request.RegisterSchedulesRequest
 import java.util.UUID
 
 interface ScheduleUseCase {
-    fun createSchedules(
+    fun registerSchedules(
         roomUid: UUID,
-        request: CreateSchedulesRequest,
+        request: RegisterSchedulesRequest,
     )
-
-    fun getSchedules(roomUid: UUID): SchedulesResponse
-
-    fun deleteSchedules(request: DeleteSchedulesRequest)
 }

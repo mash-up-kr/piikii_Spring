@@ -31,6 +31,18 @@ class ScheduleAdapter(
         )
     }
 
+    @Transactional
+    override fun updateSchedules(schedules: List<Schedule>) {
+        for (schedule in schedules) {
+            updateSchedule(schedule)
+        }
+    }
+
+    private fun updateSchedule(schedule: Schedule) {
+        val scheduleEntity = findScheduleEntityById(schedule.id!!)
+        scheduleEntity.update(schedule)
+    }
+
     override fun findSchedulesByRoomUid(roomUid: UUID): List<Schedule> {
         return scheduleRepository.findByroomUidOrderBySequenceAsc(roomUid).map { it.toDomain() }
     }
