@@ -39,7 +39,14 @@ class ScheduleAdapter(
     }
 
     private fun updateSchedule(schedule: Schedule) {
-        val scheduleEntity = findScheduleEntityById(schedule.id!!)
+        val scheduleId =
+            requireNotNull(schedule.id) {
+                throw PiikiiException(
+                    exceptionCode = ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION,
+                    detailMessage = "schedule Id can't be null",
+                )
+            }
+        val scheduleEntity = findScheduleEntityById(scheduleId)
         scheduleEntity.update(schedule)
     }
 
