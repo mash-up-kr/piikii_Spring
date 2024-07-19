@@ -24,7 +24,7 @@ class PlaceEntity(
     val roomUid: UUID,
     @Column(name = "scheduleId", nullable = false, updatable = false)
     var scheduleId: Long,
-    @Column(name = "name", length = 255)
+    @Column(name = "name", length = 255, nullable = false)
     var name: String,
     @Column(name = "url", length = 255)
     var url: String?,
