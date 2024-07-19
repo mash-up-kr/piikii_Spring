@@ -20,7 +20,7 @@ data class RegisterScheduleRequest(
     @Schema(description = "등록하려는 스케줄의 이름")
     val name: String,
     @Schema(description = "등록하려는 스케줄의 타입")
-    val scheduleType: ScheduleType,
+    val type: ScheduleType,
     @Schema(description = "등록하려는 스케줄의 순서")
     val sequence: Int,
 ) {
@@ -30,7 +30,7 @@ data class RegisterScheduleRequest(
             roomUid = roomUid,
             name = this.name,
             sequence = this.sequence,
-            type = ScheduleType.valueOf(this.scheduleType.name),
+            type = ScheduleType.valueOf(this.type.name),
         )
     }
 }
