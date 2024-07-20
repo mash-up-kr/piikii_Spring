@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
 
-class ThumbnailLinks(
+data class ThumbnailLinks(
     @JsonIgnore
     val contents: String?,
 ) : Serializable {

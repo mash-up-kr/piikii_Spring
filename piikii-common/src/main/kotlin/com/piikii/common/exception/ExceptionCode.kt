@@ -16,4 +16,5 @@ enum class ExceptionCode(
 
     // 500
     SECRET_MANAGER_CONFIG_NOT_SET(500, "시크릿 매니저 설정 값이 입력되지 않았습니다."),
+    URL_PROCESS_ERROR(500, "URL에 해당하는 장소의 정보를 불러오는 중 예기치 못한 오류가 발생했습니다."),
 }
