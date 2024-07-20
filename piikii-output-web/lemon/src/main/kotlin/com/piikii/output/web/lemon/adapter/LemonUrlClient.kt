@@ -3,19 +3,19 @@ package com.piikii.output.web.lemon.adapter
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.piikii.application.domain.place.OriginPlace
-import com.piikii.application.port.output.web.UrlAccessor
+import com.piikii.application.port.output.web.UrlClient
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
-import com.piikii.output.web.lemon.UrlAccessorResponse
+import com.piikii.output.web.lemon.UrlClientResponse
 import com.piikii.output.web.lemon.util.SaltAdditive
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 
 @Component
-class LemonUrlAccessor(
+class LemonUrlClient(
     private val saltAdditive: SaltAdditive,
     private val objectMapper: ObjectMapper,
-) : UrlAccessor {
+) : UrlClient {
     override fun get(url: String): OriginPlace {
         val saltedUrl = saltAdditive.execute(url)
         val response = fetchResponse(saltedUrl)
@@ -31,7 +31,7 @@ class LemonUrlAccessor(
         )
     }
 
-    private fun parseResponse(response: String): UrlAccessorResponse {
+    private fun parseResponse(response: String): UrlClientResponse {
         return objectMapper.readValue(response)
     }
 }

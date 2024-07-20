@@ -6,9 +6,9 @@ import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.OriginPlace
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class UrlAccessorResponse(
-    val isMapUser: String? = null,
-    val isExist: Boolean? = null,
+data class UrlClientResponse(
+    val isMapUser: String?,
+    val isExist: Boolean?,
     val basicInfo: BasicInfo,
     val comment: Comment,
     val menuInfo: MenuInfo,

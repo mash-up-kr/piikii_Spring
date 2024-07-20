@@ -2,6 +2,6 @@ package com.piikii.application.port.output.web
 
 import com.piikii.application.domain.place.OriginPlace
 
-interface UrlAccessor {
+interface UrlClient {
     fun get(url: String): OriginPlace
 }
