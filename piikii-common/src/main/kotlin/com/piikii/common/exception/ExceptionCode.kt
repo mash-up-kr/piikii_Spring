@@ -7,6 +7,7 @@ enum class ExceptionCode(
     // 400
     ILLEGAL_ARGUMENT_EXCEPTION(400, "요청 값이 올바르지 않습니다."),
     VOTE_PLACE_ID_INVALID(400, "투표 항목 데이터(Place Id)이 올바르지 않습니다."),
+    NOT_SUPPORT_AUTO_COMPLETE_URL(400, "자동입력 지원을 하지 않는 주소형식 입니다."),
 
     UNAUTHORIZED(401, "인증된 토큰으로부터의 요청이 아닙니다."),
     ROOM_PASSWORD_INVALID(401, "방 패스워드가 틀립니다."),
