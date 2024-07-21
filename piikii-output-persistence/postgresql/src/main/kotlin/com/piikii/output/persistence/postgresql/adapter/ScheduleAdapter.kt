@@ -31,6 +31,25 @@ class ScheduleAdapter(
         )
     }
 
+    @Transactional
+    override fun updateSchedules(schedules: List<Schedule>) {
+        for (schedule in schedules) {
+            updateSchedule(schedule)
+        }
+    }
+
+    private fun updateSchedule(schedule: Schedule) {
+        val scheduleId =
+            requireNotNull(schedule.id) {
+                throw PiikiiException(
+                    exceptionCode = ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION,
+                    detailMessage = "schedule Id can't be null",
+                )
+            }
+        val scheduleEntity = findScheduleEntityById(scheduleId)
+        scheduleEntity.update(schedule)
+    }
+
     override fun findSchedulesByRoomUid(roomUid: UUID): List<Schedule> {
         return scheduleRepository.findByroomUidOrderBySequenceAsc(roomUid).map { it.toDomain() }
     }
@@ -43,7 +62,7 @@ class ScheduleAdapter(
             )
     }
 
-    fun findScheduleEntityById(id: Long): ScheduleEntity {
+    private fun findScheduleEntityById(id: Long): ScheduleEntity {
         return scheduleRepository.findByIdOrNull(id)
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.NOT_FOUNDED,

@@ -1,16 +1,14 @@
 package com.piikii.input.http.controller
 
 import com.piikii.application.port.input.ScheduleUseCase
-import com.piikii.application.port.input.dto.request.CreateSchedulesRequest
-import com.piikii.application.port.input.dto.request.DeleteSchedulesRequest
+import com.piikii.application.port.input.dto.request.RegisterSchedulesRequest
 import com.piikii.application.port.input.dto.response.SchedulesResponse
 import com.piikii.input.http.controller.docs.ScheduleApiDocs
 import com.piikii.input.http.controller.dto.ResponseForm
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -22,13 +20,13 @@ import java.util.UUID
 class ScheduleApi(
     private val scheduleUseCase: ScheduleUseCase,
 ) : ScheduleApiDocs {
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    override fun createSchedules(
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping
+    override fun registerSchedules(
         @PathVariable roomUid: UUID,
-        @RequestBody request: CreateSchedulesRequest,
+        @RequestBody request: RegisterSchedulesRequest,
     ): ResponseForm<Unit> {
-        scheduleUseCase.createSchedules(roomUid, request)
+        scheduleUseCase.registerSchedules(roomUid, request)
         return ResponseForm.EMPTY_RESPONSE
     }
 
@@ -40,15 +38,5 @@ class ScheduleApi(
         return ResponseForm(
             data = scheduleUseCase.getSchedules(roomUid),
         )
-    }
-
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping
-    override fun deleteSchedules(
-        @PathVariable roomUid: UUID,
-        @RequestBody request: DeleteSchedulesRequest,
-    ): ResponseForm<Unit> {
-        scheduleUseCase.deleteSchedules(request)
-        return ResponseForm.EMPTY_RESPONSE
     }
 }

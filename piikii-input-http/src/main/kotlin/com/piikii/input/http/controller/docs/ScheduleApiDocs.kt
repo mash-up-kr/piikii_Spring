@@ -1,7 +1,6 @@
 package com.piikii.input.http.controller.docs
 
-import com.piikii.application.port.input.dto.request.CreateSchedulesRequest
-import com.piikii.application.port.input.dto.request.DeleteSchedulesRequest
+import com.piikii.application.port.input.dto.request.RegisterSchedulesRequest
 import com.piikii.application.port.input.dto.response.SchedulesResponse
 import com.piikii.input.http.controller.dto.ResponseForm
 import io.swagger.v3.oas.annotations.Operation
@@ -17,23 +16,23 @@ import java.util.UUID
 
 @Tag(name = "ScheduleApi", description = "Schedule Api 입니다.")
 interface ScheduleApiDocs {
-    @Operation(summary = "방 스케줄 생성 api", description = "방 스케줄를 생성합니다.")
-    @ApiResponses(value = [ApiResponse(responseCode = "201", description = "CREATED success")])
-    fun createSchedules(
+    @Operation(summary = "스케줄 등록", description = "스케줄을 추가/수정/삭제합니다.")
+    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "OK success")])
+    fun registerSchedules(
         @Parameter(
             name = "roomUid",
-            description = "스케줄를 생성할 방 uuid",
+            description = "스케줄를 등록할 방 uuid",
             required = true,
             `in` = ParameterIn.PATH,
         ) roomUid: UUID,
         @RequestBody(
-            description = "스케줄 생성 Request Body",
+            description = "스케줄 등록 Request Body",
             required = true,
-            content = [Content(schema = Schema(implementation = CreateSchedulesRequest::class))],
-        ) request: CreateSchedulesRequest,
+            content = [Content(schema = Schema(implementation = RegisterSchedulesRequest::class))],
+        ) request: RegisterSchedulesRequest,
     ): ResponseForm<Unit>
 
-    @Operation(summary = "방 스케줄 조회 api", description = "방 스케줄를 조회합니다.")
+    @Operation(summary = "스케줄 조회", description = "스케줄을 조회합니다.")
     @ApiResponses(
         value = [
             ApiResponse(
@@ -46,25 +45,9 @@ interface ScheduleApiDocs {
     fun getSchedules(
         @Parameter(
             name = "roomUid",
-            description = "스케줄를 조회할 방 uuid",
+            description = "스케줄를 등록할 방 uuid",
             required = true,
             `in` = ParameterIn.PATH,
         ) roomUid: UUID,
     ): ResponseForm<SchedulesResponse>
-
-    @Operation(summary = "방 스케줄 삭제 api", description = "방 스케줄를 삭제합니다.")
-    @ApiResponses(value = [ApiResponse(responseCode = "204", description = "NO_CONTENT success")])
-    fun deleteSchedules(
-        @Parameter(
-            name = "roomUid",
-            description = "스케줄를 삭제할 방 uuid",
-            required = true,
-            `in` = ParameterIn.PATH,
-        ) roomUid: UUID,
-        @RequestBody(
-            description = "스케줄 삭제 Request Body",
-            required = true,
-            content = [Content(schema = Schema(implementation = DeleteSchedulesRequest::class))],
-        ) request: DeleteSchedulesRequest,
-    ): ResponseForm<Unit>
 }

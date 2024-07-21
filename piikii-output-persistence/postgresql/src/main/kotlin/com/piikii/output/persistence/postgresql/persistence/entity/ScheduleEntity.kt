@@ -20,12 +20,12 @@ class ScheduleEntity(
     @Column(name = "room_uid", nullable = false)
     val roomUid: UUID,
     @Column(name = "name", nullable = false)
-    val name: String,
+    var name: String,
     @Column(name = "sequence", nullable = false)
-    val sequence: Int,
+    var sequence: Int,
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    val type: ScheduleType,
+    var type: ScheduleType,
 ) : BaseEntity() {
     constructor(schedule: Schedule) : this(
         roomUid = schedule.roomUid,
@@ -42,5 +42,11 @@ class ScheduleEntity(
             sequence = this.sequence,
             type = this.type,
         )
+    }
+
+    fun update(schedule: Schedule) {
+        this.name = schedule.name
+        this.sequence = schedule.sequence
+        this.type = schedule.type
     }
 }
