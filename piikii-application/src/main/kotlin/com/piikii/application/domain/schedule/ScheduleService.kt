@@ -22,12 +22,10 @@ class ScheduleService(
     ) {
         val schedulesToRegister = request.toDomains(roomUid)
         deleteSchedules(roomUid, schedulesToRegister)
-        schedulesToRegister
-            .filter { it.id == null }
-            .let { newSchedules -> scheduleCommandPort.saveSchedules(newSchedules) }
-        schedulesToRegister
-            .filter { it.id != null }
-            .let { updatedSchedules -> scheduleCommandPort.updateSchedules(updatedSchedules) }
+        schedulesToRegister.partition { it.id == null }.let { (newSchedules, updatedSchedules) ->
+            scheduleCommandPort.saveSchedules(newSchedules)
+            scheduleCommandPort.updateSchedules(updatedSchedules)
+        }
     }
 
     override fun getSchedules(roomUid: UUID): SchedulesResponse {
@@ -41,6 +39,7 @@ class ScheduleService(
     ) {
         val schedules = scheduleQueryPort.findSchedulesByRoomUid(roomUid)
         val scheduleIdsToRegister = schedulesToRegister.map { it.id }.toSet()
-        scheduleCommandPort.deleteSchedules(schedules.filter { it.id !in scheduleIdsToRegister }.map { it.id!! })
+        val scheduleIdToDelete = schedules.filter { it.id !in scheduleIdsToRegister }.map { it.id!! }
+        scheduleCommandPort.deleteSchedules(scheduleIdToDelete)
     }
 }
