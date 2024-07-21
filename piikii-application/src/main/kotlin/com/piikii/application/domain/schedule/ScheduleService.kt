@@ -24,10 +24,10 @@ class ScheduleService(
         deleteSchedules(roomUid, schedulesToRegister)
         schedulesToRegister
             .filter { it.id == null }
-            .let { newSchedules ->  scheduleCommandPort.saveSchedules(newSchedules) }
+            .let { newSchedules -> scheduleCommandPort.saveSchedules(newSchedules) }
         schedulesToRegister
             .filter { it.id != null }
-            .let { updatedSchedules ->  scheduleCommandPort.updateSchedules(updatedSchedules) }
+            .let { updatedSchedules -> scheduleCommandPort.updateSchedules(updatedSchedules) }
     }
 
     override fun getSchedules(roomUid: UUID): SchedulesResponse {
