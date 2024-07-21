@@ -39,7 +39,7 @@ class VoteApi(
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping
+    @GetMapping("/status")
     override fun getVoteStatus(
         @PathVariable roomUid: UUID,
     ): ResponseForm<VoteStatusResponse> {
@@ -58,7 +58,7 @@ class VoteApi(
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{roomUid}")
+    @GetMapping
     override fun getVoteResultOfRoom(
         @PathVariable roomUid: UUID,
     ): ResponseForm<VoteResultResponse> {
