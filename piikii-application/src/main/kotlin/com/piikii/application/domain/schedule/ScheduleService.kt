@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
 @Service
+@Transactional(readOnly = true)
 class ScheduleService(
     private val scheduleQueryPort: ScheduleQueryPort,
     private val scheduleCommandPort: ScheduleCommandPort,
@@ -21,8 +22,12 @@ class ScheduleService(
     ) {
         val schedulesToRegister = request.toDomains(roomUid)
         deleteSchedules(roomUid, schedulesToRegister)
-        saveSchedules(schedulesToRegister)
-        updateSchedules(schedulesToRegister)
+        schedulesToRegister
+            .filter { it.id == null }
+            .let { newSchedules ->  scheduleCommandPort.saveSchedules(newSchedules) }
+        schedulesToRegister
+            .filter { it.id != null }
+            .let { updatedSchedules ->  scheduleCommandPort.updateSchedules(updatedSchedules) }
     }
 
     override fun getSchedules(roomUid: UUID): SchedulesResponse {
@@ -36,17 +41,6 @@ class ScheduleService(
     ) {
         val schedules = scheduleQueryPort.findSchedulesByRoomUid(roomUid)
         val scheduleIdsToRegister = schedulesToRegister.map { it.id }.toSet()
-        val schedulesToDelete = schedules.filter { it.id !in scheduleIdsToRegister }
-        scheduleCommandPort.deleteSchedules(schedulesToDelete.map { it.id!! })
-    }
-
-    private fun saveSchedules(schedulesToRegister: List<Schedule>) {
-        val schedulesToSave = schedulesToRegister.filter { it.id == null }
-        scheduleCommandPort.saveSchedules(schedulesToSave)
-    }
-
-    private fun updateSchedules(schedulesToRegister: List<Schedule>) {
-        val schedulesToUpdate = schedulesToRegister.filter { it.id != null }
-        scheduleCommandPort.updateSchedules(schedulesToUpdate)
+        scheduleCommandPort.deleteSchedules(schedules.filter { it.id !in scheduleIdsToRegister }.map { it.id!! })
     }
 }
