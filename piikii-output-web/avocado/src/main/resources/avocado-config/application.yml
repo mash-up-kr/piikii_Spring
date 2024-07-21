@@ -1,7 +1,7 @@
 avocado:
   http:
-    cookies: { AVOCADO_HTTP_COOKIES }
-    user-agent: { AVOCADO_HTTP_USER_AGENT }
+    cookies: ${AVOCADO_HTTP_COOKIES}
+    user-agent: ${AVOCADO_HTTP_USER_AGENT}
   url:
     regex:
       web: ${AVOCADO_WEB_URL_REGEX}
