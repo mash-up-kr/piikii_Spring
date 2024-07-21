@@ -1,0 +1,6 @@
+avocado:
+  url:
+    regex:
+      web: ${AVOCADO_WEB_URL_REGEX}
+      share: ${AVOCADO_SHARE_URL_REGEX}
+    api: ${AVOCADO_API_URL}
