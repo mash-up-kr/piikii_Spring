@@ -1,4 +1,4 @@
-package com.piikii.output.web.lemon
+package com.piikii.output.web.lemon.adapter
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.piikii.application.domain.generic.Origin
@@ -6,7 +6,7 @@ import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.OriginPlace
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class UrlClientResponse(
+data class LemonPlaceInfoResponse(
     val isMapUser: String?,
     val isExist: Boolean?,
     val basicInfo: BasicInfo,

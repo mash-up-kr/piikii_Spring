@@ -1,10 +1,10 @@
-package com.piikii.output.web.lemon.util
+package com.piikii.output.web.lemon.salt
 
 import com.piikii.output.web.lemon.config.LemonProperties
 import org.springframework.stereotype.Component
 
 @Component
-class SaltAdditive(
+class LemonSaltAdditive(
     private val lemonProperties: LemonProperties,
 ) {
     fun execute(url: String): String {
