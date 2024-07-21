@@ -1,4 +1,4 @@
-package com.piikii.output.web.avocado.url
+package com.piikii.output.web.avocado.parser
 
 import com.piikii.output.web.avocado.TestConfiguration
 import org.junit.jupiter.api.Disabled
@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration
 @SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = [TestConfiguration::class])
-class ShareUrlParserTest {
+class AvocadoPlaceIdParserTest {
     @Autowired
     lateinit var sharePlaceIdParser: SharePlaceIdParser
 

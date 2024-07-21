@@ -1,4 +1,4 @@
-package com.piikii.output.web.avocado.url
+package com.piikii.output.web.avocado.parser
 
 import com.piikii.output.web.avocado.config.AvocadoProperties
 import org.springframework.stereotype.Component
