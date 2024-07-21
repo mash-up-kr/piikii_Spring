@@ -10,7 +10,13 @@ class AvocadoConfig
 
 @ConfigurationProperties(prefix = "avocado")
 data class AvocadoProperties(
+    val http: AvocadoHttp,
     val url: AvocadoUrl,
+)
+
+data class AvocadoHttp(
+    val cookies: String,
+    val userAgent: String,
 )
 
 data class AvocadoUrl(
