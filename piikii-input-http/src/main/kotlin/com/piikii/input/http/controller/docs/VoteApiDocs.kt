@@ -1,9 +1,10 @@
 package com.piikii.input.http.controller.docs
 
 import com.piikii.application.port.input.dto.request.VoteDeadlineSetRequest
+import com.piikii.application.port.input.dto.request.VoteSaveRequest
+import com.piikii.application.port.input.dto.response.VoteResultResponse
+import com.piikii.application.port.input.dto.response.VoteStatusResponse
 import com.piikii.input.http.controller.dto.ResponseForm
-import com.piikii.input.http.controller.dto.request.VoteRequest
-import com.piikii.input.http.controller.dto.response.VoteStatusResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn
@@ -64,7 +65,18 @@ interface VoteApiDocs {
         @RequestBody(
             description = "투표 생성 요청 body",
             required = true,
-            content = [Content(schema = Schema(implementation = VoteRequest::class))],
-        ) voteRequest: VoteRequest,
+            content = [Content(schema = Schema(implementation = VoteSaveRequest::class))],
+        ) voteSaveRequest: VoteSaveRequest,
     ): ResponseForm<Unit>
+
+    @Operation(summary = "투표 결과 조회API", description = "투표 결과를 조회합니다")
+    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "Vote result")])
+    fun getVoteResultOfRoom(
+        @Parameter(
+            name = "roomUid",
+            description = "조회하고자 하는 방 id",
+            required = true,
+            `in` = ParameterIn.PATH,
+        ) roomUid: UUID,
+    ): ResponseForm<VoteResultResponse>
 }

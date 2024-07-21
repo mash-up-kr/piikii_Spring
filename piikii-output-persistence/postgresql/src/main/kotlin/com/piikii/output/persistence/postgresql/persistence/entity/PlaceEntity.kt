@@ -24,6 +24,8 @@ class PlaceEntity(
     val roomUid: UUID,
     @Column(name = "scheduleId", nullable = false, updatable = false)
     var scheduleId: Long,
+    @Column(name = "name", length = 255, nullable = false)
+    var name: String,
     @Column(name = "url", length = 255)
     var url: String?,
     @Column(name = "thumbnail_links", length = 255, nullable = false)
@@ -43,6 +45,7 @@ class PlaceEntity(
     constructor(roomUid: UUID, scheduleId: Long, place: Place) : this(
         roomUid = roomUid,
         scheduleId = scheduleId,
+        name = place.name,
         url = place.url,
         thumbnailLinks = place.thumbnailLinks.contents ?: "",
         address = place.address,
@@ -57,6 +60,7 @@ class PlaceEntity(
             id = id,
             roomUid = roomUid,
             scheduleId = scheduleId,
+            name = name,
             url = url,
             thumbnailLinks = ThumbnailLinks(thumbnailLinks),
             address = address,

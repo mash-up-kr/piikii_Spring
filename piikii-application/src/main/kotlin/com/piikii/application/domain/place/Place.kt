@@ -8,6 +8,7 @@ data class Place(
     val id: Long,
     val roomUid: UUID,
     val scheduleId: Long,
+    val name: String,
     val url: String?,
     val thumbnailLinks: ThumbnailLinks,
     val address: String?,

@@ -20,6 +20,9 @@ data class AddPlaceRequest(
     @field:NotNull
     val scheduleType: ScheduleType,
     @field:Size(max = 255)
+    @Schema(description = "장소 이름", example = "보배네 맛집")
+    val name: String,
+    @field:Size(max = 255)
     @Schema(description = "장소 URL", example = "https://example.com")
     val url: String?,
     @field:Size(max = 255)
@@ -53,6 +56,7 @@ data class AddPlaceRequest(
             id = 0L,
             roomUid = roomUid,
             scheduleId = scheduleId,
+            name = name,
             url = url,
             thumbnailLinks = ThumbnailLinks(imageUrls),
             address = address,
@@ -70,6 +74,9 @@ data class ModifyPlaceRequest(
     val scheduleId: Long,
     @field:NotNull
     val scheduleType: ScheduleType,
+    @field:Size(max = 255)
+    @Schema(description = "장소 이름", example = "보배네 맛집")
+    val name: String,
     @field:Size(max = 255)
     @Schema(description = "장소 URL", example = "https://example.com")
     val url: String?,
@@ -108,6 +115,7 @@ data class ModifyPlaceRequest(
             id = targetPlaceId,
             roomUid = roomUid,
             scheduleId = scheduleId,
+            name = name,
             url = url,
             thumbnailLinks = ThumbnailLinks(updatedUrls),
             address = address,
