@@ -1,6 +1,10 @@
 avocado:
+  http:
+    cookies: { AVOCADO_HTTP_COOKIES }
+    user-agent: { AVOCADO_HTTP_USER_AGENT }
   url:
     regex:
       web: ${AVOCADO_WEB_URL_REGEX}
       share: ${AVOCADO_SHARE_URL_REGEX}
     api: ${AVOCADO_API_URL}
+    referer: ${AVOCADO_REFERER_URL}
