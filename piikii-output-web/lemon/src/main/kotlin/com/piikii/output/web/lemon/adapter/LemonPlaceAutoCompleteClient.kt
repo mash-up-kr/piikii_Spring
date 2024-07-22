@@ -26,7 +26,7 @@ class LemonPlaceAutoCompleteClient(
         val client = RestClient.builder().baseUrl(url).build()
         return client.get().retrieve().body(String::class.java) ?: throw PiikiiException(
             exceptionCode = ExceptionCode.URL_PROCESS_ERROR,
-            detailMessage = "url : $url",
+            detailMessage = "origin: lemon, url : $url",
         )
     }
 
