@@ -8,6 +8,7 @@ import com.piikii.application.port.input.dto.response.SaveRoomResponse
 import com.piikii.input.http.controller.docs.RoomApiDocs
 import com.piikii.input.http.controller.dto.ResponseForm
 import jakarta.validation.Valid
+import jakarta.validation.constraints.NotNull
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -49,7 +50,7 @@ class RoomApi(
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{roomUid}")
     override fun remove(
-        @PathVariable roomUid: UUID,
+        @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<Unit> {
         roomUseCase.remove(roomUid)
         return ResponseForm.EMPTY_RESPONSE
@@ -58,7 +59,7 @@ class RoomApi(
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{roomUid}")
     override fun search(
-        @PathVariable roomUid: UUID,
+        @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<RoomResponse> {
         return ResponseForm(
             data = roomUseCase.findById(roomUid),

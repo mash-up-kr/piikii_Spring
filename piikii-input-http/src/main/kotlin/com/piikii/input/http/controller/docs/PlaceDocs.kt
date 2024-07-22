@@ -48,12 +48,16 @@ interface PlaceDocs {
             required = true,
             `in` = ParameterIn.PATH,
         ) @NotNull roomUid: UUID,
-        @RequestBody(
+        @Parameter(
+            name = "addPlaceRequest",
             description = "방 장소 생성 Request body",
             required = true,
-            content = [Content(schema = Schema(implementation = AddPlaceRequest::class))],
-        ) @Valid addPlaceRequest: AddPlaceRequest,
-        placeImages: List<MultipartFile>?,
+        ) @Valid @NotNull addPlaceRequest: AddPlaceRequest,
+        @Parameter(
+            name = "placeImages",
+            description = "장소 이미지 파일들",
+            required = false,
+        ) placeImages: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse>
 
     @Operation(summary = "방 장소 조회 API", description = "방에 등록된 장소를 모두 조회합니다.")
@@ -108,8 +112,16 @@ interface PlaceDocs {
             required = true,
             `in` = ParameterIn.PATH,
         ) @NotNull targetPlaceId: Long,
-        @Valid @NotNull modifyPlaceRequest: ModifyPlaceRequest,
-        newPlaceImages: List<MultipartFile>?,
+        @Parameter(
+            name = "modifyPlaceRequest",
+            description = "방 장소 수정 Request body",
+            required = true,
+        ) @Valid @NotNull modifyPlaceRequest: ModifyPlaceRequest,
+        @Parameter(
+            name = "newPlaceImages",
+            description = "새로 추가할 장소 이미지 파일들",
+            required = false,
+        ) newPlaceImages: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse>
 
     @Operation(summary = "방 장소 삭제 API", description = "방에 추가한 장소를 삭제합니다.")
@@ -117,12 +129,12 @@ interface PlaceDocs {
     fun deletePlace(
         @Parameter(
             name = "roomUid",
-            description = "수정하고자 하는 장소의 방 id",
+            description = "삭제하고자 하는 장소의 방 id",
             required = true,
             `in` = ParameterIn.PATH,
         ) @NotNull roomUid: UUID,
         @RequestBody(
-            description = "방 장소 생성 Request body",
+            description = "방 장소 삭제 Request body",
             required = true,
             content = [Content(schema = Schema(implementation = DeletePlaceRequest::class))],
         ) @Valid @NotNull deletePlaceRequest: DeletePlaceRequest,
