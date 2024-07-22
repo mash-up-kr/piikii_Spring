@@ -24,7 +24,7 @@ class RoomAdapter(
 
     @Transactional
     override fun update(room: Room) {
-        val foundRoom = findByroomUid(room.roomUid)
+        val foundRoom = findByRoomUid(room.roomUid)
         foundRoom.update(room)
     }
 
@@ -34,10 +34,10 @@ class RoomAdapter(
     }
 
     override fun findById(roomUid: UUID): Room {
-        return findByroomUid(roomUid).toDomain()
+        return findByRoomUid(roomUid).toDomain()
     }
 
-    private fun findByroomUid(roomUid: UUID): RoomEntity {
+    private fun findByRoomUid(roomUid: UUID): RoomEntity {
         return roomRepository.findByroomUid(roomUid)
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.NOT_FOUNDED,
