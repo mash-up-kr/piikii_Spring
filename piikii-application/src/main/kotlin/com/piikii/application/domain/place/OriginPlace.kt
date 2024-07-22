@@ -4,6 +4,8 @@ import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
 
 data class OriginPlace(
+    val id: Long?,
+    val name: String,
     val originMapId: Long,
     val url: String,
     val thumbnailLinks: ThumbnailLinks,

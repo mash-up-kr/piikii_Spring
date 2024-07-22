@@ -56,12 +56,4 @@ data class AvocadoUrl(
         val web: String,
         val share: String,
     )
-
-    fun webRegex(): kotlin.text.Regex {
-        return regex.web.toRegex()
-    }
-
-    fun shareRegex(): kotlin.text.Regex {
-        return regex.share.toRegex()
-    }
 }

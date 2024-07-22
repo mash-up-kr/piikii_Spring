@@ -20,14 +20,19 @@ interface AvocadoPlaceIdParser {
 
 @Component
 class MapPlaceIdParser(properties: AvocadoProperties) : AvocadoPlaceIdParser {
-    private val regex: Regex = properties.url.webRegex()
+    private val patternRegex: Regex = "${properties.url.regex.web}$PLACE_ID_REGEX".toRegex()
+    private val parseRegex: Regex = "${properties.url.regex.web}($PLACE_ID_REGEX)".toRegex()
 
     override fun pattern(): Regex {
-        return regex
+        return patternRegex
     }
 
     override fun parse(url: String): String? {
-        return "map"
+        return parseRegex.find(url)?.groupValues?.get(1)
+    }
+
+    companion object {
+        const val PLACE_ID_REGEX = "\\d+"
     }
 }
 
@@ -35,7 +40,7 @@ class MapPlaceIdParser(properties: AvocadoProperties) : AvocadoPlaceIdParser {
 class SharePlaceIdParser(
     properties: AvocadoProperties,
 ) : AvocadoPlaceIdParser {
-    private val regex: Regex = properties.url.shareRegex()
+    private val regex: Regex = properties.url.regex.share.toRegex()
     private val idParameterRegex: Regex = "id=(\\d+)".toRegex()
     private val client: RestClient = RestClient.builder().build()
 
