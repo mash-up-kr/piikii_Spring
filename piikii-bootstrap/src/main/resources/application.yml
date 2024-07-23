@@ -4,6 +4,7 @@ spring:
       - classpath:http-config/application.yml
       - classpath:storage-config/application.yml
       - classpath:lemon-config/application.yml
+      - classpath:avocado-config/application.yml
   application:
     name: "piikii"
   messages:

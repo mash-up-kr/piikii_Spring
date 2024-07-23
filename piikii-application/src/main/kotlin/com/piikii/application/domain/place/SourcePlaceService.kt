@@ -23,7 +23,9 @@ class SourcePlaceService(
         val save =
             sourcePlaceCommandPort.save(
                 OriginPlace(
+                    id = null,
                     originMapId = 1L,
+                    name = "test",
                     url = "https://k-diger.github.io",
                     thumbnailLinks = ThumbnailLinks(test),
                     address = "화성시",

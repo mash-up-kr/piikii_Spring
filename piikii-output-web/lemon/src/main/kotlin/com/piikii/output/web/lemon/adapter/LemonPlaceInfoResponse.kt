@@ -1,12 +1,13 @@
-package com.piikii.output.web.lemon
+package com.piikii.output.web.lemon.adapter
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.OriginPlace
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class UrlClientResponse(
+data class LemonPlaceInfoResponse(
     val isMapUser: String?,
     val isExist: Boolean?,
     val basicInfo: BasicInfo,
@@ -17,11 +18,13 @@ data class UrlClientResponse(
     fun toOriginPlace(url: String): OriginPlace {
         val fullAddress = "${basicInfo.address.region.newaddrfullname} ${basicInfo.address.newaddr.newaddrfull}".trim()
         return OriginPlace(
+            id = null,
+            name = basicInfo.name,
             originMapId = basicInfo.cid,
             url = url,
-            thumbnailLinks = ThumbnailLinks(basicInfo.mainphotourl),
+            thumbnailLinks = ThumbnailLinks(basicInfo.mainPhotoUrl),
             address = fullAddress,
-            phoneNumber = basicInfo.phonenum,
+            phoneNumber = basicInfo.phoneNumber,
             starGrade = basicInfo.feedback.calculateStarGrade(),
             origin = Origin.LEMON,
         )
@@ -30,9 +33,12 @@ data class UrlClientResponse(
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class BasicInfo(
         val cid: Long,
-        val placenamefull: String,
-        val mainphotourl: String,
-        val phonenum: String,
+        @JsonProperty("placenamefull")
+        val name: String,
+        @JsonProperty("mainphotourl")
+        val mainPhotoUrl: String,
+        @JsonProperty("phonenum")
+        val phoneNumber: String,
         val address: Address,
         val homepage: String,
         val category: Category,
