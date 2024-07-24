@@ -6,8 +6,9 @@ import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
 import io.swagger.v3.oas.annotations.media.Schema
 
+@Schema(description = "방 스케줄 정보 응답")
 data class SchedulesResponse(
-    @Schema(description = "방 스케줄 정보 목록")
+    @field:Schema(description = "방 스케줄 정보 목록")
     val categories: List<ScheduleResponse>,
 ) {
     companion object {
@@ -19,14 +20,24 @@ data class SchedulesResponse(
     }
 }
 
+@Schema(description = "개별 스케줄 정보 응답")
 data class ScheduleResponse(
-    @Schema(description = "조회하려는 스케줄의 id")
+    @field:Schema(description = "스케줄 ID", example = "1")
     val scheduleId: Long,
-    @Schema(description = "조회하려는 스케줄의 이름")
+    @field:Schema(description = "스케줄 이름", example = "술 1차")
     val name: String,
-    @Schema(description = "조회하려는 스케줄의 순서")
+    @field:Schema(description = "스케줄 순서", example = "1")
     val sequence: Int,
-    @Schema(description = "조회하려는 스케줄의 타입")
+    @field:Schema(
+        description = "스케줄 타입",
+        allowableValues = [
+            "ARCADE",
+            "DISH",
+            "DESSERT",
+            "ALCOHOL",
+        ],
+        example = "DISH",
+    )
     val type: ScheduleType,
 ) {
     companion object {

@@ -10,17 +10,20 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.constraints.NotNull
 import java.util.UUID
 
-@Tag(name = "CourseApi", description = "Course Api 입니다.")
+@Tag(name = "CourseApi", description = "Course API 입니다.")
 interface CourseApiDocs {
-    @Operation(summary = "코스 생성 여부 api", description = "방 내에 코스의 생성 여부를 조회합니다.")
+    class SuccessCourseExistenceResponse : ResponseForm<CourseExistenceResponse>()
+
+    @Operation(summary = "코스 생성 여부 API", description = "방 내에 코스의 생성 여부를 조회합니다.")
     @ApiResponses(
         value = [
             ApiResponse(
                 responseCode = "200",
                 description = "OK success",
-                content = [Content(schema = Schema(implementation = CourseExistenceResponse::class))],
+                content = [Content(schema = Schema(implementation = SuccessCourseExistenceResponse::class))],
             ),
         ],
     )
@@ -30,6 +33,7 @@ interface CourseApiDocs {
             description = "코스 생성 여부를 조회할 방 uuid",
             required = true,
             `in` = ParameterIn.PATH,
-        ) roomUid: UUID,
+        )
+        @NotNull roomUid: UUID,
     ): ResponseForm<CourseExistenceResponse>
 }

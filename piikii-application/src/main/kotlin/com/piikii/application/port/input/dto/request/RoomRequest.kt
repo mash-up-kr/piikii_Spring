@@ -3,21 +3,26 @@ package com.piikii.application.port.input.dto.request
 import com.piikii.application.domain.room.Password
 import com.piikii.application.domain.room.Room
 import io.swagger.v3.oas.annotations.media.Schema
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 import java.time.LocalDateTime
 import java.util.UUID
 
 data class RoomSaveRequestForm(
-    @Schema(description = "모임 이름")
+    @field:NotBlank(message = "모임 이름은 필수이며 빈 문자열이 허용되지 않습니다.")
+    @field:Schema(description = "모임 이름", example = "맨날 입으로만 모이자고 하던 애들 모임")
     val name: String,
-    @Schema(description = "적고 싶은 메시지")
+    @field:Schema(description = "적고 싶은 메시지", example = "늦으면 밥값 몰빵")
     val message: String?,
-    @Schema(description = "모임 장소")
+    @field:NotBlank
+    @field:Schema(description = "모임 장소 주소", example = "경기 화성시 봉담읍 동화길 51")
     val address: String,
-    @Schema(description = "썸네일 이미지")
+    @field:Schema(description = "썸네일 이미지 링크", example = "https://github.com/k-diger.png")
     val thumbnailLink: String,
-    @Schema(description = "모임 비밀번호")
-    @Size(max = 4, message = "Data must be 4 characters or less")
+    @field:NotNull(message = "모임 비밀번호는 필수입니다.")
+    @field:Schema(description = "모임 비밀번호", example = "0001")
+    @field:Size(max = 4, message = "비밀번호는 반드시 4자리여야합니다.")
     val password: Password,
 ) {
     fun toDomain(): Room {
@@ -33,18 +38,21 @@ data class RoomSaveRequestForm(
 }
 
 data class RoomUpdateRequestForm(
-    @Schema(description = "방(Room) id")
+    @field:NotNull(message = "수정하고자 하는 방의 Uid값은 필수입니다.")
+    @field:Schema(description = "방(Room) id", example = "123e4567-e89b-12d3-a456-426614174000")
     val roomUid: UUID,
-    @Schema(description = "모임 이름")
+    @field:NotBlank(message = "모임 이름은 필수이며 빈 문자열이 허용되지 않습니다.")
+    @field:Schema(description = "모임 이름", example = "이번엔 진짜 모이자")
     val name: String,
-    @Schema(description = "적고 싶은 메시지")
+    @field:Schema(description = "적고 싶은 메시지", example = "안모이면 5콩")
     val message: String?,
-    @Schema(description = "썸네일 이미지")
+    @field:Schema(description = "썸네일 이미지 링크", example = "https://github.com/k-diger.png")
     val thumbnailLink: String,
-    @Schema(description = "모임 비밀번호")
-    @Size(max = 4, message = "Data must be 4 characters or less")
+    @field:NotNull(message = "모임 비밀번호는 필수입니다.")
+    @field:Schema(description = "모임 비밀번호", example = "1234")
+    @field:Size(max = 4, message = "비밀번호는 반드시 4자리여야합니다.")
     val password: Password,
-    @Schema(description = "투표 마감일")
+    @field:Schema(description = "투표 마감일", example = "2024-08-01T18:00:00")
     val voteDeadLine: LocalDateTime?,
 ) {
     fun toDomain(): Room {

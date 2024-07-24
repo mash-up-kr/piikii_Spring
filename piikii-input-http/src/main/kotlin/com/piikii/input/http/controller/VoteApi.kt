@@ -9,6 +9,7 @@ import com.piikii.application.port.input.dto.response.VoteStatusResponse
 import com.piikii.input.http.controller.docs.VoteApiDocs
 import com.piikii.input.http.controller.dto.ResponseForm
 import jakarta.validation.Valid
+import jakarta.validation.constraints.NotNull
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
@@ -31,7 +32,7 @@ class VoteApi(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/deadline")
     override fun changeVoteDeadline(
-        @PathVariable roomUid: UUID,
+        @NotNull @PathVariable roomUid: UUID,
         @Valid @RequestBody request: VoteDeadlineSetRequest,
     ): ResponseForm<Unit> {
         roomUseCase.changeVoteDeadline(roomUid, request.password, request.voteDeadline)
@@ -41,7 +42,7 @@ class VoteApi(
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/status")
     override fun getVoteStatus(
-        @PathVariable roomUid: UUID,
+        @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<VoteStatusResponse> {
         val voteFinished = voteUseCase.isVoteFinished(roomUid)
         return ResponseForm(data = VoteStatusResponse(voteFinished))
@@ -50,8 +51,8 @@ class VoteApi(
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     override fun vote(
-        @PathVariable roomUid: UUID,
-        @RequestBody voteSaveRequest: VoteSaveRequest,
+        @NotNull @PathVariable roomUid: UUID,
+        @Valid @RequestBody voteSaveRequest: VoteSaveRequest,
     ): ResponseForm<Unit> {
         voteUseCase.vote(roomUid, voteSaveRequest.toDomains())
         return ResponseForm.EMPTY_RESPONSE
@@ -60,7 +61,7 @@ class VoteApi(
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     override fun getVoteResultOfRoom(
-        @PathVariable roomUid: UUID,
+        @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<VoteResultResponse> {
         val voteResult = voteUseCase.getVoteResultOfRoom(roomUid)
         return ResponseForm(data = voteResult)
