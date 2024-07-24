@@ -1,4 +1,3 @@
--- Create schema if not exists
 CREATE SCHEMA IF NOT EXISTS piikii;
 
 CREATE TYPE piikii.source_type AS ENUM ('AVOCADO', 'LEMON', 'MANUAL');
