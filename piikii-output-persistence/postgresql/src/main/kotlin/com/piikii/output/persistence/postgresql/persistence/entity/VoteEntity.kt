@@ -17,7 +17,7 @@ import java.util.UUID
 @SQLRestriction("is_deleted = false")
 @DynamicUpdate
 class VoteEntity(
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_uid", nullable = false)
     val userUid: UUID,
     @Column(name = "place_id", nullable = false)
     val placeId: Long,
