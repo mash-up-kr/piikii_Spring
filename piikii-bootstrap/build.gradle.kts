@@ -9,6 +9,8 @@ dependencies {
     implementation(project(":piikii-output-web:lemon"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
+
+    testImplementation(project(":piikii-application"))
 }
 
 tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootBuildImage>("bootBuildImage") {
