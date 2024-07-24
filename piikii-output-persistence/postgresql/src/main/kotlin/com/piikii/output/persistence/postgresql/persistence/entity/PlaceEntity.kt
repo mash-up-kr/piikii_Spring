@@ -20,9 +20,9 @@ import java.util.UUID
 @SQLDelete(sql = "UPDATE piikii.place SET is_deleted = true WHERE id = ?")
 @DynamicUpdate
 class PlaceEntity(
-    @Column(name = "roomUid", nullable = false, updatable = false)
+    @Column(name = "room_uid", nullable = false, updatable = false)
     val roomUid: UUID,
-    @Column(name = "scheduleId", nullable = false, updatable = false)
+    @Column(name = "schedule_id", nullable = false, updatable = false)
     var scheduleId: Long,
     @Column(name = "name", length = 255, nullable = false)
     var name: String,

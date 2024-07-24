@@ -13,7 +13,7 @@ import java.util.UUID
 @SQLRestriction("is_deleted = false")
 @DynamicUpdate
 class CourseEntity(
-    @Column(name = "room_id", nullable = false)
+    @Column(name = "room_uid", nullable = false)
     val roomUid: UUID,
     @Column(name = "schedule_id", nullable = false, unique = true)
     val scheduleId: Long,
