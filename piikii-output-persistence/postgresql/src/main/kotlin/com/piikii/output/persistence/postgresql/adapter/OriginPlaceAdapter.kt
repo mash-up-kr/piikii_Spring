@@ -1,23 +1,23 @@
 package com.piikii.output.persistence.postgresql.adapter
 
 import com.piikii.application.domain.place.OriginPlace
-import com.piikii.application.port.output.persistence.SourcePlaceCommandPort
-import com.piikii.application.port.output.persistence.SourcePlaceQueryPort
+import com.piikii.application.port.output.persistence.OriginPlaceCommandPort
+import com.piikii.application.port.output.persistence.OriginPlaceQueryPort
 import com.piikii.output.persistence.postgresql.persistence.entity.OriginPlaceEntity
-import com.piikii.output.persistence.postgresql.persistence.repository.SourcePlaceRepository
+import com.piikii.output.persistence.postgresql.persistence.repository.OriginPlaceRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
 @Transactional(readOnly = true)
-class SourcePlaceAdapter(
-    private val sourcePlaceRepository: SourcePlaceRepository,
-) : SourcePlaceCommandPort, SourcePlaceQueryPort {
+class OriginPlaceAdapter(
+    private val originPlaceRepository: OriginPlaceRepository,
+) : OriginPlaceCommandPort, OriginPlaceQueryPort {
     @Transactional
     override fun save(originPlace: OriginPlace): OriginPlace {
         val entity = OriginPlaceEntity.from(originPlace)
-        sourcePlaceRepository.save(entity)
+        originPlaceRepository.save(entity)
         return entity.toDomain()
     }
 
@@ -35,9 +35,9 @@ class SourcePlaceAdapter(
     }
 
     override fun retrieve(id: Long): OriginPlace {
-        val sourcePlaceEntity = sourcePlaceRepository.findById(id)
-        if (sourcePlaceEntity.isPresent) {
-            return sourcePlaceEntity.get().toDomain()
+        val originPlaceEntity = originPlaceRepository.findById(id)
+        if (originPlaceEntity.isPresent) {
+            return originPlaceEntity.get().toDomain()
         }
         // TODO 예외 정의
         throw EntityNotFoundException()

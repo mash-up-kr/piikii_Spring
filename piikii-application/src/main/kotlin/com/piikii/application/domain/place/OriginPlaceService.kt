@@ -2,16 +2,16 @@ package com.piikii.application.domain.place
 
 import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
-import com.piikii.application.port.input.SourcePlaceUseCase
-import com.piikii.application.port.output.persistence.SourcePlaceCommandPort
-import com.piikii.application.port.output.persistence.SourcePlaceQueryPort
+import com.piikii.application.port.input.OriginPlaceUseCase
+import com.piikii.application.port.output.persistence.OriginPlaceCommandPort
+import com.piikii.application.port.output.persistence.OriginPlaceQueryPort
 import org.springframework.stereotype.Service
 
 @Service
-class SourcePlaceService(
-    private val sourcePlaceCommandPort: SourcePlaceCommandPort,
-    private val sourcePlaceQueryPort: SourcePlaceQueryPort,
-) : SourcePlaceUseCase {
+class OriginPlaceService(
+    private val originPlaceCommandPort: OriginPlaceCommandPort,
+    private val originPlaceQueryPort: OriginPlaceQueryPort,
+) : OriginPlaceUseCase {
     override fun save(): OriginPlace {
         val test =
             mutableListOf(
@@ -21,7 +21,7 @@ class SourcePlaceService(
             )
 
         val save =
-            sourcePlaceCommandPort.save(
+            originPlaceCommandPort.save(
                 OriginPlace(
                     id = null,
                     originMapId = 1L,
@@ -38,6 +38,6 @@ class SourcePlaceService(
     }
 
     override fun retrieve(): OriginPlace {
-        return sourcePlaceQueryPort.retrieve(1L)
+        return originPlaceQueryPort.retrieve(1L)
     }
 }

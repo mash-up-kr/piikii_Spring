@@ -6,8 +6,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 
-@Tag(name = "SourcePlaceApi", description = "SourcePlace Api 입니다.")
-interface SourcePlaceApiDocs {
+@Tag(name = "OriginPlaceApi", description = "OriginPlace Api 입니다.")
+interface OriginPlaceApiDocs {
     @Operation(summary = "create test API", description = "sample 생성 요청 메서드")
     @ApiResponses(value = [ApiResponse(responseCode = "201", description = "CREATED test")])
     fun testPost(): OriginPlace
