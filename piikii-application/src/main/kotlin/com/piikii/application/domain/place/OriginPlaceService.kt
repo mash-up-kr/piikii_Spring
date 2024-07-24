@@ -32,6 +32,10 @@ class OriginPlaceService(
                     phoneNumber = "010-1234-5678",
                     starGrade = 5F,
                     origin = Origin.MANUAL,
+                    longitude = null,
+                    latitude = null,
+                    reviewCount = 7222,
+                    category = null,
                 ),
             )
         return save

@@ -26,6 +26,10 @@ data class LemonPlaceInfoResponse(
             address = fullAddress,
             phoneNumber = basicInfo.phoneNumber,
             starGrade = basicInfo.feedback.calculateStarGrade(),
+            longitude = basicInfo.longitude,
+            latitude = basicInfo.latitude,
+            reviewCount = basicInfo.feedback.countOfBlogReview,
+            category = basicInfo.category.firstCategoryName,
             origin = Origin.LEMON,
         )
     }
@@ -44,6 +48,11 @@ data class LemonPlaceInfoResponse(
         val category: Category,
         val feedback: Feedback,
         val openHour: OpenHour,
+        val tags: List<String>?,
+        @JsonProperty("x")
+        val longitude: Float?,
+        @JsonProperty("y")
+        val latitude: Float?,
     )
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -68,16 +77,28 @@ data class LemonPlaceInfoResponse(
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class Category(
-        val catename: String,
-        val cate1name: String,
+        @JsonProperty("catename")
+        val firstCategoryName: String,
+        @JsonProperty("cate1name")
+        val secondCategoryName: String,
     )
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class Feedback(
-        val scoresum: Int,
-        val scorecnt: Int,
+        @JsonProperty("scoresum")
+        val sumOfScore: Int,
+        @JsonProperty("scorecnt")
+        val countOfScore: Int,
+        @JsonProperty("blogrvwcnt")
+        val countOfBlogReview: Int,
+        @JsonProperty("comntcnt")
+        val countOfReviewComment: Int,
+        @JsonProperty("allphotocnt")
+        val countOfAllPhoto: Int,
+        @JsonProperty("reviewphotocnt")
+        val countOfPhotoReview: Int,
     ) {
-        fun calculateStarGrade(): Float? = if (scorecnt > 0) scoresum.toFloat() / scorecnt else null
+        fun calculateStarGrade(): Float? = if (countOfScore > 0) sumOfScore.toFloat() / countOfScore else null
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)

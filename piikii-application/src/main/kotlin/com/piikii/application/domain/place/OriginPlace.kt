@@ -12,5 +12,9 @@ data class OriginPlace(
     val address: String? = null,
     val phoneNumber: String? = null,
     val starGrade: Float? = null,
+    val longitude: Float?,
+    val latitude: Float?,
+    val reviewCount: Int,
+    val category: String?,
     val origin: Origin,
 )

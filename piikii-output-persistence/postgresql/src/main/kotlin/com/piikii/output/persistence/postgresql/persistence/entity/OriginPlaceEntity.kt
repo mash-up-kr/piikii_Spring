@@ -33,6 +33,14 @@ class OriginPlaceEntity(
     val phoneNumber: String? = null,
     @Column(name = "star_grade")
     val starGrade: Float? = null,
+    @Column(name = "longitude")
+    val longitude: Float?,
+    @Column(name = "latitude")
+    val latitude: Float?,
+    @Column(name = "reviewCount", nullable = false)
+    val reviewCount: Int,
+    @Column(name = "category")
+    val category: String?,
     @Enumerated(EnumType.STRING)
     @Column(name = "origin", nullable = false)
     val origin: Origin,
@@ -47,6 +55,10 @@ class OriginPlaceEntity(
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
+            longitude = longitude,
+            latitude = latitude,
+            reviewCount = reviewCount,
+            category = category,
             origin = origin,
         )
     }
@@ -61,6 +73,10 @@ class OriginPlaceEntity(
                 address = originPlace.address,
                 phoneNumber = originPlace.phoneNumber,
                 starGrade = originPlace.starGrade,
+                longitude = originPlace.longitude,
+                latitude = originPlace.latitude,
+                reviewCount = originPlace.reviewCount,
+                category = originPlace.category,
                 origin = originPlace.origin,
             )
         }
