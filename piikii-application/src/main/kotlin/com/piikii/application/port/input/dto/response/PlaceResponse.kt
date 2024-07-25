@@ -15,6 +15,8 @@ data class PlaceResponse(
     val roomUid: UUID,
     @field:Schema(description = "일정 ID", example = "1")
     val scheduleId: Long,
+    @field:Schema(description = "장소 이름", example = "소현이네 주막")
+    val name: String,
     @field:Schema(description = "장소 URL", example = "https://example.com/place")
     val url: String?,
     @field:Schema(description = "장소 이미지 URL 목록")
@@ -42,6 +44,7 @@ data class PlaceResponse(
         id = place.id,
         roomUid = place.roomUid,
         scheduleId = place.id,
+        name = place.name,
         url = place.url,
         placeImageUrls = place.thumbnailLinks,
         address = place.address,
