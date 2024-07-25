@@ -33,6 +33,14 @@ module-input-adapter:
   - changed-files:
       - any-glob-to-any-file: [ 'piikii-input-http/**' ]
 
-module-output-adapter:
+module-output-storage-services:
   - changed-files:
-      - any-glob-to-any-file: [ 'piikii-output-cache/**', 'piikii-output-eventbroker/**', 'piikii-output-persistence/**', 'piikii-output-storage/**']
+      - any-glob-to-any-file: [ 'piikii-output-cache/**', 'piikii-output-persistence/**', 'piikii-output-storage/**' ]
+
+module-output-event:
+  - changed-files:
+      - any-glob-to-any-file: [ 'piikii-output-eventbroker/**' ]
+
+module-output-web:
+  - changed-files:
+      - any-glob-to-any-file: [ 'piikii-output-web/**' ]
