@@ -14,7 +14,7 @@ class OriginPlaceService(
     private val originPlaceQueryPort: OriginPlaceQueryPort,
     private val originPlaceAutoCompleteClients: List<OriginPlaceAutoCompleteClient>,
 ) : OriginPlaceUseCase {
-    override fun retrieve(url: String): OriginPlace {
+    override fun getAutoCompleteOriginPlace(url: String): OriginPlace {
         val plainUrl = getUrlOfRemovedParameters(url)
         val originPlaceAutoCompleteClient =
             originPlaceAutoCompleteClients.firstOrNull { it.isAutoCompleteSupportedUrl(plainUrl) }

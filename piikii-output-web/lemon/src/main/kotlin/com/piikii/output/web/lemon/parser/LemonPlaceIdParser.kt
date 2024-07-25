@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class LemonPlaceIdParser(
-    private val properties: LemonProperties,
+    properties: LemonProperties,
 ) {
     private val patternRegex: Regex = "${properties.url.regex.web}$PLACE_ID_REGEX".toRegex()
     private val parseRegex: Regex = "${properties.url.regex.web}($PLACE_ID_REGEX)".toRegex()
