@@ -20,9 +20,9 @@ data class AvocadoPlaceInfoResponse(
     val microReview: String?,
     val buttons: Buttons,
     @JsonProperty("x")
-    val longitude: Double?,
+    val longitude: Float?,
     @JsonProperty("y")
-    val latitude: Double?,
+    val latitude: Float?,
 ) {
     fun toOriginPlace(url: String): OriginPlace {
         return OriginPlace(
@@ -34,6 +34,10 @@ data class AvocadoPlaceInfoResponse(
             address = roadAddress,
             phoneNumber = buttons.phone,
             starGrade = visitorReviewScore,
+            longitude = longitude,
+            latitude = latitude,
+            reviewCount = visitorReviewCount ?: 0,
+            category = category,
             origin = Origin.AVOCADO,
         )
     }
