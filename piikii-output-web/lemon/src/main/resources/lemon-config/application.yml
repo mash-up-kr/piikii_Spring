@@ -1,3 +1,5 @@
 lemon:
-  base-url: ${LEMON_BASE_URL}
-  salt: ${LEMON_SALT}
+  url:
+    regex:
+      web: ${LEMON_WEB_URL_REGEX}
+    api: ${LEMON_API_URL}
