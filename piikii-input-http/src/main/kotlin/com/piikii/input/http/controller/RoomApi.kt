@@ -31,7 +31,7 @@ class RoomApi(
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     override fun create(
-        @Valid @RequestBody request: RoomSaveRequestForm,
+        @Valid @NotNull @RequestBody request: RoomSaveRequestForm,
     ): ResponseForm<SaveRoomResponse> {
         return ResponseForm(
             data = roomUseCase.create(request),
@@ -41,7 +41,7 @@ class RoomApi(
     @ResponseStatus(HttpStatus.OK)
     @PutMapping
     override fun modifyInformation(
-        @Valid @RequestBody request: RoomUpdateRequestForm,
+        @Valid @NotNull @RequestBody request: RoomUpdateRequestForm,
     ): ResponseForm<Unit> {
         roomUseCase.modify(request)
         return ResponseForm.EMPTY_RESPONSE
