@@ -5,6 +5,7 @@ import com.piikii.application.port.input.dto.request.RegisterSchedulesRequest
 import com.piikii.application.port.input.dto.response.SchedulesResponse
 import com.piikii.input.http.controller.docs.ScheduleApiDocs
 import com.piikii.input.http.controller.dto.ResponseForm
+import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
@@ -27,7 +28,7 @@ class ScheduleApi(
     @PutMapping
     override fun registerSchedules(
         @NotNull @PathVariable roomUid: UUID,
-        @RequestBody request: RegisterSchedulesRequest,
+        @Valid @NotNull @RequestBody request: RegisterSchedulesRequest,
     ): ResponseForm<Unit> {
         scheduleUseCase.registerSchedules(roomUid, request)
         return ResponseForm.EMPTY_RESPONSE

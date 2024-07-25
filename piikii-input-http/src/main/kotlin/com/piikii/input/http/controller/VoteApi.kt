@@ -33,7 +33,7 @@ class VoteApi(
     @PatchMapping("/deadline")
     override fun changeVoteDeadline(
         @NotNull @PathVariable roomUid: UUID,
-        @Valid @RequestBody request: VoteDeadlineSetRequest,
+        @Valid @NotNull @RequestBody request: VoteDeadlineSetRequest,
     ): ResponseForm<Unit> {
         roomUseCase.changeVoteDeadline(roomUid, request.password, request.voteDeadline)
         return ResponseForm.EMPTY_RESPONSE
@@ -52,7 +52,7 @@ class VoteApi(
     @PostMapping
     override fun vote(
         @NotNull @PathVariable roomUid: UUID,
-        @Valid @RequestBody voteSaveRequest: VoteSaveRequest,
+        @Valid @NotNull @RequestBody voteSaveRequest: VoteSaveRequest,
     ): ResponseForm<Unit> {
         voteUseCase.vote(roomUid, voteSaveRequest.toDomains())
         return ResponseForm.EMPTY_RESPONSE
