@@ -19,7 +19,9 @@ class LemonPlaceAutoCompleteClientTest {
     @Test
     fun getAutoCompletedPlaceTest() {
         val url = "URL을 입력해주세요"
-        val originPlace = lemonPlaceAutoCompleteClient.getAutoCompletedPlace(url)
+        val id = "id를 입력해주세요"
+
+        val originPlace = lemonPlaceAutoCompleteClient.getAutoCompletedPlace(url, id)
         println("originPlace = $originPlace")
     }
 }

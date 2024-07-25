@@ -10,8 +10,12 @@ class LemonPlaceIdParser(
     private val patternRegex: Regex = "${properties.url.regex.web}$PLACE_ID_REGEX".toRegex()
     private val parseRegex: Regex = "${properties.url.regex.web}($PLACE_ID_REGEX)".toRegex()
 
+    fun isAutoCompleteSupportedUrl(url: String): Boolean {
+        return patternRegex.matches(url)
+    }
+
     fun parse(url: String): String? {
-        if (!patternRegex.matches(url)) {
+        if (!isAutoCompleteSupportedUrl(url)) {
             return null
         }
         return parseRegex.find(url)?.groupValues?.get(1)

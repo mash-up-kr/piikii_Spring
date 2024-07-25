@@ -1,47 +1,32 @@
 package com.piikii.application.domain.place
 
-import com.piikii.application.domain.generic.Origin
-import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.port.input.OriginPlaceUseCase
 import com.piikii.application.port.output.persistence.OriginPlaceCommandPort
 import com.piikii.application.port.output.persistence.OriginPlaceQueryPort
+import com.piikii.application.port.output.web.OriginPlaceAutoCompleteClient
+import com.piikii.common.exception.ExceptionCode
+import com.piikii.common.exception.PiikiiException
 import org.springframework.stereotype.Service
 
 @Service
 class OriginPlaceService(
     private val originPlaceCommandPort: OriginPlaceCommandPort,
     private val originPlaceQueryPort: OriginPlaceQueryPort,
+    private val originPlaceAutoCompleteClients: List<OriginPlaceAutoCompleteClient>,
 ) : OriginPlaceUseCase {
-    override fun save(): OriginPlace {
-        val test =
-            mutableListOf(
-                "https://k-diger.github.io",
-                "https://k-diger.github.io",
-                "https://k-diger.github.io",
-            )
-
-        val save =
-            originPlaceCommandPort.save(
-                OriginPlace(
-                    id = null,
-                    originMapId = 1L,
-                    name = "test",
-                    url = "https://k-diger.github.io",
-                    thumbnailLinks = ThumbnailLinks(test),
-                    address = "화성시",
-                    phoneNumber = "010-1234-5678",
-                    starGrade = 5F,
-                    origin = Origin.MANUAL,
-                    longitude = null,
-                    latitude = null,
-                    reviewCount = 7222,
-                    category = null,
-                ),
-            )
-        return save
+    override fun retrieve(url: String): OriginPlace {
+        val plainUrl = getUrlOfRemovedParameters(url)
+        val originPlaceAutoCompleteClient =
+            originPlaceAutoCompleteClients.firstOrNull { it.isAutoCompleteSupportedUrl(plainUrl) }
+                ?: throw PiikiiException(
+                    ExceptionCode.NOT_SUPPORT_AUTO_COMPLETE_URL,
+                    "No AutoComplete client found for $url",
+                )
+        val placeId = originPlaceAutoCompleteClient.extractPlaceId(plainUrl)
+        return originPlaceAutoCompleteClient.getAutoCompletedPlace(url = plainUrl, placeId = placeId)
     }
 
-    override fun retrieve(): OriginPlace {
-        return originPlaceQueryPort.retrieve(1L)
+    private fun getUrlOfRemovedParameters(url: String): String {
+        return url.substringBefore("?")
     }
 }

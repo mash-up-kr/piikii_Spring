@@ -1,7 +1,8 @@
-package com.piikii.output.web.avocado.parser
+package com.piikii.output.web.avocado
 
-import com.piikii.output.web.avocado.TestConfiguration
 import com.piikii.output.web.avocado.adapter.AvocadoPlaceAutoCompleteClient
+import com.piikii.output.web.avocado.parser.MapPlaceIdParser
+import com.piikii.output.web.avocado.parser.SharePlaceIdParser
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -14,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration
 @SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = [TestConfiguration::class])
-class AvocadoPlaceIdParserTest {
+class AvocadoPlaceAutoCompleteClientTest {
     @Autowired
     lateinit var sharePlaceIdParser: SharePlaceIdParser
 
@@ -28,7 +29,7 @@ class AvocadoPlaceIdParserTest {
     fun sharePlaceIdParserTest() {
         val url = "주소를 입력하세요"
 
-        val parse = sharePlaceIdParser.parse(url)
+        val parse = sharePlaceIdParser.parsePlaceId(url)
         println("parse = $parse")
     }
 
@@ -39,15 +40,16 @@ class AvocadoPlaceIdParserTest {
         val pattern = mapPlaceIdParser.pattern()
         assertThat(pattern.matches(url)).isTrue()
 
-        val parse = mapPlaceIdParser.parse(url)
+        val parse = mapPlaceIdParser.parsePlaceId(url)
         println("parse = $parse")
     }
 
     @Test
     fun getAutoCompletedPlaceTest() {
         val url = "주소를 입력하세요"
+        val id = "id를 입력하세요"
 
-        val originPlace = avocadoPlaceAutoCompleteClient.getAutoCompletedPlace(url)
+        val originPlace = avocadoPlaceAutoCompleteClient.getAutoCompletedPlace(url, id)
         println("originPlace = $originPlace")
     }
 }
