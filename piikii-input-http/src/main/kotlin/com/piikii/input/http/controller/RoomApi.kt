@@ -7,7 +7,6 @@ import com.piikii.application.port.input.dto.response.RoomResponse
 import com.piikii.application.port.input.dto.response.SaveRoomResponse
 import com.piikii.input.http.controller.docs.RoomApiDocs
 import com.piikii.input.http.controller.dto.ResponseForm
-import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
