@@ -20,7 +20,7 @@ import org.hibernate.annotations.SQLRestriction
 @SQLDelete(sql = "UPDATE piikii.origin_place SET is_deleted = true WHERE id = ?")
 @DynamicUpdate
 class OriginPlaceEntity(
-    @Column(name = "origin_map_id", nullable = false)
+    @Column(name = "origin_map_id", nullable = false, unique = true)
     val originMapId: OriginMapId,
     @Column(name = "name", length = 255, nullable = false)
     var name: String,
