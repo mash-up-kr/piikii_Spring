@@ -5,7 +5,7 @@ import com.piikii.output.web.lemon.config.LemonProperties
 import org.springframework.stereotype.Component
 
 @Component
-class LemonPlaceIdParser(
+class LemonOriginMapIdParser(
     properties: LemonProperties,
 ) {
     private val patternRegex: Regex = "${properties.url.regex.web}$PLACE_ID_REGEX".toRegex()

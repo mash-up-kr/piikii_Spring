@@ -2,8 +2,8 @@ package com.piikii.output.web.avocado
 
 import com.piikii.application.domain.place.OriginMapId
 import com.piikii.output.web.avocado.adapter.AvocadoPlaceAutoCompleteClient
-import com.piikii.output.web.avocado.parser.MapPlaceIdParser
-import com.piikii.output.web.avocado.parser.SharePlaceIdParser
+import com.piikii.output.web.avocado.parser.MapUrlIdParser
+import com.piikii.output.web.avocado.parser.ShareUrlIdParser
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -18,10 +18,10 @@ import org.springframework.test.context.ContextConfiguration
 @ContextConfiguration(classes = [TestConfiguration::class])
 class AvocadoPlaceAutoCompleteClientTest {
     @Autowired
-    lateinit var sharePlaceIdParser: SharePlaceIdParser
+    lateinit var sharePlaceIdParser: ShareUrlIdParser
 
     @Autowired
-    lateinit var mapPlaceIdParser: MapPlaceIdParser
+    lateinit var mapPlaceIdParser: MapUrlIdParser
 
     @Autowired
     lateinit var avocadoPlaceAutoCompleteClient: AvocadoPlaceAutoCompleteClient

@@ -6,13 +6,13 @@ import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 
 @Component
-class AvocadoPlaceIdParserStrategy(private val parsers: List<AvocadoPlaceIdParser>) {
-    fun getParserBySupportedUrl(url: String): AvocadoPlaceIdParser? {
+class AvocadoOriginMapIdParserStrategy(private val parsers: List<AvocadoOriginMapIdParser>) {
+    fun getParserBySupportedUrl(url: String): AvocadoOriginMapIdParser? {
         return parsers.find { it.pattern().matches(url) }
     }
 }
 
-interface AvocadoPlaceIdParser {
+interface AvocadoOriginMapIdParser {
     fun pattern(): Regex
 
     fun parseOriginMapId(url: String): OriginMapId?
@@ -32,7 +32,7 @@ interface AvocadoPlaceIdParser {
 }
 
 @Component
-class MapPlaceIdParser(properties: AvocadoProperties) : AvocadoPlaceIdParser {
+class MapUrlIdParser(properties: AvocadoProperties) : AvocadoOriginMapIdParser {
     private val patternRegex: Regex = "${properties.url.regex.web}$PLACE_ID_REGEX".toRegex()
     private val parseRegex: Regex = "${properties.url.regex.web}($PLACE_ID_REGEX)".toRegex()
 
@@ -50,9 +50,9 @@ class MapPlaceIdParser(properties: AvocadoProperties) : AvocadoPlaceIdParser {
 }
 
 @Component
-class SharePlaceIdParser(
+class ShareUrlIdParser(
     properties: AvocadoProperties,
-) : AvocadoPlaceIdParser {
+) : AvocadoOriginMapIdParser {
     private val regex: Regex = properties.url.regex.share.toRegex()
     private val idParameterRegex: Regex = "id=(\\d+)".toRegex()
     private val client: RestClient = RestClient.builder().build()

@@ -5,22 +5,22 @@ import com.piikii.application.domain.place.OriginPlace
 import com.piikii.application.port.output.web.OriginPlaceAutoCompleteClient
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
-import com.piikii.output.web.avocado.parser.AvocadoPlaceIdParserStrategy
+import com.piikii.output.web.avocado.parser.AvocadoOriginMapIdParserStrategy
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 
 @Component
 class AvocadoPlaceAutoCompleteClient(
-    private val avocadoPlaceIdParserStrategy: AvocadoPlaceIdParserStrategy,
+    private val avocadoOriginMapIdParserStrategy: AvocadoOriginMapIdParserStrategy,
     private val avocadoApiClient: RestClient,
 ) : OriginPlaceAutoCompleteClient {
     override fun isAutoCompleteSupportedUrl(url: String): Boolean {
-        return avocadoPlaceIdParserStrategy.getParserBySupportedUrl(url) != null
+        return avocadoOriginMapIdParserStrategy.getParserBySupportedUrl(url) != null
     }
 
     override fun extractOriginMapId(url: String): OriginMapId {
-        return avocadoPlaceIdParserStrategy.getParserBySupportedUrl(url)?.parseOriginMapId(url)
+        return avocadoOriginMapIdParserStrategy.getParserBySupportedUrl(url)?.parseOriginMapId(url)
             ?: throw PiikiiException(ExceptionCode.NOT_SUPPORT_AUTO_COMPLETE_URL)
     }
 
