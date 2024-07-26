@@ -1,5 +1,6 @@
 package com.piikii.output.web.avocado
 
+import com.piikii.application.domain.place.OriginMapId
 import com.piikii.output.web.avocado.adapter.AvocadoPlaceAutoCompleteClient
 import com.piikii.output.web.avocado.parser.MapPlaceIdParser
 import com.piikii.output.web.avocado.parser.SharePlaceIdParser
@@ -29,7 +30,7 @@ class AvocadoPlaceAutoCompleteClientTest {
     fun sharePlaceIdParserTest() {
         val url = "주소를 입력하세요"
 
-        val parse = sharePlaceIdParser.parsePlaceId(url)
+        val parse = sharePlaceIdParser.parseOriginMapId(url)
         println("parse = $parse")
     }
 
@@ -40,16 +41,16 @@ class AvocadoPlaceAutoCompleteClientTest {
         val pattern = mapPlaceIdParser.pattern()
         assertThat(pattern.matches(url)).isTrue()
 
-        val parse = mapPlaceIdParser.parsePlaceId(url)
+        val parse = mapPlaceIdParser.parseOriginMapId(url)
         println("parse = $parse")
     }
 
     @Test
     fun getAutoCompletedPlaceTest() {
         val url = "주소를 입력하세요"
-        val id = "id를 입력하세요"
+        val id = 123L
 
-        val originPlace = avocadoPlaceAutoCompleteClient.getAutoCompletedPlace(url, id)
+        val originPlace = avocadoPlaceAutoCompleteClient.getAutoCompletedPlace(url, OriginMapId(id))
         println("originPlace = $originPlace")
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.place.OriginMapId
 import com.piikii.application.domain.place.OriginPlace
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -20,7 +21,7 @@ data class LemonPlaceInfoResponse(
         return OriginPlace(
             id = null,
             name = basicInfo.name,
-            originMapId = basicInfo.cid,
+            originMapId = OriginMapId(basicInfo.cid),
             url = url,
             thumbnailLinks = ThumbnailLinks(basicInfo.mainPhotoUrl),
             address = fullAddress,

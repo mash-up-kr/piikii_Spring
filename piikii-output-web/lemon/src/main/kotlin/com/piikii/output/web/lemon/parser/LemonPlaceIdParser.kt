@@ -1,5 +1,6 @@
 package com.piikii.output.web.lemon.parser
 
+import com.piikii.application.domain.place.OriginMapId
 import com.piikii.output.web.lemon.config.LemonProperties
 import org.springframework.stereotype.Component
 
@@ -14,11 +15,15 @@ class LemonPlaceIdParser(
         return patternRegex.matches(url)
     }
 
-    fun parse(url: String): String? {
+    fun parseOriginMapId(url: String): OriginMapId? {
         if (!isAutoCompleteSupportedUrl(url)) {
             return null
         }
-        return parseRegex.find(url)?.groupValues?.get(1)
+        return parseRegex.find(url)
+            ?.groupValues
+            ?.getOrNull(1)
+            ?.toLongOrNull()
+            ?.let { OriginMapId(it) }
     }
 
     companion object {

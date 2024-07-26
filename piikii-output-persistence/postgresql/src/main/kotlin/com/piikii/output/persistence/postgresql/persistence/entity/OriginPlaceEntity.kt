@@ -2,6 +2,7 @@ package com.piikii.output.persistence.postgresql.persistence.entity
 
 import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.place.OriginMapId
 import com.piikii.application.domain.place.OriginPlace
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
@@ -20,7 +21,7 @@ import org.hibernate.annotations.SQLRestriction
 @DynamicUpdate
 class OriginPlaceEntity(
     @Column(name = "origin_map_id", nullable = false)
-    val originMapId: Long,
+    val originMapId: OriginMapId,
     @Column(name = "name", length = 255, nullable = false)
     var name: String,
     @Column(name = "url", nullable = false, length = 255)

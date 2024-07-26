@@ -1,5 +1,6 @@
 package com.piikii.output.web.lemon.adapter
 
+import com.piikii.application.domain.place.OriginMapId
 import com.piikii.application.domain.place.OriginPlace
 import com.piikii.application.port.output.web.OriginPlaceAutoCompleteClient
 import com.piikii.common.exception.ExceptionCode
@@ -18,17 +19,17 @@ class LemonPlaceAutoCompleteClient(
         return lemonPlaceIdParser.isAutoCompleteSupportedUrl(url)
     }
 
-    override fun extractPlaceId(url: String): String {
-        return lemonPlaceIdParser.parse(url)
+    override fun extractOriginMapId(url: String): OriginMapId {
+        return lemonPlaceIdParser.parseOriginMapId(url)
             ?: throw PiikiiException(ExceptionCode.NOT_SUPPORT_AUTO_COMPLETE_URL)
     }
 
     override fun getAutoCompletedPlace(
         url: String,
-        placeId: String,
+        originMapId: OriginMapId,
     ): OriginPlace {
         return lemonApiClient.get()
-            .uri("/$placeId")
+            .uri("/${originMapId.value}")
             .retrieve()
             .body<LemonPlaceInfoResponse>()
             ?.toOriginPlace(url)

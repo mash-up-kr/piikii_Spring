@@ -1,5 +1,6 @@
 package com.piikii.output.web.avocado.parser
 
+import com.piikii.application.domain.place.OriginMapId
 import com.piikii.output.web.avocado.config.AvocadoProperties
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
@@ -14,7 +15,20 @@ class AvocadoPlaceIdParserStrategy(private val parsers: List<AvocadoPlaceIdParse
 interface AvocadoPlaceIdParser {
     fun pattern(): Regex
 
-    fun parsePlaceId(url: String): String?
+    fun parseOriginMapId(url: String): OriginMapId?
+
+    /**
+     * Regex를 이용해 OriginMapId 반환
+     * - Regex Match 결과로부터 첫 번째 값을 꺼내 OriginMapId 변환 및 반환
+     *
+     * @return OriginMapId
+     */
+    fun MatchResult?.parseFromMatchResult(): OriginMapId? {
+        return this?.groupValues
+            ?.getOrNull(1)
+            ?.toLongOrNull()
+            ?.let { OriginMapId(it) }
+    }
 }
 
 @Component
@@ -26,8 +40,8 @@ class MapPlaceIdParser(properties: AvocadoProperties) : AvocadoPlaceIdParser {
         return patternRegex
     }
 
-    override fun parsePlaceId(url: String): String? {
-        return parseRegex.find(url)?.groupValues?.get(1)
+    override fun parseOriginMapId(url: String): OriginMapId? {
+        return parseRegex.find(url).parseFromMatchResult()
     }
 
     companion object {
@@ -47,14 +61,14 @@ class SharePlaceIdParser(
         return regex
     }
 
-    override fun parsePlaceId(url: String): String? {
+    override fun parseOriginMapId(url: String): OriginMapId? {
         val response =
             client.get().uri(url)
                 .retrieve()
                 .toEntity(Map::class.java)
         if (response.statusCode.is3xxRedirection && response.headers.location != null) {
-            val extractedId = idParameterRegex.find(response.headers.location.toString())
-            return extractedId?.groupValues?.get(1)
+            return idParameterRegex.find(response.headers.location.toString())
+                .parseFromMatchResult()
         }
         return null
     }

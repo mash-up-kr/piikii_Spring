@@ -22,8 +22,8 @@ class OriginPlaceService(
                     ExceptionCode.NOT_SUPPORT_AUTO_COMPLETE_URL,
                     "No AutoComplete client found for $url",
                 )
-        val placeId = originPlaceAutoCompleteClient.extractPlaceId(plainUrl)
-        return originPlaceAutoCompleteClient.getAutoCompletedPlace(url = plainUrl, placeId = placeId)
+        val originMapId = originPlaceAutoCompleteClient.extractOriginMapId(plainUrl)
+        return originPlaceAutoCompleteClient.getAutoCompletedPlace(url = plainUrl, originMapId = originMapId)
     }
 
     private fun getUrlOfRemovedParameters(url: String): String {

@@ -1,5 +1,6 @@
 package com.piikii.output.web.avocado.adapter
 
+import com.piikii.application.domain.place.OriginMapId
 import com.piikii.application.domain.place.OriginPlace
 import com.piikii.application.port.output.web.OriginPlaceAutoCompleteClient
 import com.piikii.common.exception.ExceptionCode
@@ -18,17 +19,17 @@ class AvocadoPlaceAutoCompleteClient(
         return avocadoPlaceIdParserStrategy.getParserBySupportedUrl(url) != null
     }
 
-    override fun extractPlaceId(url: String): String {
-        return avocadoPlaceIdParserStrategy.getParserBySupportedUrl(url)?.parsePlaceId(url)
+    override fun extractOriginMapId(url: String): OriginMapId {
+        return avocadoPlaceIdParserStrategy.getParserBySupportedUrl(url)?.parseOriginMapId(url)
             ?: throw PiikiiException(ExceptionCode.NOT_SUPPORT_AUTO_COMPLETE_URL)
     }
 
     override fun getAutoCompletedPlace(
         url: String,
-        placeId: String,
+        originMapId: OriginMapId,
     ): OriginPlace {
         return avocadoApiClient.get()
-            .uri("/$placeId")
+            .uri("/${originMapId.value}")
             .retrieve()
             .body<AvocadoPlaceInfoResponse>()
             ?.toOriginPlace(url)
