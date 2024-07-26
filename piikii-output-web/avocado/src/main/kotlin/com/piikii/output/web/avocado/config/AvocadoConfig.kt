@@ -54,6 +54,7 @@ data class AvocadoUrl(
 ) {
     data class Regex(
         val web: String,
+        val mobileWeb: String,
         val share: String,
     )
 }
