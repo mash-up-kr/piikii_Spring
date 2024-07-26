@@ -13,9 +13,7 @@ class LemonOriginMapIdParser(
         "${properties.url.regex.mobileWeb}($ORIGIN_MAP_IP_REGEX)".toRegex()
     )
 
-    fun isAutoCompleteSupportedUrl(url: String): Boolean {
-        return regexes.any { it.matches(url) }
-    }
+    fun isAutoCompleteSupportedUrl(url: String): Boolean = regexes.any { it.matches(url) }
 
     fun parseOriginMapId(url: String): OriginMapId? {
         return regexes.firstOrNull { it.matches(url) }

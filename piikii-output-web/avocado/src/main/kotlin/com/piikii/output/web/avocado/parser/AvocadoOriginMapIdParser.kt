@@ -9,12 +9,12 @@ import org.springframework.web.client.RestClient
 @Component
 class AvocadoOriginMapIdParserStrategy(private val parsers: List<AvocadoOriginMapIdParser>) {
     fun getParserBySupportedUrl(url: String): AvocadoOriginMapIdParser? {
-        return parsers.find { it.pattern().matches(url) }
+        return parsers.firstOrNull { it.getParserBySupportedUrl(url) != null }
     }
 }
 
 interface AvocadoOriginMapIdParser {
-    fun pattern(): Regex
+    fun getParserBySupportedUrl(url: String): AvocadoOriginMapIdParser?
 
     fun parseOriginMapId(url: String): OriginMapId?
 
@@ -38,28 +38,16 @@ interface AvocadoOriginMapIdParser {
 
 @Component
 class MapUrlIdParser(properties: AvocadoProperties) : AvocadoOriginMapIdParser {
-    private val regex: Regex = "${properties.url.regex.web}($ORIGIN_MAP_IP_REGEX)".toRegex()
+    private val regexes: List<Regex> = listOf(
+        "${properties.url.regex.web}($ORIGIN_MAP_IP_REGEX)".toRegex(),
+        "${properties.url.regex.mobileWeb}($ORIGIN_MAP_IP_REGEX)/home".toRegex(),
+    )
 
-    override fun pattern(): Regex {
-        return regex
-    }
-
-    override fun parseOriginMapId(url: String): OriginMapId? {
-        return regex.find(url).parseFromMatchResult()
-    }
-
-}
-
-@Component
-class MapMobileUrlIdParser(properties: AvocadoProperties) : AvocadoOriginMapIdParser {
-    private val regex: Regex = "${properties.url.regex.mobileWeb}($ORIGIN_MAP_IP_REGEX)/home".toRegex()
-
-    override fun pattern(): Regex {
-        return regex
-    }
+    override fun getParserBySupportedUrl(url: String): AvocadoOriginMapIdParser? =
+        takeIf { regexes.any { regex -> regex.matches(url) } }
 
     override fun parseOriginMapId(url: String): OriginMapId? {
-        return regex.find(url).parseFromMatchResult()
+        return regexes.first { it.matches(url) }.find(url).parseFromMatchResult()
     }
 }
 
@@ -71,9 +59,8 @@ class ShareUrlIdParser(
     private val idParameterRegex: Regex = "id=(\\d+)".toRegex()
     private val client: RestClient = RestClient.builder().build()
 
-    override fun pattern(): Regex {
-        return regex
-    }
+    override fun getParserBySupportedUrl(url: String): AvocadoOriginMapIdParser? =
+        takeIf { regex.matches(url) }
 
     override fun parseOriginMapId(url: String): OriginMapId? {
         val response =
