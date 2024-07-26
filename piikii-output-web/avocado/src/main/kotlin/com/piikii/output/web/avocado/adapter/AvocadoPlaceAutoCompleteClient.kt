@@ -1,7 +1,7 @@
 package com.piikii.output.web.avocado.adapter
 
 import com.piikii.application.domain.place.OriginPlace
-import com.piikii.application.port.output.web.PlaceAutoCompleteClient
+import com.piikii.application.port.output.web.OriginPlaceAutoCompleteClient
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
 import com.piikii.output.web.avocado.parser.AvocadoPlaceIdParserStrategy
@@ -13,22 +13,28 @@ import org.springframework.web.client.body
 class AvocadoPlaceAutoCompleteClient(
     private val avocadoPlaceIdParserStrategy: AvocadoPlaceIdParserStrategy,
     private val avocadoApiClient: RestClient,
-) : PlaceAutoCompleteClient {
-    override fun getAutoCompletedPlace(url: String): OriginPlace? {
-        val plainUrl = url.substringBefore("?")
+) : OriginPlaceAutoCompleteClient {
+    override fun isAutoCompleteSupportedUrl(url: String): Boolean {
+        return avocadoPlaceIdParserStrategy.getParserBySupportedUrl(url) != null
+    }
 
-        val avocadoPlaceId =
-            avocadoPlaceIdParserStrategy.parse(plainUrl)
-                ?: throw PiikiiException(ExceptionCode.NOT_SUPPORT_AUTO_COMPLETE_URL)
+    override fun extractPlaceId(url: String): String {
+        return avocadoPlaceIdParserStrategy.getParserBySupportedUrl(url)?.parsePlaceId(url)
+            ?: throw PiikiiException(ExceptionCode.NOT_SUPPORT_AUTO_COMPLETE_URL)
+    }
 
+    override fun getAutoCompletedPlace(
+        url: String,
+        placeId: String,
+    ): OriginPlace {
         return avocadoApiClient.get()
-            .uri("/$avocadoPlaceId")
+            .uri("/$placeId")
             .retrieve()
             .body<AvocadoPlaceInfoResponse>()
-            ?.toOriginPlace(plainUrl)
+            ?.toOriginPlace(url)
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.URL_PROCESS_ERROR,
-                detailMessage = "origin: avocado, url : $plainUrl",
+                detailMessage = "origin: avocado, url : $url",
             )
     }
 }

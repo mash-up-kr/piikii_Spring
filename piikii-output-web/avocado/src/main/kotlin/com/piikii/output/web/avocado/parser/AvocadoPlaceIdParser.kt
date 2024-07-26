@@ -6,16 +6,15 @@ import org.springframework.web.client.RestClient
 
 @Component
 class AvocadoPlaceIdParserStrategy(private val parsers: List<AvocadoPlaceIdParser>) {
-    fun parse(url: String): String? {
-        val parser = parsers.find { it.pattern().matches(url) }
-        return parser?.parse(url)
+    fun getParserBySupportedUrl(url: String): AvocadoPlaceIdParser? {
+        return parsers.find { it.pattern().matches(url) }
     }
 }
 
 interface AvocadoPlaceIdParser {
     fun pattern(): Regex
 
-    fun parse(url: String): String?
+    fun parsePlaceId(url: String): String?
 }
 
 @Component
@@ -27,7 +26,7 @@ class MapPlaceIdParser(properties: AvocadoProperties) : AvocadoPlaceIdParser {
         return patternRegex
     }
 
-    override fun parse(url: String): String? {
+    override fun parsePlaceId(url: String): String? {
         return parseRegex.find(url)?.groupValues?.get(1)
     }
 
@@ -48,7 +47,7 @@ class SharePlaceIdParser(
         return regex
     }
 
-    override fun parse(url: String): String? {
+    override fun parsePlaceId(url: String): String? {
         val response =
             client.get().uri(url)
                 .retrieve()

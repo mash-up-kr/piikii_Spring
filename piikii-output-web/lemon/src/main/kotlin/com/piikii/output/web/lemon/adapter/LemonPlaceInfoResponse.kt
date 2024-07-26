@@ -44,7 +44,7 @@ data class LemonPlaceInfoResponse(
         @JsonProperty("phonenum")
         val phoneNumber: String,
         val address: Address,
-        val homepage: String,
+        val homepage: String?,
         val category: Category,
         val feedback: Feedback,
         val openHour: OpenHour,
@@ -103,13 +103,13 @@ data class LemonPlaceInfoResponse(
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class OpenHour(
-        val periodList: List<Period>,
+        val periodList: List<Period>?,
     )
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class Period(
         val periodName: String,
-        val timeList: List<Time>,
+        val timeList: List<Time>?,
     )
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -124,7 +124,7 @@ data class LemonPlaceInfoResponse(
         val kamapComntcnt: Int,
         val scoresum: Int,
         val scorecnt: Int,
-        val list: List<CommentItem>,
+        val list: List<CommentItem>?,
     )
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -137,21 +137,21 @@ data class LemonPlaceInfoResponse(
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class MenuInfo(
-        val menuList: List<MenuItem>,
+        val menuList: List<MenuItem>?,
     )
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class MenuItem(
-        val price: String,
-        val menu: String,
-        val desc: String,
-        val img: String,
+        val price: String?,
+        val menu: String?,
+        val desc: String?,
+        val img: String?,
     )
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class Photo(
         val photoCount: Int,
-        val photoList: List<PhotoItem>,
+        val photoList: List<PhotoItem>?,
     )
 
     @JsonIgnoreProperties(ignoreUnknown = true)
