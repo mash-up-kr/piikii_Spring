@@ -8,6 +8,7 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
+import jakarta.persistence.Lob
 import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.SQLDelete
@@ -28,7 +29,8 @@ class PlaceEntity(
     var name: String,
     @Column(name = "url", length = 255)
     var url: String?,
-    @Column(name = "thumbnail_links", length = 255, nullable = false)
+    @Column(name = "thumbnail_links")
+    @Lob
     var thumbnailLinks: String?,
     @Column(name = "address", length = 255)
     var address: String?,
