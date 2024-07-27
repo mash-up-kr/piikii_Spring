@@ -21,14 +21,17 @@ data class OriginPlace(
 
 @JvmInline
 value class OriginMapId(val value: String) {
-
     fun toId(): String {
         return value.split(SEPARATOR).last()
     }
 
     companion object {
         private const val SEPARATOR: String = "_"
-        fun of(id: Long, origin: Origin): OriginMapId {
+
+        fun of(
+            id: Long,
+            origin: Origin,
+        ): OriginMapId {
             return OriginMapId("${origin.prefix}$SEPARATOR$id")
         }
     }
