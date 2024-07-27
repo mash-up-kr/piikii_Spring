@@ -41,6 +41,8 @@ class PlaceEntity(
     var origin: Origin,
     @Column(name = "memo", length = 150)
     var memo: String?,
+    @Column(name = "confirmed", nullable = false)
+    var confirmed: Boolean = false,
 ) : BaseEntity() {
     constructor(roomUid: UUID, scheduleId: Long, place: Place) : this(
         roomUid = roomUid,
