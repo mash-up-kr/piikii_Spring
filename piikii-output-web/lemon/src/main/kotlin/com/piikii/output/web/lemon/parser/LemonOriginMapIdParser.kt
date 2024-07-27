@@ -8,10 +8,11 @@ import org.springframework.stereotype.Component
 class LemonOriginMapIdParser(
     properties: LemonProperties,
 ) {
-    private val regexes: List<Regex> = listOf(
-        "${properties.url.regex.web}($ORIGIN_MAP_IP_REGEX)".toRegex(),
-        "${properties.url.regex.mobileWeb}($ORIGIN_MAP_IP_REGEX)".toRegex()
-    )
+    private val regexes: List<Regex> =
+        listOf(
+            "${properties.url.regex.web}($ORIGIN_MAP_IP_REGEX)".toRegex(),
+            "${properties.url.regex.mobileWeb}($ORIGIN_MAP_IP_REGEX)".toRegex(),
+        )
 
     fun isAutoCompleteSupportedUrl(url: String): Boolean = regexes.any { it.matches(url) }
 

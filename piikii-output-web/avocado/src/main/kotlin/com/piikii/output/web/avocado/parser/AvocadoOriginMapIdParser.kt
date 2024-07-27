@@ -38,10 +38,11 @@ interface AvocadoOriginMapIdParser {
 
 @Component
 class MapUrlIdParser(properties: AvocadoProperties) : AvocadoOriginMapIdParser {
-    private val regexes: List<Regex> = listOf(
-        "${properties.url.regex.web}($ORIGIN_MAP_IP_REGEX)".toRegex(),
-        "${properties.url.regex.mobileWeb}($ORIGIN_MAP_IP_REGEX)/home".toRegex(),
-    )
+    private val regexes: List<Regex> =
+        listOf(
+            "${properties.url.regex.web}($ORIGIN_MAP_IP_REGEX)".toRegex(),
+            "${properties.url.regex.mobileWeb}($ORIGIN_MAP_IP_REGEX)/home".toRegex(),
+        )
 
     override fun getParserBySupportedUrl(url: String): AvocadoOriginMapIdParser? =
         takeIf { regexes.any { regex -> regex.matches(url) } }
@@ -59,8 +60,7 @@ class ShareUrlIdParser(
     private val idParameterRegex: Regex = "id=(\\d+)".toRegex()
     private val client: RestClient = RestClient.builder().build()
 
-    override fun getParserBySupportedUrl(url: String): AvocadoOriginMapIdParser? =
-        takeIf { regex.matches(url) }
+    override fun getParserBySupportedUrl(url: String): AvocadoOriginMapIdParser? = takeIf { regex.matches(url) }
 
     override fun parseOriginMapId(url: String): OriginMapId? {
         val response =
