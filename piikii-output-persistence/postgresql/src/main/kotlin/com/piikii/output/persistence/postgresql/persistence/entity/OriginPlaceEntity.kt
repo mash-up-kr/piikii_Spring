@@ -9,7 +9,6 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
-import jakarta.persistence.Lob
 import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.SQLDelete
@@ -27,8 +26,7 @@ class OriginPlaceEntity(
     var name: String,
     @Column(name = "url", nullable = false, length = 255)
     val url: String,
-    @Column(name = "thumbnail_links")
-    @Lob
+    @Column(name = "thumbnail_links", columnDefinition = "TEXT")
     val thumbnailLinks: String,
     @Column(name = "address", length = 255)
     val address: String? = null,
