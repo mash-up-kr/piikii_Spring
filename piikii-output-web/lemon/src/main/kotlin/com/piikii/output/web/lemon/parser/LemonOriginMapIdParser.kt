@@ -9,18 +9,17 @@ import org.springframework.stereotype.Component
 class LemonOriginMapIdParser(
     properties: LemonProperties,
 ) {
-    private val patternRegex: Regex = "${properties.url.regex.web}$PLACE_ID_REGEX".toRegex()
-    private val parseRegex: Regex = "${properties.url.regex.web}($PLACE_ID_REGEX)".toRegex()
+    private val regexes: List<Regex> =
+        listOf(
+            "${properties.url.regex.web}($ORIGIN_MAP_IP_REGEX)".toRegex(),
+            "${properties.url.regex.mobileWeb}($ORIGIN_MAP_IP_REGEX)".toRegex(),
+        )
 
-    fun isAutoCompleteSupportedUrl(url: String): Boolean {
-        return patternRegex.matches(url)
-    }
+    fun isAutoCompleteSupportedUrl(url: String): Boolean = regexes.any { it.matches(url) }
 
     fun parseOriginMapId(url: String): OriginMapId? {
-        if (!isAutoCompleteSupportedUrl(url)) {
-            return null
-        }
-        return parseRegex.find(url)
+        return regexes.firstOrNull { it.matches(url) }
+            ?.find(url)
             ?.groupValues
             ?.getOrNull(1)
             ?.toLongOrNull()
@@ -28,6 +27,6 @@ class LemonOriginMapIdParser(
     }
 
     companion object {
-        const val PLACE_ID_REGEX = "\\d+"
+        const val ORIGIN_MAP_IP_REGEX = "\\d+"
     }
 }

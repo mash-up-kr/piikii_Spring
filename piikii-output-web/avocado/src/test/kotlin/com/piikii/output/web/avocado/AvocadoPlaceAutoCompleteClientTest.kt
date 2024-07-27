@@ -19,30 +19,33 @@ import org.springframework.test.context.ContextConfiguration
 @ContextConfiguration(classes = [TestConfiguration::class])
 class AvocadoPlaceAutoCompleteClientTest {
     @Autowired
-    lateinit var sharePlaceIdParser: ShareUrlIdParser
+    lateinit var shareUrlIdParser: ShareUrlIdParser
 
     @Autowired
-    lateinit var mapPlaceIdParser: MapUrlIdParser
+    lateinit var mapUrlIdParser: MapUrlIdParser
+
+    @Autowired
+    lateinit var mapMobileUrlIdParser: MapUrlIdParser
 
     @Autowired
     lateinit var avocadoPlaceAutoCompleteClient: AvocadoPlaceAutoCompleteClient
 
     @Test
-    fun sharePlaceIdParserTest() {
+    fun shareUrlIdParserTest() {
         val url = "주소를 입력하세요"
 
-        val parse = sharePlaceIdParser.parseOriginMapId(url)
+        val parse = shareUrlIdParser.parseOriginMapId(url)
         println("parse = $parse")
     }
 
     @Test
-    fun mapPlaceIdParserTest() {
+    fun mapUrlIdParserTest() {
         val url = "주소를 입력하세요"
 
-        val pattern = mapPlaceIdParser.pattern()
-        assertThat(pattern.matches(url)).isTrue()
+        val pattern = mapUrlIdParser.getParserBySupportedUrl(url)
+        assertThat(pattern).isNotNull()
 
-        val parse = mapPlaceIdParser.parseOriginMapId(url)
+        val parse = mapUrlIdParser.parseOriginMapId(url)
         println("parse = $parse")
     }
 

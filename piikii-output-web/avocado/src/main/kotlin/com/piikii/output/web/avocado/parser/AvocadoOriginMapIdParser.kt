@@ -3,18 +3,19 @@ package com.piikii.output.web.avocado.parser
 import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.place.OriginMapId
 import com.piikii.output.web.avocado.config.AvocadoProperties
+import com.piikii.output.web.avocado.parser.AvocadoOriginMapIdParser.Companion.ORIGIN_MAP_IP_REGEX
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 
 @Component
 class AvocadoOriginMapIdParserStrategy(private val parsers: List<AvocadoOriginMapIdParser>) {
     fun getParserBySupportedUrl(url: String): AvocadoOriginMapIdParser? {
-        return parsers.find { it.pattern().matches(url) }
+        return parsers.firstOrNull { it.getParserBySupportedUrl(url) != null }
     }
 }
 
 interface AvocadoOriginMapIdParser {
-    fun pattern(): Regex
+    fun getParserBySupportedUrl(url: String): AvocadoOriginMapIdParser?
 
     fun parseOriginMapId(url: String): OriginMapId?
 
@@ -30,23 +31,25 @@ interface AvocadoOriginMapIdParser {
             ?.toLongOrNull()
             ?.let { OriginMapId.of(id = it, origin = Origin.AVOCADO) }
     }
+
+    companion object {
+        const val ORIGIN_MAP_IP_REGEX = "\\d+"
+    }
 }
 
 @Component
 class MapUrlIdParser(properties: AvocadoProperties) : AvocadoOriginMapIdParser {
-    private val patternRegex: Regex = "${properties.url.regex.web}$PLACE_ID_REGEX".toRegex()
-    private val parseRegex: Regex = "${properties.url.regex.web}($PLACE_ID_REGEX)".toRegex()
+    private val regexes: List<Regex> =
+        listOf(
+            "${properties.url.regex.web}($ORIGIN_MAP_IP_REGEX)".toRegex(),
+            "${properties.url.regex.mobileWeb}($ORIGIN_MAP_IP_REGEX)/home".toRegex(),
+        )
 
-    override fun pattern(): Regex {
-        return patternRegex
-    }
+    override fun getParserBySupportedUrl(url: String): AvocadoOriginMapIdParser? =
+        takeIf { regexes.any { regex -> regex.matches(url) } }
 
     override fun parseOriginMapId(url: String): OriginMapId? {
-        return parseRegex.find(url).parseFromMatchResult()
-    }
-
-    companion object {
-        const val PLACE_ID_REGEX = "\\d+"
+        return regexes.first { it.matches(url) }.find(url).parseFromMatchResult()
     }
 }
 
@@ -58,9 +61,7 @@ class ShareUrlIdParser(
     private val idParameterRegex: Regex = "id=(\\d+)".toRegex()
     private val client: RestClient = RestClient.builder().build()
 
-    override fun pattern(): Regex {
-        return regex
-    }
+    override fun getParserBySupportedUrl(url: String): AvocadoOriginMapIdParser? = takeIf { regex.matches(url) }
 
     override fun parseOriginMapId(url: String): OriginMapId? {
         val response =

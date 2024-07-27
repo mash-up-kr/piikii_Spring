@@ -12,7 +12,7 @@ data class LemonPlaceInfoResponse(
     val isMapUser: String?,
     val isExist: Boolean?,
     val basicInfo: BasicInfo,
-    val comment: Comment,
+    val comment: Comment?,
     val menuInfo: MenuInfo,
     val photo: Photo,
 ) {
@@ -43,7 +43,7 @@ data class LemonPlaceInfoResponse(
         @JsonProperty("mainphotourl")
         val mainPhotoUrl: String,
         @JsonProperty("phonenum")
-        val phoneNumber: String,
+        val phoneNumber: String?,
         val address: Address,
         val homepage: String?,
         val category: Category,

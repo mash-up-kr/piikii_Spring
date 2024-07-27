@@ -28,7 +28,7 @@ class PlaceEntity(
     var name: String,
     @Column(name = "url", length = 255)
     var url: String?,
-    @Column(name = "thumbnail_links", length = 255, nullable = false)
+    @Column(name = "thumbnail_links", columnDefinition = "TEXT")
     var thumbnailLinks: String?,
     @Column(name = "address", length = 255)
     var address: String?,

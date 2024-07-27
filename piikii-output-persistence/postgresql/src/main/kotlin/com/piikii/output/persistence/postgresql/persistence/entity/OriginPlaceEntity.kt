@@ -26,7 +26,7 @@ class OriginPlaceEntity(
     var name: String,
     @Column(name = "url", nullable = false, length = 255)
     val url: String,
-    @Column(name = "thumbnail_links", nullable = false, length = 255)
+    @Column(name = "thumbnail_links", columnDefinition = "TEXT")
     val thumbnailLinks: String,
     @Column(name = "address", length = 255)
     val address: String? = null,

@@ -2,4 +2,5 @@ lemon:
   url:
     regex:
       web: ${LEMON_WEB_URL_REGEX}
+      mobile-web: ${LEMON_MOBILE_WEB_URL_REGEX}
     api: ${LEMON_API_URL}
