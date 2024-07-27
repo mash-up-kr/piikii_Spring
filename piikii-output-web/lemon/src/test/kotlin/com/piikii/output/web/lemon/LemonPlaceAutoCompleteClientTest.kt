@@ -1,5 +1,6 @@
 package com.piikii.output.web.lemon
 
+import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.place.OriginMapId
 import com.piikii.output.web.lemon.adapter.LemonPlaceAutoCompleteClient
 import org.assertj.core.api.Assertions.assertThat
@@ -30,7 +31,7 @@ class LemonPlaceAutoCompleteClientTest {
         val url = "URL을 입력해주세요"
         val id = 123L
 
-        val originPlace = lemonPlaceAutoCompleteClient.getAutoCompletedPlace(url, OriginMapId(id))
+        val originPlace = lemonPlaceAutoCompleteClient.getAutoCompletedPlace(url, OriginMapId.of(id, Origin.LEMON))
         println("originPlace = $originPlace")
     }
 }
