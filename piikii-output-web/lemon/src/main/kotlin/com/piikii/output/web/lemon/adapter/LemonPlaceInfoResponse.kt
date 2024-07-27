@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.place.OriginMapId
 import com.piikii.application.domain.place.OriginPlace
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -11,7 +12,7 @@ data class LemonPlaceInfoResponse(
     val isMapUser: String?,
     val isExist: Boolean?,
     val basicInfo: BasicInfo,
-    val comment: Comment,
+    val comment: Comment?,
     val menuInfo: MenuInfo,
     val photo: Photo,
 ) {
@@ -20,7 +21,7 @@ data class LemonPlaceInfoResponse(
         return OriginPlace(
             id = null,
             name = basicInfo.name,
-            originMapId = basicInfo.cid,
+            originMapId = OriginMapId.of(id = basicInfo.cid, origin = Origin.LEMON),
             url = url,
             thumbnailLinks = ThumbnailLinks(basicInfo.mainPhotoUrl),
             address = fullAddress,
@@ -42,7 +43,7 @@ data class LemonPlaceInfoResponse(
         @JsonProperty("mainphotourl")
         val mainPhotoUrl: String,
         @JsonProperty("phonenum")
-        val phoneNumber: String,
+        val phoneNumber: String?,
         val address: Address,
         val homepage: String?,
         val category: Category,

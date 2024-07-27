@@ -46,17 +46,6 @@ data class AddPlaceRequest(
     @field:Max(value = 5, message = "별점은 5 이하여야 합니다.")
     @field:Schema(description = "별점 (0-5)", example = "4.5")
     val starGrade: Float?,
-    @field:NotNull(message = "장소 정보 제공처")
-    @field:Schema(
-        description = "장소 정보 제공처",
-        allowableValues = [
-            "AVOCADO",
-            "LEMON",
-            "MANUAL",
-        ],
-        example = "MANUAL",
-    )
-    val origin: Origin,
     @field:NotBlank(message = "메모는 필수이며 빈 문자열이 허용되지 않습니다.")
     @field:Size(max = 50, message = "메모는 50자를 초과할 수 없습니다.")
     @field:Schema(description = "메모", example = "맛있는 레스토랑")
@@ -83,7 +72,7 @@ data class AddPlaceRequest(
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
-            origin = origin,
+            origin = Origin.MANUAL,
             memo = memo,
         )
     }
@@ -116,16 +105,6 @@ data class ModifyPlaceRequest(
     @field:Max(value = 5, message = "별점은 5 이하여야 합니다.")
     @field:Schema(description = "별점 (0-5)", example = "4.5")
     val starGrade: Float?,
-    @field:Schema(
-        description = "장소 정보 제공처",
-        allowableValues = [
-            "AVOCADO",
-            "LEMON",
-            "MANUAL",
-        ],
-        example = "MANUAL",
-    )
-    val origin: Origin,
     @field:NotBlank(message = "메모는 필수이며 빈 문자열이 허용되지 않습니다.")
     @field:Size(max = 50, message = "메모는 50자를 초과할 수 없습니다.")
     @field:Schema(description = "메모", example = "맛있는 레스토랑")
@@ -153,7 +132,7 @@ data class ModifyPlaceRequest(
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
-            origin = origin,
+            origin = Origin.MANUAL,
             memo = memo,
         )
     }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.place.OriginMapId
 import com.piikii.application.domain.place.OriginPlace
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -27,7 +28,7 @@ data class AvocadoPlaceInfoResponse(
     fun toOriginPlace(url: String): OriginPlace {
         return OriginPlace(
             id = null,
-            originMapId = id,
+            originMapId = OriginMapId.of(id = id, origin = Origin.AVOCADO),
             name = name,
             url = url,
             thumbnailLinks = ThumbnailLinks(images ?: emptyList()),

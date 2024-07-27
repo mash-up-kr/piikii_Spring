@@ -2,6 +2,7 @@ package com.piikii.output.persistence.postgresql.persistence.entity
 
 import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.place.OriginMapId
 import com.piikii.application.domain.place.OriginPlace
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
@@ -19,13 +20,13 @@ import org.hibernate.annotations.SQLRestriction
 @SQLDelete(sql = "UPDATE piikii.origin_place SET is_deleted = true WHERE id = ?")
 @DynamicUpdate
 class OriginPlaceEntity(
-    @Column(name = "origin_map_id", nullable = false)
-    val originMapId: Long,
+    @Column(name = "origin_map_id", nullable = false, unique = true)
+    val originMapId: OriginMapId,
     @Column(name = "name", length = 255, nullable = false)
     var name: String,
     @Column(name = "url", nullable = false, length = 255)
     val url: String,
-    @Column(name = "thumbnail_links", nullable = false, length = 255)
+    @Column(name = "thumbnail_links", columnDefinition = "TEXT")
     val thumbnailLinks: String,
     @Column(name = "address", length = 255)
     val address: String? = null,

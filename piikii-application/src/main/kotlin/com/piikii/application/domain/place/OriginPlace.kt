@@ -6,7 +6,7 @@ import com.piikii.application.domain.generic.ThumbnailLinks
 data class OriginPlace(
     val id: Long?,
     val name: String,
-    val originMapId: Long,
+    val originMapId: OriginMapId,
     val url: String,
     val thumbnailLinks: ThumbnailLinks,
     val address: String? = null,
@@ -18,3 +18,21 @@ data class OriginPlace(
     val category: String?,
     val origin: Origin,
 )
+
+@JvmInline
+value class OriginMapId(val value: String) {
+    fun toId(): String {
+        return value.split(SEPARATOR).last()
+    }
+
+    companion object {
+        private const val SEPARATOR: String = "_"
+
+        fun of(
+            id: Long,
+            origin: Origin,
+        ): OriginMapId {
+            return OriginMapId("${origin.prefix}$SEPARATOR$id")
+        }
+    }
+}

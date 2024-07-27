@@ -5,6 +5,7 @@ avocado:
   url:
     regex:
       web: ${AVOCADO_WEB_URL_REGEX}
+      mobile-web: ${AVOCADO_MOBILE_WEB_URL_REGEX}
       share: ${AVOCADO_SHARE_URL_REGEX}
     api: ${AVOCADO_API_URL}
     referer: ${AVOCADO_REFERER_URL}

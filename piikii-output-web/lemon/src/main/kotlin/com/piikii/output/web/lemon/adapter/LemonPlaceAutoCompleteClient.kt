@@ -1,34 +1,35 @@
 package com.piikii.output.web.lemon.adapter
 
+import com.piikii.application.domain.place.OriginMapId
 import com.piikii.application.domain.place.OriginPlace
 import com.piikii.application.port.output.web.OriginPlaceAutoCompleteClient
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
-import com.piikii.output.web.lemon.parser.LemonPlaceIdParser
+import com.piikii.output.web.lemon.parser.LemonOriginMapIdParser
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 
 @Component
 class LemonPlaceAutoCompleteClient(
-    private val lemonPlaceIdParser: LemonPlaceIdParser,
+    private val lemonOriginMapIdParser: LemonOriginMapIdParser,
     private val lemonApiClient: RestClient,
 ) : OriginPlaceAutoCompleteClient {
     override fun isAutoCompleteSupportedUrl(url: String): Boolean {
-        return lemonPlaceIdParser.isAutoCompleteSupportedUrl(url)
+        return lemonOriginMapIdParser.isAutoCompleteSupportedUrl(url)
     }
 
-    override fun extractPlaceId(url: String): String {
-        return lemonPlaceIdParser.parse(url)
+    override fun extractOriginMapId(url: String): OriginMapId {
+        return lemonOriginMapIdParser.parseOriginMapId(url)
             ?: throw PiikiiException(ExceptionCode.NOT_SUPPORT_AUTO_COMPLETE_URL)
     }
 
     override fun getAutoCompletedPlace(
         url: String,
-        placeId: String,
+        originMapId: OriginMapId,
     ): OriginPlace {
         return lemonApiClient.get()
-            .uri("/$placeId")
+            .uri("/${originMapId.toId()}")
             .retrieve()
             .body<LemonPlaceInfoResponse>()
             ?.toOriginPlace(url)
