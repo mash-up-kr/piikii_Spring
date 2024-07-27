@@ -28,7 +28,7 @@ data class AvocadoPlaceInfoResponse(
     fun toOriginPlace(url: String): OriginPlace {
         return OriginPlace(
             id = null,
-            originMapId = OriginMapId(id),
+            originMapId = OriginMapId.of(id = id, origin = Origin.AVOCADO),
             name = name,
             url = url,
             thumbnailLinks = ThumbnailLinks(images ?: emptyList()),

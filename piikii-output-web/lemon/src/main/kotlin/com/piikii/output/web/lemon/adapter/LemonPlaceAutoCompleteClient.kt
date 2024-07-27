@@ -29,7 +29,7 @@ class LemonPlaceAutoCompleteClient(
         originMapId: OriginMapId,
     ): OriginPlace {
         return lemonApiClient.get()
-            .uri("/${originMapId.value}")
+            .uri("/${originMapId.toId()}")
             .retrieve()
             .body<LemonPlaceInfoResponse>()
             ?.toOriginPlace(url)

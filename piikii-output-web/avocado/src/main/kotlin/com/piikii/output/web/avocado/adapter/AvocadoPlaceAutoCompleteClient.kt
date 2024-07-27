@@ -29,7 +29,7 @@ class AvocadoPlaceAutoCompleteClient(
         originMapId: OriginMapId,
     ): OriginPlace {
         return avocadoApiClient.get()
-            .uri("/${originMapId.value}")
+            .uri("/${originMapId.toId()}")
             .retrieve()
             .body<AvocadoPlaceInfoResponse>()
             ?.toOriginPlace(url)

@@ -21,7 +21,7 @@ data class LemonPlaceInfoResponse(
         return OriginPlace(
             id = null,
             name = basicInfo.name,
-            originMapId = OriginMapId(basicInfo.cid),
+            originMapId = OriginMapId.of(id = basicInfo.cid, origin = Origin.LEMON),
             url = url,
             thumbnailLinks = ThumbnailLinks(basicInfo.mainPhotoUrl),
             address = fullAddress,

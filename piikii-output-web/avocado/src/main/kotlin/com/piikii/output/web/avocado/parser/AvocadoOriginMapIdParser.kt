@@ -1,5 +1,6 @@
 package com.piikii.output.web.avocado.parser
 
+import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.place.OriginMapId
 import com.piikii.output.web.avocado.config.AvocadoProperties
 import org.springframework.stereotype.Component
@@ -27,7 +28,7 @@ interface AvocadoOriginMapIdParser {
         return this?.groupValues
             ?.getOrNull(1)
             ?.toLongOrNull()
-            ?.let { OriginMapId(it) }
+            ?.let { OriginMapId.of(id = it, origin = Origin.AVOCADO) }
     }
 }
 
