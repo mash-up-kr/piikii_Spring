@@ -1,6 +1,6 @@
 package com.piikii.output.web.tmap
 
-import com.piikii.output.web.tmap.adapter.TmapDistanceCalculateClient
+import com.piikii.output.web.tmap.adapter.TmapNavigationClient
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,9 +12,9 @@ import org.springframework.test.context.ContextConfiguration
 @SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = [TestConfiguration::class])
-class TmapDistanceCalculateClientTest {
+class TmapNavigationClientTest {
     @Autowired
-    lateinit var tmapDistanceCalculateClient: TmapDistanceCalculateClient
+    lateinit var tmapNavigationClient: TmapNavigationClient
 
     @Test
     fun getDistanceTest() {
@@ -23,7 +23,7 @@ class TmapDistanceCalculateClientTest {
         val endX = 126.9041895
         val endY = 33.4048969
 
-        val distance = tmapDistanceCalculateClient.getDistanceBetweenPlaces(startX, startY, endX, endY)
+        val distance = tmapNavigationClient.getDistanceBetweenPlaces(startX, startY, endX, endY)
         println("distance = $distance")
     }
 }

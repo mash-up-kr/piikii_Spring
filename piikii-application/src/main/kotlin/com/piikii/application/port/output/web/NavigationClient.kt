@@ -2,7 +2,7 @@ package com.piikii.application.port.output.web
 
 import com.piikii.application.domain.course.Distance
 
-interface DistanceCalculateClient {
+interface NavigationClient {
     fun getDistanceBetweenPlaces(
         startX: Double?,
         startY: Double?,
