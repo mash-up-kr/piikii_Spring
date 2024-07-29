@@ -17,10 +17,10 @@ class MockMvcActor(
     private val objectMapper: ObjectMapper,
     private val mockMvc: MockMvc,
 ) : AcceptanceTestActor {
-    override fun execute(
+    override fun <T> execute(
         method: HttpMethod,
         uri: String,
-        requestBody: Any?,
+        requestBody: T?,
         parameters: Map<String, String>,
     ): ResultActions {
         val requestBuilder = createRequestBuilder(method, uri)

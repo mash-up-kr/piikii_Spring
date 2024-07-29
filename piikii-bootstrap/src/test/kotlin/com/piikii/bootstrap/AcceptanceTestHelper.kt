@@ -13,10 +13,10 @@ abstract class AcceptanceTestHelper(
     private val acceptanceTestActor: AcceptanceTestActor,
     private val acceptanceTestAsserter: AcceptanceTestAsserter,
 ) {
-    fun act(
+    fun <T> act(
         method: HttpMethod,
         uri: String,
-        requestBody: Any?,
+        requestBody: T?,
         parameters: Map<String, String> = emptyMap(),
     ): ResultActions {
         return acceptanceTestActor.execute(
