@@ -1,7 +1,7 @@
 spring:
   config:
     activate:
-      on-profile: dev
+      on-profile: test
 
   datasource:
     driver-class-name: org.postgresql.Driver

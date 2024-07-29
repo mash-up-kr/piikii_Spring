@@ -5,11 +5,12 @@ spring:
       - classpath:storage-config/application.yml
       - classpath:lemon-config/application.yml
       - classpath:avocado-config/application.yml
-      - classpath:database-config/application-dev.yml
+      - classpath:database-config/application-test.yml
   application:
     name: "piikii"
   messages:
     encoding: UTF-8
+
 
 secret:
   token: ${SECRET_MANAGER_TOKEN}

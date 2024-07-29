@@ -15,5 +15,5 @@ import org.springframework.test.context.ContextConfiguration
 @AutoConfigureMockMvc
 @EnableAutoConfiguration
 @ContextConfiguration(classes = [TestConfiguration::class])
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 annotation class AcceptanceTest
