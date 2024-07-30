@@ -8,14 +8,11 @@ import com.piikii.bootstrap.fixture.dto.room.getSaveRequestFixture
 import com.piikii.bootstrap.fixture.dto.room.getSaveResponseFixture
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpMethod
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class RoomApiTest(
-    @Autowired
     mockMvcActor: MockMvcActor,
-    @Autowired
     mockMvcAsserter: MockMvcAsserter,
 ) : AcceptanceTestHelper(mockMvcActor, mockMvcAsserter) {
     @Nested
