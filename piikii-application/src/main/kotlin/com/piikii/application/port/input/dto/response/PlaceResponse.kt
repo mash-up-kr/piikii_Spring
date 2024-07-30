@@ -3,7 +3,6 @@ package com.piikii.application.port.input.dto.response
 import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Place
-import com.piikii.application.domain.schedule.ScheduleType
 import io.swagger.v3.oas.annotations.media.Schema
 import java.util.UUID
 
@@ -57,17 +56,10 @@ data class PlaceResponse(
 
 @Schema(description = "일정 타입별 장소 그룹 응답")
 data class ScheduleTypeGroupResponse(
-    @field:Schema(
-        description = "스케줄 타입",
-        allowableValues = [
-            "ARCADE",
-            "DISH",
-            "DESSERT",
-            "ALCOHOL",
-        ],
-        example = "DISH",
-    )
-    val scheduleType: ScheduleType,
+    @field:Schema(description = "일정타입(Schedule) ID", example = "1")
+    val scheduleId: Long,
+    @field:Schema(description = "일정 이름", example = "술 2차")
+    val scheduleName: String,
     @field:Schema(description = "해당 일정 타입에 속한 장소 목록")
     val places: List<PlaceResponse>,
 )

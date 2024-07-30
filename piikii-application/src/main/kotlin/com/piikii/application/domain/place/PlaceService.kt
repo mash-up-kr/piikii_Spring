@@ -66,7 +66,8 @@ class PlaceService(
             .map { (scheduleId, places) ->
                 val schedule = scheduleById[scheduleId] ?: throw PiikiiException(ExceptionCode.NOT_FOUNDED)
                 ScheduleTypeGroupResponse(
-                    scheduleType = schedule.type,
+                    scheduleId = scheduleId,
+                    scheduleName = schedule.name,
                     places = places.map { place -> PlaceResponse(place = place) },
                 )
             }
