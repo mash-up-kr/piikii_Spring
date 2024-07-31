@@ -137,9 +137,3 @@ data class ModifyPlaceRequest(
         )
     }
 }
-
-data class DeletePlaceRequest(
-    @field:NotNull(message = "삭제할 장소 ID는 필수입니다.")
-    @field:Schema(description = "삭제할 장소 ID", example = "1")
-    val targetPlaceId: Long,
-)

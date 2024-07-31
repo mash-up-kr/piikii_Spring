@@ -2,7 +2,6 @@ package com.piikii.input.http.controller
 
 import com.piikii.application.port.input.PlaceUseCase
 import com.piikii.application.port.input.dto.request.AddPlaceRequest
-import com.piikii.application.port.input.dto.request.DeletePlaceRequest
 import com.piikii.application.port.input.dto.request.ModifyPlaceRequest
 import com.piikii.application.port.input.dto.response.PlaceResponse
 import com.piikii.application.port.input.dto.response.ScheduleTypeGroupResponse
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -48,29 +46,29 @@ class PlaceApi(
         return ResponseForm(placeUseCase.findAllByRoomUidGroupByPlaceType(roomUid))
     }
 
-    @PatchMapping("/{targetPlaceId}")
+    @PatchMapping("/{placeId}")
     override fun modifyPlace(
         @NotNull @PathVariable roomUid: UUID,
-        @NotNull @PathVariable targetPlaceId: Long,
+        @NotNull @PathVariable placeId: Long,
         @Valid @NotNull @RequestPart modifyPlaceRequest: ModifyPlaceRequest,
         @RequestPart(required = false) newPlaceImages: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse> {
         return ResponseForm(
             placeUseCase.modify(
                 targetRoomUid = roomUid,
-                targetPlaceId = targetPlaceId,
+                targetPlaceId = placeId,
                 modifyPlaceRequest = modifyPlaceRequest,
                 newPlaceImages = newPlaceImages,
             ),
         )
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{placeId}")
     override fun deletePlace(
         @NotNull @PathVariable roomUid: UUID,
-        @Valid @NotNull @RequestBody deletePlaceRequest: DeletePlaceRequest,
+        @NotNull @PathVariable placeId: Long,
     ): ResponseForm<Unit> {
-        placeUseCase.delete(deletePlaceRequest.targetPlaceId)
+        placeUseCase.delete(placeId)
         return ResponseForm.EMPTY_RESPONSE
     }
 }

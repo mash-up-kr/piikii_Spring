@@ -15,9 +15,6 @@ data class RoomSaveRequestForm(
     val name: String,
     @field:Schema(description = "적고 싶은 메시지", example = "늦으면 밥값 몰빵")
     val message: String?,
-    @field:NotBlank
-    @field:Schema(description = "모임 장소 주소", example = "경기 화성시 봉담읍 동화길 51")
-    val address: String,
     @field:Schema(description = "썸네일 이미지 링크", example = "https://github.com/k-diger.png")
     val thumbnailLink: String,
     @field:NotNull(message = "모임 비밀번호는 필수입니다.")

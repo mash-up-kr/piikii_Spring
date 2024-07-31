@@ -1,7 +1,6 @@
 package com.piikii.input.http.controller.docs
 
 import com.piikii.application.port.input.dto.request.AddPlaceRequest
-import com.piikii.application.port.input.dto.request.DeletePlaceRequest
 import com.piikii.application.port.input.dto.request.ModifyPlaceRequest
 import com.piikii.application.port.input.dto.response.PlaceResponse
 import com.piikii.application.port.input.dto.response.ScheduleTypeGroupResponse
@@ -11,7 +10,6 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
-import io.swagger.v3.oas.annotations.parameters.RequestBody
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -107,11 +105,11 @@ interface PlaceDocs {
             `in` = ParameterIn.PATH,
         ) @NotNull roomUid: UUID,
         @Parameter(
-            name = "targetPlaceId",
+            name = "placeId",
             description = "수정하고자 하는 장소의 id",
             required = true,
             `in` = ParameterIn.PATH,
-        ) @NotNull targetPlaceId: Long,
+        ) @NotNull placeId: Long,
         @Parameter(
             name = "modifyPlaceRequest",
             description = "방 장소 수정 Request body",
@@ -133,10 +131,11 @@ interface PlaceDocs {
             required = true,
             `in` = ParameterIn.PATH,
         ) @NotNull roomUid: UUID,
-        @RequestBody(
-            description = "방 장소 삭제 Request body",
+        @Parameter(
+            name = "placeId",
+            description = "삭제하고자 하는 장소의 id",
             required = true,
-            content = [Content(schema = Schema(implementation = DeletePlaceRequest::class))],
-        ) @Valid @NotNull deletePlaceRequest: DeletePlaceRequest,
+            `in` = ParameterIn.PATH,
+        ) @NotNull placeId: Long,
     ): ResponseForm<Unit>
 }

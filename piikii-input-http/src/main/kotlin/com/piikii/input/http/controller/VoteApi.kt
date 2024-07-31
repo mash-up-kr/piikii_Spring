@@ -24,7 +24,7 @@ import java.util.UUID
 
 @Validated
 @RestController
-@RequestMapping("/room/{roomUid}/votes")
+@RequestMapping("/v1/rooms/{roomUid}/votes")
 class VoteApi(
     private val voteUseCase: VoteUseCase,
     private val roomUseCase: RoomUseCase,

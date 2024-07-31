@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 @Schema(description = "방 스케줄 정보 응답")
 data class SchedulesResponse(
     @field:Schema(description = "방 스케줄 정보 목록")
-    val categories: List<ScheduleResponse>,
+    val schedules: List<ScheduleResponse>,
 ) {
     companion object {
         fun from(schedules: List<Schedule>): SchedulesResponse {
