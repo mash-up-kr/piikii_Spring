@@ -8,11 +8,6 @@ project(":piikii-output-web:lemon") {
     }
 }
 
-project(":piikii-output-web:tmap") {
-    dependencies {
-    }
-}
-
 allprojects {
     dependencies {
         implementation("org.springframework:spring-web")

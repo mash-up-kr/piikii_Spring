@@ -23,7 +23,7 @@ class TmapNavigationClientTest {
         val endX = 126.9041895
         val endY = 33.4048969
 
-        val distance = tmapNavigationClient.getDistanceBetweenPlaces(startX, startY, endX, endY)
+        val distance = tmapNavigationClient.getDistance(startX, startY, endX, endY)
         println("distance = $distance")
     }
 }
