@@ -9,11 +9,11 @@ data class TmapRouteInfoResponse(
     val features: List<Feature>,
 ) {
     fun toDistance(): Distance {
-        val featureWitTotalDistance = features.firstOrNull { it.properties.totalDistance != null }
-        return featureWitTotalDistance?.let {
+        val featureWithTotalDistance = features.firstOrNull { it.properties.totalDistance != null }
+        return featureWithTotalDistance?.let {
             Distance(
-                totalDistance = it.properties.totalDistance,
-                totalTime = it.properties.totalTime,
+                totalDistanceMeter = it.properties.totalDistance,
+                totalTimeMinute = it.properties.totalTime,
             )
         } ?: Distance.empty()
     }
