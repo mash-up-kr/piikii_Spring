@@ -12,45 +12,45 @@ import org.springframework.web.client.body
 class TmapNavigationClient(
     private val tmapApiClient: RestClient,
 ) : NavigationClient {
-    override fun getDistanceBetweenPlaces(
+    override fun getDistance(
         startX: Double?,
         startY: Double?,
         endX: Double?,
         endY: Double?,
     ): Distance {
-        return if (validateLocations(startX, startY, endX, endY)) {
-            try {
-                return tmapApiClient.post()
-                    .uri("")
-                    .body(
-                        TmapRouteInfoRequest(
-                            startX = startX!!,
-                            startY = startY!!,
-                            endX = endX!!,
-                            endY = endY!!,
-                            startName = "default",
-                            endName = "default",
-                        ),
-                    )
-                    .retrieve()
-                    .body<TmapRouteInfoResponse>()
-                    ?.toDistance()
-                    ?: throw PiikiiException(
-                        exceptionCode = ExceptionCode.ROUTE_PROCESS_ERROR,
-                        detailMessage = "fail to request tmap api call, start: ($startX, $startY), end: ($endX, $endY)",
-                    )
-            } catch (exception: RuntimeException) {
-                throw PiikiiException(
-                    exceptionCode = ExceptionCode.ROUTE_PROCESS_ERROR,
-                    detailMessage = exception.message ?: "fail to request tmap api call",
-                )
-            }
+        return if (isValidLocations(startX, startY, endX, endY)) {
+            getDistanceFromTmap(startX!!, startY!!, endX!!, endY!!)
         } else {
             Distance.empty()
         }
     }
 
-    private fun validateLocations(
+    private fun getDistanceFromTmap(
+        startX: Double,
+        startY: Double,
+        endX: Double,
+        endY: Double,
+    ): Distance {
+        return tmapApiClient.post()
+            .uri("")
+            .body(
+                TmapRouteInfoRequest(
+                    startX = startX,
+                    startY = startY,
+                    endX = endX,
+                    endY = endY,
+                ),
+            )
+            .retrieve()
+            .body<TmapRouteInfoResponse>()
+            ?.toDistance()
+            ?: throw PiikiiException(
+                exceptionCode = ExceptionCode.ROUTE_PROCESS_ERROR,
+                detailMessage = "fail to request tmap api call, start: ($startX, $startY), end: ($endX, $endY)",
+            )
+    }
+
+    private fun isValidLocations(
         startX: Double?,
         startY: Double?,
         endX: Double?,

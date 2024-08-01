@@ -3,7 +3,7 @@ package com.piikii.application.port.output.web
 import com.piikii.application.domain.course.Distance
 
 interface NavigationClient {
-    fun getDistanceBetweenPlaces(
+    fun getDistance(
         startX: Double?,
         startY: Double?,
         endX: Double?,
