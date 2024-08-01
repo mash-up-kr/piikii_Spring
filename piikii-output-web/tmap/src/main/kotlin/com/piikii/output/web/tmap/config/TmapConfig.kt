@@ -4,6 +4,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.springframework.web.client.RestClient
 
 @Configuration
@@ -14,8 +16,8 @@ class TmapConfig {
         return RestClient.builder()
             .baseUrl(tmapProperties.url.api)
             .defaultHeaders {
-                it.add("Accept", "application/json")
-                it.add("Content-Type", "application/json")
+                it.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                it.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 it.add("appKey", tmapProperties.key.app)
             }
             .build()
