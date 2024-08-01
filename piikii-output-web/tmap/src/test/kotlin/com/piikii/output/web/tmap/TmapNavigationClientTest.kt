@@ -1,5 +1,6 @@
 package com.piikii.output.web.tmap
 
+import com.piikii.application.domain.course.Coordinate
 import com.piikii.output.web.tmap.adapter.TmapNavigationClient
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -18,12 +19,10 @@ class TmapNavigationClientTest {
 
     @Test
     fun getDistanceTest() {
-        val startX = 126.9246033
-        val startY = 33.45241976
-        val endX = 126.9041895
-        val endY = 33.4048969
+        val start = Coordinate(x = 126.9246033, y = 33.45241976)
+        val end = Coordinate(x = 126.9041895, y = 33.4048969)
 
-        val distance = tmapNavigationClient.getDistance(startX, startY, endX, endY)
+        val distance = tmapNavigationClient.getDistance(start, end)
         println("distance = $distance")
     }
 }

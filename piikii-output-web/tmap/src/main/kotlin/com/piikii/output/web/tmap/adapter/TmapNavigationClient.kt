@@ -1,5 +1,6 @@
 package com.piikii.output.web.tmap.adapter
 
+import com.piikii.application.domain.course.Coordinate
 import com.piikii.application.domain.course.Distance
 import com.piikii.application.port.output.web.NavigationClient
 import com.piikii.common.exception.ExceptionCode
@@ -13,32 +14,28 @@ class TmapNavigationClient(
     private val tmapApiClient: RestClient,
 ) : NavigationClient {
     override fun getDistance(
-        startX: Double?,
-        startY: Double?,
-        endX: Double?,
-        endY: Double?,
+        start: Coordinate,
+        end: Coordinate,
     ): Distance {
-        return if (isValidLocations(startX, startY, endX, endY)) {
-            getDistanceFromTmap(startX!!, startY!!, endX!!, endY!!)
+        return if (start.isValid() && end.isValid()) {
+            getDistanceFromTmap(start, end)
         } else {
             Distance.empty()
         }
     }
 
     private fun getDistanceFromTmap(
-        startX: Double,
-        startY: Double,
-        endX: Double,
-        endY: Double,
+        start: Coordinate,
+        end: Coordinate,
     ): Distance {
         return tmapApiClient.post()
             .uri("")
             .body(
                 TmapRouteInfoRequest(
-                    startX = startX,
-                    startY = startY,
-                    endX = endX,
-                    endY = endY,
+                    startX = start.x!!,
+                    startY = start.y!!,
+                    endX = end.x!!,
+                    endY = end.y!!,
                 ),
             )
             .retrieve()
@@ -46,16 +43,7 @@ class TmapNavigationClient(
             ?.toDistance()
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.ROUTE_PROCESS_ERROR,
-                detailMessage = "fail to request tmap api call, start: ($startX, $startY), end: ($endX, $endY)",
+                detailMessage = "fail to request tmap api call, start(${start.x}, ${start.y}), end(${end.x}, ${end.y})",
             )
-    }
-
-    private fun isValidLocations(
-        startX: Double?,
-        startY: Double?,
-        endX: Double?,
-        endY: Double?,
-    ): Boolean {
-        return !(startX == null || startY == null || endX == null || endY == null)
     }
 }
