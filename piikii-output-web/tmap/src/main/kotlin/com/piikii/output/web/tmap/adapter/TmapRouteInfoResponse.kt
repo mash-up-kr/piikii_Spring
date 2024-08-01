@@ -10,14 +10,12 @@ data class TmapRouteInfoResponse(
 ) {
     fun toDistance(): Distance {
         val featureWitTotalDistance = features.firstOrNull { it.properties.totalDistance != null }
-        return if (featureWitTotalDistance != null) {
+        return featureWitTotalDistance?.let {
             Distance(
-                totalDistance = featureWitTotalDistance.properties.totalDistance,
-                totalTime = featureWitTotalDistance.properties.totalTime,
+                totalDistance = it.properties.totalDistance,
+                totalTime = it.properties.totalTime,
             )
-        } else {
-            Distance.empty()
-        }
+        } ?: Distance.empty()
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
