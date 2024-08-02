@@ -1,0 +1,5 @@
+tmap:
+  url:
+    api: ${TMAP_API_URL}
+  key:
+    app: ${TMAP_APP_KEY}

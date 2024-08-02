@@ -7,6 +7,7 @@ dependencies {
     implementation(project(":piikii-output-storage:ncp"))
     implementation(project(":piikii-output-web:avocado"))
     implementation(project(":piikii-output-web:lemon"))
+    implementation(project(":piikii-output-web:tmap"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
 
