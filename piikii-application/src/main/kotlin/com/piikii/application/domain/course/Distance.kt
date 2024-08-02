@@ -5,6 +5,6 @@ data class Distance(
     val totalTimeMinute: Int?,
 ) {
     companion object {
-        fun empty() = Distance(null, null)
+        val EMPTY = Distance(null, null)
     }
 }

@@ -20,7 +20,7 @@ class TmapNavigationClient(
         return if (start.isValid() && end.isValid()) {
             getDistanceFromTmap(start, end)
         } else {
-            Distance.empty()
+            Distance.EMPTY
         }
     }
 

@@ -15,7 +15,7 @@ data class TmapRouteInfoResponse(
                 totalDistanceMeter = it.properties.totalDistance,
                 totalTimeMinute = it.properties.totalTime,
             )
-        } ?: Distance.empty()
+        } ?: Distance.EMPTY
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
