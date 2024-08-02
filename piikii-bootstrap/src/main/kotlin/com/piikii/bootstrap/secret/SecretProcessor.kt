@@ -62,7 +62,7 @@ class SecretProcessor : EnvironmentPostProcessor {
         const val BEARER_TOKEN_PREFIX = "Bearer"
         const val SECRET_MANAGER_URL = "https://app.infisical.com/api/v3"
 
-        val SUPPORT_PROFILES = setOf("local", "dev", "prod")
+        val SUPPORT_PROFILES = setOf("local", "test", "prod")
     }
 }
 
