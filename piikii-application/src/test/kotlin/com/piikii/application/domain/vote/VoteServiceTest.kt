@@ -97,6 +97,7 @@ class VoteServiceTest {
                 roomUid = roomUid,
                 scheduleId = 0L,
                 memo = null,
+                confirmed = false,
             )
 
         given(roomQueryPort.findById(room.roomUid))
@@ -144,6 +145,7 @@ class VoteServiceTest {
                     roomUid = UUID.randomUUID(),
                     scheduleId = 0L,
                     memo = null,
+                    confirmed = false,
                 ),
                 Place(
                     id = 1L,
@@ -157,6 +159,7 @@ class VoteServiceTest {
                     roomUid = UUID.randomUUID(),
                     scheduleId = 0L,
                     memo = null,
+                    confirmed = false,
                 ),
             )
 
@@ -205,6 +208,7 @@ class VoteServiceTest {
                     roomUid = roomUid,
                     scheduleId = 0,
                     memo = null,
+                    confirmed = false,
                 ),
                 Place(
                     id = 2,
@@ -218,6 +222,7 @@ class VoteServiceTest {
                     roomUid = roomUid,
                     scheduleId = 0,
                     memo = null,
+                    confirmed = false,
                 ),
             )
 
@@ -264,6 +269,7 @@ class VoteServiceTest {
                     roomUid = roomUid,
                     scheduleId = 1,
                     memo = null,
+                    confirmed = false,
                 ),
                 Place(
                     id = 2,
@@ -277,6 +283,7 @@ class VoteServiceTest {
                     roomUid = roomUid,
                     scheduleId = 2,
                     memo = null,
+                    confirmed = false,
                 ),
                 Place(
                     id = 3,
@@ -290,12 +297,13 @@ class VoteServiceTest {
                     roomUid = roomUid,
                     scheduleId = 2,
                     memo = null,
+                    confirmed = false,
                 ),
             )
 
         given(placeQueryPort.findAllByRoomUid(roomUid))
             .willReturn(places)
-        given(scheduleQueryPort.findSchedulesByRoomUid(roomUid))
+        given(scheduleQueryPort.findAllByRoomUid(roomUid))
             .willReturn(schedules)
         given(voteQueryPort.findAllByPlaceIds(anyList()))
             .willReturn(votes)

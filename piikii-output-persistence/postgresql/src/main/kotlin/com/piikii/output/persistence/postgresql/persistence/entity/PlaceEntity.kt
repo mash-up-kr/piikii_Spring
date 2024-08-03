@@ -70,6 +70,7 @@ class PlaceEntity(
             starGrade = starGrade,
             origin = origin,
             memo = memo,
+            confirmed = confirmed,
         )
     }
 
@@ -81,5 +82,6 @@ class PlaceEntity(
         starGrade = place.starGrade
         origin = place.origin
         memo = place.memo
+        confirmed = place.confirmed
     }
 }

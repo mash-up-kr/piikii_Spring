@@ -16,4 +16,5 @@ data class Place(
     val starGrade: Float?,
     val origin: Origin,
     val memo: String?,
+    val confirmed: Boolean,
 )

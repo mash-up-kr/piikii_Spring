@@ -74,6 +74,7 @@ data class AddPlaceRequest(
             starGrade = starGrade,
             origin = Origin.MANUAL,
             memo = memo,
+            confirmed = false,
         )
     }
 }
@@ -134,6 +135,7 @@ data class ModifyPlaceRequest(
             starGrade = starGrade,
             origin = Origin.MANUAL,
             memo = memo,
+            confirmed = false,
         )
     }
 }
