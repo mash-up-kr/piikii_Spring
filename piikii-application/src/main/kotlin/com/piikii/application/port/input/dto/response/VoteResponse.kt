@@ -45,11 +45,6 @@ data class VotePlaceResponse(
     val starGrade: Float?,
     @field:Schema(
         description = "장소 정보 제공처",
-        allowableValues = [
-            "AVOCADO",
-            "LEMON",
-            "MANUAL",
-        ],
         example = "MANUAL",
     )
     val origin: Origin,

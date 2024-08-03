@@ -36,7 +36,6 @@ data class PlaceVoteResult(
     @field:NotNull(message = "투표 결과는 필수입니다.")
     @field:Schema(
         description = "투표 결과 (찬성 또는 반대)",
-        allowableValues = ["AGREE", "DISAGREE"],
         example = "AGREE",
     )
     val voteResult: VoteResult,

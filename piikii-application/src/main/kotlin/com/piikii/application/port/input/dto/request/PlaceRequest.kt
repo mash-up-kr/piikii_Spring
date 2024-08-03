@@ -20,12 +20,6 @@ data class AddPlaceRequest(
     @field:NotNull(message = "일정 타입은 필수입니다.")
     @field:Schema(
         description = "스케줄 타입",
-        allowableValues = [
-            "ARCADE",
-            "DISH",
-            "DESSERT",
-            "ALCOHOL",
-        ],
         example = "DISH",
     )
     val type: ScheduleType,
@@ -92,7 +86,7 @@ data class ModifyPlaceRequest(
     @field:Size(max = 255, message = "URL은 255자를 초과할 수 없습니다.")
     @field:Schema(description = "장소 URL", example = "https://example.com")
     val url: String?,
-    @field:Schema(description = "삭제할 이미지 URL 리스트", example = "[https://example.com, https://example.com]")
+    @field:Schema(description = "삭제할 이미지 URL 리스트", example = "https://example.com, https://example.com")
     val deleteTargetUrls: List<String>,
     @field:NotNull(message = "주소는 필수입니다.")
     @field:Size(max = 255, message = "주소는 255자를 초과할 수 없습니다.")
