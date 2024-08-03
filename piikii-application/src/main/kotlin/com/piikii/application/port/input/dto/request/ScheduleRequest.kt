@@ -29,12 +29,6 @@ data class RegisterScheduleRequest(
     @field:NotNull(message = "스케줄 타입은 필수입니다.")
     @field:Schema(
         description = "스케줄 타입",
-        allowableValues = [
-            "ARCADE",
-            "DISH",
-            "DESSERT",
-            "ALCOHOL",
-        ],
         example = "DISH",
     )
     val type: ScheduleType,

@@ -30,12 +30,6 @@ data class ScheduleResponse(
     val sequence: Int,
     @field:Schema(
         description = "스케줄 타입",
-        allowableValues = [
-            "ARCADE",
-            "DISH",
-            "DESSERT",
-            "ALCOHOL",
-        ],
         example = "DISH",
     )
     val type: ScheduleType,
