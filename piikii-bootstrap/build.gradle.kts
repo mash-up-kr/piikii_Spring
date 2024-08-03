@@ -10,6 +10,8 @@ dependencies {
     implementation(project(":piikii-output-web:tmap"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 
     testImplementation(project(":piikii-application"))
 }
