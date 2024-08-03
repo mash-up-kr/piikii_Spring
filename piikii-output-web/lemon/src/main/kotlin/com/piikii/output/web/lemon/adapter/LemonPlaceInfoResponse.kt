@@ -51,9 +51,9 @@ data class LemonPlaceInfoResponse(
         val openHour: OpenHour,
         val tags: List<String>?,
         @JsonProperty("x")
-        val longitude: Float?,
+        val longitude: Double?,
         @JsonProperty("y")
-        val latitude: Float?,
+        val latitude: Double?,
     )
 
     @JsonIgnoreProperties(ignoreUnknown = true)

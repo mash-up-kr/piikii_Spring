@@ -21,9 +21,9 @@ data class AvocadoPlaceInfoResponse(
     val microReview: String?,
     val buttons: Buttons,
     @JsonProperty("x")
-    val longitude: Float?,
+    val longitude: Double?,
     @JsonProperty("y")
-    val latitude: Float?,
+    val latitude: Double?,
 ) {
     fun toOriginPlace(url: String): OriginPlace {
         return OriginPlace(
