@@ -59,7 +59,7 @@ class VoteService(
         val placeIds = places.map { it.id }
 
         val placeByScheduleId = places.groupBy { it.scheduleId }
-        val scheduleById = scheduleQueryPort.findSchedulesByRoomUid(roomUid).associateBy { it.id!! }
+        val scheduleById = scheduleQueryPort.findAllByRoomUid(roomUid).associateBy { it.id!! }
         val agreeCountByPlaceId =
             voteQueryPort.findAllByPlaceIds(placeIds)
                 .filter { it.result == VoteResult.AGREE }
