@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
 @Service
+@Transactional(readOnly = true)
 class CourseService(
     private val courseQueryPort: CourseQueryPort,
     private val roomQueryPort: RoomQueryPort,
@@ -38,7 +39,7 @@ class CourseService(
     override fun retrieveCourse(roomUid: UUID): CourseResponse {
         val room = roomQueryPort.findById(roomUid)
 
-        if (room.isVoteUnavailable()) {
+        if (!room.isVoteUnavailable()) {
             throw PiikiiException(
                 exceptionCode = ExceptionCode.ACCESS_DENIED,
                 detailMessage = VOTE_NOT_END,
