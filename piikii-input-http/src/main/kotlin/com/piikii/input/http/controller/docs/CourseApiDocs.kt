@@ -1,5 +1,6 @@
 package com.piikii.input.http.controller.docs
 
+import com.piikii.application.port.input.dto.response.CourseResponse
 import com.piikii.input.http.controller.dto.ResponseForm
 import com.piikii.input.http.controller.dto.response.CourseExistenceResponse
 import io.swagger.v3.oas.annotations.Operation
@@ -16,6 +17,8 @@ import java.util.UUID
 @Tag(name = "CourseApi", description = "Course API 입니다.")
 interface CourseApiDocs {
     class SuccessCourseExistenceResponse : ResponseForm<CourseExistenceResponse>()
+
+    class SuccessCourseResponse : ResponseForm<CourseResponse>()
 
     @Operation(summary = "코스 생성 여부 API", description = "방 내에 코스의 생성 여부를 조회합니다.")
     @ApiResponses(
@@ -36,4 +39,24 @@ interface CourseApiDocs {
         )
         @NotNull roomUid: UUID,
     ): ResponseForm<CourseExistenceResponse>
+
+    @Operation(summary = "코스 조회 API", description = "방 내에 코스 정보를 조회합니다.")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "OK success",
+                content = [Content(schema = Schema(implementation = SuccessCourseResponse::class))],
+            ),
+        ],
+    )
+    fun retrieveCourse(
+        @Parameter(
+            name = "roomUid",
+            description = "코스 생성 여부를 조회할 방 uuid",
+            required = true,
+            `in` = ParameterIn.PATH,
+        )
+        @NotNull roomUid: UUID,
+    ): ResponseForm<CourseResponse>
 }

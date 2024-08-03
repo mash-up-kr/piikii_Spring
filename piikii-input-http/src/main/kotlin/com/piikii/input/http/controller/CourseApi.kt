@@ -1,6 +1,7 @@
 package com.piikii.input.http.controller
 
 import com.piikii.application.port.input.CourseUseCase
+import com.piikii.application.port.input.dto.response.CourseResponse
 import com.piikii.input.http.controller.docs.CourseApiDocs
 import com.piikii.input.http.controller.dto.ResponseForm
 import com.piikii.input.http.controller.dto.response.CourseExistenceResponse
@@ -16,7 +17,7 @@ import java.util.UUID
 
 @Validated
 @RestController
-@RequestMapping("/v1/rooms/{roomUid}/courses")
+@RequestMapping("/v1/rooms/{roomUid}/course")
 class CourseApi(
     private val courseUseCase: CourseUseCase,
 ) : CourseApiDocs {
@@ -27,6 +28,16 @@ class CourseApi(
     ): ResponseForm<CourseExistenceResponse> {
         return ResponseForm(
             data = CourseExistenceResponse(isExist = courseUseCase.isCourseExist(roomUid)),
+        )
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    override fun retrieveCourse(
+        @NotNull @PathVariable roomUid: UUID,
+    ): ResponseForm<CourseResponse> {
+        return ResponseForm(
+            data = courseUseCase.retrieveCourse(roomUid),
         )
     }
 }
