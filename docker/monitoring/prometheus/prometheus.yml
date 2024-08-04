@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# can use rule files but now not use
+#rule_files:
+#  - "alert.rules"
+#
+#scrape_configs:
+#  - job_name: 'testbed-1-monitor'
+#    metrics_path: '/am-i-alive-dev/prometheus'
+#    static_configs:
+#      - targets: [ 'testbed-1:8077' ]
