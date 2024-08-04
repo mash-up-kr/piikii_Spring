@@ -83,6 +83,27 @@ class CourseServiceTest {
     }
 
     @Test
+    fun `투표 시작 전이면 Exception 이 발생한다`() {
+        // given
+        val room =
+            Room(
+                roomUid = UUID.randomUUID(),
+                name = "사당에서 모이자",
+                message = null,
+                thumbnailLink = "https://test",
+                password = Password("1234"),
+                voteDeadline = null,
+            )
+
+        given(roomQueryPort.findById(room.roomUid)).willReturn(room)
+
+        // when & then
+        assertThatThrownBy { courseService.retrieveCourse(room.roomUid) }
+            .isExactlyInstanceOf(PiikiiException::class.java)
+            .hasMessageContaining(CourseService.VOTE_NOT_END)
+    }
+
+    @Test
     fun `Room 의 각 Schedule 중 confirmed 된 Place 목록을 조회한다`() {
         // given
         val room =

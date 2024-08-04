@@ -38,7 +38,7 @@ class CourseService(
     override fun retrieveCourse(roomUid: UUID): CourseResponse {
         val room = roomQueryPort.findById(roomUid)
 
-        if (!room.isVoteUnavailable()) {
+        if (!room.isVoteExpired()) {
             throw PiikiiException(
                 exceptionCode = ExceptionCode.ACCESS_DENIED,
                 detailMessage = VOTE_NOT_END,
