@@ -1,6 +1,7 @@
 package com.piikii.output.web.lemon.parser
 
-import com.piikii.application.domain.generic.Origin
+import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.OriginMapId
 import com.piikii.output.web.lemon.config.LemonProperties
 import org.springframework.stereotype.Component
@@ -23,7 +24,7 @@ class LemonOriginMapIdParser(
             ?.groupValues
             ?.getOrNull(1)
             ?.toLongOrNull()
-            ?.let { OriginMapId.of(id = it, origin = Origin.LEMON) }
+            ?.let { OriginMapId.of(id = LongTypeId(it), origin = Origin.LEMON) }
     }
 
     companion object {
