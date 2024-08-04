@@ -1,5 +1,6 @@
 package com.piikii.input.http.controller
 
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.port.input.CourseUseCase
 import com.piikii.application.port.input.dto.response.CourseResponse
 import com.piikii.input.http.controller.docs.CourseApiDocs
@@ -27,7 +28,7 @@ class CourseApi(
         @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<CourseExistenceResponse> {
         return ResponseForm(
-            data = CourseExistenceResponse(isExist = courseUseCase.isCourseExist(roomUid)),
+            data = CourseExistenceResponse(isExist = courseUseCase.isCourseExist(UuidTypeId(roomUid))),
         )
     }
 
