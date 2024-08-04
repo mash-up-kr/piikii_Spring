@@ -127,12 +127,8 @@ class CourseService(
     }
 
     private fun getCoordinate(place: Place): Coordinate? {
-        return if (place.url != null) {
-            Coordinate.from(
-                place = originPlaceUseCase.getAutoCompleteOriginPlace(place.url),
-            )
-        } else {
-            null
+        return place.url?.let { url ->
+            Coordinate.from(originPlaceUseCase.getAutoCompleteOriginPlace(url))
         }
     }
 
