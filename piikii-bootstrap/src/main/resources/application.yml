@@ -6,6 +6,7 @@ spring:
       - classpath:lemon-config/application.yml
       - classpath:avocado-config/application.yml
       - classpath:tmap-config/application.yml
+      - classpath:application-actuator.yml
   application:
     name: "piikii"
   messages:
