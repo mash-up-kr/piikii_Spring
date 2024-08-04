@@ -37,6 +37,7 @@ services:
       org.label-schema.group: "monitoring"
     depends_on:
       - loki
+      - push-gateway
     logging: *logging
 
   grafana:
@@ -69,6 +70,12 @@ services:
       - "14250:14250"
     depends_on:
       - loki
+    logging: *logging
+
+  push-gateway:
+    image: prom/pushgateway:v1.9.0
+    ports:
+      - "9091:9091"
     logging: *logging
 
   ## Current not use alert-manager, node-exporter, promtail
