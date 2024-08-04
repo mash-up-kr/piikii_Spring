@@ -1,7 +1,7 @@
 package com.piikii.application.port.input.dto.response
 
-import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.Place
 import io.swagger.v3.oas.annotations.media.Schema
 import java.util.UUID
@@ -9,11 +9,11 @@ import java.util.UUID
 @Schema(description = "장소 정보 응답")
 data class PlaceResponse(
     @field:Schema(description = "장소 ID", example = "1")
-    val id: Long,
+    val id: Long?,
     @field:Schema(description = "방 고유 식별자", example = "123e4567-e89b-12d3-a456-426614174000")
-    val roomUid: UUID,
+    val roomUid: UUID?,
     @field:Schema(description = "일정 ID", example = "1")
-    val scheduleId: Long,
+    val scheduleId: Long?,
     @field:Schema(description = "장소 이름", example = "소현이네 주막")
     val name: String,
     @field:Schema(description = "장소 URL", example = "https://example.com/place")
@@ -35,9 +35,9 @@ data class PlaceResponse(
     val memo: String?,
 ) {
     constructor(place: Place) : this(
-        id = place.id,
-        roomUid = place.roomUid,
-        scheduleId = place.id,
+        id = place.id.getValue(),
+        roomUid = place.roomUid.getValue(),
+        scheduleId = place.id.getValue(),
         name = place.name,
         url = place.url,
         placeImageUrls = place.thumbnailLinks,
@@ -52,7 +52,7 @@ data class PlaceResponse(
 @Schema(description = "일정 타입별 장소 그룹 응답")
 data class ScheduleTypeGroupResponse(
     @field:Schema(description = "일정타입(Schedule) ID", example = "1")
-    val scheduleId: Long,
+    val scheduleId: Long?,
     @field:Schema(description = "일정 이름", example = "술 2차")
     val scheduleName: String,
     @field:Schema(description = "해당 일정 타입에 속한 장소 목록")
