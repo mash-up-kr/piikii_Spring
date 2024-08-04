@@ -1,5 +1,6 @@
 package com.piikii.application.domain.course
 
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.schedule.Schedule
 import com.piikii.application.port.input.CourseUseCase
@@ -28,7 +29,7 @@ class CourseService(
     private val voteQueryPort: VoteQueryPort,
     private val navigationClient: NavigationClient,
 ) : CourseUseCase {
-    override fun isCourseExist(roomUid: UUID): Boolean {
+    override fun isCourseExist(roomUid: UuidTypeId): Boolean {
         return courseQueryPort.isCourseExist(roomUid)
     }
 
