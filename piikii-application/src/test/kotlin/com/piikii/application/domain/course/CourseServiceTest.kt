@@ -325,6 +325,13 @@ class CourseServiceTest {
         given(placeQueryPort.findAllByRoomUid(room.roomUid)).willReturn(places)
         given(voteQueryPort.findAllByPlaceIds(anyList())).willReturn(votes)
 
+        val agreeCountPlaceId =
+            votes
+                .filter { it.result == VoteResult.AGREE }
+                .groupingBy { it.placeId }
+                .eachCount()
+        given(voteQueryPort.findAgreeCountByPlaceId(votes)).willReturn(agreeCountPlaceId)
+
         given(originPlaceUseCase.getAutoCompleteOriginPlace(places[1].url!!)).willReturn(originPlaces[0])
         given(originPlaceUseCase.getAutoCompleteOriginPlace(places[4].url!!)).willReturn(originPlaces[1])
         given(originPlaceUseCase.getAutoCompleteOriginPlace(places[6].url!!)).willReturn(originPlaces[2])
@@ -406,20 +413,21 @@ class CourseServiceTest {
                 ),
             )
 
-        val originPlace = OriginPlace(
-            id = 1,
-            name = "",
-            originMapId = OriginMapId.of(id = 1, origin = Origin.AVOCADO),
-            url = "주소를 입력하세요.",
-            thumbnailLinks = ThumbnailLinks(""),
-            phoneNumber = null,
-            starGrade = 5.0f,
-            longitude = 126.9246033,
-            latitude = 33.45241986,
-            reviewCount = 10,
-            category = null,
-            origin = Origin.AVOCADO,
-        )
+        val originPlace =
+            OriginPlace(
+                id = 1,
+                name = "",
+                originMapId = OriginMapId.of(id = 1, origin = Origin.AVOCADO),
+                url = "주소를 입력하세요.",
+                thumbnailLinks = ThumbnailLinks(""),
+                phoneNumber = null,
+                starGrade = 5.0f,
+                longitude = 126.9246033,
+                latitude = 33.45241986,
+                reviewCount = 10,
+                category = null,
+                origin = Origin.AVOCADO,
+            )
 
         given(roomQueryPort.findById(room.roomUid)).willReturn(room)
         given(scheduleQueryPort.findAllByRoomUid(room.roomUid)).willReturn(schedules)

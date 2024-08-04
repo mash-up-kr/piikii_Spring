@@ -2,7 +2,6 @@ package com.piikii.application.domain.course
 
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.schedule.Schedule
-import com.piikii.application.domain.vote.VoteResult
 import com.piikii.application.port.input.CourseUseCase
 import com.piikii.application.port.input.OriginPlaceUseCase
 import com.piikii.application.port.input.dto.response.CourseResponse
@@ -48,11 +47,10 @@ class CourseService(
 
         val schedules = scheduleQueryPort.findAllByRoomUid(roomUid)
         val places = placeQueryPort.findAllByRoomUid(roomUid)
-        val agreeCountByPlaceId =
-            voteQueryPort.findAllByPlaceIds(places.map { it.id })
-                .filter { it.result == VoteResult.AGREE }
-                .groupingBy { it.placeId }
-                .eachCount()
+
+        val placeIds = places.map { it.id }
+        val votes = voteQueryPort.findAllByPlaceIds(placeIds)
+        val agreeCountByPlaceId = voteQueryPort.findAgreeCountByPlaceId(votes)
 
         return CourseResponse.from(
             room = room,
@@ -119,11 +117,12 @@ class CourseService(
             schedule = schedule,
             place = confirmedPlace,
             coordinate = coordinate,
-            distance = preCoursePlace?.coordinate?.let { preCoordinate ->
-                coordinate?.let { coordinate ->
-                    navigationClient.getDistance(start = preCoordinate, end = coordinate)
-                }
-            }
+            distance =
+                preCoursePlace?.coordinate?.let { preCoordinate ->
+                    coordinate?.let { coordinate ->
+                        navigationClient.getDistance(start = preCoordinate, end = coordinate)
+                    }
+                },
         )
     }
 

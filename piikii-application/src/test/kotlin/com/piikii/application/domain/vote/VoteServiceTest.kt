@@ -307,6 +307,13 @@ class VoteServiceTest {
             .willReturn(schedules)
         given(voteQueryPort.findAllByPlaceIds(anyList()))
             .willReturn(votes)
+        given(voteQueryPort.findAgreeCountByPlaceId(votes))
+            .willReturn(
+                votes
+                    .filter { it.result == VoteResult.AGREE }
+                    .groupingBy { it.placeId }
+                    .eachCount(),
+            )
 
         // when
         val voteResultResponse = assertDoesNotThrow { voteService.getVoteResultOfRoom(roomUid) }
