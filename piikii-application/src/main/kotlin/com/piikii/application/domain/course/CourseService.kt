@@ -54,19 +54,33 @@ class CourseService(
                 .groupingBy { it.placeId }
                 .eachCount()
 
-        val initial: Pair<CoursePlace?, Map<Schedule, CoursePlace>> = null to emptyMap()
-        val placeBySchedule =
-            mapPlacesBySchedule(schedules, places)
-                .entries.fold(initial) { acc, (schedule, places) ->
-                    val (previousCoursePlace, scheduleMap) = acc
-                    val currentCoursePlace = getCoursePlace(schedule, previousCoursePlace, places, agreeCountByPlaceId)
-                    currentCoursePlace to scheduleMap + (schedule to currentCoursePlace)
-                }.second
-
         return CourseResponse.from(
             room = room,
-            placeBySchedule = placeBySchedule,
+            placeBySchedule = getPlaceBySchedule(schedules, places, agreeCountByPlaceId),
         )
+    }
+
+    private fun getPlaceBySchedule(
+        schedules: List<Schedule>,
+        places: List<Place>,
+        agreeCountByPlaceId: Map<Long, Int>,
+    ): Map<Schedule, CoursePlace> {
+        // initial 값 설정: null과 빈 Map의 쌍으로 초기화
+        val initial: Pair<CoursePlace?, Map<Schedule, CoursePlace>> = null to emptyMap()
+
+        // Map<Schedule, List<Place>> 데이터를 순회하며 schedule, place 매핑
+        return mapPlacesBySchedule(schedules, places)
+            .entries.fold(initial) { pre, (schedule, places) ->
+
+                // 이전 CoursePlace와 현재 placeBySchedule 맵으로 분리
+                val (preCoursePlace, placeBySchedule) = pre
+
+                // 현재 CoursePlace 생성
+                val curCoursePlace = getCoursePlace(schedule, preCoursePlace, places, agreeCountByPlaceId)
+
+                // currentCoursePlace를 누적된 placeBySchedule 맵에 추가하고, 현재 CoursePlace와 함께 반환
+                curCoursePlace to placeBySchedule + (schedule to curCoursePlace)
+            }.second
     }
 
     private fun mapPlacesBySchedule(
