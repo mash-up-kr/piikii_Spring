@@ -1,5 +1,6 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.schedule.Schedule
 import com.piikii.application.domain.schedule.ScheduleType
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
@@ -10,7 +11,6 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.SQLRestriction
-import java.util.UUID
 
 @Entity
 @Table(name = "schedule", schema = "piikii")
@@ -18,7 +18,7 @@ import java.util.UUID
 @DynamicUpdate
 class ScheduleEntity(
     @Column(name = "room_uid", nullable = false)
-    val roomUid: UUID,
+    val roomUid: UuidTypeId,
     @Column(name = "name", nullable = false)
     var name: String,
     @Column(name = "sequence", nullable = false)

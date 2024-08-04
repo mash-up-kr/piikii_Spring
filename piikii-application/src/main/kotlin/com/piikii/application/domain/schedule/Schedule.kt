@@ -1,10 +1,11 @@
 package com.piikii.application.domain.schedule
 
-import java.util.UUID
+import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.generic.UuidTypeId
 
 data class Schedule(
-    val id: Long?,
-    val roomUid: UUID,
+    val id: LongTypeId,
+    val roomUid: UuidTypeId,
     val name: String,
     val sequence: Int,
     val type: ScheduleType,

@@ -1,5 +1,6 @@
 package com.piikii.application.domain.schedule
 
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.port.input.ScheduleUseCase
 import com.piikii.application.port.input.dto.request.RegisterSchedulesRequest
 import com.piikii.application.port.input.dto.response.SchedulesResponse
@@ -7,7 +8,6 @@ import com.piikii.application.port.output.persistence.ScheduleCommandPort
 import com.piikii.application.port.output.persistence.ScheduleQueryPort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
 
 @Service
 @Transactional(readOnly = true)
@@ -17,7 +17,7 @@ class ScheduleService(
 ) : ScheduleUseCase {
     @Transactional
     override fun registerSchedules(
-        roomUid: UUID,
+        roomUid: UuidTypeId,
         request: RegisterSchedulesRequest,
     ) {
         val schedulesToRegister = request.toDomains(roomUid)
@@ -28,13 +28,15 @@ class ScheduleService(
         }
     }
 
+    override fun getSchedules(roomUid: UuidTypeId): SchedulesResponse {
+        val schedules = scheduleQueryPort.findSchedulesByRoomUid(roomUid)
     override fun getSchedules(roomUid: UUID): SchedulesResponse {
         val schedules = scheduleQueryPort.findAllByRoomUid(roomUid)
         return SchedulesResponse.from(schedules)
     }
 
     private fun deleteSchedules(
-        roomUid: UUID,
+        roomUid: UuidTypeId,
         schedulesToRegister: List<Schedule>,
     ) {
         val schedules = scheduleQueryPort.findAllByRoomUid(roomUid)
