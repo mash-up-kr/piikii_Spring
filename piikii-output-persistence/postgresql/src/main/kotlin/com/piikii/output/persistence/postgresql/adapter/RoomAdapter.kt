@@ -1,5 +1,6 @@
 package com.piikii.output.persistence.postgresql.adapter
 
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.room.Room
 import com.piikii.application.port.output.persistence.RoomCommandPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
@@ -9,7 +10,6 @@ import com.piikii.output.persistence.postgresql.persistence.entity.RoomEntity
 import com.piikii.output.persistence.postgresql.persistence.repository.RoomRepository
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
 
 @Repository
 @Transactional(readOnly = true)
@@ -29,15 +29,15 @@ class RoomAdapter(
     }
 
     @Transactional
-    override fun delete(roomUid: UUID) {
+    override fun delete(roomUid: UuidTypeId) {
         roomRepository.deleteByroomUid(roomUid)
     }
 
-    override fun findById(roomUid: UUID): Room {
+    override fun findById(roomUid: UuidTypeId): Room {
         return findByRoomUid(roomUid).toDomain()
     }
 
-    private fun findByRoomUid(roomUid: UUID): RoomEntity {
+    private fun findByRoomUid(roomUid: UuidTypeId): RoomEntity {
         return roomRepository.findByroomUid(roomUid)
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.NOT_FOUNDED,

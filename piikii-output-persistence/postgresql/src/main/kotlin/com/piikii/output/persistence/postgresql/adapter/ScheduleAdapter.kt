@@ -1,5 +1,7 @@
 package com.piikii.output.persistence.postgresql.adapter
 
+import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.schedule.Schedule
 import com.piikii.application.port.output.persistence.ScheduleCommandPort
 import com.piikii.application.port.output.persistence.ScheduleQueryPort
@@ -10,7 +12,6 @@ import com.piikii.output.persistence.postgresql.persistence.repository.ScheduleR
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
 
 @Repository
 @Transactional(readOnly = true)
@@ -25,7 +26,7 @@ class ScheduleAdapter(
     }
 
     @Transactional
-    override fun deleteSchedules(scheduleIds: List<Long>) {
+    override fun deleteSchedules(scheduleIds: List<LongTypeId>) {
         scheduleRepository.deleteAll(
             scheduleIds.map { findScheduleEntityById(it) },
         )
@@ -50,11 +51,12 @@ class ScheduleAdapter(
         scheduleEntity.update(schedule)
     }
 
+    override fun findSchedulesByRoomUid(roomUid: UuidTypeId): List<Schedule> {
     override fun findAllByRoomUid(roomUid: UUID): List<Schedule> {
         return scheduleRepository.findByroomUidOrderBySequenceAsc(roomUid).map { it.toDomain() }
     }
 
-    override fun findScheduleById(id: Long): Schedule {
+    override fun findScheduleById(id: LongTypeId): Schedule {
         return scheduleRepository.findByIdOrNull(id)?.toDomain()
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.NOT_FOUNDED,
@@ -62,7 +64,7 @@ class ScheduleAdapter(
             )
     }
 
-    private fun findScheduleEntityById(id: Long): ScheduleEntity {
+    private fun findScheduleEntityById(id: LongTypeId): ScheduleEntity {
         return scheduleRepository.findByIdOrNull(id)
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.NOT_FOUNDED,
