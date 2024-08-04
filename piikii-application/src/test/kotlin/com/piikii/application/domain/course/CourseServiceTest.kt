@@ -354,4 +354,87 @@ class CourseServiceTest {
         val expectedPlaceIds = listOf(places[1].id, places[4].id, places[6].id, places[9].id)
         assertThat(placeIds).containsExactlyInAnyOrderElementsOf(expectedPlaceIds)
     }
+
+    @Test
+    fun `코스 장소에 위치 정보가 없으면 거리 정보는 null 로 반환한다`() {
+        // given
+        val room =
+            Room(
+                roomUid = UUID.randomUUID(),
+                name = "사당에서 모이자",
+                message = null,
+                thumbnailLink = "https://test",
+                password = Password("1234"),
+                voteDeadline = LocalDateTime.now().minusDays(1),
+            )
+
+        val schedules =
+            listOf(
+                Schedule(id = 1, roomUid = room.roomUid, name = "1차", sequence = 1, type = ScheduleType.DISH),
+                Schedule(id = 2, roomUid = room.roomUid, name = "2차", sequence = 2, type = ScheduleType.ALCOHOL),
+            )
+
+        val places =
+            listOf(
+                Place(
+                    id = 1,
+                    url = "주소를 입력하세요",
+                    name = "",
+                    thumbnailLinks = ThumbnailLinks(contents = null),
+                    address = null,
+                    phoneNumber = null,
+                    starGrade = null,
+                    origin = Origin.AVOCADO,
+                    roomUid = room.roomUid,
+                    scheduleId = schedules[0].id!!,
+                    memo = null,
+                    confirmed = true,
+                ),
+                Place(
+                    id = 2,
+                    url = null,
+                    name = "",
+                    thumbnailLinks = ThumbnailLinks(contents = null),
+                    address = null,
+                    phoneNumber = null,
+                    starGrade = null,
+                    origin = Origin.MANUAL,
+                    roomUid = room.roomUid,
+                    scheduleId = schedules[1].id!!,
+                    memo = null,
+                    confirmed = true,
+                ),
+            )
+
+        val originPlace = OriginPlace(
+            id = 1,
+            name = "",
+            originMapId = OriginMapId.of(id = 1, origin = Origin.AVOCADO),
+            url = "주소를 입력하세요.",
+            thumbnailLinks = ThumbnailLinks(""),
+            phoneNumber = null,
+            starGrade = 5.0f,
+            longitude = 126.9246033,
+            latitude = 33.45241986,
+            reviewCount = 10,
+            category = null,
+            origin = Origin.AVOCADO,
+        )
+
+        given(roomQueryPort.findById(room.roomUid)).willReturn(room)
+        given(scheduleQueryPort.findAllByRoomUid(room.roomUid)).willReturn(schedules)
+        given(placeQueryPort.findAllByRoomUid(room.roomUid)).willReturn(places)
+
+        given(originPlaceUseCase.getAutoCompleteOriginPlace(places[0].url!!)).willReturn(originPlace)
+
+        // when
+        val result = courseService.retrieveCourse(room.roomUid)
+
+        // then
+        assertThat(result.places).hasSize(2)
+
+        val manualPlace = result.places[1]
+        assertThat(manualPlace.distance).isNull()
+        assertThat(manualPlace.time).isNull()
+    }
 }

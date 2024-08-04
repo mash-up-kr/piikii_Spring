@@ -105,7 +105,11 @@ class CourseService(
             schedule = schedule,
             place = confirmedPlace,
             coordinate = coordinate,
-            distance = getDistance(preCoursePlace?.coordinate, coordinate),
+            distance = preCoursePlace?.coordinate?.let { preCoordinate ->
+                coordinate?.let { coordinate ->
+                    navigationClient.getDistance(start = preCoordinate, end = coordinate)
+                }
+            }
         )
     }
 
@@ -114,17 +118,6 @@ class CourseService(
             Coordinate.from(
                 place = originPlaceUseCase.getAutoCompleteOriginPlace(place.url),
             )
-        } else {
-            null
-        }
-    }
-
-    private fun getDistance(
-        from: Coordinate?,
-        to: Coordinate?,
-    ): Distance? {
-        return if (from != null && to != null) {
-            navigationClient.getDistance(start = from, end = to)
         } else {
             null
         }
