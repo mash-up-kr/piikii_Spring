@@ -21,11 +21,7 @@ value class UuidTypeId(private val id: UUID?) {
         }
     }
 
-    fun getValue(): UUID =
-        id ?: throw PiikiiException(
-            exceptionCode = ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION,
-            detailMessage = "요청 값 `id` 는 Null이 될 수 없습니다.",
-        )
+    fun getValue(): UUID = id!!
 
     companion object {
         private val UUID_REGEX =
