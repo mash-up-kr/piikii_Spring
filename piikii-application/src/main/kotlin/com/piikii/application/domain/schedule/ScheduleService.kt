@@ -41,7 +41,7 @@ class ScheduleService(
     ) {
         val schedules = scheduleQueryPort.findAllByRoomUid(roomUid)
         val scheduleIdsToRegister = schedulesToRegister.map { it.id }.toSet()
-        val scheduleIdToDelete = schedules.filter { it.id !in scheduleIdsToRegister }.map { it.id!! }
+        val scheduleIdToDelete = schedules.filter { it.id !in scheduleIdsToRegister }.map { it.id }
         scheduleCommandPort.deleteSchedules(scheduleIdToDelete)
     }
 }
