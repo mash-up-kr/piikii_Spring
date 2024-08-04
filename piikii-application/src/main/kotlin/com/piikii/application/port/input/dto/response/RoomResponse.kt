@@ -16,7 +16,7 @@ data class RoomResponse(
     @field:Schema(description = "투표 마감일", example = "2024-12-31T23:59:59")
     val voteDeadline: LocalDateTime?,
     @field:Schema(description = "방(Room) 고유 식별자", example = "123e4567-e89b-12d3-a456-426614174000")
-    val roomUid: UUID,
+    val roomUid: UUID?,
 ) {
     companion object {
         fun from(room: Room): RoomResponse {
@@ -25,7 +25,7 @@ data class RoomResponse(
                 message = room.message,
                 thumbnailLinks = room.thumbnailLink,
                 voteDeadline = room.voteDeadline,
-                roomUid = room.roomUid,
+                roomUid = room.roomUid.getValue(),
             )
         }
     }
