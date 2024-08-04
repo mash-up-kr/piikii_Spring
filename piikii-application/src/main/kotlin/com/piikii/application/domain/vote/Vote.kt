@@ -1,11 +1,12 @@
 package com.piikii.application.domain.vote
 
-import java.util.UUID
+import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.generic.UuidTypeId
 
 data class Vote(
-    val id: Long? = null,
-    val userUid: UUID,
-    val placeId: Long,
+    val id: LongTypeId,
+    val userUid: UuidTypeId,
+    val placeId: LongTypeId,
     val result: VoteResult,
 )
 

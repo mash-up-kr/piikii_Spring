@@ -1,5 +1,7 @@
 package com.piikii.application.port.input.dto.request
 
+import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.vote.Vote
 import com.piikii.application.domain.vote.VoteResult
 import io.swagger.v3.oas.annotations.media.Schema
@@ -21,8 +23,9 @@ data class VoteSaveRequest(
         return this.votes
             .map {
                 Vote(
-                    userUid = userUid,
-                    placeId = it.placeId,
+                    id = LongTypeId(null),
+                    userUid = UuidTypeId(userUid),
+                    placeId = LongTypeId(it.placeId),
                     result = it.voteResult,
                 )
             }

@@ -1,5 +1,6 @@
 package com.piikii.input.http.controller
 
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.port.input.RoomUseCase
 import com.piikii.application.port.input.VoteUseCase
 import com.piikii.application.port.input.dto.request.VoteDeadlineSetRequest
@@ -35,7 +36,7 @@ class VoteApi(
         @NotNull @PathVariable roomUid: UUID,
         @Valid @NotNull @RequestBody request: VoteDeadlineSetRequest,
     ): ResponseForm<Unit> {
-        roomUseCase.changeVoteDeadline(roomUid, request.password, request.voteDeadline)
+        roomUseCase.changeVoteDeadline(UuidTypeId(roomUid), request.password, request.voteDeadline)
         return ResponseForm.EMPTY_RESPONSE
     }
 
@@ -44,7 +45,7 @@ class VoteApi(
     override fun getVoteStatus(
         @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<VoteStatusResponse> {
-        val voteFinished = voteUseCase.isVoteFinished(roomUid)
+        val voteFinished = voteUseCase.isVoteFinished(UuidTypeId(roomUid))
         return ResponseForm(data = VoteStatusResponse(voteFinished))
     }
 
@@ -54,7 +55,7 @@ class VoteApi(
         @NotNull @PathVariable roomUid: UUID,
         @Valid @NotNull @RequestBody voteSaveRequest: VoteSaveRequest,
     ): ResponseForm<Unit> {
-        voteUseCase.vote(roomUid, voteSaveRequest.toDomains())
+        voteUseCase.vote(UuidTypeId(roomUid), voteSaveRequest.toDomains())
         return ResponseForm.EMPTY_RESPONSE
     }
 
@@ -63,7 +64,7 @@ class VoteApi(
     override fun getVoteResultOfRoom(
         @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<VoteResultResponse> {
-        val voteResult = voteUseCase.getVoteResultOfRoom(roomUid)
+        val voteResult = voteUseCase.getVoteResultOfRoom(UuidTypeId(roomUid))
         return ResponseForm(data = voteResult)
     }
 }

@@ -1,5 +1,6 @@
 package com.piikii.application.domain.vote
 
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.port.input.VoteUseCase
 import com.piikii.application.port.input.dto.response.VotePlaceResponse
 import com.piikii.application.port.input.dto.response.VoteResultByScheduleResponse
@@ -13,7 +14,6 @@ import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import java.util.UUID
 
 @Service
 class VoteService(
@@ -24,7 +24,7 @@ class VoteService(
     private val scheduleQueryPort: ScheduleQueryPort,
 ) : VoteUseCase {
     override fun vote(
-        roomUid: UUID,
+        roomUid: UuidTypeId,
         votes: List<Vote>,
     ) {
         val room = roomQueryPort.findById(roomUid)
@@ -44,7 +44,7 @@ class VoteService(
         voteCommandPort.save(votes)
     }
 
-    override fun isVoteFinished(roomUid: UUID): Boolean {
+    override fun isVoteFinished(roomUid: UuidTypeId): Boolean {
         val voteDeadline =
             roomQueryPort.findById(roomUid).voteDeadline
                 ?: throw PiikiiException(
@@ -54,7 +54,7 @@ class VoteService(
         return voteDeadline.isBefore(LocalDateTime.now())
     }
 
-    override fun getVoteResultOfRoom(roomUid: UUID): VoteResultResponse {
+    override fun getVoteResultOfRoom(roomUid: UuidTypeId): VoteResultResponse {
         val places = placeQueryPort.findAllByRoomUid(roomUid)
         val placeIds = places.map { it.id }
         val votes = voteQueryPort.findAllByPlaceIds(placeIds)
@@ -62,6 +62,12 @@ class VoteService(
         val placeByScheduleId = places.groupBy { it.scheduleId }
         val scheduleById = scheduleQueryPort.findAllByRoomUid(roomUid).associateBy { it.id!! }
         val agreeCountByPlaceId = voteQueryPort.findAgreeCountByPlaceId(votes)
+        val scheduleById = scheduleQueryPort.findSchedulesByRoomUid(roomUid).associateBy { it.id }
+        val agreeCountByPlaceId =
+            voteQueryPort.findAllByPlaceIds(placeIds)
+                .filter { it.result == VoteResult.AGREE }
+                .groupingBy { it.placeId }
+                .eachCount()
 
         val voteResultByScheduleResponses =
             scheduleById.map { (scheduleId, schedule) ->
@@ -72,7 +78,7 @@ class VoteService(
                         VotePlaceResponse(it, countOfAgree)
                     }
                 VoteResultByScheduleResponse(
-                    scheduleId = scheduleId,
+                    scheduleId = scheduleId.getValue(),
                     scheduleName = schedule.name,
                     places = votePlaceResponses.sortedByDescending { it.countOfAgree },
                 )

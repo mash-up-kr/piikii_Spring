@@ -1,7 +1,9 @@
 package com.piikii.application.domain.vote
 
-import com.piikii.application.domain.generic.Origin
+import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.generic.UuidTypeId
+import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.room.Password
 import com.piikii.application.domain.room.Room
@@ -66,8 +68,8 @@ class VoteServiceTest {
     @Test
     fun `Vote Place Id가 존재하지 않으면 Exception이 발생한다`() {
         // given
-        val userUid = UUID.randomUUID()
-        val roomUid = UUID.randomUUID()
+        val userUid = UuidTypeId(UUID.randomUUID())
+        val roomUid = UuidTypeId(UUID.randomUUID())
 
         val room =
             Room(
@@ -80,13 +82,28 @@ class VoteServiceTest {
             )
         val votes =
             listOf(
-                Vote(userUid = userUid, placeId = 1, result = VoteResult.AGREE),
-                Vote(userUid = userUid, placeId = 2, result = VoteResult.DISAGREE),
-                Vote(userUid = userUid, placeId = 3, result = VoteResult.AGREE),
+                Vote(
+                    id = LongTypeId(null),
+                    userUid = userUid,
+                    placeId = LongTypeId(1),
+                    result = VoteResult.AGREE,
+                ),
+                Vote(
+                    id = LongTypeId(null),
+                    userUid = userUid,
+                    placeId = LongTypeId(2),
+                    result = VoteResult.DISAGREE,
+                ),
+                Vote(
+                    id = LongTypeId(null),
+                    userUid = userUid,
+                    placeId = LongTypeId(3),
+                    result = VoteResult.AGREE,
+                ),
             )
         val place =
             Place(
-                id = 0L,
+                id = LongTypeId(0L),
                 name = "",
                 url = null,
                 thumbnailLinks = ThumbnailLinks(contents = null),
@@ -95,7 +112,7 @@ class VoteServiceTest {
                 starGrade = null,
                 origin = Origin.MANUAL,
                 roomUid = roomUid,
-                scheduleId = 0L,
+                scheduleId = LongTypeId(0L),
                 memo = null,
                 confirmed = false,
                 longitude = 126.9246033,
@@ -116,8 +133,8 @@ class VoteServiceTest {
     @Test
     fun `Vote Place Id가 해당 Room에 속하지 않을 경우, Exception이 발생한다`() {
         // given
-        val userUid = UUID.randomUUID()
-        val roomUid = UUID.randomUUID()
+        val userUid = UuidTypeId(UUID.randomUUID())
+        val roomUid = UuidTypeId(UUID.randomUUID())
 
         val room =
             Room(
@@ -130,13 +147,13 @@ class VoteServiceTest {
             )
         val votes =
             listOf(
-                Vote(userUid = userUid, placeId = 1, result = VoteResult.AGREE),
-                Vote(userUid = userUid, placeId = 2, result = VoteResult.DISAGREE),
+                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(1), result = VoteResult.AGREE),
+                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(2), result = VoteResult.DISAGREE),
             )
         val places =
             listOf(
                 Place(
-                    id = 0L,
+                    id = LongTypeId(0L),
                     url = null,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -144,15 +161,15 @@ class VoteServiceTest {
                     phoneNumber = null,
                     starGrade = null,
                     origin = Origin.MANUAL,
-                    roomUid = UUID.randomUUID(),
-                    scheduleId = 0L,
+                    roomUid = UuidTypeId(UUID.randomUUID()),
+                    scheduleId = LongTypeId(0L),
                     memo = null,
                     confirmed = false,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                 ),
                 Place(
-                    id = 1L,
+                    id = LongTypeId(1L),
                     url = null,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -160,8 +177,8 @@ class VoteServiceTest {
                     phoneNumber = null,
                     starGrade = null,
                     origin = Origin.MANUAL,
-                    roomUid = UUID.randomUUID(),
-                    scheduleId = 0L,
+                    roomUid = UuidTypeId(UUID.randomUUID()),
+                    scheduleId = LongTypeId(0L),
                     memo = null,
                     confirmed = false,
                     longitude = 126.9246033,
@@ -183,8 +200,8 @@ class VoteServiceTest {
     @Test
     fun `올바른 데이터에서 vote는 성공한다`() {
         // given
-        val userUid = UUID.randomUUID()
-        val roomUid = UUID.randomUUID()
+        val userUid = UuidTypeId(UUID.randomUUID())
+        val roomUid = UuidTypeId(UUID.randomUUID())
 
         val room =
             Room(
@@ -197,13 +214,13 @@ class VoteServiceTest {
             )
         val votes =
             listOf(
-                Vote(userUid = userUid, placeId = 1, result = VoteResult.AGREE),
-                Vote(userUid = userUid, placeId = 2, result = VoteResult.DISAGREE),
+                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(1), result = VoteResult.AGREE),
+                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(2), result = VoteResult.DISAGREE),
             )
         val places =
             listOf(
                 Place(
-                    id = 1,
+                    id = LongTypeId(1),
                     url = null,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -212,14 +229,14 @@ class VoteServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = roomUid,
-                    scheduleId = 0,
+                    scheduleId = LongTypeId(0),
                     memo = null,
                     confirmed = false,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                 ),
                 Place(
-                    id = 2,
+                    id = LongTypeId(2),
                     url = null,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -228,7 +245,7 @@ class VoteServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = roomUid,
-                    scheduleId = 0,
+                    scheduleId = LongTypeId(0),
                     memo = null,
                     confirmed = false,
                     longitude = 126.9246033,
@@ -249,26 +266,26 @@ class VoteServiceTest {
     @Test
     fun `투표 결과 정상조회 테스트`() {
         // given
-        val userUid = UUID.randomUUID()
-        val roomUid = UUID.randomUUID()
+        val userUid = UuidTypeId(UUID.randomUUID())
+        val roomUid = UuidTypeId(UUID.randomUUID())
 
         val votes =
             listOf(
-                Vote(userUid = userUid, placeId = 1, result = VoteResult.AGREE),
-                Vote(userUid = userUid, placeId = 3, result = VoteResult.AGREE),
-                Vote(userUid = userUid, placeId = 3, result = VoteResult.AGREE),
-                Vote(userUid = userUid, placeId = 2, result = VoteResult.DISAGREE),
+                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(1), result = VoteResult.AGREE),
+                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(3), result = VoteResult.AGREE),
+                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(3), result = VoteResult.AGREE),
+                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(2), result = VoteResult.DISAGREE),
             )
         val schedules =
             listOf(
-                Schedule(id = 1, roomUid = roomUid, name = "식사", sequence = 1, type = ScheduleType.DISH),
-                Schedule(id = 2, roomUid = roomUid, name = "술", sequence = 2, type = ScheduleType.ALCOHOL),
-                Schedule(id = 3, roomUid = roomUid, name = "카페", sequence = 3, type = ScheduleType.DESSERT),
+                Schedule(id = LongTypeId(1), roomUid = roomUid, name = "식사", sequence = 1, type = ScheduleType.DISH),
+                Schedule(id = LongTypeId(2), roomUid = roomUid, name = "술", sequence = 2, type = ScheduleType.ALCOHOL),
+                Schedule(id = LongTypeId(3), roomUid = roomUid, name = "카페", sequence = 3, type = ScheduleType.DESSERT),
             )
         val places =
             listOf(
                 Place(
-                    id = 1,
+                    id = LongTypeId(1),
                     url = null,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -277,14 +294,14 @@ class VoteServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = roomUid,
-                    scheduleId = 1,
+                    scheduleId = LongTypeId(1),
                     memo = null,
                     confirmed = false,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                 ),
                 Place(
-                    id = 2,
+                    id = LongTypeId(2),
                     url = null,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -293,14 +310,14 @@ class VoteServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = roomUid,
-                    scheduleId = 2,
+                    scheduleId = LongTypeId(2),
                     memo = null,
                     confirmed = false,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                 ),
                 Place(
-                    id = 3,
+                    id = LongTypeId(3),
                     url = null,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -309,7 +326,7 @@ class VoteServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = roomUid,
-                    scheduleId = 2,
+                    scheduleId = LongTypeId(2),
                     memo = null,
                     confirmed = false,
                     longitude = 126.9246033,
@@ -347,7 +364,7 @@ class VoteServiceTest {
     companion object {
         @JvmStatic
         fun voteUnavailableRoom(): Stream<Room> {
-            val roomUid = UUID.randomUUID()
+            val roomUid = UuidTypeId(UUID.randomUUID())
             return Stream.of(
                 Room(
                     name = "BB Kim",
