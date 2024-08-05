@@ -18,7 +18,13 @@ class SecretProcessor : EnvironmentPostProcessor {
         environment: ConfigurableEnvironment,
         application: SpringApplication?,
     ) {
-        val secrets = getSecrets(environment)
+        val profile = extractProfile(environment)
+        if (profile == null) {
+            log.warn("Not supported profile by Secret Manager. Secret environment variables are not set.")
+            return
+        }
+
+        val secrets = getSecrets(environment, profile)
         val piikiiSecretProperties =
             MapPropertySource(
                 PIIKII_SECRET_PROPERTY_NAME,
@@ -27,19 +33,24 @@ class SecretProcessor : EnvironmentPostProcessor {
         environment.propertySources.addLast(piikiiSecretProperties)
     }
 
-    private fun getSecrets(environment: ConfigurableEnvironment): List<Secret> {
-        val activeProfiles = environment.activeProfiles
-        log.info("### ACTIVE PROFILES: ${activeProfiles.joinToString(PROFILE_SEPARATOR)} ###")
-
+    private fun getSecrets(
+        environment: ConfigurableEnvironment,
+        profile: String,
+    ): List<Secret> {
         val secretToken = environment.getPropertyOrThrow(PROPERTY_SECRET_MANAGER_TOKEN_NAME)
         val workspaceId = environment.getPropertyOrThrow(PROPERTY_SECRET_MANAGER_WORKSPACE_NAME)
-        val currentEnvironment = activeProfiles.first { SUPPORT_PROFILES.contains(it) }
         val secrets =
             secretManagerRestClient(secretToken).get()
-                .uri("/secrets/raw?workspaceId=$workspaceId&environment=$currentEnvironment")
+                .uri("/secrets/raw?workspaceId=$workspaceId&environment=$profile")
                 .retrieve()
                 .body(SecretResponse::class.java)?.secrets ?: emptyList()
         return secrets
+    }
+
+    private fun extractProfile(environment: ConfigurableEnvironment): String? {
+        val activeProfiles = environment.activeProfiles
+        log.info("### ACTIVE PROFILES: ${activeProfiles.joinToString(PROFILE_SEPARATOR)} ###")
+        return activeProfiles.first { SUPPORT_PROFILES.contains(it) }
     }
 
     private fun ConfigurableEnvironment.getPropertyOrThrow(name: String): String {
