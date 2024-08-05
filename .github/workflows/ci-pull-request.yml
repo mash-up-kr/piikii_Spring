@@ -47,6 +47,8 @@ jobs:
         env:
           SECRET_MANAGER_TOKEN: ${{ secrets.SECRET_MANAGER_TOKEN }}
           SECRET_MANAGER_WORKSPACE: ${{ secrets.SECRET_MANAGER_WORKSPACE }}
+          CURRENT_GIT_SHA: ${{ github.sha }}
+          STATUS: PR
         run: ./gradlew build --info
 
       - name: Set build status output
