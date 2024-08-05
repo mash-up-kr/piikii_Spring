@@ -1,4 +1,4 @@
-name: CI
+name: CI - Pull request
 
 on:
   issue_comment:
