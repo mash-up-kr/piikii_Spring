@@ -30,6 +30,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
+
       - name: 프로젝트 빌드
         env:
           SECRET_MANAGER_TOKEN: ${{ secrets.SECRET_MANAGER_TOKEN }}
