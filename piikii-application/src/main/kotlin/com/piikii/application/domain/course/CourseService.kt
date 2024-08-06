@@ -131,15 +131,19 @@ class CourseService(
     ): Place {
         return places
             .mapNotNull { place ->
+                // place.id에 해당하는 agree count가 존재하면 place와 count를 페어로 매핑
                 agreeCountByPlaceId[place.id]?.let { count -> place to count }
             }
-            .maxWithOrNull(compareBy({ it.second }, { it.first.id }))
+            // agree count 내림차순 정렬, (count 동일)place.id 오름차순 정렬
+            .maxWithOrNull(compareBy({ it.second }, { -it.first.id }))
             ?.let { (selectedPlace, _) ->
+                // 최다 찬성 득표 수 place: confirmed 상태로 변경
                 placeCommandPort.update(
                     targetPlaceId = selectedPlace.id,
                     place = selectedPlace.copy(confirmed = true),
                 )
             }
+            // 만약 모든 place가 필터링되었거나 count가 없을 경우 예외를 발생
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION,
                 detailMessage = "$EMPTY_CONFIRMED_PLACE Schedule ID: ${schedule.id}",
