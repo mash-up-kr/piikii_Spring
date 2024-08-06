@@ -72,7 +72,8 @@ class CourseService(
                 val (preCoursePlace, placeBySchedule) = pre
 
                 // 현재 CoursePlace 생성
-                val curCoursePlace = getCoursePlace(schedule, preCoursePlace, places, agreeCountByPlaceId)
+                val confirmedPlace = getConfirmedPlace(schedule, places, agreeCountByPlaceId)
+                val curCoursePlace = getCoursePlace(schedule, preCoursePlace, confirmedPlace)
 
                 // currentCoursePlace를 누적된 placeBySchedule 맵에 추가하고, 현재 CoursePlace와 함께 반환
                 curCoursePlace to placeBySchedule + (schedule to curCoursePlace)
@@ -96,19 +97,8 @@ class CourseService(
     private fun getCoursePlace(
         schedule: Schedule,
         preCoursePlace: CoursePlace?,
-        places: List<Place>,
-        agreeCountByPlaceId: Map<Long, Int>,
+        confirmedPlace: Place,
     ): CoursePlace {
-        val confirmedPlaces = places.filter { it.confirmed }
-
-        if (confirmedPlaces.size > 1) {
-            throw PiikiiException(
-                exceptionCode = ExceptionCode.CONFLICT,
-                detailMessage = "$MULTIPLE_CONFIRMED_PLACE Schedule ID: ${schedule.id}",
-            )
-        }
-
-        val confirmedPlace = confirmedPlaces.firstOrNull() ?: confirmPlace(schedule, places, agreeCountByPlaceId)
         val coordinate = confirmedPlace.getCoordinate()
 
         return CoursePlace.from(
@@ -122,6 +112,23 @@ class CourseService(
                     }
                 },
         )
+    }
+
+    private fun getConfirmedPlace(
+        schedule: Schedule,
+        places: List<Place>,
+        agreeCountByPlaceId: Map<Long, Int>,
+    ): Place {
+        val confirmedPlaces = places.filter { it.confirmed }
+
+        if (confirmedPlaces.size > 1) {
+            throw PiikiiException(
+                exceptionCode = ExceptionCode.CONFLICT,
+                detailMessage = "$MULTIPLE_CONFIRMED_PLACE Schedule ID: ${schedule.id}",
+            )
+        }
+
+        return confirmedPlaces.firstOrNull() ?: confirmPlace(schedule, places, agreeCountByPlaceId)
     }
 
     private fun confirmPlace(
