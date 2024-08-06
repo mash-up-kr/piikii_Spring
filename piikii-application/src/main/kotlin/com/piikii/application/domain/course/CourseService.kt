@@ -62,22 +62,24 @@ class CourseService(
         agreeCountByPlaceId: Map<Long, Int>,
     ): Map<Schedule, CoursePlace> {
         // initial 값 설정: null과 빈 Map의 쌍으로 초기화
-        val initial: Pair<CoursePlace?, Map<Schedule, CoursePlace>> = null to emptyMap()
+        val initial: Map<Schedule, CoursePlace> = emptyMap()
 
-        // Map<Schedule, List<Place>> 데이터를 순회하며 schedule, place 매핑
         return mapPlacesBySchedule(schedules, places)
-            .entries.fold(initial) { pre, (schedule, places) ->
-
-                // 이전 CoursePlace와 현재 placeBySchedule 맵으로 분리
-                val (preCoursePlace, placeBySchedule) = pre
-
+            .entries.fold(initial) { prePlaceBySchedule, (schedule, places) ->
                 // 현재 CoursePlace 생성
                 val confirmedPlace = getConfirmedPlace(schedule, places, agreeCountByPlaceId)
-                val curCoursePlace = getCoursePlace(schedule, preCoursePlace, confirmedPlace)
 
-                // currentCoursePlace를 누적된 placeBySchedule 맵에 추가하고, 현재 CoursePlace와 함께 반환
-                curCoursePlace to placeBySchedule + (schedule to curCoursePlace)
-            }.second
+                if (confirmedPlace != null) {
+                    val preCoursePlace = prePlaceBySchedule.values.lastOrNull()
+                    val curCoursePlace = getCoursePlace(schedule, preCoursePlace, confirmedPlace)
+
+                    // currentCoursePlace를 누적된 placeBySchedule 맵에 추가
+                    prePlaceBySchedule + (schedule to curCoursePlace)
+                } else {
+                    // confirmedPlace가 null인 경우 기존 맵을 그대로 반환
+                    prePlaceBySchedule
+                }
+            }
     }
 
     private fun mapPlacesBySchedule(
@@ -118,7 +120,7 @@ class CourseService(
         schedule: Schedule,
         places: List<Place>,
         agreeCountByPlaceId: Map<Long, Int>,
-    ): Place {
+    ): Place? {
         val confirmedPlaces = places.filter { it.confirmed }
 
         if (confirmedPlaces.size > 1) {
@@ -128,14 +130,13 @@ class CourseService(
             )
         }
 
-        return confirmedPlaces.firstOrNull() ?: confirmPlace(schedule, places, agreeCountByPlaceId)
+        return confirmedPlaces.firstOrNull() ?: confirmPlace(places, agreeCountByPlaceId)
     }
 
     private fun confirmPlace(
-        schedule: Schedule,
         places: List<Place>,
         agreeCountByPlaceId: Map<Long, Int>,
-    ): Place {
+    ): Place? {
         return places
             .mapNotNull { place ->
                 // place.id에 해당하는 agree count가 존재하면 place와 count를 페어로 매핑
@@ -149,12 +150,8 @@ class CourseService(
                     targetPlaceId = selectedPlace.id,
                     place = selectedPlace.copy(confirmed = true),
                 )
+                selectedPlace
             }
-            // 만약 모든 place가 필터링되었거나 count가 없을 경우 예외를 발생
-            ?: throw PiikiiException(
-                exceptionCode = ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION,
-                detailMessage = "$EMPTY_CONFIRMED_PLACE Schedule ID: ${schedule.id}",
-            )
     }
 
     companion object {
