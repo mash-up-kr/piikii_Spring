@@ -56,6 +56,10 @@ data class AddPlaceRequest(
     @field:PositiveOrZero(message = "싫어요 수는 0 이상이어야 합니다.")
     @field:Schema(description = "싫어요 수", example = "2")
     val voteDislikeCount: Short?,
+    @field:Schema(description = "장소 위치 경도", example = "126.9246033")
+    val x: Double?,
+    @field:Schema(description = "장소 위치 위도", example = "33.45241976")
+    val y: Double?,
 ) {
     fun toDomain(
         roomUid: UUID,
@@ -75,6 +79,8 @@ data class AddPlaceRequest(
             origin = Origin.MANUAL,
             memo = memo,
             confirmed = false,
+            longitude = x,
+            latitude = y,
         )
     }
 }
@@ -116,6 +122,10 @@ data class ModifyPlaceRequest(
     @field:PositiveOrZero(message = "싫어요 수는 0 이상이어야 합니다.")
     @field:Schema(description = "싫어요 수", example = "2")
     val voteDislikeCount: Short?,
+    @field:Schema(description = "장소 위치 경도", example = "126.9246033")
+    val x: Double?,
+    @field:Schema(description = "장소 위치 위도", example = "33.45241976")
+    val y: Double?,
 ) {
     fun toDomain(
         targetPlaceId: Long,
@@ -136,6 +146,8 @@ data class ModifyPlaceRequest(
             origin = Origin.MANUAL,
             memo = memo,
             confirmed = false,
+            longitude = x,
+            latitude = y,
         )
     }
 }

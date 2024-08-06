@@ -98,6 +98,8 @@ class VoteServiceTest {
                 scheduleId = 0L,
                 memo = null,
                 confirmed = false,
+                longitude = 126.9246033,
+                latitude = 33.45241976,
             )
 
         given(roomQueryPort.findById(room.roomUid))
@@ -146,6 +148,8 @@ class VoteServiceTest {
                     scheduleId = 0L,
                     memo = null,
                     confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 1L,
@@ -160,6 +164,8 @@ class VoteServiceTest {
                     scheduleId = 0L,
                     memo = null,
                     confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
             )
 
@@ -209,6 +215,8 @@ class VoteServiceTest {
                     scheduleId = 0,
                     memo = null,
                     confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 2,
@@ -223,6 +231,8 @@ class VoteServiceTest {
                     scheduleId = 0,
                     memo = null,
                     confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
             )
 
@@ -270,6 +280,8 @@ class VoteServiceTest {
                     scheduleId = 1,
                     memo = null,
                     confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 2,
@@ -284,6 +296,8 @@ class VoteServiceTest {
                     scheduleId = 2,
                     memo = null,
                     confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 3,
@@ -298,6 +312,8 @@ class VoteServiceTest {
                     scheduleId = 2,
                     memo = null,
                     confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
             )
 

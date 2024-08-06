@@ -2,8 +2,6 @@ package com.piikii.application.domain.course
 
 import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
-import com.piikii.application.domain.place.OriginMapId
-import com.piikii.application.domain.place.OriginPlace
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.room.Password
 import com.piikii.application.domain.room.Room
@@ -11,7 +9,6 @@ import com.piikii.application.domain.schedule.Schedule
 import com.piikii.application.domain.schedule.ScheduleType
 import com.piikii.application.domain.vote.Vote
 import com.piikii.application.domain.vote.VoteResult
-import com.piikii.application.port.input.OriginPlaceUseCase
 import com.piikii.application.port.output.persistence.CourseQueryPort
 import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
@@ -48,9 +45,6 @@ class CourseServiceTest {
 
     @Mock
     lateinit var placeCommandPort: PlaceCommandPort
-
-    @Mock
-    lateinit var originPlaceUseCase: OriginPlaceUseCase
 
     @Mock
     lateinit var voteQueryPort: VoteQueryPort
@@ -143,6 +137,8 @@ class CourseServiceTest {
                     scheduleId = schedules[0].id!!,
                     memo = null,
                     confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 2,
@@ -157,6 +153,8 @@ class CourseServiceTest {
                     scheduleId = schedules[0].id!!,
                     memo = null,
                     confirmed = true,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 3,
@@ -171,6 +169,8 @@ class CourseServiceTest {
                     scheduleId = schedules[1].id!!,
                     memo = null,
                     confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 4,
@@ -185,6 +185,8 @@ class CourseServiceTest {
                     scheduleId = schedules[1].id!!,
                     memo = null,
                     confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 5,
@@ -199,6 +201,8 @@ class CourseServiceTest {
                     scheduleId = schedules[1].id!!,
                     memo = null,
                     confirmed = true,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 6,
@@ -213,6 +217,8 @@ class CourseServiceTest {
                     scheduleId = schedules[2].id!!,
                     memo = null,
                     confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 7,
@@ -227,6 +233,8 @@ class CourseServiceTest {
                     scheduleId = schedules[2].id!!,
                     memo = null,
                     confirmed = true,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 8,
@@ -241,6 +249,8 @@ class CourseServiceTest {
                     scheduleId = schedules[3].id!!,
                     memo = null,
                     confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 9,
@@ -255,6 +265,8 @@ class CourseServiceTest {
                     scheduleId = schedules[3].id!!,
                     memo = null,
                     confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 10,
@@ -269,66 +281,8 @@ class CourseServiceTest {
                     scheduleId = schedules[3].id!!,
                     memo = null,
                     confirmed = false,
-                ),
-            )
-
-        val originPlaces =
-            listOf(
-                OriginPlace(
-                    id = 1,
-                    name = "",
-                    originMapId = OriginMapId.of(id = 1, origin = Origin.AVOCADO),
-                    url = placeUrl1,
-                    thumbnailLinks = ThumbnailLinks(""),
-                    phoneNumber = null,
-                    starGrade = 5.0f,
                     longitude = 126.9246033,
-                    latitude = 33.45241986,
-                    reviewCount = 10,
-                    category = null,
-                    origin = Origin.AVOCADO,
-                ),
-                OriginPlace(
-                    id = 2,
-                    name = "",
-                    originMapId = OriginMapId.of(id = 2, origin = Origin.AVOCADO),
-                    url = placeUrl2,
-                    thumbnailLinks = ThumbnailLinks(""),
-                    phoneNumber = null,
-                    starGrade = 5.0f,
-                    longitude = 126.9246033,
-                    latitude = 33.45241977,
-                    reviewCount = 10,
-                    category = null,
-                    origin = Origin.AVOCADO,
-                ),
-                OriginPlace(
-                    id = 3,
-                    name = "",
-                    originMapId = OriginMapId.of(id = 3, origin = Origin.AVOCADO),
-                    url = placeUrl3,
-                    thumbnailLinks = ThumbnailLinks(""),
-                    phoneNumber = null,
-                    starGrade = 5.0f,
-                    longitude = 126.9246033,
-                    latitude = 33.45241928,
-                    reviewCount = 10,
-                    category = null,
-                    origin = Origin.AVOCADO,
-                ),
-                OriginPlace(
-                    id = 4,
-                    name = "",
-                    originMapId = OriginMapId.of(id = 4, origin = Origin.AVOCADO),
-                    url = placeUrl4,
-                    thumbnailLinks = ThumbnailLinks(""),
-                    phoneNumber = null,
-                    starGrade = 5.0f,
-                    longitude = 126.9246033,
-                    latitude = 33.45241959,
-                    reviewCount = 10,
-                    category = null,
-                    origin = Origin.AVOCADO,
+                    latitude = 33.45241976,
                 ),
             )
 
@@ -353,15 +307,10 @@ class CourseServiceTest {
                 .eachCount()
         given(voteQueryPort.findAgreeCountByPlaceId(votes)).willReturn(agreeCountPlaceId)
 
-        given(originPlaceUseCase.getAutoCompleteOriginPlace(places[1].url!!)).willReturn(originPlaces[0])
-        given(originPlaceUseCase.getAutoCompleteOriginPlace(places[4].url!!)).willReturn(originPlaces[1])
-        given(originPlaceUseCase.getAutoCompleteOriginPlace(places[6].url!!)).willReturn(originPlaces[2])
-        given(originPlaceUseCase.getAutoCompleteOriginPlace(places[9].url!!)).willReturn(originPlaces[3])
-
-        val coordinate1 = Coordinate(originPlaces[0].longitude, originPlaces[0].latitude)
-        val coordinate2 = Coordinate(originPlaces[1].longitude, originPlaces[1].latitude)
-        val coordinate3 = Coordinate(originPlaces[2].longitude, originPlaces[2].latitude)
-        val coordinate4 = Coordinate(originPlaces[3].longitude, originPlaces[3].latitude)
+        val coordinate1 = Coordinate(places[1].longitude, places[1].latitude)
+        val coordinate2 = Coordinate(places[4].longitude, places[4].latitude)
+        val coordinate3 = Coordinate(places[6].longitude, places[6].latitude)
+        val coordinate4 = Coordinate(places[9].longitude, places[9].latitude)
         given(navigationClient.getDistance(coordinate1, coordinate2))
             .willReturn(Distance(100, 5))
         given(navigationClient.getDistance(coordinate2, coordinate3))
@@ -417,6 +366,8 @@ class CourseServiceTest {
                     scheduleId = schedules[0].id!!,
                     memo = null,
                     confirmed = true,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 2,
@@ -431,30 +382,14 @@ class CourseServiceTest {
                     scheduleId = schedules[1].id!!,
                     memo = null,
                     confirmed = true,
+                    longitude = null,
+                    latitude = null,
                 ),
-            )
-
-        val originPlace =
-            OriginPlace(
-                id = 1,
-                name = "",
-                originMapId = OriginMapId.of(id = 1, origin = Origin.AVOCADO),
-                url = "주소를 입력하세요.",
-                thumbnailLinks = ThumbnailLinks(""),
-                phoneNumber = null,
-                starGrade = 5.0f,
-                longitude = 126.9246033,
-                latitude = 33.45241986,
-                reviewCount = 10,
-                category = null,
-                origin = Origin.AVOCADO,
             )
 
         given(roomQueryPort.findById(room.roomUid)).willReturn(room)
         given(scheduleQueryPort.findAllByRoomUid(room.roomUid)).willReturn(schedules)
         given(placeQueryPort.findAllByRoomUid(room.roomUid)).willReturn(places)
-
-        given(originPlaceUseCase.getAutoCompleteOriginPlace(places[0].url!!)).willReturn(originPlace)
 
         // when
         val result = courseService.retrieveCourse(room.roomUid)

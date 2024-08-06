@@ -3,7 +3,6 @@ package com.piikii.application.domain.course
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.schedule.Schedule
 import com.piikii.application.port.input.CourseUseCase
-import com.piikii.application.port.input.OriginPlaceUseCase
 import com.piikii.application.port.input.dto.response.CourseResponse
 import com.piikii.application.port.output.persistence.CourseQueryPort
 import com.piikii.application.port.output.persistence.PlaceCommandPort
@@ -26,7 +25,6 @@ class CourseService(
     private val scheduleQueryPort: ScheduleQueryPort,
     private val placeQueryPort: PlaceQueryPort,
     private val placeCommandPort: PlaceCommandPort,
-    private val originPlaceUseCase: OriginPlaceUseCase,
     private val voteQueryPort: VoteQueryPort,
     private val navigationClient: NavigationClient,
 ) : CourseUseCase {
@@ -111,7 +109,7 @@ class CourseService(
         }
 
         val confirmedPlace = confirmedPlaces.firstOrNull() ?: confirmPlace(schedule, places, agreeCountByPlaceId)
-        val coordinate = getCoordinate(confirmedPlace)
+        val coordinate = confirmedPlace.getCoordinate()
 
         return CoursePlace.from(
             schedule = schedule,
@@ -124,12 +122,6 @@ class CourseService(
                     }
                 },
         )
-    }
-
-    private fun getCoordinate(place: Place): Coordinate? {
-        return place.url?.let { url ->
-            Coordinate.from(originPlaceUseCase.getAutoCompleteOriginPlace(url))
-        }
     }
 
     private fun confirmPlace(
