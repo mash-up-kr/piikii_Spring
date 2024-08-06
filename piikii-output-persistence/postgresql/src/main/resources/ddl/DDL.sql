@@ -44,6 +44,8 @@ CREATE TABLE piikii.place
     origin          piikii.source_type NOT NULL,
     memo            VARCHAR(150),
     confirmed       BOOLEAN            NOT NULL,
+    latitude        DOUBLE PRECISION,
+    longitude       DOUBLE PRECISION,
     is_deleted      BOOLEAN            NOT NULL,
     created_at      TIMESTAMP(6)       NOT NULL,
     modified_at     TIMESTAMP(6)       NOT NULL
