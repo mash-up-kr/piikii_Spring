@@ -35,9 +35,9 @@ class OriginPlaceEntity(
     @Column(name = "star_grade")
     val starGrade: Float? = null,
     @Column(name = "longitude")
-    val longitude: Float?,
+    val longitude: Double?,
     @Column(name = "latitude")
-    val latitude: Float?,
+    val latitude: Double?,
     @Column(name = "review_count", nullable = false)
     val reviewCount: Int,
     @Column(name = "category")

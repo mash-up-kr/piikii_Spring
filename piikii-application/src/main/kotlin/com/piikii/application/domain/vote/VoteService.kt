@@ -57,14 +57,11 @@ class VoteService(
     override fun getVoteResultOfRoom(roomUid: UUID): VoteResultResponse {
         val places = placeQueryPort.findAllByRoomUid(roomUid)
         val placeIds = places.map { it.id }
+        val votes = voteQueryPort.findAllByPlaceIds(placeIds)
 
         val placeByScheduleId = places.groupBy { it.scheduleId }
-        val scheduleById = scheduleQueryPort.findSchedulesByRoomUid(roomUid).associateBy { it.id!! }
-        val agreeCountByPlaceId =
-            voteQueryPort.findAllByPlaceIds(placeIds)
-                .filter { it.result == VoteResult.AGREE }
-                .groupingBy { it.placeId }
-                .eachCount()
+        val scheduleById = scheduleQueryPort.findAllByRoomUid(roomUid).associateBy { it.id!! }
+        val agreeCountByPlaceId = voteQueryPort.findAgreeCountByPlaceId(votes)
 
         val voteResultByScheduleResponses =
             scheduleById.map { (scheduleId, schedule) ->

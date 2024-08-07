@@ -97,6 +97,9 @@ class VoteServiceTest {
                 roomUid = roomUid,
                 scheduleId = 0L,
                 memo = null,
+                confirmed = false,
+                longitude = 126.9246033,
+                latitude = 33.45241976,
             )
 
         given(roomQueryPort.findById(room.roomUid))
@@ -144,6 +147,9 @@ class VoteServiceTest {
                     roomUid = UUID.randomUUID(),
                     scheduleId = 0L,
                     memo = null,
+                    confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 1L,
@@ -157,6 +163,9 @@ class VoteServiceTest {
                     roomUid = UUID.randomUUID(),
                     scheduleId = 0L,
                     memo = null,
+                    confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
             )
 
@@ -205,6 +214,9 @@ class VoteServiceTest {
                     roomUid = roomUid,
                     scheduleId = 0,
                     memo = null,
+                    confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 2,
@@ -218,6 +230,9 @@ class VoteServiceTest {
                     roomUid = roomUid,
                     scheduleId = 0,
                     memo = null,
+                    confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
             )
 
@@ -264,6 +279,9 @@ class VoteServiceTest {
                     roomUid = roomUid,
                     scheduleId = 1,
                     memo = null,
+                    confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 2,
@@ -277,6 +295,9 @@ class VoteServiceTest {
                     roomUid = roomUid,
                     scheduleId = 2,
                     memo = null,
+                    confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
                 Place(
                     id = 3,
@@ -290,15 +311,25 @@ class VoteServiceTest {
                     roomUid = roomUid,
                     scheduleId = 2,
                     memo = null,
+                    confirmed = false,
+                    longitude = 126.9246033,
+                    latitude = 33.45241976,
                 ),
             )
 
         given(placeQueryPort.findAllByRoomUid(roomUid))
             .willReturn(places)
-        given(scheduleQueryPort.findSchedulesByRoomUid(roomUid))
+        given(scheduleQueryPort.findAllByRoomUid(roomUid))
             .willReturn(schedules)
         given(voteQueryPort.findAllByPlaceIds(anyList()))
             .willReturn(votes)
+        given(voteQueryPort.findAgreeCountByPlaceId(votes))
+            .willReturn(
+                votes
+                    .filter { it.result == VoteResult.AGREE }
+                    .groupingBy { it.placeId }
+                    .eachCount(),
+            )
 
         // when
         val voteResultResponse = assertDoesNotThrow { voteService.getVoteResultOfRoom(roomUid) }

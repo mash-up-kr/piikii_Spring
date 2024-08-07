@@ -15,6 +15,10 @@ data class Room(
         return this.voteDeadline == null || this.voteDeadline.isBefore(LocalDateTime.now())
     }
 
+    fun isNotVoteExpired(): Boolean {
+        return this.voteDeadline == null || this.voteDeadline.isAfter(LocalDateTime.now())
+    }
+
     fun isPasswordValid(password: Password): Boolean {
         return this.password == password
     }

@@ -29,7 +29,7 @@ class ScheduleService(
     }
 
     override fun getSchedules(roomUid: UUID): SchedulesResponse {
-        val schedules = scheduleQueryPort.findSchedulesByRoomUid(roomUid)
+        val schedules = scheduleQueryPort.findAllByRoomUid(roomUid)
         return SchedulesResponse.from(schedules)
     }
 
@@ -37,7 +37,7 @@ class ScheduleService(
         roomUid: UUID,
         schedulesToRegister: List<Schedule>,
     ) {
-        val schedules = scheduleQueryPort.findSchedulesByRoomUid(roomUid)
+        val schedules = scheduleQueryPort.findAllByRoomUid(roomUid)
         val scheduleIdsToRegister = schedulesToRegister.map { it.id }.toSet()
         val scheduleIdToDelete = schedules.filter { it.id !in scheduleIdsToRegister }.map { it.id!! }
         scheduleCommandPort.deleteSchedules(scheduleIdToDelete)

@@ -61,7 +61,7 @@ class PlaceService(
     }
 
     override fun findAllByRoomUidGroupByPlaceType(roomUid: UUID): List<ScheduleTypeGroupResponse> {
-        val scheduleById = scheduleQueryPort.findSchedulesByRoomUid(roomUid).associateBy { it.id }
+        val scheduleById = scheduleQueryPort.findAllByRoomUid(roomUid).associateBy { it.id }
         return placeQueryPort.findAllByRoomUid(roomUid).groupBy { it.scheduleId }
             .map { (scheduleId, places) ->
                 val schedule = scheduleById[scheduleId] ?: throw PiikiiException(ExceptionCode.NOT_FOUNDED)

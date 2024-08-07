@@ -43,6 +43,10 @@ class PlaceEntity(
     var memo: String?,
     @Column(name = "confirmed", nullable = false)
     var confirmed: Boolean = false,
+    @Column(name = "longitude")
+    val longitude: Double?,
+    @Column(name = "latitude")
+    val latitude: Double?,
 ) : BaseEntity() {
     constructor(roomUid: UUID, scheduleId: Long, place: Place) : this(
         roomUid = roomUid,
@@ -55,6 +59,9 @@ class PlaceEntity(
         starGrade = place.starGrade,
         origin = place.origin,
         memo = place.memo,
+        confirmed = place.confirmed,
+        longitude = place.longitude,
+        latitude = place.latitude,
     )
 
     fun toDomain(): Place {
@@ -70,6 +77,9 @@ class PlaceEntity(
             starGrade = starGrade,
             origin = origin,
             memo = memo,
+            confirmed = confirmed,
+            longitude = longitude,
+            latitude = latitude,
         )
     }
 
@@ -81,5 +91,6 @@ class PlaceEntity(
         starGrade = place.starGrade
         origin = place.origin
         memo = place.memo
+        confirmed = place.confirmed
     }
 }
