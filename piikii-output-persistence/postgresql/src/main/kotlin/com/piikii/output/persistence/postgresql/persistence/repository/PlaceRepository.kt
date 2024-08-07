@@ -6,4 +6,9 @@ import java.util.UUID
 
 interface PlaceRepository : JpaRepository<PlaceEntity, Long> {
     fun findAllByRoomUid(roomUid: UUID): List<PlaceEntity>
+
+    fun findByScheduleIdAndConfirmed(
+        scheduleId: Long,
+        confirmed: Boolean,
+    ): List<PlaceEntity>
 }

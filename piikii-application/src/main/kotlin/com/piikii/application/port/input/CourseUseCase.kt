@@ -7,4 +7,9 @@ interface CourseUseCase {
     fun isCourseExist(roomUid: UUID): Boolean
 
     fun retrieveCourse(roomUid: UUID): CourseResponse
+
+    fun updateCoursePlace(
+        roomUid: UUID,
+        placeId: Long,
+    )
 }

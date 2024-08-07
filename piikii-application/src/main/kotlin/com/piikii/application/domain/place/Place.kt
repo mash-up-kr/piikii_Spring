@@ -24,4 +24,8 @@ data class Place(
     fun getCoordinate(): Coordinate? {
         return Coordinate(this.longitude, this.latitude)
     }
+
+    fun isInvalidRoomUid(roomUid: UUID): Boolean {
+        return this.roomUid != roomUid
+    }
 }

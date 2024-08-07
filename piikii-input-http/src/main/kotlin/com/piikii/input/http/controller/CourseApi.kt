@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -39,5 +40,15 @@ class CourseApi(
         return ResponseForm(
             data = courseUseCase.retrieveCourse(roomUid),
         )
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/place/{placeId}")
+    override fun updateCoursePlace(
+        @NotNull @PathVariable roomUid: UUID,
+        @NotNull @PathVariable placeId: Long,
+    ): ResponseForm<Unit> {
+        courseUseCase.updateCoursePlace(roomUid, placeId)
+        return ResponseForm.EMPTY_RESPONSE
     }
 }

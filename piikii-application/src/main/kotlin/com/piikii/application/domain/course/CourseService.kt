@@ -56,6 +56,26 @@ class CourseService(
         )
     }
 
+    @Transactional
+    override fun updateCoursePlace(
+        roomUid: UUID,
+        placeId: Long,
+    ) {
+        val place = placeQueryPort.findByPlaceId(placeId)
+
+        if (place.isInvalidRoomUid(roomUid)) {
+            throw PiikiiException(
+                exceptionCode = ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION,
+                detailMessage = "Room UUID: $roomUid, Room UUID in Place: ${place.roomUid}",
+            )
+        }
+
+        placeQueryPort.findConfirmedByScheduleId(place.scheduleId)?.let { confirmedPlace ->
+            placeCommandPort.update(confirmedPlace.id, confirmedPlace.copy(confirmed = false))
+        }
+        placeCommandPort.update(place.id, place.copy(confirmed = true))
+    }
+
     private fun getPlaceBySchedule(
         schedules: List<Schedule>,
         places: List<Place>,

@@ -69,4 +69,13 @@ class PlaceAdapter(
     override fun findAllByRoomUid(roomUid: UUID): List<Place> {
         return placeRepository.findAllByRoomUid(roomUid).map { it.toDomain() }
     }
+
+    override fun findConfirmedByScheduleId(scheduleId: Long): Place? {
+        val places = placeRepository.findByScheduleIdAndConfirmed(scheduleId, true)
+        return places.singleOrNull()?.toDomain()
+            ?: throw PiikiiException(
+                exceptionCode = ExceptionCode.ACCESS_DENIED,
+                detailMessage = "중복된 장소 코스가 있습니다. 데이터를 확인하세요. Schedule ID : $scheduleId",
+            )
+    }
 }
