@@ -31,7 +31,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v3
+        uses: gradle/actions/setup-gradle@v4
 
       - name: 프로젝트 빌드
         env:
