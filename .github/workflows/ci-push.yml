@@ -1,4 +1,4 @@
-name: CI
+name: CI - Push
 
 on:
   push:
@@ -30,9 +30,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
+
       - name: 프로젝트 빌드
         env:
           SECRET_MANAGER_TOKEN: ${{ secrets.SECRET_MANAGER_TOKEN }}
           SECRET_MANAGER_WORKSPACE: ${{ secrets.SECRET_MANAGER_WORKSPACE }}
+          CURRENT_GIT_SHA: ${{ github.sha }}
+          STATUS: PUSH
         run: |
           ./gradlew build
