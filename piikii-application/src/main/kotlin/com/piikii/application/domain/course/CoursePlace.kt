@@ -1,13 +1,14 @@
 package com.piikii.application.domain.course
 
+import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.schedule.Schedule
 import com.piikii.application.domain.schedule.ScheduleType
 
 data class CoursePlace(
-    val scheduleId: Long,
+    val scheduleId: LongTypeId,
     val scheduleType: ScheduleType,
-    val placeId: Long,
+    val placeId: LongTypeId,
     val name: String,
     val url: String?,
     val address: String?,
@@ -23,7 +24,7 @@ data class CoursePlace(
             distance: Distance?,
         ): CoursePlace {
             return CoursePlace(
-                scheduleId = schedule.id!!,
+                scheduleId = schedule.id,
                 scheduleType = schedule.type,
                 placeId = place.id,
                 name = place.name,

@@ -51,8 +51,7 @@ class ScheduleAdapter(
         scheduleEntity.update(schedule)
     }
 
-    override fun findSchedulesByRoomUid(roomUid: UuidTypeId): List<Schedule> {
-    override fun findAllByRoomUid(roomUid: UUID): List<Schedule> {
+    override fun findAllByRoomUid(roomUid: UuidTypeId): List<Schedule> {
         return scheduleRepository.findByroomUidOrderBySequenceAsc(roomUid).map { it.toDomain() }
     }
 

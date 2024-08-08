@@ -38,7 +38,7 @@ class CourseApi(
         @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<CourseResponse> {
         return ResponseForm(
-            data = courseUseCase.retrieveCourse(roomUid),
+            data = courseUseCase.retrieveCourse(UuidTypeId(roomUid)),
         )
     }
 }

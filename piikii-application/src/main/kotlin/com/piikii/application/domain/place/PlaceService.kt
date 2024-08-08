@@ -62,8 +62,6 @@ class PlaceService(
     }
 
     override fun findAllByRoomUidGroupByPlaceType(roomUid: UuidTypeId): List<ScheduleTypeGroupResponse> {
-        val scheduleById = scheduleQueryPort.findSchedulesByRoomUid(roomUid).associateBy { it.id }
-    override fun findAllByRoomUidGroupByPlaceType(roomUid: UUID): List<ScheduleTypeGroupResponse> {
         val scheduleById = scheduleQueryPort.findAllByRoomUid(roomUid).associateBy { it.id }
         return placeQueryPort.findAllByRoomUid(roomUid).groupBy { it.scheduleId }
             .map { (scheduleId, places) ->

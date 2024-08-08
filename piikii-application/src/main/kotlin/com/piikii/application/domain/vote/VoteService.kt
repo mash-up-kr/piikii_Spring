@@ -60,21 +60,15 @@ class VoteService(
         val votes = voteQueryPort.findAllByPlaceIds(placeIds)
 
         val placeByScheduleId = places.groupBy { it.scheduleId }
-        val scheduleById = scheduleQueryPort.findAllByRoomUid(roomUid).associateBy { it.id!! }
+        val scheduleById = scheduleQueryPort.findAllByRoomUid(roomUid).associateBy { it.id }
         val agreeCountByPlaceId = voteQueryPort.findAgreeCountByPlaceId(votes)
-        val scheduleById = scheduleQueryPort.findSchedulesByRoomUid(roomUid).associateBy { it.id }
-        val agreeCountByPlaceId =
-            voteQueryPort.findAllByPlaceIds(placeIds)
-                .filter { it.result == VoteResult.AGREE }
-                .groupingBy { it.placeId }
-                .eachCount()
 
         val voteResultByScheduleResponses =
             scheduleById.map { (scheduleId, schedule) ->
                 val placesOfSchedule = placeByScheduleId[scheduleId] ?: emptyList()
                 val votePlaceResponses =
                     placesOfSchedule.map {
-                        val countOfAgree = agreeCountByPlaceId.getOrDefault(it.id, 0)
+                        val countOfAgree = agreeCountByPlaceId.getOrDefault(it.id.getValue(), 0)
                         VotePlaceResponse(it, countOfAgree)
                     }
                 VoteResultByScheduleResponse(

@@ -29,8 +29,6 @@ class ScheduleService(
     }
 
     override fun getSchedules(roomUid: UuidTypeId): SchedulesResponse {
-        val schedules = scheduleQueryPort.findSchedulesByRoomUid(roomUid)
-    override fun getSchedules(roomUid: UUID): SchedulesResponse {
         val schedules = scheduleQueryPort.findAllByRoomUid(roomUid)
         return SchedulesResponse.from(schedules)
     }

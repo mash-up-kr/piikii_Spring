@@ -27,7 +27,7 @@ class VoteAdapter(
     override fun findAgreeCountByPlaceId(votes: List<Vote>): Map<Long, Int> {
         return votes
             .filter { it.result == VoteResult.AGREE }
-            .groupingBy { it.placeId }
+            .groupingBy { it.placeId.getValue() }
             .eachCount()
     }
 }

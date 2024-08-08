@@ -1,8 +1,7 @@
 package com.piikii.application.domain.place
 
-import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.course.Coordinate
-import com.piikii.application.domain.generic.Origin
+import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.generic.UuidTypeId
 

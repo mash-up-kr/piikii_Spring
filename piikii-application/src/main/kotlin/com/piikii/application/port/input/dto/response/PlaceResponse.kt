@@ -9,11 +9,11 @@ import java.util.UUID
 @Schema(description = "장소 정보 응답")
 data class PlaceResponse(
     @field:Schema(description = "장소 ID", example = "1")
-    val id: Long?,
+    val id: Long,
     @field:Schema(description = "방 고유 식별자", example = "123e4567-e89b-12d3-a456-426614174000")
-    val roomUid: UUID?,
+    val roomUid: UUID,
     @field:Schema(description = "일정 ID", example = "1")
-    val scheduleId: Long?,
+    val scheduleId: Long,
     @field:Schema(description = "장소 이름", example = "소현이네 주막")
     val name: String,
     @field:Schema(description = "장소 URL", example = "https://example.com/place")

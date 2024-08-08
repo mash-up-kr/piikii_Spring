@@ -5,8 +5,7 @@ import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.schedule.Schedule
 
 interface ScheduleQueryPort {
-    fun findSchedulesByRoomUid(roomUid: UuidTypeId): List<Schedule>
-    fun findAllByRoomUid(roomUid: UUID): List<Schedule>
+    fun findAllByRoomUid(roomUid: UuidTypeId): List<Schedule>
 
     fun findScheduleById(id: LongTypeId): Schedule
 }
