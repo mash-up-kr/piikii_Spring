@@ -1,10 +1,10 @@
 package com.piikii.application.domain.place
 
-import com.piikii.application.domain.generic.Origin
+import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.ThumbnailLinks
 
 data class OriginPlace(
-    val id: Long?,
+    val id: LongTypeId,
     val name: String,
     val originMapId: OriginMapId,
     val url: String,
@@ -29,7 +29,7 @@ value class OriginMapId(val value: String) {
         private const val SEPARATOR: String = "_"
 
         fun of(
-            id: Long,
+            id: LongTypeId,
             origin: Origin,
         ): OriginMapId {
             return OriginMapId("${origin.prefix}$SEPARATOR$id")

@@ -23,7 +23,7 @@ data class SchedulesResponse(
 @Schema(description = "개별 스케줄 정보 응답")
 data class ScheduleResponse(
     @field:Schema(description = "스케줄 ID", example = "1")
-    val scheduleId: Long,
+    val scheduleId: Long?,
     @field:Schema(description = "스케줄 이름", example = "술 1차")
     val name: String,
     @field:Schema(description = "스케줄 순서", example = "1")
@@ -44,7 +44,7 @@ data class ScheduleResponse(
                     )
                 }
             return ScheduleResponse(
-                scheduleId = scheduleId,
+                scheduleId = scheduleId.getValue(),
                 name = schedule.name,
                 sequence = schedule.sequence,
                 type = schedule.type,

@@ -1,5 +1,6 @@
 package com.piikii.application.port.input.dto.request
 
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.room.Password
 import com.piikii.application.domain.room.Room
 import io.swagger.v3.oas.annotations.media.Schema
@@ -24,7 +25,7 @@ data class RoomSaveRequestForm(
 ) {
     fun toDomain(): Room {
         return Room(
-            roomUid = UUID.randomUUID(),
+            roomUid = UuidTypeId(UUID.randomUUID()),
             name = this.name,
             message = this.message,
             thumbnailLink = this.thumbnailLink,
@@ -54,7 +55,7 @@ data class RoomUpdateRequestForm(
 ) {
     fun toDomain(): Room {
         return Room(
-            roomUid = this.roomUid,
+            roomUid = UuidTypeId(this.roomUid),
             name = this.name,
             message = this.message,
             thumbnailLink = this.thumbnailLink,

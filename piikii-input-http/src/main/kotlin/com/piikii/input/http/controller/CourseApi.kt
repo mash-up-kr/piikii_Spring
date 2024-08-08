@@ -1,5 +1,7 @@
 package com.piikii.input.http.controller
 
+import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.port.input.CourseUseCase
 import com.piikii.application.port.input.dto.response.CourseResponse
 import com.piikii.input.http.controller.docs.CourseApiDocs
@@ -28,7 +30,7 @@ class CourseApi(
         @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<CourseExistenceResponse> {
         return ResponseForm(
-            data = CourseExistenceResponse(isExist = courseUseCase.isCourseExist(roomUid)),
+            data = CourseExistenceResponse(isExist = courseUseCase.isCourseExist(UuidTypeId(roomUid))),
         )
     }
 
@@ -38,7 +40,7 @@ class CourseApi(
         @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<CourseResponse> {
         return ResponseForm(
-            data = courseUseCase.retrieveCourse(roomUid),
+            data = courseUseCase.retrieveCourse(UuidTypeId(roomUid)),
         )
     }
 
@@ -48,7 +50,7 @@ class CourseApi(
         @NotNull @PathVariable roomUid: UUID,
         @NotNull @PathVariable placeId: Long,
     ): ResponseForm<Unit> {
-        courseUseCase.updateCoursePlace(roomUid, placeId)
+        courseUseCase.updateCoursePlace(UuidTypeId(roomUid), LongTypeId(placeId))
         return ResponseForm.EMPTY_RESPONSE
     }
 }

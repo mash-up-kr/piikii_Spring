@@ -1,7 +1,9 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
-import com.piikii.application.domain.generic.Origin
+import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.generic.UuidTypeId
+import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.Place
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
@@ -12,7 +14,6 @@ import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.SQLRestriction
-import java.util.UUID
 
 @Entity
 @Table(name = "place", schema = "piikii")
@@ -21,9 +22,9 @@ import java.util.UUID
 @DynamicUpdate
 class PlaceEntity(
     @Column(name = "room_uid", nullable = false, updatable = false)
-    val roomUid: UUID,
+    val roomUid: UuidTypeId,
     @Column(name = "schedule_id", nullable = false, updatable = false)
-    var scheduleId: Long,
+    var scheduleId: LongTypeId,
     @Column(name = "name", length = 255, nullable = false)
     var name: String,
     @Column(name = "url", length = 255)
@@ -48,7 +49,7 @@ class PlaceEntity(
     @Column(name = "latitude")
     val latitude: Double?,
 ) : BaseEntity() {
-    constructor(roomUid: UUID, scheduleId: Long, place: Place) : this(
+    constructor(roomUid: UuidTypeId, scheduleId: LongTypeId, place: Place) : this(
         roomUid = roomUid,
         scheduleId = scheduleId,
         name = place.name,

@@ -1,5 +1,6 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.room.Password
 import com.piikii.application.domain.room.Room
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
@@ -9,7 +10,6 @@ import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.SQLRestriction
 import java.time.LocalDateTime
-import java.util.UUID
 
 @Entity
 @Table(name = "room", schema = "piikii")
@@ -17,7 +17,7 @@ import java.util.UUID
 @DynamicUpdate
 class RoomEntity(
     @Column(name = "room_uid", nullable = false, unique = true)
-    val roomUid: UUID,
+    val roomUid: UuidTypeId,
     @Column(name = "name", nullable = false)
     var name: String,
     @Column(name = "thumbnail_link", nullable = false, length = 255)

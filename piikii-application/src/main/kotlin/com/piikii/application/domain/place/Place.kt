@@ -1,14 +1,14 @@
 package com.piikii.application.domain.place
 
 import com.piikii.application.domain.course.Coordinate
-import com.piikii.application.domain.generic.Origin
+import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.ThumbnailLinks
-import java.util.UUID
+import com.piikii.application.domain.generic.UuidTypeId
 
 data class Place(
-    val id: Long,
-    val roomUid: UUID,
-    val scheduleId: Long,
+    val id: LongTypeId,
+    val roomUid: UuidTypeId,
+    val scheduleId: LongTypeId,
     val name: String,
     val url: String?,
     val thumbnailLinks: ThumbnailLinks,
@@ -21,11 +21,11 @@ data class Place(
     val longitude: Double?,
     val latitude: Double?,
 ) {
-    fun getCoordinate(): Coordinate? {
+    fun getCoordinate(): Coordinate {
         return Coordinate(this.longitude, this.latitude)
     }
 
-    fun isInvalidRoomUid(roomUid: UUID): Boolean {
+    fun isInvalidRoomUid(roomUid: UuidTypeId): Boolean {
         return this.roomUid != roomUid
     }
 }

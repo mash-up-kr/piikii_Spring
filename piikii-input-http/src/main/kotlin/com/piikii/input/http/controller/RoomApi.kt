@@ -1,5 +1,6 @@
 package com.piikii.input.http.controller
 
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.port.input.RoomUseCase
 import com.piikii.application.port.input.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.dto.request.RoomUpdateRequestForm
@@ -52,7 +53,7 @@ class RoomApi(
     override fun remove(
         @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<Unit> {
-        roomUseCase.remove(roomUid)
+        roomUseCase.remove(UuidTypeId(roomUid))
         return ResponseForm.EMPTY_RESPONSE
     }
 
@@ -62,7 +63,7 @@ class RoomApi(
         @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<RoomResponse> {
         return ResponseForm(
-            data = roomUseCase.findById(roomUid),
+            data = roomUseCase.findById(UuidTypeId(roomUid)),
         )
     }
 }

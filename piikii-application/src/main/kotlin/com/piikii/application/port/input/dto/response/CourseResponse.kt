@@ -49,9 +49,9 @@ data class CoursePlaceResponse(
     companion object {
         fun from(coursePlace: CoursePlace): CoursePlaceResponse {
             return CoursePlaceResponse(
-                scheduleId = coursePlace.scheduleId,
+                scheduleId = coursePlace.scheduleId.getValue(),
                 scheduleType = coursePlace.scheduleType,
-                placeId = coursePlace.placeId,
+                placeId = coursePlace.placeId.getValue(),
                 name = coursePlace.name,
                 url = coursePlace.url,
                 address = coursePlace.address,

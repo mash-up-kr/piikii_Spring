@@ -1,7 +1,7 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
-import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.OriginMapId
 import com.piikii.application.domain.place.OriginPlace
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
