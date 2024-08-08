@@ -2,8 +2,9 @@ package com.piikii.output.web.lemon.adapter
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.piikii.application.domain.generic.Origin
+import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.OriginMapId
 import com.piikii.application.domain.place.OriginPlace
 
@@ -19,9 +20,9 @@ data class LemonPlaceInfoResponse(
     fun toOriginPlace(url: String): OriginPlace {
         val fullAddress = "${basicInfo.address.region.newaddrfullname} ${basicInfo.address.newaddr.newaddrfull}".trim()
         return OriginPlace(
-            id = null,
+            id = LongTypeId(null),
             name = basicInfo.name,
-            originMapId = OriginMapId.of(id = basicInfo.cid, origin = Origin.LEMON),
+            originMapId = OriginMapId.of(id = LongTypeId(basicInfo.cid), origin = Origin.LEMON),
             url = url,
             thumbnailLinks = ThumbnailLinks(basicInfo.mainPhotoUrl),
             address = fullAddress,

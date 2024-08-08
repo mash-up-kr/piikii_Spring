@@ -1,5 +1,7 @@
 package com.piikii.application.port.input.dto.request
 
+import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.schedule.Schedule
 import com.piikii.application.domain.schedule.ScheduleType
 import io.swagger.v3.oas.annotations.media.Schema
@@ -7,7 +9,6 @@ import jakarta.validation.Valid
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Positive
-import java.util.UUID
 
 data class RegisterSchedulesRequest(
     @field:NotEmpty(message = "최소 하나 이상의 스케줄을 등록해야 합니다.")
@@ -15,7 +16,7 @@ data class RegisterSchedulesRequest(
     @field:Schema(description = "등록하려는 방 스케줄 목록")
     val schedules: List<RegisterScheduleRequest>,
 ) {
-    fun toDomains(roomUid: UUID): List<Schedule> {
+    fun toDomains(roomUid: UuidTypeId): List<Schedule> {
         return schedules.map { it.toDomain(roomUid) }
     }
 }
@@ -37,9 +38,9 @@ data class RegisterScheduleRequest(
     @field:Schema(description = "등록하려는 스케줄의 순서", example = "1")
     val sequence: Int,
 ) {
-    fun toDomain(roomUid: UUID): Schedule {
+    fun toDomain(roomUid: UuidTypeId): Schedule {
         return Schedule(
-            id = this.scheduleId,
+            id = LongTypeId(this.scheduleId),
             roomUid = roomUid,
             name = this.name,
             sequence = this.sequence,

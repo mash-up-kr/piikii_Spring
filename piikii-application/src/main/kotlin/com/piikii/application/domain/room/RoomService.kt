@@ -1,5 +1,6 @@
 package com.piikii.application.domain.room
 
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.port.input.RoomUseCase
 import com.piikii.application.port.input.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.dto.request.RoomUpdateRequestForm
@@ -11,7 +12,6 @@ import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import java.util.UUID
 
 @Service
 class RoomService(
@@ -19,24 +19,24 @@ class RoomService(
     private val roomQueryPort: RoomQueryPort,
 ) : RoomUseCase {
     override fun create(request: RoomSaveRequestForm): SaveRoomResponse {
-        return SaveRoomResponse(roomCommandPort.save(request.toDomain()).roomUid)
+        return SaveRoomResponse(roomCommandPort.save(request.toDomain()).roomUid.getValue())
     }
 
     override fun modify(request: RoomUpdateRequestForm) {
         roomCommandPort.update(request.toDomain())
     }
 
-    override fun remove(roomUid: UUID) {
+    override fun remove(roomUid: UuidTypeId) {
         roomCommandPort.delete(roomUid)
     }
 
-    override fun findById(roomUid: UUID): RoomResponse {
+    override fun findById(roomUid: UuidTypeId): RoomResponse {
         val retrievedRoom = roomQueryPort.findById(roomUid)
         return RoomResponse.from(retrievedRoom)
     }
 
     override fun changeVoteDeadline(
-        roomUid: UUID,
+        roomUid: UuidTypeId,
         password: Password,
         voteDeadline: LocalDateTime,
     ) {

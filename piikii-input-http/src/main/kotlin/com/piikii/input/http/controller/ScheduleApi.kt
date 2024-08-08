@@ -1,5 +1,6 @@
 package com.piikii.input.http.controller
 
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.port.input.ScheduleUseCase
 import com.piikii.application.port.input.dto.request.RegisterSchedulesRequest
 import com.piikii.application.port.input.dto.response.SchedulesResponse
@@ -30,7 +31,7 @@ class ScheduleApi(
         @NotNull @PathVariable roomUid: UUID,
         @Valid @NotNull @RequestBody request: RegisterSchedulesRequest,
     ): ResponseForm<Unit> {
-        scheduleUseCase.registerSchedules(roomUid, request)
+        scheduleUseCase.registerSchedules(UuidTypeId(roomUid), request)
         return ResponseForm.EMPTY_RESPONSE
     }
 
@@ -40,7 +41,7 @@ class ScheduleApi(
         @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<SchedulesResponse> {
         return ResponseForm(
-            data = scheduleUseCase.getSchedules(roomUid),
+            data = scheduleUseCase.getSchedules(UuidTypeId(roomUid)),
         )
     }
 }

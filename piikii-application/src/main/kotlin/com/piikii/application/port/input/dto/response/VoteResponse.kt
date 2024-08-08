@@ -1,7 +1,7 @@
 package com.piikii.application.port.input.dto.response
 
-import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.Place
 import io.swagger.v3.oas.annotations.media.Schema
 
@@ -20,7 +20,7 @@ data class VoteResultResponse(
 @Schema(description = "일정별 투표 결과 응답")
 data class VoteResultByScheduleResponse(
     @field:Schema(description = "일정 ID", example = "1")
-    val scheduleId: Long,
+    val scheduleId: Long?,
     @field:Schema(description = "일정 이름", example = "점심 식사")
     val scheduleName: String,
     @field:Schema(description = "해당 일정의 장소별 투표 결과 목록")
@@ -30,7 +30,7 @@ data class VoteResultByScheduleResponse(
 @Schema(description = "장소별 투표 결과 응답")
 data class VotePlaceResponse(
     @field:Schema(description = "장소 ID", example = "1")
-    val placeId: Long,
+    val placeId: Long?,
     @field:Schema(description = "장소 이름", example = "궁내 최고의 김치찌개")
     val name: String,
     @field:Schema(description = "장소 URL", example = "https://example.com/restaurant")
@@ -54,7 +54,7 @@ data class VotePlaceResponse(
     val countOfAgree: Int,
 ) {
     constructor(place: Place, countOfAgree: Int) : this(
-        placeId = place.id,
+        placeId = place.id.getValue(),
         name = place.name,
         url = place.url,
         thumbnailLinks = place.thumbnailLinks,

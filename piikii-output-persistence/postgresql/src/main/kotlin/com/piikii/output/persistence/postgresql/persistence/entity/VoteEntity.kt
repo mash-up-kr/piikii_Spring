@@ -1,5 +1,7 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
+import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.vote.Vote
 import com.piikii.application.domain.vote.VoteResult
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
@@ -10,7 +12,6 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.SQLRestriction
-import java.util.UUID
 
 @Entity
 @Table(name = "vote", schema = "piikii")
@@ -18,15 +19,16 @@ import java.util.UUID
 @DynamicUpdate
 class VoteEntity(
     @Column(name = "user_uid", nullable = false)
-    val userUid: UUID,
+    val userUid: UuidTypeId,
     @Column(name = "place_id", nullable = false)
-    val placeId: Long,
+    val placeId: LongTypeId,
     @Enumerated(EnumType.STRING)
     @Column(name = "result", nullable = false, length = 10)
     val result: VoteResult,
 ) : BaseEntity() {
     fun toDomain(): Vote {
         return Vote(
+            id = this.id,
             userUid = this.userUid,
             placeId = this.placeId,
             result = this.result,

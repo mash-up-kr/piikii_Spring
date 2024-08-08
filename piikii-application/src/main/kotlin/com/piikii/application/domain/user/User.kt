@@ -1,8 +1,9 @@
 package com.piikii.application.domain.user
 
-import java.util.UUID
+import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.generic.UuidTypeId
 
 class User(
-    val userUid: UUID,
-    val roomId: Long,
+    val userUid: UuidTypeId,
+    val roomId: LongTypeId,
 )

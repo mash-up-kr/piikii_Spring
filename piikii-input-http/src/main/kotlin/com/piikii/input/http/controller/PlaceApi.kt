@@ -1,5 +1,7 @@
 package com.piikii.input.http.controller
 
+import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.port.input.PlaceUseCase
 import com.piikii.application.port.input.dto.request.AddPlaceRequest
 import com.piikii.application.port.input.dto.request.ModifyPlaceRequest
@@ -36,14 +38,14 @@ class PlaceApi(
         @Valid @RequestPart addPlaceRequest: AddPlaceRequest,
         @RequestPart(required = false) placeImages: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse> {
-        return ResponseForm(placeUseCase.addPlace(roomUid, addPlaceRequest, placeImages))
+        return ResponseForm(placeUseCase.addPlace(UuidTypeId(roomUid), addPlaceRequest, placeImages))
     }
 
     @GetMapping
     override fun retrieveAll(
         @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<List<ScheduleTypeGroupResponse>> {
-        return ResponseForm(placeUseCase.findAllByRoomUidGroupByPlaceType(roomUid))
+        return ResponseForm(placeUseCase.findAllByRoomUidGroupByPlaceType(UuidTypeId(roomUid)))
     }
 
     @PatchMapping("/{placeId}")
@@ -55,8 +57,8 @@ class PlaceApi(
     ): ResponseForm<PlaceResponse> {
         return ResponseForm(
             placeUseCase.modify(
-                targetRoomUid = roomUid,
-                targetPlaceId = placeId,
+                targetRoomUid = UuidTypeId(roomUid),
+                targetPlaceId = LongTypeId(placeId),
                 modifyPlaceRequest = modifyPlaceRequest,
                 newPlaceImages = newPlaceImages,
             ),
@@ -68,7 +70,7 @@ class PlaceApi(
         @NotNull @PathVariable roomUid: UUID,
         @NotNull @PathVariable placeId: Long,
     ): ResponseForm<Unit> {
-        placeUseCase.delete(placeId)
+        placeUseCase.delete(LongTypeId(placeId))
         return ResponseForm.EMPTY_RESPONSE
     }
 }

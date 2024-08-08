@@ -1,27 +1,28 @@
 package com.piikii.application.port.input
 
+import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.port.input.dto.request.AddPlaceRequest
 import com.piikii.application.port.input.dto.request.ModifyPlaceRequest
 import com.piikii.application.port.input.dto.response.PlaceResponse
 import com.piikii.application.port.input.dto.response.ScheduleTypeGroupResponse
 import org.springframework.web.multipart.MultipartFile
-import java.util.UUID
 
 interface PlaceUseCase {
     fun addPlace(
-        targetRoomUid: UUID,
+        targetRoomUid: UuidTypeId,
         addPlaceRequest: AddPlaceRequest,
         placeImages: List<MultipartFile>?,
     ): PlaceResponse
 
-    fun findAllByRoomUidGroupByPlaceType(roomUid: UUID): List<ScheduleTypeGroupResponse>
+    fun findAllByRoomUidGroupByPlaceType(roomUid: UuidTypeId): List<ScheduleTypeGroupResponse>
 
     fun modify(
-        targetRoomUid: UUID,
-        targetPlaceId: Long,
+        targetRoomUid: UuidTypeId,
+        targetPlaceId: LongTypeId,
         modifyPlaceRequest: ModifyPlaceRequest,
         newPlaceImages: List<MultipartFile>?,
     ): PlaceResponse
 
-    fun delete(targetPlaceId: Long)
+    fun delete(targetPlaceId: LongTypeId)
 }

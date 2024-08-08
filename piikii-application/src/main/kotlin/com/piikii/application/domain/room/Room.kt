@@ -1,10 +1,10 @@
 package com.piikii.application.domain.room
 
+import com.piikii.application.domain.generic.UuidTypeId
 import java.time.LocalDateTime
-import java.util.UUID
 
 data class Room(
-    val roomUid: UUID,
+    val roomUid: UuidTypeId,
     val name: String,
     val message: String? = null,
     val thumbnailLink: String,
