@@ -52,7 +52,7 @@ jobs:
           SECRET_MANAGER_WORKSPACE: ${{ secrets.SECRET_MANAGER_WORKSPACE }}
           CURRENT_GIT_SHA: ${{ github.sha }}
           STATUS: PR
-        run: ./gradlew build --info
+        run: ./gradlew build
 
       - name: Set build status output
         id: set_status
