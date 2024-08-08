@@ -83,19 +83,19 @@ class VoteServiceTest {
         val votes =
             listOf(
                 Vote(
-                    id = LongTypeId(null),
+                    id = LongTypeId(1L),
                     userUid = userUid,
                     placeId = LongTypeId(1),
                     result = VoteResult.AGREE,
                 ),
                 Vote(
-                    id = LongTypeId(null),
+                    id = LongTypeId(2L),
                     userUid = userUid,
                     placeId = LongTypeId(2),
                     result = VoteResult.DISAGREE,
                 ),
                 Vote(
-                    id = LongTypeId(null),
+                    id = LongTypeId(3L),
                     userUid = userUid,
                     placeId = LongTypeId(3),
                     result = VoteResult.AGREE,
@@ -147,8 +147,8 @@ class VoteServiceTest {
             )
         val votes =
             listOf(
-                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(1), result = VoteResult.AGREE),
-                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(2), result = VoteResult.DISAGREE),
+                Vote(id = LongTypeId(1L), userUid = userUid, placeId = LongTypeId(1), result = VoteResult.AGREE),
+                Vote(id = LongTypeId(2L), userUid = userUid, placeId = LongTypeId(2), result = VoteResult.DISAGREE),
             )
         val places =
             listOf(
@@ -214,8 +214,8 @@ class VoteServiceTest {
             )
         val votes =
             listOf(
-                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(1), result = VoteResult.AGREE),
-                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(2), result = VoteResult.DISAGREE),
+                Vote(id = LongTypeId(1L), userUid = userUid, placeId = LongTypeId(1), result = VoteResult.AGREE),
+                Vote(id = LongTypeId(2L), userUid = userUid, placeId = LongTypeId(2), result = VoteResult.DISAGREE),
             )
         val places =
             listOf(
@@ -271,10 +271,10 @@ class VoteServiceTest {
 
         val votes =
             listOf(
-                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(1), result = VoteResult.AGREE),
-                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(3), result = VoteResult.AGREE),
-                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(3), result = VoteResult.AGREE),
-                Vote(id = LongTypeId(null), userUid = userUid, placeId = LongTypeId(2), result = VoteResult.DISAGREE),
+                Vote(id = LongTypeId(1L), userUid = userUid, placeId = LongTypeId(1), result = VoteResult.AGREE),
+                Vote(id = LongTypeId(2L), userUid = userUid, placeId = LongTypeId(3), result = VoteResult.AGREE),
+                Vote(id = LongTypeId(3L), userUid = userUid, placeId = LongTypeId(3), result = VoteResult.AGREE),
+                Vote(id = LongTypeId(4L), userUid = userUid, placeId = LongTypeId(2), result = VoteResult.DISAGREE),
             )
         val schedules =
             listOf(
