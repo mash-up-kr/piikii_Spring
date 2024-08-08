@@ -344,7 +344,7 @@ class VoteServiceTest {
             .willReturn(
                 votes
                     .filter { it.result == VoteResult.AGREE }
-                    .groupingBy { it.placeId }
+                    .groupingBy { it.placeId.getValue() }
                     .eachCount(),
             )
 
