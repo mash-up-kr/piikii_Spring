@@ -1,6 +1,7 @@
 package com.piikii.output.web.avocado
 
-import com.piikii.application.domain.generic.Origin
+import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.OriginMapId
 import com.piikii.output.web.avocado.adapter.AvocadoPlaceAutoCompleteClient
 import com.piikii.output.web.avocado.parser.MapUrlIdParser
@@ -54,7 +55,11 @@ class AvocadoPlaceAutoCompleteClientTest {
         val url = "주소를 입력하세요"
         val id = 123L
 
-        val originPlace = avocadoPlaceAutoCompleteClient.getAutoCompletedPlace(url, OriginMapId.of(id, Origin.AVOCADO))
+        val originPlace =
+            avocadoPlaceAutoCompleteClient.getAutoCompletedPlace(
+                url,
+                OriginMapId.of(LongTypeId(id), Origin.AVOCADO),
+            )
         println("originPlace = $originPlace")
     }
 }

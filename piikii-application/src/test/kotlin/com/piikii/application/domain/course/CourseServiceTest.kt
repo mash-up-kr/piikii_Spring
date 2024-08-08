@@ -1,7 +1,9 @@
 package com.piikii.application.domain.course
 
-import com.piikii.application.domain.generic.Origin
+import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.generic.UuidTypeId
+import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.room.Password
 import com.piikii.application.domain.room.Room
@@ -60,7 +62,7 @@ class CourseServiceTest {
         // given
         val room =
             Room(
-                roomUid = UUID.randomUUID(),
+                roomUid = UuidTypeId(UUID.randomUUID()),
                 name = "사당에서 모이자",
                 message = null,
                 thumbnailLink = "https://test",
@@ -81,7 +83,7 @@ class CourseServiceTest {
         // given
         val room =
             Room(
-                roomUid = UUID.randomUUID(),
+                roomUid = UuidTypeId(UUID.randomUUID()),
                 name = "사당에서 모이자",
                 message = null,
                 thumbnailLink = "https://test",
@@ -102,7 +104,7 @@ class CourseServiceTest {
         // given
         val room =
             Room(
-                roomUid = UUID.randomUUID(),
+                roomUid = UuidTypeId(UUID.randomUUID()),
                 name = "사당에서 모이자",
                 message = null,
                 thumbnailLink = "https://test",
@@ -112,10 +114,34 @@ class CourseServiceTest {
 
         val schedules =
             listOf(
-                Schedule(id = 1, roomUid = room.roomUid, name = "1차", sequence = 1, type = ScheduleType.DISH),
-                Schedule(id = 2, roomUid = room.roomUid, name = "2차", sequence = 2, type = ScheduleType.ALCOHOL),
-                Schedule(id = 3, roomUid = room.roomUid, name = "3차", sequence = 3, type = ScheduleType.DESSERT),
-                Schedule(id = 4, roomUid = room.roomUid, name = "4차", sequence = 4, type = ScheduleType.ARCADE),
+                Schedule(
+                    id = LongTypeId(1),
+                    roomUid = room.roomUid,
+                    name = "1차",
+                    sequence = 1,
+                    type = ScheduleType.DISH,
+                ),
+                Schedule(
+                    id = LongTypeId(2),
+                    roomUid = room.roomUid,
+                    name = "2차",
+                    sequence = 2,
+                    type = ScheduleType.ALCOHOL,
+                ),
+                Schedule(
+                    id = LongTypeId(3),
+                    roomUid = room.roomUid,
+                    name = "3차",
+                    sequence = 3,
+                    type = ScheduleType.DESSERT,
+                ),
+                Schedule(
+                    id = LongTypeId(4),
+                    roomUid = room.roomUid,
+                    name = "4차",
+                    sequence = 4,
+                    type = ScheduleType.ARCADE,
+                ),
             )
 
         val placeUrl1 = "주소를 입력하세요1"
@@ -125,7 +151,7 @@ class CourseServiceTest {
         val places =
             listOf(
                 Place(
-                    id = 1,
+                    id = LongTypeId(1),
                     url = null,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -134,14 +160,14 @@ class CourseServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = room.roomUid,
-                    scheduleId = schedules[0].id!!,
+                    scheduleId = schedules[0].id,
                     memo = null,
                     confirmed = false,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                 ),
                 Place(
-                    id = 2,
+                    id = LongTypeId(2),
                     url = placeUrl1,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -150,14 +176,14 @@ class CourseServiceTest {
                     starGrade = null,
                     origin = Origin.AVOCADO,
                     roomUid = room.roomUid,
-                    scheduleId = schedules[0].id!!,
+                    scheduleId = schedules[0].id,
                     memo = null,
                     confirmed = true,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                 ),
                 Place(
-                    id = 3,
+                    id = LongTypeId(3),
                     url = null,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -166,14 +192,14 @@ class CourseServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = room.roomUid,
-                    scheduleId = schedules[1].id!!,
+                    scheduleId = schedules[1].id,
                     memo = null,
                     confirmed = false,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                 ),
                 Place(
-                    id = 4,
+                    id = LongTypeId(4),
                     url = null,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -182,14 +208,14 @@ class CourseServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = room.roomUid,
-                    scheduleId = schedules[1].id!!,
+                    scheduleId = schedules[1].id,
                     memo = null,
                     confirmed = false,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                 ),
                 Place(
-                    id = 5,
+                    id = LongTypeId(5),
                     url = placeUrl2,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -198,14 +224,14 @@ class CourseServiceTest {
                     starGrade = null,
                     origin = Origin.AVOCADO,
                     roomUid = room.roomUid,
-                    scheduleId = schedules[1].id!!,
+                    scheduleId = schedules[1].id,
                     memo = null,
                     confirmed = true,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                 ),
                 Place(
-                    id = 6,
+                    id = LongTypeId(6),
                     url = null,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -214,14 +240,14 @@ class CourseServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = room.roomUid,
-                    scheduleId = schedules[2].id!!,
+                    scheduleId = schedules[2].id,
                     memo = null,
                     confirmed = false,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                 ),
                 Place(
-                    id = 7,
+                    id = LongTypeId(7),
                     url = placeUrl3,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -230,14 +256,14 @@ class CourseServiceTest {
                     starGrade = null,
                     origin = Origin.AVOCADO,
                     roomUid = room.roomUid,
-                    scheduleId = schedules[2].id!!,
+                    scheduleId = schedules[2].id,
                     memo = null,
                     confirmed = true,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                 ),
                 Place(
-                    id = 8,
+                    id = LongTypeId(8),
                     url = null,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -246,14 +272,14 @@ class CourseServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = room.roomUid,
-                    scheduleId = schedules[3].id!!,
+                    scheduleId = schedules[3].id,
                     memo = null,
                     confirmed = false,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                 ),
                 Place(
-                    id = 9,
+                    id = LongTypeId(9),
                     url = null,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -262,14 +288,14 @@ class CourseServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = room.roomUid,
-                    scheduleId = schedules[3].id!!,
+                    scheduleId = schedules[3].id,
                     memo = null,
                     confirmed = false,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                 ),
                 Place(
-                    id = 10,
+                    id = LongTypeId(10),
                     url = placeUrl4,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -278,7 +304,7 @@ class CourseServiceTest {
                     starGrade = null,
                     origin = Origin.AVOCADO,
                     roomUid = room.roomUid,
-                    scheduleId = schedules[3].id!!,
+                    scheduleId = schedules[3].id,
                     memo = null,
                     confirmed = false,
                     longitude = 126.9246033,
@@ -286,13 +312,13 @@ class CourseServiceTest {
                 ),
             )
 
-        val userUid = UUID.randomUUID()
+        val userUid = UuidTypeId(UUID.randomUUID())
         val votes =
             listOf(
-                Vote(userUid = userUid, placeId = 8, result = VoteResult.AGREE),
-                Vote(userUid = userUid, placeId = 9, result = VoteResult.AGREE),
-                Vote(userUid = userUid, placeId = 10, result = VoteResult.AGREE),
-                Vote(userUid = userUid, placeId = 10, result = VoteResult.AGREE),
+                Vote(id = LongTypeId(1), userUid = userUid, placeId = LongTypeId(8), result = VoteResult.AGREE),
+                Vote(id = LongTypeId(2), userUid = userUid, placeId = LongTypeId(9), result = VoteResult.AGREE),
+                Vote(id = LongTypeId(3), userUid = userUid, placeId = LongTypeId(10), result = VoteResult.AGREE),
+                Vote(id = LongTypeId(4), userUid = userUid, placeId = LongTypeId(10), result = VoteResult.AGREE),
             )
 
         given(roomQueryPort.findById(room.roomUid)).willReturn(room)
@@ -303,7 +329,7 @@ class CourseServiceTest {
         val agreeCountPlaceId =
             votes
                 .filter { it.result == VoteResult.AGREE }
-                .groupingBy { it.placeId }
+                .groupingBy { it.placeId.getValue() }
                 .eachCount()
         given(voteQueryPort.findAgreeCountByPlaceId(votes)).willReturn(agreeCountPlaceId)
 
@@ -328,7 +354,8 @@ class CourseServiceTest {
         assertThat(result.places).hasSize(4)
 
         val placeIds = result.places.map { it.placeId }
-        val expectedPlaceIds = listOf(places[1].id, places[4].id, places[6].id, places[9].id)
+        val expectedPlaceIds =
+            listOf(places[1].id.getValue(), places[4].id.getValue(), places[6].id.getValue(), places[9].id.getValue())
         assertThat(placeIds).containsExactlyInAnyOrderElementsOf(expectedPlaceIds)
     }
 
@@ -337,7 +364,7 @@ class CourseServiceTest {
         // given
         val room =
             Room(
-                roomUid = UUID.randomUUID(),
+                roomUid = UuidTypeId(UUID.randomUUID()),
                 name = "사당에서 모이자",
                 message = null,
                 thumbnailLink = "https://test",
@@ -347,14 +374,26 @@ class CourseServiceTest {
 
         val schedules =
             listOf(
-                Schedule(id = 1, roomUid = room.roomUid, name = "1차", sequence = 1, type = ScheduleType.DISH),
-                Schedule(id = 2, roomUid = room.roomUid, name = "2차", sequence = 2, type = ScheduleType.ALCOHOL),
+                Schedule(
+                    id = LongTypeId(1),
+                    roomUid = room.roomUid,
+                    name = "1차",
+                    sequence = 1,
+                    type = ScheduleType.DISH,
+                ),
+                Schedule(
+                    id = LongTypeId(2),
+                    roomUid = room.roomUid,
+                    name = "2차",
+                    sequence = 2,
+                    type = ScheduleType.ALCOHOL,
+                ),
             )
 
         val places =
             listOf(
                 Place(
-                    id = 1,
+                    id = LongTypeId(1),
                     url = "주소를 입력하세요",
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -363,14 +402,14 @@ class CourseServiceTest {
                     starGrade = null,
                     origin = Origin.AVOCADO,
                     roomUid = room.roomUid,
-                    scheduleId = schedules[0].id!!,
+                    scheduleId = schedules[0].id,
                     memo = null,
                     confirmed = true,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                 ),
                 Place(
-                    id = 2,
+                    id = LongTypeId(2),
                     url = null,
                     name = "",
                     thumbnailLinks = ThumbnailLinks(contents = null),
@@ -379,7 +418,7 @@ class CourseServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = room.roomUid,
-                    scheduleId = schedules[1].id!!,
+                    scheduleId = schedules[1].id,
                     memo = null,
                     confirmed = true,
                     longitude = null,

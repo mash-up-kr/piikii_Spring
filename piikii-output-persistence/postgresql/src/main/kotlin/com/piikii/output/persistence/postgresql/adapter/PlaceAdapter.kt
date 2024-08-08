@@ -1,5 +1,7 @@
 package com.piikii.output.persistence.postgresql.adapter
 
+import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.place.Place
 import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
@@ -10,7 +12,6 @@ import com.piikii.output.persistence.postgresql.persistence.repository.PlaceRepo
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
 
 @Repository
 @Transactional(readOnly = true)
@@ -19,8 +20,8 @@ class PlaceAdapter(
 ) : PlaceQueryPort, PlaceCommandPort {
     @Transactional
     override fun save(
-        roomUid: UUID,
-        scheduleId: Long,
+        roomUid: UuidTypeId,
+        scheduleId: LongTypeId,
         place: Place,
     ): Place {
         val placeEntity =
@@ -34,7 +35,7 @@ class PlaceAdapter(
 
     @Transactional
     override fun update(
-        targetPlaceId: Long,
+        targetPlaceId: LongTypeId,
         place: Place,
     ): Place {
         val placeEntity =
@@ -47,7 +48,7 @@ class PlaceAdapter(
     }
 
     @Transactional
-    override fun delete(targetPlaceId: Long) {
+    override fun delete(targetPlaceId: LongTypeId) {
         placeRepository.findByIdOrNull(targetPlaceId) ?: throw PiikiiException(
             exceptionCode = ExceptionCode.NOT_FOUNDED,
             detailMessage = "targetPlaceId : $targetPlaceId",
@@ -55,18 +56,18 @@ class PlaceAdapter(
         placeRepository.deleteById(targetPlaceId)
     }
 
-    override fun findByPlaceId(placeId: Long): Place {
+    override fun findByPlaceId(placeId: LongTypeId): Place {
         return placeRepository.findByIdOrNull(placeId)?.toDomain() ?: throw PiikiiException(
             exceptionCode = ExceptionCode.NOT_FOUNDED,
             detailMessage = "placeId : $placeId",
         )
     }
 
-    override fun findAllByPlaceIds(placeIds: List<Long>): List<Place> {
+    override fun findAllByPlaceIds(placeIds: List<LongTypeId>): List<Place> {
         return placeRepository.findAllById(placeIds).map { it.toDomain() }
     }
 
-    override fun findAllByRoomUid(roomUid: UUID): List<Place> {
+    override fun findAllByRoomUid(roomUid: UuidTypeId): List<Place> {
         return placeRepository.findAllByRoomUid(roomUid).map { it.toDomain() }
     }
 }

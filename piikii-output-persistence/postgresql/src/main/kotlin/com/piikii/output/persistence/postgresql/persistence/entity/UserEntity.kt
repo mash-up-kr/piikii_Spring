@@ -1,5 +1,7 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
+import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.user.User
 import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
@@ -7,7 +9,6 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.SQLRestriction
-import java.util.UUID
 
 @Entity
 @Table(name = "piikii_user", schema = "piikii")
@@ -15,9 +16,9 @@ import java.util.UUID
 @DynamicUpdate
 class UserEntity(
     @Column(name = "user_uid", nullable = false)
-    val userUid: UUID,
+    val userUid: UuidTypeId,
     @Column(name = "room_id", nullable = false)
-    val roomId: Long,
+    val roomId: LongTypeId,
 ) : BaseEntity() {
     fun toDomain(): User {
         return User(

@@ -1,7 +1,7 @@
 package com.piikii.application.port.input.dto.response
 
-import com.piikii.application.domain.generic.Origin
 import com.piikii.application.domain.generic.ThumbnailLinks
+import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.OriginPlace
 import io.swagger.v3.oas.annotations.media.Schema
 

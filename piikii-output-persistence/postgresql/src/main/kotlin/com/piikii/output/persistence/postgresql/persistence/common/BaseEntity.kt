@@ -1,5 +1,6 @@
 package com.piikii.output.persistence.postgresql.persistence.common
 
+import com.piikii.application.domain.generic.LongTypeId
 import jakarta.persistence.Column
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.GeneratedValue
@@ -19,7 +20,7 @@ abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    val id: Long = 0L
+    val id: LongTypeId = LongTypeId(0L)
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)

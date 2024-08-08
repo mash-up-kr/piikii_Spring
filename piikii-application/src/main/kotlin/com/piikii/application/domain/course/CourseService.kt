@@ -1,5 +1,6 @@
 package com.piikii.application.domain.course
 
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.schedule.Schedule
 import com.piikii.application.port.input.CourseUseCase
@@ -15,7 +16,6 @@ import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
 
 @Service
 @Transactional(readOnly = true)
@@ -28,12 +28,12 @@ class CourseService(
     private val voteQueryPort: VoteQueryPort,
     private val navigationClient: NavigationClient,
 ) : CourseUseCase {
-    override fun isCourseExist(roomUid: UUID): Boolean {
+    override fun isCourseExist(roomUid: UuidTypeId): Boolean {
         return courseQueryPort.isCourseExist(roomUid)
     }
 
     @Transactional
-    override fun retrieveCourse(roomUid: UUID): CourseResponse {
+    override fun retrieveCourse(roomUid: UuidTypeId): CourseResponse {
         val room = roomQueryPort.findById(roomUid)
 
         if (room.isNotVoteExpired()) {
@@ -140,10 +140,10 @@ class CourseService(
         return places
             .mapNotNull { place ->
                 // place.id에 해당하는 agree count가 존재하면 place와 count를 페어로 매핑
-                agreeCountByPlaceId[place.id]?.let { count -> place to count }
+                agreeCountByPlaceId[place.id.getValue()]?.let { count -> place to count }
             }
             // agree count 내림차순 정렬, (count 동일)place.id 오름차순 정렬
-            .maxWithOrNull(compareBy({ it.second }, { -it.first.id }))
+            .maxWithOrNull(compareBy({ it.second }, { -it.first.id.getValue() }))
             ?.let { (selectedPlace, _) ->
                 // 최다 찬성 득표 수 place: confirmed 상태로 변경
                 placeCommandPort.update(
