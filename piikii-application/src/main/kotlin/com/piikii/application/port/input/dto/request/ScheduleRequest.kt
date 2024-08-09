@@ -39,6 +39,15 @@ data class RegisterScheduleRequest(
     val sequence: Int,
 ) {
     fun toDomain(roomUid: UuidTypeId): Schedule {
+        if (this.scheduleId == null) {
+            return Schedule(
+                id = LongTypeId(0L),
+                roomUid = roomUid,
+                name = this.name,
+                sequence = this.sequence,
+                type = ScheduleType.valueOf(this.type.name),
+            )
+        }
         return Schedule(
             id = LongTypeId(this.scheduleId),
             roomUid = roomUid,
