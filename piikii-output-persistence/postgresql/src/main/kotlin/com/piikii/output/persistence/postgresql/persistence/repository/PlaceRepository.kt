@@ -7,4 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface PlaceRepository : JpaRepository<PlaceEntity, LongTypeId> {
     fun findAllByRoomUid(roomUid: UuidTypeId): List<PlaceEntity>
+
+    fun findByScheduleIdAndConfirmed(
+        scheduleId: LongTypeId,
+        confirmed: Boolean,
+    ): List<PlaceEntity>
 }

@@ -5,11 +5,13 @@ import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.place.Place
 
 interface PlaceQueryPort {
-    fun findByPlaceId(placeId: LongTypeId): Place?
+    fun findByPlaceId(placeId: LongTypeId): Place
 
     fun findAllByPlaceIds(placeIds: List<LongTypeId>): List<Place>
 
     fun findAllByRoomUid(roomUid: UuidTypeId): List<Place>
+
+    fun findConfirmedByScheduleId(scheduleId: LongTypeId): Place?
 }
 
 interface PlaceCommandPort {

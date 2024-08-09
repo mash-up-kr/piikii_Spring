@@ -1,5 +1,6 @@
 package com.piikii.application.domain.course
 
+import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.schedule.Schedule
@@ -54,6 +55,26 @@ class CourseService(
             room = room,
             placeBySchedule = getPlaceBySchedule(schedules, places, agreeCountByPlaceId),
         )
+    }
+
+    @Transactional
+    override fun updateCoursePlace(
+        roomUid: UuidTypeId,
+        placeId: LongTypeId,
+    ) {
+        val place = placeQueryPort.findByPlaceId(placeId)
+
+        if (place.isInvalidRoomUid(roomUid)) {
+            throw PiikiiException(
+                exceptionCode = ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION,
+                detailMessage = "Room UUID: $roomUid, Room UUID in Place: ${place.roomUid}",
+            )
+        }
+
+        placeQueryPort.findConfirmedByScheduleId(place.scheduleId)?.let { confirmedPlace ->
+            placeCommandPort.update(confirmedPlace.id, confirmedPlace.copy(confirmed = false))
+        }
+        placeCommandPort.update(place.id, place.copy(confirmed = true))
     }
 
     private fun getPlaceBySchedule(

@@ -53,10 +53,37 @@ interface CourseApiDocs {
     fun retrieveCourse(
         @Parameter(
             name = "roomUid",
-            description = "코스 생성 여부를 조회할 방 uuid",
+            description = "코스를 조회할 방 uuid",
             required = true,
             `in` = ParameterIn.PATH,
         )
         @NotNull roomUid: UUID,
     ): ResponseForm<CourseResponse>
+
+    @Operation(summary = "코스 장소 수정 API", description = "코스 대상 장소를 수정합니다.")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "OK success",
+                content = [Content(schema = Schema(implementation = ResponseForm::class))],
+            ),
+        ],
+    )
+    fun updateCoursePlace(
+        @Parameter(
+            name = "roomUid",
+            description = "코스를 수정할 방 uuid",
+            required = true,
+            `in` = ParameterIn.PATH,
+        )
+        @NotNull roomUid: UUID,
+        @Parameter(
+            name = "placeId",
+            description = "코스 장소로 선정할 장소 id",
+            required = true,
+            `in` = ParameterIn.PATH,
+        )
+        @NotNull placeId: Long,
+    ): ResponseForm<Unit>
 }

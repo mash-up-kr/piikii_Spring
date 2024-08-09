@@ -21,7 +21,11 @@ data class Place(
     val longitude: Double?,
     val latitude: Double?,
 ) {
-    fun getCoordinate(): Coordinate? {
+    fun getCoordinate(): Coordinate {
         return Coordinate(this.longitude, this.latitude)
+    }
+
+    fun isInvalidRoomUid(roomUid: UuidTypeId): Boolean {
+        return this.roomUid != roomUid
     }
 }
