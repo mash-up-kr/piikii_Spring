@@ -22,7 +22,7 @@ class ScheduleService(
     ) {
         val schedulesToRegister = request.toDomains(roomUid)
         deleteSchedules(roomUid, schedulesToRegister)
-        schedulesToRegister.partition { it.id == null }.let { (newSchedules, updatedSchedules) ->
+        schedulesToRegister.partition { it.id.getValue() == 0L }.let { (newSchedules, updatedSchedules) ->
             scheduleCommandPort.saveSchedules(newSchedules)
             scheduleCommandPort.updateSchedules(updatedSchedules)
         }

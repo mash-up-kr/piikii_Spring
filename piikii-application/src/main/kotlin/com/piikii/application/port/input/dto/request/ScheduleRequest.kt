@@ -40,7 +40,7 @@ data class RegisterScheduleRequest(
 ) {
     fun toDomain(roomUid: UuidTypeId): Schedule {
         return Schedule(
-            id = LongTypeId(this.scheduleId),
+            id = LongTypeId(this.scheduleId ?: 0L),
             roomUid = roomUid,
             name = this.name,
             sequence = this.sequence,
