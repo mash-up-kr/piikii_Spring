@@ -52,8 +52,9 @@ class ExceptionAdvice(
                         "${violation.propertyPath}: ${violation.message}"
                     }
                 }
+
                 else -> {
-                    "Cause is chaos"
+                    "Cause is chaos [${exception.message}]"
                 }
             }
 
