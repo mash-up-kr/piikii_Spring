@@ -35,7 +35,7 @@ class PlaceApi(
     @PostMapping
     override fun addPlace(
         @NotNull @PathVariable roomUid: UUID,
-        @Valid @RequestPart addPlaceRequest: AddPlaceRequest,
+        @Valid @NotNull @RequestPart addPlaceRequest: AddPlaceRequest,
         @RequestPart(required = false) placeImages: List<MultipartFile>?,
     ): ResponseForm<PlaceResponse> {
         return ResponseForm(placeUseCase.addPlace(UuidTypeId(roomUid), addPlaceRequest, placeImages))
