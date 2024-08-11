@@ -32,7 +32,7 @@ value class OriginMapId(val value: String) {
             id: LongTypeId,
             origin: Origin,
         ): OriginMapId {
-            return OriginMapId("${origin.prefix}$SEPARATOR$id")
+            return OriginMapId("${origin.prefix}$SEPARATOR${id.getValue()}")
         }
     }
 }
