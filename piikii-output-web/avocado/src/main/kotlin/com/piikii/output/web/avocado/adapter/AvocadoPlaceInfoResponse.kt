@@ -28,7 +28,7 @@ data class AvocadoPlaceInfoResponse(
 ) {
     fun toOriginPlace(url: String): OriginPlace {
         return OriginPlace(
-            id = LongTypeId(null),
+            id = LongTypeId(0L),
             originMapId = OriginMapId.of(id = LongTypeId(id), origin = Origin.AVOCADO),
             name = name,
             url = url,

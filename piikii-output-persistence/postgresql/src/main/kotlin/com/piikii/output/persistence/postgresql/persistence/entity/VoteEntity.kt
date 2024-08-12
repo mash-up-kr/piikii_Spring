@@ -28,7 +28,7 @@ class VoteEntity(
 ) : BaseEntity() {
     fun toDomain(): Vote {
         return Vote(
-            id = this.id,
+            id = LongTypeId(this.id),
             userUid = this.userUid,
             placeId = this.placeId,
             result = this.result,

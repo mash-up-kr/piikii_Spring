@@ -1,5 +1,6 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
+import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.OriginMapId
@@ -48,7 +49,7 @@ class OriginPlaceEntity(
 ) : BaseEntity() {
     fun toDomain(): OriginPlace {
         return OriginPlace(
-            id = id,
+            id = LongTypeId(id),
             originMapId = originMapId,
             name = name,
             url = url,

@@ -44,6 +44,8 @@ class PlaceEntity(
     var memo: String?,
     @Column(name = "confirmed", nullable = false)
     var confirmed: Boolean = false,
+    @Column(name = "review_count", nullable = false)
+    val reviewCount: Int?,
     @Column(name = "longitude")
     val longitude: Double?,
     @Column(name = "latitude")
@@ -61,13 +63,14 @@ class PlaceEntity(
         origin = place.origin,
         memo = place.memo,
         confirmed = place.confirmed,
+        reviewCount = place.reviewCount,
         longitude = place.longitude,
         latitude = place.latitude,
     )
 
     fun toDomain(): Place {
         return Place(
-            id = id,
+            id = LongTypeId(id),
             roomUid = roomUid,
             scheduleId = scheduleId,
             name = name,
@@ -79,6 +82,7 @@ class PlaceEntity(
             origin = origin,
             memo = memo,
             confirmed = confirmed,
+            reviewCount = reviewCount,
             longitude = longitude,
             latitude = latitude,
         )
