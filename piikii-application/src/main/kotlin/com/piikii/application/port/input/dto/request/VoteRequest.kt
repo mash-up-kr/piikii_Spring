@@ -23,7 +23,7 @@ data class VoteSaveRequest(
         return this.votes
             .map {
                 Vote(
-                    id = LongTypeId(null),
+                    id = LongTypeId(0L),
                     userUid = UuidTypeId(userUid),
                     placeId = LongTypeId(it.placeId),
                     result = it.voteResult,

@@ -20,7 +20,7 @@ data class LemonPlaceInfoResponse(
     fun toOriginPlace(url: String): OriginPlace {
         val fullAddress = "${basicInfo.address.region.newaddrfullname} ${basicInfo.address.newaddr.newaddrfull}".trim()
         return OriginPlace(
-            id = LongTypeId(null),
+            id = LongTypeId(0L),
             name = basicInfo.name,
             originMapId = OriginMapId.of(id = LongTypeId(basicInfo.cid), origin = Origin.LEMON),
             url = url,
