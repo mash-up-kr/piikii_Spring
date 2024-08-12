@@ -335,13 +335,14 @@ class CourseServiceTest {
         given(scheduleQueryPort.findAllByRoomUid(room.roomUid)).willReturn(schedules)
         given(placeQueryPort.findAllByRoomUid(room.roomUid)).willReturn(places)
         given(voteQueryPort.findAllByPlaceIds(anyList())).willReturn(votes)
-
-        val agreeCountPlaceId =
-            votes
-                .filter { it.result == VoteResult.AGREE }
-                .groupingBy { it.placeId.getValue() }
-                .eachCount()
-        given(voteQueryPort.findAgreeCountByPlaceId(votes)).willReturn(agreeCountPlaceId)
+        given(voteQueryPort.findAgreeCountByPlaceId(votes))
+            .willReturn(
+                mapOf(
+                    8L to 1,
+                    9L to 1,
+                    10L to 2,
+                ),
+            )
 
         val coordinate1 = Coordinate(places[1].longitude, places[1].latitude)
         val coordinate2 = Coordinate(places[4].longitude, places[4].latitude)
