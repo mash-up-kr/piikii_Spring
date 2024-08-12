@@ -52,11 +52,11 @@ class ScheduleAdapter(
     }
 
     override fun findAllByRoomUid(roomUid: UuidTypeId): List<Schedule> {
-        return scheduleRepository.findByroomUidOrderBySequenceAsc(roomUid).map { it.toDomain() }
+        return scheduleRepository.findByroomUidOrderBySequenceAsc(roomUid.getValue()).map { it.toDomain() }
     }
 
     override fun findScheduleById(id: LongTypeId): Schedule {
-        return scheduleRepository.findByIdOrNull(id)?.toDomain()
+        return scheduleRepository.findByIdOrNull(id.getValue())?.toDomain()
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.NOT_FOUNDED,
                 detailMessage = "Schedule ID: $id",
@@ -64,7 +64,7 @@ class ScheduleAdapter(
     }
 
     private fun findScheduleEntityById(id: LongTypeId): ScheduleEntity {
-        return scheduleRepository.findByIdOrNull(id)
+        return scheduleRepository.findByIdOrNull(id.getValue())
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.NOT_FOUNDED,
                 detailMessage = "Schedule ID: $id",

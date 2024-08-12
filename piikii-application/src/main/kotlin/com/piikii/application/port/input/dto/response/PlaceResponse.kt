@@ -33,6 +33,10 @@ data class PlaceResponse(
     val origin: Origin,
     @field:Schema(description = "메모", example = "여기 가보자잇")
     val memo: String?,
+    @field:Schema(description = "투표되었나?", example = "false")
+    var confirmed: Boolean,
+    @field:Schema(description = "리뷰 갯수", example = "100")
+    val reviewCount: Int? = 0,
 ) {
     constructor(place: Place) : this(
         id = place.id.getValue(),
@@ -46,6 +50,8 @@ data class PlaceResponse(
         starGrade = place.starGrade,
         origin = place.origin,
         memo = place.memo,
+        confirmed = place.confirmed,
+        reviewCount = place.reviewCount,
     )
 }
 

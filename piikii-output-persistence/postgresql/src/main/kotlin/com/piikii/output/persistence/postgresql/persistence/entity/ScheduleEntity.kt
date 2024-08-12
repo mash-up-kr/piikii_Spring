@@ -1,5 +1,6 @@
 package com.piikii.output.persistence.postgresql.persistence.entity
 
+import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.schedule.Schedule
 import com.piikii.application.domain.schedule.ScheduleType
@@ -36,7 +37,7 @@ class ScheduleEntity(
 
     fun toDomain(): Schedule {
         return Schedule(
-            id = this.id,
+            id = LongTypeId(this.id),
             roomUid = this.roomUid,
             name = this.name,
             sequence = this.sequence,

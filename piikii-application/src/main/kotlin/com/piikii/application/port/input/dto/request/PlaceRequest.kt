@@ -51,6 +51,9 @@ data class AddPlaceRequest(
     @field:PositiveOrZero(message = "싫어요 수는 0 이상이어야 합니다.")
     @field:Schema(description = "싫어요 수", example = "2")
     val voteDislikeCount: Short?,
+    @field:PositiveOrZero(message = "리뷰 수는 0 이상이어야 합니다.")
+    @field:Schema(description = "리뷰 수", example = "2")
+    val reviewCount: Int? = 0,
     @field:Schema(description = "장소 위치 경도", example = "126.9246033")
     val longitude: Double?,
     @field:Schema(description = "장소 위치 위도", example = "33.45241976")
@@ -74,6 +77,7 @@ data class AddPlaceRequest(
             origin = Origin.MANUAL,
             memo = memo,
             confirmed = false,
+            reviewCount = reviewCount,
             longitude = longitude,
             latitude = latitude,
         )
@@ -117,6 +121,8 @@ data class ModifyPlaceRequest(
     @field:PositiveOrZero(message = "싫어요 수는 0 이상이어야 합니다.")
     @field:Schema(description = "싫어요 수", example = "2")
     val voteDislikeCount: Short?,
+    @field:Schema(description = "리뷰 갯수", example = "100")
+    val reviewCount: Int? = 0,
     @field:Schema(description = "장소 위치 경도", example = "126.9246033")
     val longitude: Double?,
     @field:Schema(description = "장소 위치 위도", example = "33.45241976")
@@ -141,6 +147,7 @@ data class ModifyPlaceRequest(
             origin = Origin.MANUAL,
             memo = memo,
             confirmed = false,
+            reviewCount = reviewCount,
             longitude = longitude,
             latitude = latitude,
         )

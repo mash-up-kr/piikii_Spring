@@ -30,7 +30,7 @@ class RoomAdapter(
 
     @Transactional
     override fun delete(roomUid: UuidTypeId) {
-        roomRepository.deleteByroomUid(roomUid)
+        roomRepository.deleteByroomUid(roomUid.getValue())
     }
 
     override fun findById(roomUid: UuidTypeId): Room {
@@ -38,7 +38,7 @@ class RoomAdapter(
     }
 
     private fun findByRoomUid(roomUid: UuidTypeId): RoomEntity {
-        return roomRepository.findByroomUid(roomUid)
+        return roomRepository.findByroomUid(roomUid.getValue())
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.NOT_FOUNDED,
                 detailMessage = "roomUid: $roomUid",

@@ -39,7 +39,7 @@ class PlaceAdapter(
         place: Place,
     ): Place {
         val placeEntity =
-            placeRepository.findByIdOrNull(targetPlaceId) ?: throw PiikiiException(
+            placeRepository.findByIdOrNull(targetPlaceId.getValue()) ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.NOT_FOUNDED,
                 detailMessage = "targetPlaceId : $targetPlaceId",
             )
@@ -49,22 +49,22 @@ class PlaceAdapter(
 
     @Transactional
     override fun delete(targetPlaceId: LongTypeId) {
-        placeRepository.findByIdOrNull(targetPlaceId) ?: throw PiikiiException(
+        placeRepository.findByIdOrNull(targetPlaceId.getValue()) ?: throw PiikiiException(
             exceptionCode = ExceptionCode.NOT_FOUNDED,
             detailMessage = "targetPlaceId : $targetPlaceId",
         )
-        placeRepository.deleteById(targetPlaceId)
+        placeRepository.deleteById(targetPlaceId.getValue())
     }
 
     override fun findByPlaceId(placeId: LongTypeId): Place {
-        return placeRepository.findByIdOrNull(placeId)?.toDomain() ?: throw PiikiiException(
+        return placeRepository.findByIdOrNull(placeId.getValue())?.toDomain() ?: throw PiikiiException(
             exceptionCode = ExceptionCode.NOT_FOUNDED,
             detailMessage = "placeId : $placeId",
         )
     }
 
     override fun findAllByPlaceIds(placeIds: List<LongTypeId>): List<Place> {
-        return placeRepository.findAllById(placeIds).map { it.toDomain() }
+        return placeRepository.findAllById(placeIds.map { it.getValue() }).map { it.toDomain() }
     }
 
     override fun findAllByRoomUid(roomUid: UuidTypeId): List<Place> {
@@ -72,7 +72,7 @@ class PlaceAdapter(
     }
 
     override fun findConfirmedByScheduleId(scheduleId: LongTypeId): Place? {
-        val places = placeRepository.findByScheduleIdAndConfirmed(scheduleId, true)
+        val places = placeRepository.findByScheduleIdAndConfirmed(scheduleId.getValue(), true)
         return places.singleOrNull()?.toDomain()
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.ACCESS_DENIED,

@@ -21,7 +21,7 @@ class VoteAdapter(
     }
 
     override fun findAllByPlaceIds(placeIds: List<LongTypeId>): List<Vote> {
-        return voteRepository.findAllByPlaceIdIn(placeIds).map { it.toDomain() }
+        return voteRepository.findAllByPlaceIdIn(placeIds.map { it.getValue() }).map { it.toDomain() }
     }
 
     override fun findAgreeCountByPlaceId(votes: List<Vote>): Map<Long, Int> {
