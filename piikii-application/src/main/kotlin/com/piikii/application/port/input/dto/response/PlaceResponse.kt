@@ -35,7 +35,7 @@ data class PlaceResponse(
     val memo: String?,
     @field:Schema(description = "투표되었나?", example = "false")
     var confirmed: Boolean,
-    @field:Schema(description = "리뷰 갯수", example = "100")
+    @field:Schema(description = "리뷰 개수", example = "100")
     val reviewCount: Int? = 0,
 ) {
     constructor(place: Place) : this(

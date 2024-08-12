@@ -121,7 +121,7 @@ data class ModifyPlaceRequest(
     @field:PositiveOrZero(message = "싫어요 수는 0 이상이어야 합니다.")
     @field:Schema(description = "싫어요 수", example = "2")
     val voteDislikeCount: Short?,
-    @field:Schema(description = "리뷰 갯수", example = "100")
+    @field:Schema(description = "리뷰 개수", example = "100")
     val reviewCount: Int? = 0,
     @field:Schema(description = "장소 위치 경도", example = "126.9246033")
     val longitude: Double?,
