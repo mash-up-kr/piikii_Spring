@@ -33,7 +33,7 @@ class PlaceApi(
     private val placeUseCase: PlaceUseCase,
 ) : PlaceDocs {
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     override fun addPlace(
         @NotNull @PathVariable roomUid: UUID,
         @Valid @NotNull @RequestPart addPlaceRequest: AddPlaceRequest,
