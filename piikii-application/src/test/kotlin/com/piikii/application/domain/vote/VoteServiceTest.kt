@@ -350,10 +350,10 @@ class VoteServiceTest {
             .willReturn(votes)
         given(voteQueryPort.findAgreeCountByPlaceId(votes))
             .willReturn(
-                votes
-                    .filter { it.result == VoteResult.AGREE }
-                    .groupingBy { it.placeId.getValue() }
-                    .eachCount(),
+                mapOf(
+                    1L to 1,
+                    3L to 2,
+                ),
             )
 
         // when
