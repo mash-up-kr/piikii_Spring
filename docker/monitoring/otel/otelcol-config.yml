@@ -1,0 +1,46 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  resource:
+    attributes:
+      - action: insert
+        key: service_name
+        from_attribute: service.name
+      - action: insert
+        key: service_namespace
+        from_attribute: service.namespace
+      - action: insert
+        key: compose_service
+        from_attribute: compose_service
+      - action: insert
+        key: loki.resource.labels
+        value: service_name, service_namespace, compose_service
+      - action: delete
+        key: process.command_args
+
+exporters:
+  logging:
+    loglevel: debug
+  loki:
+    endpoint: http://loki:3100/loki/api/v1/push
+#  debug:
+#    verbosity: detailed
+
+extensions:
+  health_check:
+  pprof:
+  zpages:
+
+service:
+  extensions: [ pprof, zpages ]
+  pipelines:
+    logs:
+      receivers: [ otlp ]
+      processors: [ resource ]
+      exporters: [ loki ]
