@@ -1,0 +1,136 @@
+x-default-logging: &logging
+  driver: "json-file"
+  options:
+    max-size: "5m"
+    max-file: "2"
+
+services:
+  loki:
+    image: grafana/loki:3.1.0
+    ports:
+      - "3100:3100"
+      - "9096:9096"
+    command: -config.file=/etc/loki/loki.yml
+    volumes:
+      - ./loki:/etc/loki
+    logging: *logging
+
+  prometheus:
+    image: prom/prometheus:v2.53.1
+    ports:
+      - "9090:9090"
+    container_name: prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - --web.console.templates=/etc/prometheus/consoles
+      - --web.console.libraries=/etc/prometheus/console_libraries
+      - --storage.tsdb.retention.time=200h
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --enable-feature=exemplar-storage # exemplar
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+      - --web.route-prefix=/
+      - --web.enable-remote-write-receiver
+    restart: unless-stopped
+    labels:
+      org.label-schema.group: "monitoring"
+    depends_on:
+      - loki
+      - push-gateway
+    logging: *logging
+
+  grafana:
+    image: grafana/grafana:11.1.2
+    logging: *logging
+    environment:
+      - GF_SECURITY_ADMIN_USER=${ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      #      - GF_SERVER_DOMAIN=${piikii-monitoring_DOMAIN}
+      #      - GF_SERVER_ROOT_URL=https://${piikii-monitoring_DOMAIN}/monitor
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_ANONYMOUS_ENABLED=false
+    depends_on:
+      - loki
+      - prometheus
+      - tempo
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  tempo:
+    image: grafana/tempo:2.5.0
+    command: [ "--target=all", "--storage.trace.backend=local", "--storage.trace.local.path=/var/tempo", "--auth.enabled=false" ]
+    ports:
+      - "14317:4317"  # Tempo gRPC receiver
+      - "14250:14250"
+    depends_on:
+      - loki
+    logging: *logging
+
+  push-gateway:
+    image: prom/pushgateway:v1.9.0
+    ports:
+      - "9091:9091"
+    logging: *logging
+
+  opentelemetry-collector:
+    image: otel/opentelemetry-collector-contrib:0.106.1
+    container_name: opentelemetry-collector
+    command: [ "--config=/etc/otelcol-config.yml" ]
+    logging: *logging
+    volumes:
+      - ./otel/otelcol-config.yml:/etc/otelcol-config.yml
+    ports:
+      - "4317:4317"     # OTLP over gRPC receiver
+      - "4318:4318"     # OTLP over HTTP receiver
+      - "1777:1777"     # for pprof extension
+      - "55679:55679"   # for zpages extension
+
+  ## Current not use alert-manager, node-exporter, promtail
+  #  alertmanager:
+  #    image: prom/alertmanager
+  #    container_name: alertmanager
+  #    volumes:
+  #      - ./alertmanager:/etc/alertmanager
+  #    command:
+  #      - '--config.file=/etc/alertmanager/config.yml'
+  #      - '--storage.path=/alertmanager'
+  #    restart: unless-stopped
+  #    expose:
+  #      - 9093
+  #    networks:
+  #      - monitor-net
+  #    labels:
+  #      org.label-schema.group: "monitoring"
+  #
+  #  nodeexporter:
+  #    image: prom/node-exporter
+  #    container_name: nodeexporter
+  #    volumes:
+  #      - /proc:/host/proc:ro
+  #      - /sys:/host/sys:ro
+  #      - /:/rootfs:ro
+  #    command:
+  #      - '--path.procfs=/host/proc'
+  #      - '--path.rootfs=/rootfs'
+  #      - '--path.sysfs=/host/sys'
+  #      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+  #    restart: unless-stopped
+  #    expose:
+  #      - 9100
+  #    networks:
+  #      - monitor-net
+  #    labels:
+  #      org.label-schema.group: "monitoring"
+  # promtail:
+  #   image: grafana/promtail:2.9.0
+  #   volumes:
+  #     - /var/log:/var/log
+  #   command: -config.file=/etc/promtail/config.yml
+  #   networks:
+  #     - loki

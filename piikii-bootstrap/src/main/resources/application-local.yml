@@ -4,3 +4,22 @@ spring:
       on-profile: local
 server:
   port: 8080
+
+otel:
+  sdk:
+    disabled: true
+# for local test
+#otel:
+#  resource:
+#    attributes:
+#      deployment.environment: dev # prod
+#  logs:
+#    exporter: otlp
+#  exporter:
+#    otlp:
+#      logs:
+#        endpoint: http://localhost:4318/v1/logs
+#  metrics:
+#    exporter: none
+#  traces:
+#    exporter: none
