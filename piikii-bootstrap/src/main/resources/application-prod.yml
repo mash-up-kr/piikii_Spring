@@ -5,6 +5,17 @@ spring:
 server:
   port: 8080
 
-logging:
-  level:
-    root: warn
+otel:
+  resource:
+    attributes:
+      deployment.environment: prod
+  logs:
+    exporter: otlp
+  exporter:
+    otlp:
+      logs:
+        endpoint: ${OTEL_COLLECTOR_LOG_ENDPOINT}
+  metrics:
+    exporter: none
+  traces:
+    exporter: none
