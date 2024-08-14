@@ -6,7 +6,7 @@ management:
     web:
       base-path: /_status
       exposure:
-        include: health, metrics, prometheus
+        include: info, health, metrics, prometheus
   metrics:
     distribution:
       percentiles-histogram:
