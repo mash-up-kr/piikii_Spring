@@ -1,3 +1,9 @@
+dependencyManagement {
+    imports {
+        mavenBom("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.6.0")
+    }
+}
+
 dependencies {
     implementation(project(":piikii-input-http"))
     implementation(project(":piikii-output-eventbroker:kafka"))
@@ -8,11 +14,10 @@ dependencies {
     implementation(project(":piikii-output-web:avocado"))
     implementation(project(":piikii-output-web:lemon"))
     implementation(project(":piikii-output-web:tmap"))
-
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
-
     testImplementation(project(":piikii-application"))
 }
 
@@ -55,4 +60,8 @@ tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootBuildImage>("
 
 tasks.bootJar {
     enabled = true
+}
+
+springBoot {
+    buildInfo()
 }
