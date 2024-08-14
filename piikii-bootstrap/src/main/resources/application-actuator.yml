@@ -1,4 +1,6 @@
 management:
+  server:
+    port: 9925
   endpoints:
     enabled-by-default: false
     web:
