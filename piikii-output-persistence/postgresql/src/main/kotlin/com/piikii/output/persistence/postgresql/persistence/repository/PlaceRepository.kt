@@ -11,4 +11,6 @@ interface PlaceRepository : JpaRepository<PlaceEntity, Long> {
         scheduleId: Long,
         confirmed: Boolean,
     ): List<PlaceEntity>
+
+    fun deleteByScheduleIdIn(scheduleIds: List<Long>)
 }

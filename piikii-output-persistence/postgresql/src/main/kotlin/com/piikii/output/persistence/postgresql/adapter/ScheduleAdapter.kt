@@ -8,6 +8,7 @@ import com.piikii.application.port.output.persistence.ScheduleQueryPort
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
 import com.piikii.output.persistence.postgresql.persistence.entity.ScheduleEntity
+import com.piikii.output.persistence.postgresql.persistence.repository.PlaceRepository
 import com.piikii.output.persistence.postgresql.persistence.repository.ScheduleRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class ScheduleAdapter(
     private val scheduleRepository: ScheduleRepository,
+    private val placeRepository: PlaceRepository,
 ) : ScheduleCommandPort, ScheduleQueryPort {
     @Transactional
     override fun saveSchedules(schedules: List<Schedule>) {
@@ -27,6 +29,7 @@ class ScheduleAdapter(
 
     @Transactional
     override fun deleteSchedules(scheduleIds: List<LongTypeId>) {
+        placeRepository.deleteByScheduleIdIn(scheduleIds.map { it.getValue() })
         scheduleRepository.deleteAll(
             scheduleIds.map { findScheduleEntityById(it) },
         )
