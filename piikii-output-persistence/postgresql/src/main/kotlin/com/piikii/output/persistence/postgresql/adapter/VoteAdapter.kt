@@ -1,6 +1,7 @@
 package com.piikii.output.persistence.postgresql.adapter
 
 import com.piikii.application.domain.generic.LongTypeId
+import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.vote.Vote
 import com.piikii.application.domain.vote.VoteResult
 import com.piikii.application.port.output.persistence.VoteCommandPort
@@ -22,6 +23,10 @@ class VoteAdapter(
 
     override fun findAllByPlaceIds(placeIds: List<LongTypeId>): List<Vote> {
         return voteRepository.findAllByPlaceIdIn(placeIds.map { it.getValue() }).map { it.toDomain() }
+    }
+
+    override fun findAllByUserUid(userUid: UuidTypeId): List<Vote> {
+        return voteRepository.findAllByUserUid(userUid.getValue()).map { it.toDomain() }
     }
 
     override fun findAgreeCountByPlaceId(votes: List<Vote>): Map<Long, Int> {

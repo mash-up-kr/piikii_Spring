@@ -6,6 +6,8 @@ import com.piikii.application.port.input.VoteUseCase
 import com.piikii.application.port.input.dto.response.VotePlaceResponse
 import com.piikii.application.port.input.dto.response.VoteResultByScheduleResponse
 import com.piikii.application.port.input.dto.response.VoteResultResponse
+import com.piikii.application.port.input.dto.response.VotedPlaceResponse
+import com.piikii.application.port.input.dto.response.VotedPlacesResponse
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.application.port.output.persistence.ScheduleQueryPort
@@ -86,6 +88,26 @@ class VoteService(
         )
     }
 
+    override fun retrieveVotedPlaceByUser(
+        roomUid: UuidTypeId,
+        userUid: UuidTypeId,
+    ): VotedPlacesResponse {
+        val votes = voteQueryPort.findAllByUserUid(userUid)
+        val placeIdByVote = votes.associateBy { it.placeId }
+        val votedPlaces = placeQueryPort.findAllByPlaceIds(votes.map { it.placeId }).filter { it.roomUid == roomUid }
+        return VotedPlacesResponse(
+            votedPlaces.map { place ->
+                val vote =
+                    placeIdByVote[place.id]
+                        ?: throw PiikiiException(
+                            exceptionCode = ExceptionCode.ACCESS_DENIED,
+                            detailMessage = "$VOTE_NOT_FOUND (Place ID: ${place.id.getValue()})",
+                        )
+                VotedPlaceResponse(place, vote)
+            },
+        )
+    }
+
     private fun getVoteCount(
         placeId: LongTypeId,
         votesGroupByPlaceId: Map<LongTypeId, List<Vote>>,
@@ -99,5 +121,6 @@ class VoteService(
     companion object {
         const val VOTE_UNAVAILABLE = "투표가 시작되지 않았거나, 마감되었습니다"
         const val VOTE_NOT_STARTED = "투표가 시작되지 않았습니다"
+        const val VOTE_NOT_FOUND = "장소에 해당하는 투표 결과가 없습니다"
     }
 }
