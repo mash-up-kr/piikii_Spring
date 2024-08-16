@@ -1,5 +1,6 @@
 package com.piikii.application.domain.vote
 
+import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.port.input.VoteUseCase
 import com.piikii.application.port.input.dto.response.VotePlaceResponse
@@ -56,28 +57,43 @@ class VoteService(
 
     override fun getVoteResultOfRoom(roomUid: UuidTypeId): VoteResultResponse {
         val places = placeQueryPort.findAllByRoomUid(roomUid)
-        val placeIds = places.map { it.id }
-        val votes = voteQueryPort.findAllByPlaceIds(placeIds)
-
-        val placeByScheduleId = places.groupBy { it.scheduleId }
         val scheduleById = scheduleQueryPort.findAllByRoomUid(roomUid).associateBy { it.id }
-        val agreeCountByPlaceId = voteQueryPort.findAgreeCountByPlaceId(votes)
+        val placeByScheduleId = places.groupBy { it.scheduleId }
+        val votesGroupByPlaceId = voteQueryPort.findAllByPlaceIds(places.map { it.id }).groupBy { it.placeId }
 
-        val voteResultByScheduleResponses =
+        return VoteResultResponse(
             scheduleById.map { (scheduleId, schedule) ->
                 val placesOfSchedule = placeByScheduleId[scheduleId] ?: emptyList()
                 val votePlaceResponses =
                     placesOfSchedule.map {
-                        val countOfAgree = agreeCountByPlaceId.getOrDefault(it.id.getValue(), 0)
-                        VotePlaceResponse(it, countOfAgree)
+                        val (votesOfPlaceAgreeCount, votesOfPlaceDisagreeCount) =
+                            getVoteCount(
+                                it.id,
+                                votesGroupByPlaceId,
+                            )
+                        VotePlaceResponse(
+                            place = it,
+                            countOfAgree = votesOfPlaceAgreeCount,
+                            countOfDisagree = votesOfPlaceDisagreeCount,
+                        )
                     }
                 VoteResultByScheduleResponse(
                     scheduleId = scheduleId.getValue(),
                     scheduleName = schedule.name,
                     places = votePlaceResponses.sortedByDescending { it.countOfAgree },
                 )
-            }
-        return VoteResultResponse(voteResultByScheduleResponses)
+            },
+        )
+    }
+
+    private fun getVoteCount(
+        placeId: LongTypeId,
+        votesGroupByPlaceId: Map<LongTypeId, List<Vote>>,
+    ): Pair<Int, Int> {
+        val votesOfPlace = votesGroupByPlaceId[placeId]
+        val votesOfPlaceAgreeCount = votesOfPlace?.count { it.result == VoteResult.AGREE } ?: 0
+        val votesOfPlaceDisagreeCount = votesOfPlace?.count { it.result == VoteResult.DISAGREE } ?: 0
+        return Pair(votesOfPlaceAgreeCount, votesOfPlaceDisagreeCount)
     }
 
     companion object {
