@@ -7,6 +7,7 @@ import com.piikii.application.port.input.dto.request.VoteDeadlineSetRequest
 import com.piikii.application.port.input.dto.request.VoteSaveRequest
 import com.piikii.application.port.input.dto.response.VoteResultResponse
 import com.piikii.application.port.input.dto.response.VoteStatusResponse
+import com.piikii.application.port.input.dto.response.VotedPlacesResponse
 import com.piikii.input.http.controller.docs.VoteApiDocs
 import com.piikii.input.http.controller.dto.ResponseForm
 import jakarta.validation.Valid
@@ -66,5 +67,15 @@ class VoteApi(
     ): ResponseForm<VoteResultResponse> {
         val voteResult = voteUseCase.getVoteResultOfRoom(UuidTypeId(roomUid))
         return ResponseForm(data = voteResult)
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/user/{userUid}")
+    override fun retrieveVotedPlaceByUser(
+        @NotNull @PathVariable roomUid: UUID,
+        @NotNull @PathVariable userUid: UUID,
+    ): ResponseForm<VotedPlacesResponse> {
+        val votedResult = voteUseCase.retrieveVotedPlaceByUser(UuidTypeId(roomUid), UuidTypeId(userUid))
+        return ResponseForm(data = votedResult)
     }
 }
