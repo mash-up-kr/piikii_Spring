@@ -348,13 +348,6 @@ class VoteServiceTest {
             .willReturn(schedules)
         given(voteQueryPort.findAllByPlaceIds(anyList()))
             .willReturn(votes)
-        given(voteQueryPort.findAgreeCountByPlaceId(votes))
-            .willReturn(
-                mapOf(
-                    1L to 1,
-                    3L to 2,
-                ),
-            )
 
         // when
         val voteResultResponse = assertDoesNotThrow { voteService.getVoteResultOfRoom(roomUid) }
