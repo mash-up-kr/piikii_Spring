@@ -19,7 +19,6 @@ class OpenApiConfiguration {
         val server =
             Server()
                 .url("https://api.piikii.co.kr")
-                .url("localhost:8080")
 
         return OpenAPI()
             .components(Components())
