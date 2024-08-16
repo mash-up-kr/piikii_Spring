@@ -1,5 +1,6 @@
 package com.piikii.application.domain.vote
 
+import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.port.input.VoteUseCase
 import com.piikii.application.port.input.dto.response.VotePlaceResponse
@@ -65,10 +66,11 @@ class VoteService(
                 val placesOfSchedule = placeByScheduleId[scheduleId] ?: emptyList()
                 val votePlaceResponses =
                     placesOfSchedule.map {
-                        val placeId = it.id
-                        val votesOfPlace = votesGroupByPlaceId[placeId]
-                        val votesOfPlaceAgreeCount = votesOfPlace?.count { it.result == VoteResult.AGREE } ?: 0
-                        val votesOfPlaceDisagreeCount = votesOfPlace?.count { it.result == VoteResult.DISAGREE } ?: 0
+                        val (votesOfPlaceAgreeCount, votesOfPlaceDisagreeCount) =
+                            getVoteCount(
+                                it.id,
+                                votesGroupByPlaceId,
+                            )
                         VotePlaceResponse(
                             place = it,
                             countOfAgree = votesOfPlaceAgreeCount,
@@ -82,6 +84,16 @@ class VoteService(
                 )
             },
         )
+    }
+
+    private fun getVoteCount(
+        placeId: LongTypeId,
+        votesGroupByPlaceId: Map<LongTypeId, List<Vote>>,
+    ): Pair<Int, Int> {
+        val votesOfPlace = votesGroupByPlaceId[placeId]
+        val votesOfPlaceAgreeCount = votesOfPlace?.count { it.result == VoteResult.AGREE } ?: 0
+        val votesOfPlaceDisagreeCount = votesOfPlace?.count { it.result == VoteResult.DISAGREE } ?: 0
+        return Pair(votesOfPlaceAgreeCount, votesOfPlaceDisagreeCount)
     }
 
     companion object {
