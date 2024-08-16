@@ -52,8 +52,12 @@ data class VotePlaceResponse(
     val memo: String?,
     @field:Schema(description = "찬성 투표 수", example = "10")
     val countOfAgree: Int,
+    @field:Schema(description = "반대 투표 수", example = "1")
+    val countOfDisagree: Int,
+    @field:Schema(description = "총 투표 수", example = "11")
+    val countOfVote: Int,
 ) {
-    constructor(place: Place, countOfAgree: Int) : this(
+    constructor(place: Place, countOfAgree: Int, countOfDisagree: Int) : this(
         placeId = place.id.getValue(),
         name = place.name,
         url = place.url,
@@ -64,5 +68,7 @@ data class VotePlaceResponse(
         origin = place.origin,
         memo = place.memo,
         countOfAgree = countOfAgree,
+        countOfDisagree = countOfDisagree,
+        countOfVote = countOfAgree + countOfDisagree,
     )
 }
