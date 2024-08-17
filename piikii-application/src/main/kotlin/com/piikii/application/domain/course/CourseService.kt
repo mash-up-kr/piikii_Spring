@@ -130,7 +130,7 @@ class CourseService(
             coordinate = coordinate,
             distance =
                 preCoursePlace?.coordinate?.let { preCoordinate ->
-                    coordinate?.let { coordinate ->
+                    coordinate.let { coordinate ->
                         navigationClient.getDistance(start = preCoordinate, end = coordinate)
                     }
                 },
