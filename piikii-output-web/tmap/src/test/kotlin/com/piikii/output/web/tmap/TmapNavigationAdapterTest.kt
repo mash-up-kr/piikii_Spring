@@ -1,7 +1,7 @@
 package com.piikii.output.web.tmap
 
 import com.piikii.application.domain.course.Coordinate
-import com.piikii.output.web.tmap.adapter.TmapNavigationClient
+import com.piikii.output.web.tmap.adapter.TmapNavigationAdapter
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,9 +13,9 @@ import org.springframework.test.context.ContextConfiguration
 @SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = [TestConfiguration::class])
-class TmapNavigationClientTest {
+class TmapNavigationAdapterTest {
     @Autowired
-    lateinit var tmapNavigationClient: TmapNavigationClient
+    lateinit var tmapNavigationClient: TmapNavigationAdapter
 
     @Test
     fun getDistanceTest() {

@@ -3,7 +3,7 @@ package com.piikii.application.port.output.web
 import com.piikii.application.domain.place.OriginMapId
 import com.piikii.application.domain.place.OriginPlace
 
-interface OriginPlaceAutoCompleteClient {
+interface OriginPlaceAutoCompletePort {
     fun isAutoCompleteSupportedUrl(url: String): Boolean
 
     fun extractOriginMapId(url: String): OriginMapId
