@@ -32,6 +32,8 @@ data class PlaceAutoCompleteResponse(
     val longitude: Double?,
     @field:Schema(description = "장소 위치 위도", example = "33.45241976")
     val latitude: Double?,
+    @field:Schema(description = "영업시간", example = "10:00 ~ 17:00")
+    val openingHours: String?,
 ) {
     companion object {
         fun from(originPlace: OriginPlace): PlaceAutoCompleteResponse {
@@ -47,6 +49,7 @@ data class PlaceAutoCompleteResponse(
                 origin = originPlace.origin,
                 longitude = originPlace.longitude,
                 latitude = originPlace.latitude,
+                openingHours = originPlace.openingHours,
             )
         }
     }

@@ -16,6 +16,7 @@ data class OriginPlace(
     val latitude: Double?,
     val reviewCount: Int,
     val category: String?,
+    val openingHours: String?,
     val origin: Origin,
 )
 

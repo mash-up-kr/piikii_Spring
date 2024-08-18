@@ -21,6 +21,7 @@ data class Place(
     val reviewCount: Int?,
     val longitude: Double?,
     val latitude: Double?,
+    val openingHours: String?,
 ) {
     fun getCoordinate(): Coordinate {
         return Coordinate(this.longitude, this.latitude)

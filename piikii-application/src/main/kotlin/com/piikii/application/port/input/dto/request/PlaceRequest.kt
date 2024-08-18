@@ -58,6 +58,8 @@ data class AddPlaceRequest(
     val longitude: Double?,
     @field:Schema(description = "장소 위치 위도", example = "33.45241976")
     val latitude: Double?,
+    @field:Schema(description = "영업시간", example = "10:00 ~ 17:00")
+    val openingHours: String?,
 ) {
     fun toDomain(
         roomUid: UuidTypeId,
@@ -80,6 +82,7 @@ data class AddPlaceRequest(
             reviewCount = reviewCount,
             longitude = longitude,
             latitude = latitude,
+            openingHours = openingHours,
         )
     }
 }
@@ -127,6 +130,8 @@ data class ModifyPlaceRequest(
     val longitude: Double?,
     @field:Schema(description = "장소 위치 위도", example = "33.45241976")
     val latitude: Double?,
+    @field:Schema(description = "영업시간", example = "10:00 ~ 17:00")
+    val openingHours: String?,
 ) {
     fun toDomain(
         targetPlaceId: LongTypeId,
@@ -150,6 +155,7 @@ data class ModifyPlaceRequest(
             reviewCount = reviewCount,
             longitude = longitude,
             latitude = latitude,
+            openingHours = openingHours,
         )
     }
 }
