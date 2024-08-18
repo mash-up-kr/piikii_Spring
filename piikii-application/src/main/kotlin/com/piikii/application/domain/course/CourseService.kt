@@ -5,6 +5,7 @@ import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.schedule.Schedule
 import com.piikii.application.port.input.CourseUseCase
+import com.piikii.application.port.input.dto.request.CourseRequest
 import com.piikii.application.port.input.dto.response.CourseResponse
 import com.piikii.application.port.output.persistence.CourseQueryPort
 import com.piikii.application.port.output.persistence.PlaceCommandPort
@@ -61,7 +62,12 @@ class CourseService(
     override fun updateCoursePlace(
         roomUid: UuidTypeId,
         placeId: LongTypeId,
+        courseUpdateRequest: CourseRequest,
     ) {
+        roomQueryPort.findById(roomUid).let { room ->
+            roomQueryPort.verifyPassword(room, courseUpdateRequest.password)
+        }
+
         val place = placeQueryPort.findByPlaceId(placeId)
 
         if (place.isInvalidRoomUid(roomUid)) {

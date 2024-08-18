@@ -1,6 +1,7 @@
 package com.piikii.output.persistence.postgresql.adapter
 
 import com.piikii.application.domain.generic.UuidTypeId
+import com.piikii.application.domain.room.Password
 import com.piikii.application.domain.room.Room
 import com.piikii.application.port.output.persistence.RoomCommandPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
@@ -35,6 +36,15 @@ class RoomAdapter(
 
     override fun findById(roomUid: UuidTypeId): Room {
         return findByRoomUid(roomUid).toDomain()
+    }
+
+    override fun verifyPassword(
+        room: Room,
+        password: Password,
+    ) {
+        require(room.isPasswordValid(password)) {
+            throw PiikiiException(ExceptionCode.ROOM_PASSWORD_INVALID)
+        }
     }
 
     private fun findByRoomUid(roomUid: UuidTypeId): RoomEntity {
