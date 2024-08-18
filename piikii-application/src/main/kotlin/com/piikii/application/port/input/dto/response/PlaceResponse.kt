@@ -54,7 +54,7 @@ data class PlaceResponse(
         memo = place.memo,
         confirmed = place.confirmed,
         reviewCount = place.reviewCount,
-        openingHours = place.openingHours
+        openingHours = place.openingHours,
     )
 }
 

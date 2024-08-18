@@ -110,12 +110,12 @@ data class LemonPlaceInfoResponse(
         val offdayList: List<Offday>?,
     ) {
         fun toPrintFormat(): String? {
-            val openingHour = periodList
-                ?.first { it.periodName == OPEN_HOUR_PERIOD_NAME }
-                ?.toPrintFormat()
-            val offdaySchedule = offdayList
-                ?.map { it.toPrintFormat() }
-                ?.joinToString { JOINER }
+            val openingHour =
+                periodList?.first { it.periodName == OPEN_HOUR_PERIOD_NAME }
+                    ?.toPrintFormat()
+            val offdaySchedule =
+                offdayList?.map { it.toPrintFormat() }
+                    ?.joinToString { JOINER }
             return "$openingHour$JOINER$offdaySchedule"
         }
 

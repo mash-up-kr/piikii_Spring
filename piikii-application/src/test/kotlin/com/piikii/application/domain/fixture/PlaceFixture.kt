@@ -23,6 +23,7 @@ class PlaceFixture(
     private var reviewCount: Int = 0,
     private var longitude: Double? = null,
     private var latitude: Double? = null,
+    private var openingHours: String? = null,
 ) {
     fun id(id: Long): PlaceFixture {
         this.id = LongTypeId(id)
@@ -76,6 +77,7 @@ class PlaceFixture(
             reviewCount = this.reviewCount,
             longitude = this.longitude,
             latitude = this.latitude,
+            openingHours = this.openingHours,
         )
     }
 
