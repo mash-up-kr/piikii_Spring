@@ -43,6 +43,8 @@ class OriginPlaceEntity(
     val reviewCount: Int,
     @Column(name = "category")
     val category: String?,
+    @Column(name = "opening_hours")
+    val openingHours: String?,
     @Enumerated(EnumType.STRING)
     @Column(name = "origin", nullable = false)
     val origin: Origin,
@@ -61,6 +63,7 @@ class OriginPlaceEntity(
             latitude = latitude,
             reviewCount = reviewCount,
             category = category,
+            openingHours = openingHours,
             origin = origin,
         )
     }
@@ -79,6 +82,7 @@ class OriginPlaceEntity(
                 latitude = originPlace.latitude,
                 reviewCount = originPlace.reviewCount,
                 category = originPlace.category,
+                openingHours = originPlace.openingHours,
                 origin = originPlace.origin,
             )
         }

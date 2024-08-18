@@ -32,6 +32,7 @@ data class LemonPlaceInfoResponse(
             latitude = basicInfo.latitude,
             reviewCount = basicInfo.feedback.countOfBlogReview,
             category = basicInfo.category.firstCategoryName,
+            openingHours = basicInfo.openHour.toPrintFormat(),
             origin = Origin.LEMON,
         )
     }
@@ -106,13 +107,33 @@ data class LemonPlaceInfoResponse(
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class OpenHour(
         val periodList: List<Period>?,
-    )
+        val offdayList: List<Offday>?,
+    ) {
+        fun toPrintFormat(): String? {
+            val openingHour =
+                periodList?.first { it.periodName == OPEN_HOUR_PERIOD_NAME }
+                    ?.toPrintFormat()
+            val offdaySchedule =
+                offdayList?.map { it.toPrintFormat() }
+                    ?.joinToString { JOINER }
+            return "$openingHour$JOINER$offdaySchedule"
+        }
+
+        companion object {
+            const val OPEN_HOUR_PERIOD_NAME = "영업기간"
+            const val JOINER = "\n"
+        }
+    }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class Period(
         val periodName: String,
         val timeList: List<Time>?,
-    )
+    ) {
+        fun toPrintFormat(): String? {
+            return timeList?.joinToString(OpenHour.JOINER) { "${it.timeName}: ${it.dayOfWeek} ${it.timeSE}" }
+        }
+    }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class Time(
@@ -120,6 +141,17 @@ data class LemonPlaceInfoResponse(
         val timeSE: String,
         val dayOfWeek: String,
     )
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    data class Offday(
+        val holidayName: String,
+        val weekAndDay: String,
+        val temporaryHolidays: String,
+    ) {
+        fun toPrintFormat(): String {
+            return "$holidayName: $weekAndDay"
+        }
+    }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class Comment(

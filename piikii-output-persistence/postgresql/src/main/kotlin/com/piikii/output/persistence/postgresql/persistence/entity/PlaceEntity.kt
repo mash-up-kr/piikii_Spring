@@ -50,6 +50,8 @@ class PlaceEntity(
     val longitude: Double?,
     @Column(name = "latitude")
     val latitude: Double?,
+    @Column(name = "opening_hours")
+    val openingHours: String?,
 ) : BaseEntity() {
     constructor(roomUid: UuidTypeId, scheduleId: LongTypeId, place: Place) : this(
         roomUid = roomUid,
@@ -66,6 +68,7 @@ class PlaceEntity(
         reviewCount = place.reviewCount,
         longitude = place.longitude,
         latitude = place.latitude,
+        openingHours = place.openingHours,
     )
 
     fun toDomain(): Place {
@@ -85,6 +88,7 @@ class PlaceEntity(
             reviewCount = reviewCount,
             longitude = longitude,
             latitude = latitude,
+            openingHours = openingHours,
         )
     }
 

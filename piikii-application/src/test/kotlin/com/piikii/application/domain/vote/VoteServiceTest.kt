@@ -118,6 +118,7 @@ class VoteServiceTest {
                 reviewCount = 0,
                 longitude = 126.9246033,
                 latitude = 33.45241976,
+                openingHours = "",
             )
 
         given(roomQueryPort.findById(room.roomUid))
@@ -169,6 +170,7 @@ class VoteServiceTest {
                     reviewCount = 0,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
+                    openingHours = "",
                 ),
                 Place(
                     id = LongTypeId(1L),
@@ -186,6 +188,7 @@ class VoteServiceTest {
                     reviewCount = 0,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
+                    openingHours = "",
                 ),
             )
 
@@ -238,6 +241,7 @@ class VoteServiceTest {
                     reviewCount = 0,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
+                    openingHours = "",
                 ),
                 Place(
                     id = LongTypeId(2),
@@ -255,6 +259,7 @@ class VoteServiceTest {
                     reviewCount = 0,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
+                    openingHours = "",
                 ),
             )
 
@@ -305,6 +310,7 @@ class VoteServiceTest {
                     reviewCount = 0,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
+                    openingHours = "",
                 ),
                 Place(
                     id = LongTypeId(2),
@@ -322,6 +328,7 @@ class VoteServiceTest {
                     reviewCount = 0,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
+                    openingHours = "",
                 ),
                 Place(
                     id = LongTypeId(3),
@@ -339,6 +346,7 @@ class VoteServiceTest {
                     reviewCount = 0,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
+                    openingHours = "",
                 ),
             )
 

@@ -20,6 +20,7 @@ data class AvocadoPlaceInfoResponse(
     val businessType: String?,
     val category: String?,
     val microReview: String?,
+    val businessHours: String?,
     val buttons: Buttons,
     @JsonProperty("x")
     val longitude: Double?,
@@ -40,6 +41,7 @@ data class AvocadoPlaceInfoResponse(
             latitude = latitude,
             reviewCount = visitorReviewCount ?: 0,
             category = category,
+            openingHours = businessHours,
             origin = Origin.AVOCADO,
         )
     }
