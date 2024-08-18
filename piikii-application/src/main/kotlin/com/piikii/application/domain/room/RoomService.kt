@@ -8,8 +8,6 @@ import com.piikii.application.port.input.dto.response.RoomResponse
 import com.piikii.application.port.input.dto.response.SaveRoomResponse
 import com.piikii.application.port.output.persistence.RoomCommandPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
-import com.piikii.common.exception.ExceptionCode
-import com.piikii.common.exception.PiikiiException
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -41,17 +39,8 @@ class RoomService(
         voteDeadline: LocalDateTime,
     ) {
         roomQueryPort.findById(roomUid).let { room ->
-            verifyPassword(room, password)
+            roomQueryPort.verifyPassword(room, password)
             roomCommandPort.update(room.copy(voteDeadline = voteDeadline))
-        }
-    }
-
-    private fun verifyPassword(
-        room: Room,
-        password: Password,
-    ) {
-        require(room.isPasswordValid(password)) {
-            throw PiikiiException(ExceptionCode.ROOM_PASSWORD_INVALID)
         }
     }
 }
