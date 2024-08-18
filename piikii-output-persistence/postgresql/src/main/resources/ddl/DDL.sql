@@ -46,6 +46,7 @@ CREATE TABLE piikii.place
     confirmed       BOOLEAN            NOT NULL,
     latitude        DOUBLE PRECISION,
     longitude       DOUBLE PRECISION,
+    opening_hours   VARCHAR(255),
     is_deleted      BOOLEAN            NOT NULL,
     created_at      TIMESTAMP(6)       NOT NULL,
     modified_at     TIMESTAMP(6)       NOT NULL
@@ -96,6 +97,7 @@ CREATE TABLE piikii.origin_place
     origin          piikii.source_type NOT NULL,
     latitude        DOUBLE PRECISION,
     longitude       DOUBLE PRECISION,
+    opening_hours   VARCHAR(255),
     review_count    INTEGER            NOT NULL,
     category        VARCHAR(255),
     is_deleted      BOOLEAN            NOT NULL,
