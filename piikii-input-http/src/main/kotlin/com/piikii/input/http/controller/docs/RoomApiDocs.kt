@@ -6,6 +6,7 @@ import com.piikii.application.port.input.dto.request.RoomUpdateRequestForm
 import com.piikii.application.port.input.dto.response.RoomResponse
 import com.piikii.application.port.input.dto.response.SaveRoomResponse
 import com.piikii.input.http.controller.dto.ResponseForm
+import com.piikii.input.http.controller.dto.response.ExceptionResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn
@@ -114,6 +115,11 @@ interface RoomApiDocs {
                 responseCode = "200",
                 description = "GET success",
                 content = [Content(schema = Schema(implementation = ResponseForm::class))],
+            ),
+            ApiResponse(
+                responseCode = "401",
+                description = "Failed to verify",
+                content = [Content(schema = Schema(implementation = ExceptionResponse::class))],
             ),
         ],
     )
