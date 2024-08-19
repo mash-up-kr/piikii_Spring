@@ -20,10 +20,14 @@ class OpenApiConfiguration {
             Server()
                 .url("https://api.piikii.co.kr")
 
+        val local =
+            Server()
+                .url("http://localhost:8080")
+
         return OpenAPI()
             .components(Components())
             .info(info)
-            .servers(listOf(server))
+            .servers(listOf(server, local))
     }
 
     companion object {
