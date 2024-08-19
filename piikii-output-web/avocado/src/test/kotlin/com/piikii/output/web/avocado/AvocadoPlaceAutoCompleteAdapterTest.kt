@@ -3,7 +3,7 @@ package com.piikii.output.web.avocado
 import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.OriginMapId
-import com.piikii.output.web.avocado.adapter.AvocadoPlaceAutoCompleteClient
+import com.piikii.output.web.avocado.adapter.AvocadoPlaceAutoCompleteAdapter
 import com.piikii.output.web.avocado.parser.MapUrlIdParser
 import com.piikii.output.web.avocado.parser.ShareUrlIdParser
 import org.assertj.core.api.Assertions.assertThat
@@ -18,7 +18,7 @@ import org.springframework.test.context.ContextConfiguration
 @SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = [TestConfiguration::class])
-class AvocadoPlaceAutoCompleteClientTest {
+class AvocadoPlaceAutoCompleteAdapterTest {
     @Autowired
     lateinit var shareUrlIdParser: ShareUrlIdParser
 
@@ -29,7 +29,7 @@ class AvocadoPlaceAutoCompleteClientTest {
     lateinit var mapMobileUrlIdParser: MapUrlIdParser
 
     @Autowired
-    lateinit var avocadoPlaceAutoCompleteClient: AvocadoPlaceAutoCompleteClient
+    lateinit var avocadoPlaceAutoCompleteAdapter: AvocadoPlaceAutoCompleteAdapter
 
     @Test
     fun shareUrlIdParserTest() {
@@ -56,7 +56,7 @@ class AvocadoPlaceAutoCompleteClientTest {
         val id = 123L
 
         val originPlace =
-            avocadoPlaceAutoCompleteClient.getAutoCompletedPlace(
+            avocadoPlaceAutoCompleteAdapter.getAutoCompletedPlace(
                 url,
                 OriginMapId.of(LongTypeId(id), Origin.AVOCADO),
             )

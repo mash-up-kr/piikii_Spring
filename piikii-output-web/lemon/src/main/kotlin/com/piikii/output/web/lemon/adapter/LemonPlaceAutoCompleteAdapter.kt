@@ -2,7 +2,7 @@ package com.piikii.output.web.lemon.adapter
 
 import com.piikii.application.domain.place.OriginMapId
 import com.piikii.application.domain.place.OriginPlace
-import com.piikii.application.port.output.web.OriginPlaceAutoCompleteClient
+import com.piikii.application.port.output.web.OriginPlaceAutoCompletePort
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
 import com.piikii.output.web.lemon.parser.LemonOriginMapIdParser
@@ -11,10 +11,10 @@ import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 
 @Component
-class LemonPlaceAutoCompleteClient(
+class LemonPlaceAutoCompleteAdapter(
     private val lemonOriginMapIdParser: LemonOriginMapIdParser,
     private val lemonApiClient: RestClient,
-) : OriginPlaceAutoCompleteClient {
+) : OriginPlaceAutoCompletePort {
     override fun isAutoCompleteSupportedUrl(url: String): Boolean {
         return lemonOriginMapIdParser.isAutoCompleteSupportedUrl(url)
     }

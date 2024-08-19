@@ -3,7 +3,7 @@ package com.piikii.output.web.lemon
 import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.OriginMapId
-import com.piikii.output.web.lemon.adapter.LemonPlaceAutoCompleteClient
+import com.piikii.output.web.lemon.adapter.LemonPlaceAutoCompleteAdapter
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -18,7 +18,7 @@ import org.springframework.test.context.ContextConfiguration
 @ContextConfiguration(classes = [TestConfiguration::class])
 class LemonPlaceAutoCompleteClientTest {
     @Autowired
-    lateinit var lemonPlaceAutoCompleteClient: LemonPlaceAutoCompleteClient
+    lateinit var lemonPlaceAutoCompleteClient: LemonPlaceAutoCompleteAdapter
 
     @Test
     fun isAutoCompleteSupportedUrlTest() {

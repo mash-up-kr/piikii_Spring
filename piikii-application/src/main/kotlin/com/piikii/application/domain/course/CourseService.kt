@@ -12,7 +12,7 @@ import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.application.port.output.persistence.ScheduleQueryPort
 import com.piikii.application.port.output.persistence.VoteQueryPort
-import com.piikii.application.port.output.web.NavigationClient
+import com.piikii.application.port.output.web.NavigationPort
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
 import org.springframework.stereotype.Service
@@ -27,7 +27,7 @@ class CourseService(
     private val placeQueryPort: PlaceQueryPort,
     private val placeCommandPort: PlaceCommandPort,
     private val voteQueryPort: VoteQueryPort,
-    private val navigationClient: NavigationClient,
+    private val navigationPort: NavigationPort,
 ) : CourseUseCase {
     override fun isCourseExist(roomUid: UuidTypeId): Boolean {
         return courseQueryPort.isCourseExist(roomUid)
@@ -131,7 +131,7 @@ class CourseService(
             distance =
                 preCoursePlace?.coordinate?.let { preCoordinate ->
                     coordinate.let { coordinate ->
-                        navigationClient.getDistance(start = preCoordinate, end = coordinate)
+                        navigationPort.getDistance(start = preCoordinate, end = coordinate)
                     }
                 },
         )

@@ -2,7 +2,7 @@ package com.piikii.output.web.tmap.adapter
 
 import com.piikii.application.domain.course.Coordinate
 import com.piikii.application.domain.course.Distance
-import com.piikii.application.port.output.web.NavigationClient
+import com.piikii.application.port.output.web.NavigationPort
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
 import org.springframework.stereotype.Component
@@ -10,9 +10,9 @@ import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 
 @Component
-class TmapNavigationClient(
+class TmapNavigationAdapter(
     private val tmapApiClient: RestClient,
-) : NavigationClient {
+) : NavigationPort {
     override fun getDistance(
         start: Coordinate,
         end: Coordinate,
