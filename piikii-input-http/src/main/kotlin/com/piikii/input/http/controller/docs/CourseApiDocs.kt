@@ -1,6 +1,5 @@
 package com.piikii.input.http.controller.docs
 
-import com.piikii.application.port.input.dto.request.CourseRequest
 import com.piikii.application.port.input.dto.response.CourseResponse
 import com.piikii.input.http.controller.dto.ResponseForm
 import com.piikii.input.http.controller.dto.response.CourseExistenceResponse
@@ -12,9 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
-import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
-import org.springframework.web.bind.annotation.RequestBody
 import java.util.UUID
 
 @Tag(name = "CourseApi", description = "Course API 입니다.")
@@ -88,6 +85,5 @@ interface CourseApiDocs {
             `in` = ParameterIn.PATH,
         )
         @NotNull placeId: Long,
-        @Valid @NotNull @RequestBody courseUpdateRequest: CourseRequest,
     ): ResponseForm<Unit>
 }
