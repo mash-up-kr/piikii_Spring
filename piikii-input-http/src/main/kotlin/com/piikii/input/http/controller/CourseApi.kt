@@ -3,19 +3,16 @@ package com.piikii.input.http.controller
 import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.port.input.CourseUseCase
-import com.piikii.application.port.input.dto.request.CourseRequest
 import com.piikii.application.port.input.dto.response.CourseResponse
 import com.piikii.input.http.controller.docs.CourseApiDocs
 import com.piikii.input.http.controller.dto.ResponseForm
 import com.piikii.input.http.controller.dto.response.CourseExistenceResponse
-import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
@@ -52,9 +49,8 @@ class CourseApi(
     override fun updateCoursePlace(
         @NotNull @PathVariable roomUid: UUID,
         @NotNull @PathVariable placeId: Long,
-        @Valid @NotNull @RequestBody courseUpdateRequest: CourseRequest,
     ): ResponseForm<Unit> {
-        courseUseCase.updateCoursePlace(UuidTypeId(roomUid), LongTypeId(placeId), courseUpdateRequest)
+        courseUseCase.updateCoursePlace(UuidTypeId(roomUid), LongTypeId(placeId))
         return ResponseForm.EMPTY_RESPONSE
     }
 }
