@@ -58,12 +58,16 @@ class ScheduleAdapter(
         return scheduleRepository.findByroomUidOrderBySequenceAsc(roomUid.getValue()).map { it.toDomain() }
     }
 
-    override fun findScheduleById(id: LongTypeId): Schedule {
+    override fun findById(id: LongTypeId): Schedule {
         return scheduleRepository.findByIdOrNull(id.getValue())?.toDomain()
             ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.NOT_FOUNDED,
                 detailMessage = "Schedule ID: $id",
             )
+    }
+
+    override fun findAllByIds(ids: List<LongTypeId>): List<Schedule> {
+        return scheduleRepository.findAllById(ids.map { it.getValue() }).map { it.toDomain() }
     }
 
     private fun findScheduleEntityById(id: LongTypeId): ScheduleEntity {

@@ -13,7 +13,7 @@ interface PlaceUseCase {
         targetRoomUid: UuidTypeId,
         addPlaceRequest: AddPlaceRequest,
         placeImages: List<MultipartFile>?,
-    ): PlaceResponse
+    ): List<PlaceResponse>
 
     fun findAllByRoomUidGroupByPlaceType(roomUid: UuidTypeId): List<ScheduleTypeGroupResponse>
 

@@ -33,6 +33,22 @@ class PlaceAdapter(
         return placeRepository.save(placeEntity).toDomain()
     }
 
+    override fun saveAll(
+        roomUid: UuidTypeId,
+        scheduleIds: List<LongTypeId>,
+        places: List<Place>,
+    ): List<Place> {
+        val placeEntities =
+            places.zip(scheduleIds) { place, scheduleId ->
+                PlaceEntity(
+                    roomUid = roomUid,
+                    scheduleId = scheduleId,
+                    place = place,
+                )
+            }
+        return placeRepository.saveAll(placeEntities).map { it.toDomain() }
+    }
+
     @Transactional
     override fun update(
         targetPlaceId: LongTypeId,

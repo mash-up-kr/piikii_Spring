@@ -20,7 +20,7 @@ import java.util.UUID
 
 @Tag(name = "Place Api", description = "방 장소 관련 API")
 interface PlaceDocs {
-    class SuccessPlaceResponse : ResponseForm<PlaceResponse>()
+    class SuccessPlaceResponse : ResponseForm<List<PlaceResponse>>()
 
     class SuccessPlaceTypeGroupResponse : ResponseForm<ScheduleTypeGroupResponse>()
 
@@ -56,7 +56,7 @@ interface PlaceDocs {
             description = "장소 이미지 파일들",
             required = false,
         ) placeImages: List<MultipartFile>?,
-    ): ResponseForm<PlaceResponse>
+    ): ResponseForm<List<PlaceResponse>>
 
     @Operation(summary = "방 장소 조회 API", description = "방에 등록된 장소를 모두 조회합니다.")
     @ApiResponses(
