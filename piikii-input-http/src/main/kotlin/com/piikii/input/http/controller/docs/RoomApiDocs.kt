@@ -1,6 +1,6 @@
 package com.piikii.input.http.controller.docs
 
-import com.piikii.application.port.input.dto.request.RoomPasswordVerifyRequestForm
+import com.piikii.application.domain.room.Password
 import com.piikii.application.port.input.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.dto.request.RoomUpdateRequestForm
 import com.piikii.application.port.input.dto.response.RoomResponse
@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
-import org.springframework.web.bind.annotation.RequestBody
+import jakarta.validation.constraints.Size
 import java.util.UUID
 
 @Tag(name = "RoomApi", description = "방 관련 API")
@@ -124,6 +124,12 @@ interface RoomApiDocs {
             required = true,
             `in` = ParameterIn.PATH,
         ) @NotNull roomUid: UUID,
-        @Valid @NotNull @RequestBody request: RoomPasswordVerifyRequestForm,
+        @Parameter(
+            description = "방 비밀번호",
+            example = "1234",
+            required = true,
+            `in` = ParameterIn.HEADER,
+        ) @NotNull @Size(min = 4, max = 4, message = "비밀번호는 반드시 4자리여야 합니다.")
+        password: Password,
     ): ResponseForm<Unit>
 }
