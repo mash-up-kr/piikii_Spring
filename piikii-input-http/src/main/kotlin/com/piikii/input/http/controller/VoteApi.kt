@@ -37,7 +37,8 @@ class VoteApi(
         @NotNull @PathVariable roomUid: UUID,
         @Valid @NotNull @RequestBody request: VoteDeadlineSetRequest,
     ): ResponseForm<Unit> {
-        roomUseCase.changeVoteDeadline(UuidTypeId(roomUid), request.password, request.voteDeadline)
+        roomUseCase.verifyPassword(UuidTypeId(roomUid), request.password)
+        roomUseCase.changeVoteDeadline(UuidTypeId(roomUid), request.voteDeadline)
         return ResponseForm.EMPTY_RESPONSE
     }
 

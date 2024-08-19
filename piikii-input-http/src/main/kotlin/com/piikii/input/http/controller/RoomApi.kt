@@ -2,6 +2,7 @@ package com.piikii.input.http.controller
 
 import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.port.input.RoomUseCase
+import com.piikii.application.port.input.dto.request.RoomPasswordVerifyRequestForm
 import com.piikii.application.port.input.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.dto.request.RoomUpdateRequestForm
 import com.piikii.application.port.input.dto.response.RoomResponse
@@ -65,5 +66,15 @@ class RoomApi(
         return ResponseForm(
             data = roomUseCase.findById(UuidTypeId(roomUid)),
         )
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{roomUid}/password")
+    override fun verifyPassword(
+        @NotNull @PathVariable roomUid: UUID,
+        @Valid @NotNull @RequestBody request: RoomPasswordVerifyRequestForm,
+    ): ResponseForm<Unit> {
+        roomUseCase.verifyPassword(UuidTypeId(roomUid), request.password)
+        return ResponseForm.EMPTY_RESPONSE
     }
 }
