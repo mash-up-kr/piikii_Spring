@@ -16,7 +16,7 @@ import jakarta.validation.constraints.Size
 
 data class AddPlaceRequest(
     @field:NotNull(message = "일정 ID는 필수입니다.")
-    @field:Schema(description = "일정 ID", example = "1, 2, 3")
+    @field:Schema(description = "일정 ID", example = "[1, 2, 3]")
     val scheduleIds: List<Long>,
     @field:NotNull(message = "일정 타입은 필수입니다.")
     @field:Schema(
