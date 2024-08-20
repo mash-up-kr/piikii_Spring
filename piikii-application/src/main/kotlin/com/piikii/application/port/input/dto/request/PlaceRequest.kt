@@ -18,12 +18,6 @@ data class AddPlaceRequest(
     @field:NotNull(message = "일정 ID는 필수입니다.")
     @field:Schema(description = "일정 ID", example = "[1, 2, 3]")
     val scheduleIds: List<Long>,
-    @field:NotNull(message = "일정 타입은 필수입니다.")
-    @field:Schema(
-        description = "스케줄 타입",
-        example = "DISH",
-    )
-    val type: ScheduleType,
     @field:NotBlank(message = "장소 이름은 필수이며 빈 문자열이 허용되지 않습니다.")
     @field:Size(max = 255, message = "장소 이름은 255자를 초과할 수 없습니다.")
     @field:Schema(description = "장소 이름", example = "보배네 맛집")
@@ -41,10 +35,9 @@ data class AddPlaceRequest(
     @field:Max(value = 5, message = "별점은 5 이하여야 합니다.")
     @field:Schema(description = "별점 (0-5)", example = "4.5")
     val starGrade: Float?,
-    @field:NotBlank(message = "메모는 필수이며 빈 문자열이 허용되지 않습니다.")
     @field:Size(max = 50, message = "메모는 50자를 초과할 수 없습니다.")
     @field:Schema(description = "메모", example = "맛있는 레스토랑")
-    val memo: String,
+    val memo: String?,
     @field:PositiveOrZero(message = "좋아요 수는 0 이상이어야 합니다.")
     @field:Schema(description = "좋아요 수", example = "10")
     val voteLikeCount: Short?,
@@ -114,10 +107,9 @@ data class ModifyPlaceRequest(
     @field:Max(value = 5, message = "별점은 5 이하여야 합니다.")
     @field:Schema(description = "별점 (0-5)", example = "4.5")
     val starGrade: Float?,
-    @field:NotBlank(message = "메모는 필수이며 빈 문자열이 허용되지 않습니다.")
     @field:Size(max = 50, message = "메모는 50자를 초과할 수 없습니다.")
     @field:Schema(description = "메모", example = "맛있는 레스토랑")
-    val memo: String,
+    val memo: String?,
     @field:PositiveOrZero(message = "좋아요 수는 0 이상이어야 합니다.")
     @field:Schema(description = "좋아요 수", example = "10")
     val voteLikeCount: Short?,
