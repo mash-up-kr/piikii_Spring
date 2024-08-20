@@ -27,7 +27,7 @@ class PlaceAdapter(
         val placeEntity =
             PlaceEntity(
                 roomUid = roomUid,
-                scheduleId = scheduleId,
+                scheduleId = place.id,
                 place = place,
             )
         return placeRepository.save(placeEntity).toDomain()
@@ -39,11 +39,11 @@ class PlaceAdapter(
         places: List<Place>,
     ): List<Place> {
         val placeEntities =
-            places.zip(scheduleIds) { place, scheduleId ->
+            places.map {
                 PlaceEntity(
                     roomUid = roomUid,
-                    scheduleId = scheduleId,
-                    place = place,
+                    scheduleId = it.id,
+                    place = it,
                 )
             }
         return placeRepository.saveAll(placeEntities).map { it.toDomain() }
