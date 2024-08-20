@@ -37,19 +37,18 @@ class RoomService(
 
     override fun changeVoteDeadline(
         roomUid: UuidTypeId,
-        password: Password,
         voteDeadline: LocalDateTime,
     ) {
         roomQueryPort.findById(roomUid).let { room ->
-            verifyPassword(room, password)
             roomCommandPort.update(room.copy(voteDeadline = voteDeadline))
         }
     }
 
-    private fun verifyPassword(
-        room: Room,
+    override fun verifyPassword(
+        roomUid: UuidTypeId,
         password: Password,
     ) {
+        val room = roomQueryPort.findById(roomUid)
         require(room.isPasswordValid(password)) {
             throw PiikiiException(ExceptionCode.ROOM_PASSWORD_INVALID)
         }

@@ -19,7 +19,11 @@ interface RoomUseCase {
 
     fun changeVoteDeadline(
         roomUid: UuidTypeId,
-        password: Password,
         voteDeadline: LocalDateTime,
+    )
+
+    fun verifyPassword(
+        roomUid: UuidTypeId,
+        password: Password,
     )
 }
