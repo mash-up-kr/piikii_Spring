@@ -21,6 +21,12 @@ interface PlaceCommandPort {
         place: Place,
     ): Place
 
+    fun saveAll(
+        roomUid: UuidTypeId,
+        scheduleIds: List<LongTypeId>,
+        places: List<Place>,
+    ): List<Place>
+
     fun update(
         targetPlaceId: LongTypeId,
         place: Place,

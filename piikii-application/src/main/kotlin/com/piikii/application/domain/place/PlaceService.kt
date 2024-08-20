@@ -33,7 +33,7 @@ class PlaceService(
         targetRoomUid: UuidTypeId,
         addPlaceRequest: AddPlaceRequest,
         placeImages: List<MultipartFile>?,
-    ): PlaceResponse {
+    ): List<PlaceResponse> {
         val imageUrls =
             placeImages?.let {
                 objectStoragePort.uploadAll(
@@ -43,22 +43,22 @@ class PlaceService(
             } ?: listOf()
 
         val room = roomQueryPort.findById(targetRoomUid)
-        val schedule = scheduleQueryPort.findScheduleById(LongTypeId(addPlaceRequest.scheduleId))
-        val place =
-            addPlaceRequest.toDomain(
-                roomUid = room.roomUid,
-                // TODO 이거 좀 예쁘게 처리하는법 알아보기
-                scheduleId = schedule.id,
-                imageUrls = imageUrls,
-            )
+        val schedules = scheduleQueryPort.findAllByIds(addPlaceRequest.scheduleIds.map(::LongTypeId))
 
-        return PlaceResponse(
-            placeCommandPort.save(
-                roomUid = room.roomUid,
-                scheduleId = schedule.id,
-                place = place,
-            ),
-        )
+        val places =
+            schedules.map { schedule ->
+                addPlaceRequest.toDomain(
+                    roomUid = room.roomUid,
+                    scheduleId = schedule.id,
+                    imageUrls = imageUrls,
+                )
+            }
+
+        return placeCommandPort.saveAll(
+            roomUid = room.roomUid,
+            scheduleIds = schedules.map { it.id },
+            places = places,
+        ).map(::PlaceResponse)
     }
 
     override fun findAllByRoomUidGroupByPlaceType(roomUid: UuidTypeId): List<ScheduleTypeGroupResponse> {

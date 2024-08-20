@@ -38,7 +38,7 @@ class PlaceApi(
         @NotNull @PathVariable roomUid: UUID,
         @Valid @NotNull @RequestPart addPlaceRequest: AddPlaceRequest,
         @RequestPart(required = false) placeImages: List<MultipartFile>?,
-    ): ResponseForm<PlaceResponse> {
+    ): ResponseForm<List<PlaceResponse>> {
         return ResponseForm(placeUseCase.addPlace(UuidTypeId(roomUid), addPlaceRequest, placeImages))
     }
 

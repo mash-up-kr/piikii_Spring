@@ -27,10 +27,26 @@ class PlaceAdapter(
         val placeEntity =
             PlaceEntity(
                 roomUid = roomUid,
-                scheduleId = scheduleId,
+                scheduleId = place.id,
                 place = place,
             )
         return placeRepository.save(placeEntity).toDomain()
+    }
+
+    override fun saveAll(
+        roomUid: UuidTypeId,
+        scheduleIds: List<LongTypeId>,
+        places: List<Place>,
+    ): List<Place> {
+        val placeEntities =
+            places.map {
+                PlaceEntity(
+                    roomUid = roomUid,
+                    scheduleId = it.id,
+                    place = it,
+                )
+            }
+        return placeRepository.saveAll(placeEntities).map { it.toDomain() }
     }
 
     @Transactional
