@@ -115,10 +115,7 @@ class PlaceService(
     }
 
     private fun isPlaceNullOrGet(targetPlaceId: LongTypeId): Place {
-        return placeQueryPort.findByPlaceId(targetPlaceId) ?: throw PiikiiException(
-            exceptionCode = ExceptionCode.NOT_FOUNDED,
-            detailMessage = "targetPlaceId : $targetPlaceId",
-        )
+        return placeQueryPort.findByPlaceId(targetPlaceId)
     }
 
     private fun filterDuplicateUrls(
