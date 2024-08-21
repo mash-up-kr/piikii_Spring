@@ -25,6 +25,14 @@ class CourseRedisCacheAdapter(
     )
     override fun getDistance(startPlace: CoursePlace?, endPlace: Place): Distance? {
         val key = getKey(startPlace?.placeId, endPlace.id)
+
+        // test
+        if (key != null) {
+            redisTemplate.opsForValue().set(key, "someValue")
+            val cachedValue = redisTemplate.opsForValue().get(key)
+            println("Cached value: $cachedValue")
+        }
+
         println(key)
         println(redisTemplate.keys("*"))
         return startPlace?.coordinate?.let { preCoordinate ->
