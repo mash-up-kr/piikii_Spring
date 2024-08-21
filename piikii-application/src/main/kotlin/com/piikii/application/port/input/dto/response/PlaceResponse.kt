@@ -43,7 +43,7 @@ data class PlaceResponse(
     constructor(place: Place) : this(
         id = place.id.getValue(),
         roomUid = place.roomUid.getValue(),
-        scheduleId = place.id.getValue(),
+        scheduleId = place.scheduleId.getValue(),
         name = place.name,
         url = place.url,
         placeImageUrls = place.thumbnailLinks,
