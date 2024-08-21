@@ -6,13 +6,13 @@ import com.piikii.application.domain.place.Place
 import com.piikii.application.domain.schedule.Schedule
 import com.piikii.application.port.input.CourseUseCase
 import com.piikii.application.port.input.dto.response.CourseResponse
+import com.piikii.application.port.output.cache.CourseCachePort
 import com.piikii.application.port.output.persistence.CourseQueryPort
 import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.application.port.output.persistence.ScheduleQueryPort
 import com.piikii.application.port.output.persistence.VoteQueryPort
-import com.piikii.application.port.output.web.NavigationPort
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
 import org.springframework.stereotype.Service
@@ -27,7 +27,7 @@ class CourseService(
     private val placeQueryPort: PlaceQueryPort,
     private val placeCommandPort: PlaceCommandPort,
     private val voteQueryPort: VoteQueryPort,
-    private val navigationPort: NavigationPort,
+    private val courseCachePort: CourseCachePort,
 ) : CourseUseCase {
     override fun isCourseExist(roomUid: UuidTypeId): Boolean {
         return courseQueryPort.isCourseExist(roomUid)
@@ -123,17 +123,11 @@ class CourseService(
         confirmedPlace: Place,
     ): CoursePlace {
         val coordinate = confirmedPlace.getCoordinate()
-
         return CoursePlace.from(
             schedule = schedule,
             place = confirmedPlace,
             coordinate = coordinate,
-            distance =
-                preCoursePlace?.coordinate?.let { preCoordinate ->
-                    coordinate.let { coordinate ->
-                        navigationPort.getDistance(start = preCoordinate, end = coordinate)
-                    }
-                },
+            distance = courseCachePort.getDistance(preCoursePlace, confirmedPlace),
         )
     }
 

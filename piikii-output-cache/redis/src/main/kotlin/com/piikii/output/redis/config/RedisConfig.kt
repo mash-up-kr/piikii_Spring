@@ -8,6 +8,9 @@ import com.fasterxml.jackson.databind.json.JsonMapper
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.data.redis.connection.RedisPassword
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories
@@ -23,6 +26,9 @@ class RedisConfig {
     @Value("\${redis.port}")
     private val redisPort = 0
 
+    @Value("\${redis.password}")
+    private val redisPassword: String? = null
+
     @Bean
     fun objectMapper(): ObjectMapper {
         return JsonMapper.builder()
@@ -36,7 +42,16 @@ class RedisConfig {
 
     @Bean
     fun lettuceConnectionFactory(): LettuceConnectionFactory {
-        return LettuceConnectionFactory(redisHost!!, redisPort)
+        val redisConfig = RedisStandaloneConfiguration()
+        redisConfig.hostName = redisHost!!
+        redisConfig.port = redisPort
+        redisConfig.password = RedisPassword.of(redisPassword)
+
+        val clientConfig = LettuceClientConfiguration.builder()
+            .useSsl() // SSL 사용 설정
+            .build()
+
+        return LettuceConnectionFactory(redisConfig, clientConfig)
     }
 
     @Bean
