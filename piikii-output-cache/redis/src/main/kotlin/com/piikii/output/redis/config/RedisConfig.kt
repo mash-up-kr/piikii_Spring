@@ -7,13 +7,15 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.json.JsonMapper
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
 
-// TODO: 필요 시에 등록을 위해 설정
-// @Configuration
+@Configuration
+@EnableRedisRepositories
 class RedisConfig {
     @Value("\${redis.host}")
     private val redisHost: String? = null
@@ -38,7 +40,7 @@ class RedisConfig {
     }
 
     @Bean
-    fun redistemplate(): RedisTemplate<String, Any> {
+    fun redisTemplate(): RedisTemplate<String, Any> {
         val redisTemplate = RedisTemplate<String, Any>()
         redisTemplate.connectionFactory = lettuceConnectionFactory()
         redisTemplate.keySerializer = StringRedisSerializer()

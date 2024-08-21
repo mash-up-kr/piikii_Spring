@@ -2,6 +2,7 @@ spring:
   config:
     activate:
       on-profile: prod
+
 redis:
-  host: localhost
+  host: ${REDIS_HOST}
   port: 6379

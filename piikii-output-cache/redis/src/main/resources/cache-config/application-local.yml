@@ -3,5 +3,5 @@ spring:
     activate:
       on-profile: local
 redis:
-  host: localhost
+  host: ${REDIS_HOST}
   port: 6379
