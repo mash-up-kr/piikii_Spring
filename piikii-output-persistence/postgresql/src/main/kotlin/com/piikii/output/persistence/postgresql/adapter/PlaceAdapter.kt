@@ -42,7 +42,7 @@ class PlaceAdapter(
             places.map {
                 PlaceEntity(
                     roomUid = roomUid,
-                    scheduleId = it.id,
+                    scheduleId = it.scheduleId,
                     place = it,
                 )
             }
