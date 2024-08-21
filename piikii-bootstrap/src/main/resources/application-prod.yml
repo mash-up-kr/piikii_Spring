@@ -11,11 +11,15 @@ otel:
       deployment.environment: prod
   logs:
     exporter: otlp
+  traces:
+    exporter: otlp
   exporter:
     otlp:
       logs:
         endpoint: ${OTEL_COLLECTOR_LOG_ENDPOINT}
+        protocol: http/protobuf # default
+      traces:
+        endpoint: ${OTEL_COLLECTOR_TRACE_ENDPOINT}
+        protocol: http/protobuf # default
   metrics:
-    exporter: none
-  traces:
     exporter: none

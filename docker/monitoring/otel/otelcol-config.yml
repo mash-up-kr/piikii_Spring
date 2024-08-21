@@ -7,6 +7,7 @@ receivers:
         endpoint: 0.0.0.0:4318
 
 processors:
+  batch:
   resource:
     attributes:
       - action: insert
@@ -25,6 +26,12 @@ processors:
         key: process.command_args
 
 exporters:
+  # traces
+  otlp/tempo:
+    endpoint: http://tempo:4317
+    tls:
+      insecure: true
+      insecure_skip_verify: true
   logging:
     loglevel: debug
   loki:
@@ -44,3 +51,7 @@ service:
       receivers: [ otlp ]
       processors: [ resource ]
       exporters: [ loki ]
+    traces:
+      receivers: [ otlp ]
+      processors: [ batch ]
+      exporters: [ otlp/tempo ]
