@@ -5,13 +5,13 @@ import com.piikii.application.domain.fixture.RoomFixture
 import com.piikii.application.domain.fixture.ScheduleFixture
 import com.piikii.application.domain.fixture.VoteFixture
 import com.piikii.application.domain.vote.VoteResult
+import com.piikii.application.port.output.cache.CourseCachePort
 import com.piikii.application.port.output.persistence.CourseQueryPort
 import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.application.port.output.persistence.ScheduleQueryPort
 import com.piikii.application.port.output.persistence.VoteQueryPort
-import com.piikii.application.port.output.web.NavigationPort
 import com.piikii.common.exception.PiikiiException
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -45,7 +45,7 @@ class CourseServiceTest {
     lateinit var voteQueryPort: VoteQueryPort
 
     @Mock
-    lateinit var navigationPort: NavigationPort
+    lateinit var courseCachePort: CourseCachePort
 
     @Mock
     lateinit var courseQueryPort: CourseQueryPort
@@ -132,9 +132,17 @@ class CourseServiceTest {
                 ),
             )
 
-        val coordinate1 = Coordinate(places[0].longitude, places[0].latitude)
-        val coordinate2 = Coordinate(places[2].longitude, places[2].latitude)
-        given(navigationPort.getDistance(coordinate1, coordinate2))
+        val coursePlace =
+            CoursePlace.from(
+                schedule = schedules[0],
+                place = places[0],
+                coordinate = Coordinate(places[0].longitude, places[0].latitude),
+                distance = Distance.EMPTY,
+            )
+
+        given(courseCachePort.getDistance(null, places[0]))
+            .willReturn(Distance.EMPTY)
+        given(courseCachePort.getDistance(coursePlace, places[2]))
             .willReturn(Distance(100, 5))
 
         val updatedPlace = places[2].copy(confirmed = true)

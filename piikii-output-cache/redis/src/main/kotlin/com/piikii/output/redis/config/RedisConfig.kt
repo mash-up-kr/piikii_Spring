@@ -47,9 +47,10 @@ class RedisConfig {
         redisConfig.port = redisPort
         redisConfig.password = RedisPassword.of(redisPassword)
 
-        val clientConfig = LettuceClientConfiguration.builder()
-            .useSsl() // SSL 사용 설정
-            .build()
+        val clientConfig =
+            LettuceClientConfiguration.builder()
+                .useSsl()
+                .build()
 
         return LettuceConnectionFactory(redisConfig, clientConfig)
     }
