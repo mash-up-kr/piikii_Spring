@@ -21,7 +21,7 @@ class VoteEntity(
     @Column(name = "user_uid", nullable = false)
     val userUid: UuidTypeId,
     @Column(name = "place_id", nullable = false)
-    val placeId: LongTypeId,
+    val schedulePlaceId: LongTypeId,
     @Enumerated(EnumType.STRING)
     @Column(name = "result", nullable = false, length = 10)
     val result: VoteResult,
@@ -30,7 +30,7 @@ class VoteEntity(
         return Vote(
             id = LongTypeId(this.id),
             userUid = this.userUid,
-            placeId = this.placeId,
+            schedulePlaceId = this.schedulePlaceId,
             result = this.result,
         )
     }
@@ -39,7 +39,7 @@ class VoteEntity(
         fun from(vote: Vote): VoteEntity {
             return VoteEntity(
                 userUid = vote.userUid,
-                placeId = vote.placeId,
+                schedulePlaceId = vote.schedulePlaceId,
                 result = vote.result,
             )
         }

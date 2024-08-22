@@ -23,8 +23,6 @@ import org.hibernate.annotations.SQLRestriction
 class PlaceEntity(
     @Column(name = "room_uid", nullable = false, updatable = false)
     val roomUid: UuidTypeId,
-    @Column(name = "schedule_id", nullable = false, updatable = false)
-    var scheduleId: LongTypeId,
     @Column(name = "name", length = 255, nullable = false)
     var name: String,
     @Column(name = "url", length = 255)
@@ -42,8 +40,6 @@ class PlaceEntity(
     var origin: Origin,
     @Column(name = "memo", length = 150)
     var memo: String?,
-    @Column(name = "confirmed", nullable = false)
-    var confirmed: Boolean = false,
     @Column(name = "review_count", nullable = false)
     val reviewCount: Int?,
     @Column(name = "longitude")
@@ -53,9 +49,8 @@ class PlaceEntity(
     @Column(name = "opening_hours")
     val openingHours: String?,
 ) : BaseEntity() {
-    constructor(roomUid: UuidTypeId, scheduleId: LongTypeId, place: Place) : this(
+    constructor(roomUid: UuidTypeId, place: Place) : this(
         roomUid = roomUid,
-        scheduleId = scheduleId,
         name = place.name,
         url = place.url,
         thumbnailLinks = place.thumbnailLinks.contents ?: "",
@@ -64,7 +59,6 @@ class PlaceEntity(
         starGrade = place.starGrade,
         origin = place.origin,
         memo = place.memo,
-        confirmed = place.confirmed,
         reviewCount = place.reviewCount,
         longitude = place.longitude,
         latitude = place.latitude,
@@ -75,7 +69,6 @@ class PlaceEntity(
         return Place(
             id = LongTypeId(id),
             roomUid = roomUid,
-            scheduleId = scheduleId,
             name = name,
             url = url,
             thumbnailLinks = ThumbnailLinks(thumbnailLinks),
@@ -84,7 +77,6 @@ class PlaceEntity(
             starGrade = starGrade,
             origin = origin,
             memo = memo,
-            confirmed = confirmed,
             reviewCount = reviewCount,
             longitude = longitude,
             latitude = latitude,
@@ -100,6 +92,5 @@ class PlaceEntity(
         starGrade = place.starGrade
         origin = place.origin
         memo = place.memo
-        confirmed = place.confirmed
     }
 }
