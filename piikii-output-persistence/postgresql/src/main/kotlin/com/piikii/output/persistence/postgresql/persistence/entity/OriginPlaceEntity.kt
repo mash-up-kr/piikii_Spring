@@ -34,7 +34,7 @@ class OriginPlaceEntity(
     @Column(name = "phone_number", length = 15)
     val phoneNumber: String? = null,
     @Column(name = "star_grade")
-    val starGrade: Float? = null,
+    val starGrade: Double? = null,
     @Column(name = "longitude")
     val longitude: Double?,
     @Column(name = "latitude")

@@ -11,7 +11,7 @@ data class OriginPlace(
     val thumbnailLinks: ThumbnailLinks,
     val address: String? = null,
     val phoneNumber: String? = null,
-    val starGrade: Float? = null,
+    val starGrade: Double? = null,
     val longitude: Double?,
     val latitude: Double?,
     val reviewCount: Int,
