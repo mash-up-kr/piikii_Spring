@@ -14,7 +14,7 @@ class PlaceFixture(
     private var thumbnailLinks: ThumbnailLinks = ThumbnailLinks(null),
     private var address: String? = null,
     private var phoneNumber: String? = null,
-    private var starGrade: Float? = null,
+    private var starGrade: Double? = null,
     private var origin: Origin = Origin.MANUAL,
     private var roomUid: UuidTypeId = UuidTypeId(UUID.randomUUID()),
     private var scheduleId: LongTypeId = LongTypeId(0L),

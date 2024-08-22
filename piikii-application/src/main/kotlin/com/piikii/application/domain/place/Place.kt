@@ -14,7 +14,7 @@ data class Place(
     val thumbnailLinks: ThumbnailLinks,
     val address: String?,
     val phoneNumber: String?,
-    val starGrade: Float?,
+    val starGrade: Double?,
     val origin: Origin,
     val memo: String?,
     val confirmed: Boolean,

@@ -35,8 +35,8 @@ class PlaceEntity(
     var address: String?,
     @Column(name = "phone_number", length = 15)
     var phoneNumber: String?,
-    @Column(name = "star_grade", nullable = false)
-    var starGrade: Float?,
+    @Column(name = "star_grade")
+    var starGrade: Double?,
     @Enumerated(EnumType.STRING)
     @Column(name = "origin", nullable = false)
     var origin: Origin,

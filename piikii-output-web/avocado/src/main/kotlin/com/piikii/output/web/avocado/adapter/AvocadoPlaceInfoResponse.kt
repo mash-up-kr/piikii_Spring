@@ -12,7 +12,7 @@ import com.piikii.application.domain.place.OriginPlace
 data class AvocadoPlaceInfoResponse(
     val id: Long,
     val name: String,
-    val visitorReviewScore: Float?,
+    val visitorReviewScore: Double?,
     val roadAddress: String?,
     val images: List<String>?,
     val imageCount: Int?,

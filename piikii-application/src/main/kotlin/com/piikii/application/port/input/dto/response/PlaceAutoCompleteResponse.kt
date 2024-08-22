@@ -18,7 +18,7 @@ data class PlaceAutoCompleteResponse(
     @field:Schema(description = "전화번호", example = "02-1234-5678")
     val phoneNumber: String?,
     @field:Schema(description = "별점 (0-5)", example = "4.5")
-    val starGrade: Float?,
+    val starGrade: Double?,
     @field:Schema(description = "리뷰 개수", example = "232")
     val reviewCount: Int,
     @field:Schema(description = "카테고리", example = "고깃집")

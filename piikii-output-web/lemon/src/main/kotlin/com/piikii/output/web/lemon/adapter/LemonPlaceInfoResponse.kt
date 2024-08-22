@@ -101,7 +101,7 @@ data class LemonPlaceInfoResponse(
         @JsonProperty("reviewphotocnt")
         val countOfPhotoReview: Int,
     ) {
-        fun calculateStarGrade(): Float? = if (countOfScore > 0) sumOfScore.toFloat() / countOfScore else null
+        fun calculateStarGrade(): Double? = if (countOfScore > 0) sumOfScore.toDouble() / countOfScore else null
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -116,7 +116,7 @@ data class LemonPlaceInfoResponse(
             val offdaySchedule =
                 offdayList?.map { it.toPrintFormat() }
                     ?.joinToString { JOINER }
-            return "$openingHour$JOINER$offdaySchedule"
+            return if (openingHour == null && offdaySchedule == null) null else "$openingHour$JOINER$offdaySchedule"
         }
 
         companion object {

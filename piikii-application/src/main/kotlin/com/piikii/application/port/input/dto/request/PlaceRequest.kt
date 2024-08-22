@@ -34,7 +34,7 @@ data class AddPlaceRequest(
     @field:Min(value = 0, message = "별점은 0 이상이어야 합니다.")
     @field:Max(value = 5, message = "별점은 5 이하여야 합니다.")
     @field:Schema(description = "별점 (0-5)", example = "4.5")
-    val starGrade: Float?,
+    val starGrade: Double?,
     @field:Size(max = 50, message = "메모는 50자를 초과할 수 없습니다.")
     @field:Schema(description = "메모", example = "맛있는 레스토랑")
     val memo: String?,
@@ -111,7 +111,7 @@ data class ModifyPlaceRequest(
     @field:Min(value = 0, message = "별점은 0 이상이어야 합니다.")
     @field:Max(value = 5, message = "별점은 5 이하여야 합니다.")
     @field:Schema(description = "별점 (0-5)", example = "4.5")
-    val starGrade: Float?,
+    val starGrade: Double?,
     @field:Size(max = 50, message = "메모는 50자를 초과할 수 없습니다.")
     @field:Schema(description = "메모", example = "맛있는 레스토랑")
     val memo: String?,

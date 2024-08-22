@@ -25,7 +25,7 @@ data class PlaceResponse(
     @field:Schema(description = "전화번호", example = "02-1234-5678")
     val phoneNumber: String?,
     @field:Schema(description = "별점 (0-5)", example = "4.5")
-    val starGrade: Float?,
+    val starGrade: Double?,
     @field:Schema(
         description = "장소 정보 제공처",
         example = "MANUAL",
