@@ -4,7 +4,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.amazonaws.services.s3.model.DeleteObjectRequest
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
-import com.piikii.application.port.output.objectstorage.BucketFolderType
+import com.piikii.application.domain.image.ImageFolderType
 import com.piikii.application.port.output.objectstorage.ObjectStoragePort
 import com.piikii.output.storage.ncp.config.NcpProperties
 import com.piikii.output.storage.ncp.config.StorageConfig
@@ -22,13 +22,13 @@ class NcpObjectStorageAdapter(
 ) : ObjectStoragePort {
     @Async("AsyncStorageExecutor")
     override fun uploadAll(
-        bucketFolderType: BucketFolderType,
+        imageFolderType: ImageFolderType,
         multipartFiles: List<MultipartFile>,
     ): Future<List<String>> {
         val contentUrls = mutableListOf<String>()
 
         for (multipartFile in multipartFiles) {
-            val folderName = getFolderName(bucketFolderType)
+            val folderName = getFolderName(imageFolderType)
             val fileName = getFileName(multipartFile)
             val objectKey = createObjectKey(folderName, fileName)
 
@@ -48,17 +48,17 @@ class NcpObjectStorageAdapter(
 
     @Async("TaskExecutorForExternalStorage")
     override fun updateAllByUrls(
-        bucketFolderType: BucketFolderType,
+        imageFolderType: ImageFolderType,
         deleteTargetUrls: List<String>,
         newMultipartFiles: List<MultipartFile>,
     ): Future<List<String>> {
-        deleteAllByUrls(bucketFolderType, deleteTargetUrls)
-        return uploadAll(bucketFolderType, newMultipartFiles)
+        deleteAllByUrls(imageFolderType, deleteTargetUrls)
+        return uploadAll(imageFolderType, newMultipartFiles)
     }
 
     @Async("TaskExecutorForExternalStorage")
     override fun deleteAllByUrls(
-        bucketFolderType: BucketFolderType,
+        imageFolderType: ImageFolderType,
         deleteTargetUrls: List<String>,
     ) {
         val storageClient = storageConfig.storageClient()
@@ -71,10 +71,10 @@ class NcpObjectStorageAdapter(
 
     private fun getFileName(multipartFile: MultipartFile) = "${multipartFile.originalFilename}"
 
-    private fun getFolderName(bucketFolderType: BucketFolderType): String {
-        return when (bucketFolderType) {
-            BucketFolderType.ROOM -> ncpProperties.bucket.folder.roomFolder
-            BucketFolderType.PLACE -> ncpProperties.bucket.folder.placeFolder
+    private fun getFolderName(imageFolderType: ImageFolderType): String {
+        return when (imageFolderType) {
+            ImageFolderType.ROOM -> ncpProperties.bucket.folder.roomFolder
+            ImageFolderType.PLACE -> ncpProperties.bucket.folder.placeFolder
         }
     }
 

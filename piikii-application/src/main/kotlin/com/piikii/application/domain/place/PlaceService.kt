@@ -2,12 +2,12 @@ package com.piikii.application.domain.place
 
 import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.UuidTypeId
+import com.piikii.application.domain.image.ImageFolderType
 import com.piikii.application.port.input.PlaceUseCase
 import com.piikii.application.port.input.dto.request.AddPlaceRequest
 import com.piikii.application.port.input.dto.request.ModifyPlaceRequest
 import com.piikii.application.port.input.dto.response.PlaceResponse
 import com.piikii.application.port.input.dto.response.ScheduleTypeGroupResponse
-import com.piikii.application.port.output.objectstorage.BucketFolderType
 import com.piikii.application.port.output.objectstorage.ObjectStoragePort
 import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
@@ -32,25 +32,16 @@ class PlaceService(
     override fun addPlace(
         targetRoomUid: UuidTypeId,
         addPlaceRequest: AddPlaceRequest,
-        placeImages: List<MultipartFile>?,
+        placeImageUrls: List<String>,
     ): List<PlaceResponse> {
-        val imageUrls =
-            placeImages?.let {
-                objectStoragePort.uploadAll(
-                    bucketFolderType = BUCKET_TYPE,
-                    multipartFiles = it,
-                ).get()
-            } ?: listOf()
-
         val room = roomQueryPort.findById(targetRoomUid)
         val schedules = scheduleQueryPort.findAllByIds(addPlaceRequest.scheduleIds.map(::LongTypeId))
-
         val places =
             schedules.map { schedule ->
                 addPlaceRequest.toDomain(
                     roomUid = room.roomUid,
                     scheduleId = schedule.id,
-                    imageUrls = imageUrls,
+                    imageUrls = placeImageUrls,
                 )
             }
 
@@ -83,7 +74,7 @@ class PlaceService(
         val updatedUrls =
             newPlaceImages?.let {
                 objectStoragePort.updateAllByUrls(
-                    bucketFolderType = BUCKET_TYPE,
+                    imageFolderType = BUCKET_TYPE,
                     deleteTargetUrls = modifyPlaceRequest.deleteTargetUrls,
                     newMultipartFiles = it,
                 ).get()
@@ -107,7 +98,7 @@ class PlaceService(
     @Transactional
     override fun delete(targetPlaceId: LongTypeId) {
         objectStoragePort.deleteAllByUrls(
-            bucketFolderType = BUCKET_TYPE,
+            imageFolderType = BUCKET_TYPE,
             deleteTargetUrls = isPlaceNullOrGet(targetPlaceId).thumbnailLinks.convertToList,
         )
         placeCommandPort.delete(targetPlaceId)
@@ -128,6 +119,6 @@ class PlaceService(
     }
 
     companion object {
-        private val BUCKET_TYPE = BucketFolderType.PLACE
+        private val BUCKET_TYPE = ImageFolderType.PLACE
     }
 }
