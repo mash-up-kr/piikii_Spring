@@ -2,8 +2,6 @@ spring:
   config:
     activate:
       on-profile: prod
-    import:
-      - classpath:cache-config/application-prod.yml
 server:
   port: 8080
 

@@ -2,8 +2,6 @@ spring:
   config:
     activate:
       on-profile: local
-    import:
-      - classpath:cache-config/application-local.yml
 server:
   port: 8080
 
