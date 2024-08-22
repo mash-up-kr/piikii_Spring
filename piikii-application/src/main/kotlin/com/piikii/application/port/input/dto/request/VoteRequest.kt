@@ -25,7 +25,7 @@ data class VoteSaveRequest(
                 Vote(
                     id = LongTypeId(0L),
                     userUid = UuidTypeId(userUid),
-                    placeId = LongTypeId(it.placeId),
+                    schedulePlaceId = LongTypeId(it.placeId),
                     result = it.voteResult,
                 )
             }

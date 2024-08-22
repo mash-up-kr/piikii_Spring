@@ -3,6 +3,7 @@ package com.piikii.application.port.input.dto.response
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.Place
+import com.piikii.application.domain.place.SchedulePlace
 import io.swagger.v3.oas.annotations.media.Schema
 import java.util.UUID
 
@@ -40,10 +41,10 @@ data class PlaceResponse(
     @field:Schema(description = "영업시간", example = "10:00 ~ 17:00")
     val openingHours: String?,
 ) {
-    constructor(place: Place) : this(
-        id = place.id.getValue(),
+    constructor(schedulePlace: SchedulePlace, place: Place) : this(
+        id = schedulePlace.id.getValue(),
         roomUid = place.roomUid.getValue(),
-        scheduleId = place.scheduleId.getValue(),
+        scheduleId = schedulePlace.scheduleId.getValue(),
         name = place.name,
         url = place.url,
         placeImageUrls = place.thumbnailLinks,
@@ -52,7 +53,7 @@ data class PlaceResponse(
         starGrade = place.starGrade,
         origin = place.origin,
         memo = place.memo,
-        confirmed = place.confirmed,
+        confirmed = schedulePlace.confirmed,
         reviewCount = place.reviewCount,
         openingHours = place.openingHours,
     )

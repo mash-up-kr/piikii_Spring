@@ -3,6 +3,7 @@ package com.piikii.application.port.input.dto.response
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.Place
+import com.piikii.application.domain.place.SchedulePlace
 import com.piikii.application.domain.vote.Vote
 import com.piikii.application.domain.vote.VoteResult
 import io.swagger.v3.oas.annotations.media.Schema
@@ -59,8 +60,8 @@ data class VotePlaceResponse(
     @field:Schema(description = "총 투표 수", example = "11")
     val countOfVote: Int,
 ) {
-    constructor(place: Place, countOfAgree: Int, countOfDisagree: Int) : this(
-        placeId = place.id.getValue(),
+    constructor(schedulePlace: SchedulePlace, place: Place, countOfAgree: Int, countOfDisagree: Int) : this(
+        placeId = schedulePlace.id.getValue(),
         name = place.name,
         url = place.url,
         thumbnailLinks = place.thumbnailLinks,
@@ -107,8 +108,8 @@ data class VotedPlaceResponse(
     @field:Schema(description = "투표한 상태", example = "AGREE")
     val voteResult: VoteResult,
 ) {
-    constructor(place: Place, vote: Vote) : this(
-        placeId = place.id.getValue(),
+    constructor(schedulePlace: SchedulePlace, place: Place, vote: Vote) : this(
+        placeId = schedulePlace.id.getValue(),
         name = place.name,
         url = place.url,
         thumbnailLinks = place.thumbnailLinks,

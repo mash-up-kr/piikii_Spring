@@ -17,9 +17,7 @@ class PlaceFixture(
     private var starGrade: Float? = null,
     private var origin: Origin = Origin.MANUAL,
     private var roomUid: UuidTypeId = UuidTypeId(UUID.randomUUID()),
-    private var scheduleId: LongTypeId = LongTypeId(0L),
     private var memo: String? = null,
-    private var confirmed: Boolean = false,
     private var reviewCount: Int = 0,
     private var longitude: Double? = null,
     private var latitude: Double? = null,
@@ -37,16 +35,6 @@ class PlaceFixture(
 
     fun roomUid(roomUid: UuidTypeId): PlaceFixture {
         this.roomUid = roomUid
-        return this
-    }
-
-    fun scheduleId(scheduleId: LongTypeId): PlaceFixture {
-        this.scheduleId = scheduleId
-        return this
-    }
-
-    fun confirmed(confirmed: Boolean): PlaceFixture {
-        this.confirmed = confirmed
         return this
     }
 
@@ -71,9 +59,7 @@ class PlaceFixture(
             starGrade = this.starGrade,
             origin = this.origin,
             roomUid = this.roomUid,
-            scheduleId = this.scheduleId,
             memo = this.memo,
-            confirmed = this.confirmed,
             reviewCount = this.reviewCount,
             longitude = this.longitude,
             latitude = this.latitude,

@@ -3,6 +3,7 @@ package com.piikii.application.port.output.persistence
 import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.place.Place
+import com.piikii.application.domain.place.SchedulePlace
 
 interface PlaceQueryPort {
     fun findByPlaceId(placeId: LongTypeId): Place
@@ -10,16 +11,14 @@ interface PlaceQueryPort {
     fun findAllByPlaceIds(placeIds: List<LongTypeId>): List<Place>
 
     fun findAllByRoomUid(roomUid: UuidTypeId): List<Place>
-
-    fun findConfirmedByScheduleId(scheduleId: LongTypeId): Place?
 }
 
 interface PlaceCommandPort {
     fun save(
         roomUid: UuidTypeId,
-        scheduleId: LongTypeId,
+        scheduleIds: List<LongTypeId>,
         place: Place,
-    ): Place
+    ): List<SchedulePlace>
 
     fun saveAll(
         roomUid: UuidTypeId,

@@ -56,13 +56,11 @@ data class AddPlaceRequest(
 ) {
     fun toDomain(
         roomUid: UuidTypeId,
-        scheduleId: LongTypeId,
         imageUrls: List<String>,
     ): Place {
         return Place(
             id = LongTypeId(0L),
             roomUid = roomUid,
-            scheduleId = scheduleId,
             name = name,
             url = url,
             thumbnailLinks = ThumbnailLinks(imageUrls),
@@ -71,7 +69,6 @@ data class AddPlaceRequest(
             starGrade = starGrade,
             origin = Origin.MANUAL,
             memo = memo,
-            confirmed = false,
             reviewCount = reviewCount,
             longitude = longitude,
             latitude = latitude,
@@ -128,13 +125,11 @@ data class ModifyPlaceRequest(
     fun toDomain(
         targetPlaceId: LongTypeId,
         roomUid: UuidTypeId,
-        scheduleId: LongTypeId,
         updatedUrls: List<String>,
     ): Place {
         return Place(
             id = targetPlaceId,
             roomUid = roomUid,
-            scheduleId = scheduleId,
             name = name,
             url = url,
             thumbnailLinks = ThumbnailLinks(updatedUrls),
@@ -143,7 +138,6 @@ data class ModifyPlaceRequest(
             starGrade = starGrade,
             origin = Origin.MANUAL,
             memo = memo,
-            confirmed = false,
             reviewCount = reviewCount,
             longitude = longitude,
             latitude = latitude,

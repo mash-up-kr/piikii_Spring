@@ -7,9 +7,11 @@ import com.piikii.output.persistence.postgresql.persistence.common.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
+import org.hibernate.annotations.DynamicUpdate
 
 @Entity
 @Table(name = "schedule_place", schema = "piikii")
+@DynamicUpdate
 class SchedulePlaceEntity(
     @Column(name = "room_uid", nullable = false, updatable = false)
     val roomUid: UuidTypeId,
@@ -19,11 +21,11 @@ class SchedulePlaceEntity(
     var placeId: LongTypeId,
     @Column(name = "confirmed", nullable = false)
     var confirmed: Boolean = false,
-): BaseEntity() {
-    constructor(schedulePlace: SchedulePlace): this(
+) : BaseEntity() {
+    constructor(schedulePlace: SchedulePlace) : this(
         roomUid = schedulePlace.roomUid,
         scheduleId = schedulePlace.scheduleId,
-        placeId = schedulePlace.placeId
+        placeId = schedulePlace.placeId,
     )
 
     fun toDomain(): SchedulePlace {
@@ -34,5 +36,9 @@ class SchedulePlaceEntity(
             placeId = placeId,
             confirmed = confirmed,
         )
+    }
+
+    fun update(schedulePlace: SchedulePlace) {
+        this.confirmed = schedulePlace.confirmed
     }
 }

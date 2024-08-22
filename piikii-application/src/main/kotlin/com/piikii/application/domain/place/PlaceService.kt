@@ -12,6 +12,8 @@ import com.piikii.application.port.output.objectstorage.ObjectStoragePort
 import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
+import com.piikii.application.port.output.persistence.SchedulePlaceCommandPort
+import com.piikii.application.port.output.persistence.SchedulePlaceQueryPort
 import com.piikii.application.port.output.persistence.ScheduleQueryPort
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
@@ -26,6 +28,8 @@ class PlaceService(
     private val scheduleQueryPort: ScheduleQueryPort,
     private val placeQueryPort: PlaceQueryPort,
     private val placeCommandPort: PlaceCommandPort,
+    private val schedulePlaceQueryPort: SchedulePlaceQueryPort,
+    private val schedulePlaceCommandPort: SchedulePlaceCommandPort,
     private val objectStoragePort: ObjectStoragePort,
 ) : PlaceUseCase {
     @Transactional
@@ -43,33 +47,30 @@ class PlaceService(
             } ?: listOf()
 
         val room = roomQueryPort.findById(targetRoomUid)
-        val schedules = scheduleQueryPort.findAllByIds(addPlaceRequest.scheduleIds.map(::LongTypeId))
+        val place = addPlaceRequest.toDomain(room.roomUid, imageUrls)
+        val scheduleIds = scheduleQueryPort.findAllByIds(addPlaceRequest.scheduleIds.map(::LongTypeId)).map { it.id }
 
-        val places =
-            schedules.map { schedule ->
-                addPlaceRequest.toDomain(
-                    roomUid = room.roomUid,
-                    scheduleId = schedule.id,
-                    imageUrls = imageUrls,
-                )
-            }
-
-        return placeCommandPort.saveAll(
-            roomUid = room.roomUid,
-            scheduleIds = schedules.map { it.id },
-            places = places,
-        ).map(::PlaceResponse)
+        return placeCommandPort.save(room.roomUid, scheduleIds, place).map { PlaceResponse(it, place) }
     }
 
     override fun findAllByRoomUidGroupByPlaceType(roomUid: UuidTypeId): List<ScheduleTypeGroupResponse> {
+        val schedulePlaces = schedulePlaceQueryPort.findAllByRoomUid(roomUid)
         val scheduleById = scheduleQueryPort.findAllByRoomUid(roomUid).associateBy { it.id }
-        return placeQueryPort.findAllByRoomUid(roomUid).groupBy { it.scheduleId }
-            .map { (scheduleId, places) ->
+        val placeById = placeQueryPort.findAllByRoomUid(roomUid).associateBy { it.id }
+
+        return schedulePlaces.groupBy { it.scheduleId }
+            .map { (scheduleId, schedulePlaces) ->
                 val schedule = scheduleById[scheduleId] ?: throw PiikiiException(ExceptionCode.NOT_FOUNDED)
                 ScheduleTypeGroupResponse(
                     scheduleId = scheduleId.getValue(),
                     scheduleName = schedule.name,
-                    places = places.map { place -> PlaceResponse(place = place) },
+                    places =
+                        schedulePlaces.map { schedulePlace ->
+                            val place =
+                                placeById[schedulePlace.placeId]
+                                    ?: throw PiikiiException(ExceptionCode.NOT_FOUNDED)
+                            PlaceResponse(schedulePlace, place)
+                        },
                 )
             }
     }
@@ -90,28 +91,34 @@ class PlaceService(
                 ).get()
             } ?: listOf()
 
-        val place = isPlaceNullOrGet(targetPlaceId)
-        return PlaceResponse(
+        val schedulePlace = schedulePlaceQueryPort.findById(targetPlaceId)
+        val place = isPlaceNullOrGet(schedulePlace.placeId)
+
+        val updatedPlace =
             placeCommandPort.update(
-                targetPlaceId = targetPlaceId,
+                targetPlaceId = schedulePlace.placeId,
                 place =
                     modifyPlaceRequest.toDomain(
-                        targetPlaceId,
-                        targetRoomUid,
-                        LongTypeId(modifyPlaceRequest.scheduleId),
-                        filterDuplicateUrls(updatedUrls, place),
+                        targetPlaceId = schedulePlace.placeId,
+                        roomUid = targetRoomUid,
+                        updatedUrls = filterDuplicateUrls(updatedUrls, place),
                     ),
-            ),
-        )
+            )
+
+        return PlaceResponse(schedulePlace, updatedPlace)
     }
 
     @Transactional
     override fun delete(targetPlaceId: LongTypeId) {
+        val schedulePlace = schedulePlaceQueryPort.findById(targetPlaceId)
+        val place = isPlaceNullOrGet(schedulePlace.placeId)
+
         objectStoragePort.deleteAllByUrls(
             bucketFolderType = BUCKET_TYPE,
-            deleteTargetUrls = isPlaceNullOrGet(targetPlaceId).thumbnailLinks.convertToList,
+            deleteTargetUrls = place.thumbnailLinks.convertToList,
         )
-        placeCommandPort.delete(targetPlaceId)
+        schedulePlaceCommandPort.deleteAllByPlaceId(place.id)
+        placeCommandPort.delete(place.id)
     }
 
     private fun isPlaceNullOrGet(targetPlaceId: LongTypeId): Place {

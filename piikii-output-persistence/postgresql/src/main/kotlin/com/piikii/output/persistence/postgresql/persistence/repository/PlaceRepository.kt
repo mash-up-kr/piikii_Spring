@@ -7,10 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface PlaceRepository : JpaRepository<PlaceEntity, Long> {
     fun findAllByRoomUid(roomUid: UuidTypeId): List<PlaceEntity>
 
-    fun findByScheduleIdAndConfirmed(
-        scheduleId: Long,
-        confirmed: Boolean,
-    ): List<PlaceEntity>
-
-    fun deleteByScheduleIdIn(scheduleIds: List<Long>)
+    fun deleteAllByIdIn(ids: List<Long>)
 }

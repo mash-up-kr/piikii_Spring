@@ -6,7 +6,7 @@ import com.piikii.application.domain.generic.UuidTypeId
 data class Vote(
     val id: LongTypeId,
     val userUid: UuidTypeId,
-    val placeId: LongTypeId,
+    val schedulePlaceId: LongTypeId,
     val result: VoteResult,
 )
 

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.UUID
 
 interface VoteRepository : JpaRepository<VoteEntity, Long> {
-    fun findAllByPlaceIdIn(placeIds: Collection<Long>): List<VoteEntity>
+    fun findAllBySchedulePlaceIdIn(schedulePlaceIds: Collection<Long>): List<VoteEntity>
 
     fun findAllByUserUid(userUid: UUID): List<VoteEntity>
 }

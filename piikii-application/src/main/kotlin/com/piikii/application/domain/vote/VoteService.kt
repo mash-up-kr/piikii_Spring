@@ -10,6 +10,7 @@ import com.piikii.application.port.input.dto.response.VotedPlaceResponse
 import com.piikii.application.port.input.dto.response.VotedPlacesResponse
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
+import com.piikii.application.port.output.persistence.SchedulePlaceQueryPort
 import com.piikii.application.port.output.persistence.ScheduleQueryPort
 import com.piikii.application.port.output.persistence.VoteCommandPort
 import com.piikii.application.port.output.persistence.VoteQueryPort
@@ -25,6 +26,7 @@ class VoteService(
     private val roomQueryPort: RoomQueryPort,
     private val placeQueryPort: PlaceQueryPort,
     private val scheduleQueryPort: ScheduleQueryPort,
+    private val schedulePlaceQueryPort: SchedulePlaceQueryPort,
 ) : VoteUseCase {
     override fun vote(
         roomUid: UuidTypeId,
@@ -38,8 +40,9 @@ class VoteService(
             )
         }
 
-        val placeIds = votes.map { it.placeId }
-        val placesOfRoom = placeQueryPort.findAllByPlaceIds(placeIds).filter { it.roomUid == roomUid }
+        val schedulePlaceIds = votes.map { it.schedulePlaceId }
+
+        val placesOfRoom = schedulePlaceQueryPort.findAllByIdIn(schedulePlaceIds).filter { it.roomUid == roomUid }
         require(placesOfRoom.count() == votes.size) {
             throw PiikiiException(exceptionCode = ExceptionCode.VOTE_PLACE_ID_INVALID)
         }
@@ -58,23 +61,30 @@ class VoteService(
     }
 
     override fun getVoteResultOfRoom(roomUid: UuidTypeId): VoteResultResponse {
-        val places = placeQueryPort.findAllByRoomUid(roomUid)
+        val schedulePlaces = schedulePlaceQueryPort.findAllByRoomUid(roomUid)
         val scheduleById = scheduleQueryPort.findAllByRoomUid(roomUid).associateBy { it.id }
-        val placeByScheduleId = places.groupBy { it.scheduleId }
-        val votesGroupByPlaceId = voteQueryPort.findAllByPlaceIds(places.map { it.id }).groupBy { it.placeId }
+        val schedulePlaceByScheduleId = schedulePlaces.groupBy { it.scheduleId }
+        val votesGroupBySchedulePlaceId =
+            voteQueryPort.findAllBySchedulePlaceIds(
+                schedulePlaces.map {
+                    it.id
+                },
+            ).groupBy { it.schedulePlaceId }
+        val placeById = placeQueryPort.findAllByPlaceIds(schedulePlaces.map { it.placeId }).associateBy { it.id }
 
         return VoteResultResponse(
             scheduleById.map { (scheduleId, schedule) ->
-                val placesOfSchedule = placeByScheduleId[scheduleId] ?: emptyList()
+                val placesOfSchedule = schedulePlaceByScheduleId[scheduleId] ?: emptyList()
                 val votePlaceResponses =
                     placesOfSchedule.map {
                         val (votesOfPlaceAgreeCount, votesOfPlaceDisagreeCount) =
                             getVoteCount(
                                 it.id,
-                                votesGroupByPlaceId,
+                                votesGroupBySchedulePlaceId,
                             )
                         VotePlaceResponse(
-                            place = it,
+                            schedulePlace = it,
+                            place = placeById[it.placeId]!!,
                             countOfAgree = votesOfPlaceAgreeCount,
                             countOfDisagree = votesOfPlaceDisagreeCount,
                         )
@@ -93,17 +103,24 @@ class VoteService(
         userUid: UuidTypeId,
     ): VotedPlacesResponse {
         val votes = voteQueryPort.findAllByUserUid(userUid)
-        val placeIdByVote = votes.associateBy { it.placeId }
-        val votedPlaces = placeQueryPort.findAllByPlaceIds(votes.map { it.placeId }).filter { it.roomUid == roomUid }
+        val placeIdByVote = votes.associateBy { it.schedulePlaceId }
+        val votedSchedulePlaces = schedulePlaceQueryPort.findAllByIdIn(votes.map { it.schedulePlaceId })
+        val placeById =
+            placeQueryPort.findAllByPlaceIds(
+                votedSchedulePlaces.map {
+                    it.placeId
+                },
+            ).filter { it.roomUid == roomUid }.associateBy { it.id }
+
         return VotedPlacesResponse(
-            votedPlaces.map { place ->
+            votedSchedulePlaces.map { schedulePlace ->
                 val vote =
-                    placeIdByVote[place.id]
+                    placeIdByVote[schedulePlace.id]
                         ?: throw PiikiiException(
                             exceptionCode = ExceptionCode.ACCESS_DENIED,
-                            detailMessage = "$VOTE_NOT_FOUND (Place ID: ${place.id.getValue()})",
+                            detailMessage = "$VOTE_NOT_FOUND (SchedulePlace ID: ${schedulePlace.id.getValue()})",
                         )
-                VotedPlaceResponse(place, vote)
+                VotedPlaceResponse(schedulePlace, placeById[schedulePlace.placeId]!!, vote)
             },
         )
     }

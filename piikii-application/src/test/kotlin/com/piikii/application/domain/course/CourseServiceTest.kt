@@ -3,12 +3,13 @@ package com.piikii.application.domain.course
 import com.piikii.application.domain.fixture.PlaceFixture
 import com.piikii.application.domain.fixture.RoomFixture
 import com.piikii.application.domain.fixture.ScheduleFixture
+import com.piikii.application.domain.fixture.SchedulePlaceFixture
 import com.piikii.application.domain.fixture.VoteFixture
 import com.piikii.application.domain.vote.VoteResult
-import com.piikii.application.port.output.persistence.CourseQueryPort
-import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
+import com.piikii.application.port.output.persistence.SchedulePlaceCommandPort
+import com.piikii.application.port.output.persistence.SchedulePlaceQueryPort
 import com.piikii.application.port.output.persistence.ScheduleQueryPort
 import com.piikii.application.port.output.persistence.VoteQueryPort
 import com.piikii.application.port.output.web.NavigationPort
@@ -39,16 +40,16 @@ class CourseServiceTest {
     lateinit var placeQueryPort: PlaceQueryPort
 
     @Mock
-    lateinit var placeCommandPort: PlaceCommandPort
+    lateinit var schedulePlaceQueryPort: SchedulePlaceQueryPort
+
+    @Mock
+    lateinit var schedulePlaceCommandPort: SchedulePlaceCommandPort
 
     @Mock
     lateinit var voteQueryPort: VoteQueryPort
 
     @Mock
     lateinit var navigationPort: NavigationPort
-
-    @Mock
-    lateinit var courseQueryPort: CourseQueryPort
 
     @Test
     fun `VoteDeadline 이 현재보다 이후이면 Exception 이 발생한다`() {
@@ -92,24 +93,43 @@ class CourseServiceTest {
                 PlaceFixture.create()
                     .id(1L)
                     .roomUid(room.roomUid)
-                    .scheduleId(schedules[0].id)
-                    .confirmed(true)
                     .longitude(126.9246033)
                     .latitude(33.45241976)
                     .build(),
                 PlaceFixture.create()
                     .id(2L)
                     .roomUid(room.roomUid)
-                    .scheduleId(schedules[1].id)
                     .longitude(126.9246033)
                     .latitude(33.45241976)
                     .build(),
                 PlaceFixture.create()
                     .id(3L)
                     .roomUid(room.roomUid)
-                    .scheduleId(schedules[1].id)
                     .longitude(126.9246033)
                     .latitude(33.45241977)
+                    .build(),
+            )
+
+        val schedulePlaces =
+            listOf(
+                SchedulePlaceFixture.create()
+                    .id(1L)
+                    .roomUid(room.roomUid)
+                    .scheduleId(schedules[0].id)
+                    .placeId(places[0].id)
+                    .confirmed(true)
+                    .build(),
+                SchedulePlaceFixture.create()
+                    .id(2L)
+                    .roomUid(room.roomUid)
+                    .scheduleId(schedules[1].id)
+                    .placeId(places[1].id)
+                    .build(),
+                SchedulePlaceFixture.create()
+                    .id(3L)
+                    .roomUid(room.roomUid)
+                    .scheduleId(schedules[1].id)
+                    .placeId(places[2].id)
                     .build(),
             )
 
@@ -123,8 +143,9 @@ class CourseServiceTest {
         given(roomQueryPort.findById(room.roomUid)).willReturn(room)
         given(scheduleQueryPort.findAllByRoomUid(room.roomUid)).willReturn(schedules)
         given(placeQueryPort.findAllByRoomUid(room.roomUid)).willReturn(places)
-        given(voteQueryPort.findAllByPlaceIds(anyList())).willReturn(votes)
-        given(voteQueryPort.findAgreeCountByPlaceId(votes))
+        given(schedulePlaceQueryPort.findAllByRoomUid(room.roomUid)).willReturn(schedulePlaces)
+        given(voteQueryPort.findAllBySchedulePlaceIds(anyList())).willReturn(votes)
+        given(voteQueryPort.findAgreeCountBySchedulePlaceId(votes))
             .willReturn(
                 mapOf(
                     2L to 1,
@@ -137,8 +158,8 @@ class CourseServiceTest {
         given(navigationPort.getDistance(coordinate1, coordinate2))
             .willReturn(Distance(100, 5))
 
-        val updatedPlace = places[2].copy(confirmed = true)
-        given(placeCommandPort.update(places[2].id, updatedPlace)).willReturn(updatedPlace)
+        val updatedPlace = schedulePlaces[2].copy(confirmed = true)
+        given(schedulePlaceCommandPort.update(schedulePlaces[2].id, updatedPlace)).will { }
 
         // when
         val result = courseService.retrieveCourse(room.roomUid)
@@ -167,21 +188,36 @@ class CourseServiceTest {
                 PlaceFixture.create()
                     .id(1L)
                     .roomUid(room.roomUid)
-                    .scheduleId(schedules[0].id)
-                    .confirmed(true)
                     .longitude(126.9246033)
                     .latitude(33.45241976)
                     .build(),
                 PlaceFixture.create()
                     .id(2L)
                     .roomUid(room.roomUid)
+                    .build(),
+            )
+
+        val schedulePlaces =
+            listOf(
+                SchedulePlaceFixture.create()
+                    .id(1L)
+                    .roomUid(room.roomUid)
+                    .scheduleId(schedules[0].id)
+                    .placeId(places[0].id)
+                    .confirmed(true)
+                    .build(),
+                SchedulePlaceFixture.create()
+                    .id(2L)
+                    .roomUid(room.roomUid)
                     .scheduleId(schedules[1].id)
+                    .placeId(places[0].id)
                     .confirmed(true)
                     .build(),
             )
 
         given(roomQueryPort.findById(room.roomUid)).willReturn(room)
         given(scheduleQueryPort.findAllByRoomUid(room.roomUid)).willReturn(schedules)
+        given(schedulePlaceQueryPort.findAllByRoomUid(room.roomUid)).willReturn(schedulePlaces)
         given(placeQueryPort.findAllByRoomUid(room.roomUid)).willReturn(places)
 
         // when

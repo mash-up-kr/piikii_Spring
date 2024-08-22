@@ -3,13 +3,14 @@ package com.piikii.application.domain.course
 import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.place.Place
+import com.piikii.application.domain.place.SchedulePlace
 import com.piikii.application.domain.schedule.Schedule
 import com.piikii.application.port.input.CourseUseCase
 import com.piikii.application.port.input.dto.response.CourseResponse
-import com.piikii.application.port.output.persistence.CourseQueryPort
-import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
+import com.piikii.application.port.output.persistence.SchedulePlaceCommandPort
+import com.piikii.application.port.output.persistence.SchedulePlaceQueryPort
 import com.piikii.application.port.output.persistence.ScheduleQueryPort
 import com.piikii.application.port.output.persistence.VoteQueryPort
 import com.piikii.application.port.output.web.NavigationPort
@@ -21,16 +22,18 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 class CourseService(
-    private val courseQueryPort: CourseQueryPort,
     private val roomQueryPort: RoomQueryPort,
     private val scheduleQueryPort: ScheduleQueryPort,
     private val placeQueryPort: PlaceQueryPort,
-    private val placeCommandPort: PlaceCommandPort,
+    private val schedulePlaceQueryPort: SchedulePlaceQueryPort,
+    private val schedulePlaceCommandPort: SchedulePlaceCommandPort,
     private val voteQueryPort: VoteQueryPort,
     private val navigationPort: NavigationPort,
 ) : CourseUseCase {
     override fun isCourseExist(roomUid: UuidTypeId): Boolean {
-        return courseQueryPort.isCourseExist(roomUid)
+        val scheduleIds = scheduleQueryPort.findAllByRoomUid(roomUid)
+        val confirmedSchedulePlaces = schedulePlaceQueryPort.findAllConfirmedByRoomId(roomUid)
+        return scheduleIds.size == confirmedSchedulePlaces.size
     }
 
     @Transactional
@@ -45,15 +48,16 @@ class CourseService(
         }
 
         val schedules = scheduleQueryPort.findAllByRoomUid(roomUid)
-        val places = placeQueryPort.findAllByRoomUid(roomUid)
+        val placeById = placeQueryPort.findAllByRoomUid(roomUid).associateBy { it.id }
+        val schedulePlaces = schedulePlaceQueryPort.findAllByRoomUid(roomUid)
 
-        val placeIds = places.map { it.id }
-        val votes = voteQueryPort.findAllByPlaceIds(placeIds)
-        val agreeCountByPlaceId = voteQueryPort.findAgreeCountByPlaceId(votes)
+        val schedulePlaceIds = schedulePlaces.map { it.id }
+        val votes = voteQueryPort.findAllBySchedulePlaceIds(schedulePlaceIds)
+        val agreeCountBySchedulePlaceId = voteQueryPort.findAgreeCountBySchedulePlaceId(votes)
 
         return CourseResponse.from(
             room = room,
-            placeBySchedule = getPlaceBySchedule(schedules, places, agreeCountByPlaceId),
+            placeBySchedule = getPlaceBySchedule(schedules, placeById, schedulePlaces, agreeCountBySchedulePlaceId),
         )
     }
 
@@ -62,33 +66,36 @@ class CourseService(
         roomUid: UuidTypeId,
         placeId: LongTypeId,
     ) {
-        val place = placeQueryPort.findByPlaceId(placeId)
+        val schedulePlace = schedulePlaceQueryPort.findById(placeId)
 
-        if (place.isInvalidRoomUid(roomUid)) {
+        if (schedulePlace.isInvalidRoomUid(roomUid)) {
             throw PiikiiException(
                 exceptionCode = ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION,
-                detailMessage = "Room UUID: $roomUid, Room UUID in Place: ${place.roomUid}",
+                detailMessage = "Room UUID: $roomUid, Room UUID in Place: ${schedulePlace.roomUid}",
             )
         }
 
-        placeQueryPort.findConfirmedByScheduleId(place.scheduleId)?.let { confirmedPlace ->
-            placeCommandPort.update(confirmedPlace.id, confirmedPlace.copy(confirmed = false))
+        schedulePlaceQueryPort.findConfirmedByScheduleId(schedulePlace.scheduleId)?.let { confirmedPlace ->
+            schedulePlaceCommandPort.update(confirmedPlace.id, confirmedPlace.copy(confirmed = false))
         }
-        placeCommandPort.update(place.id, place.copy(confirmed = true))
+
+        schedulePlaceCommandPort.update(placeId, schedulePlace.copy(confirmed = true))
     }
 
     private fun getPlaceBySchedule(
         schedules: List<Schedule>,
-        places: List<Place>,
-        agreeCountByPlaceId: Map<Long, Int>,
+        placeById: Map<LongTypeId, Place>,
+        schedulePlaces: List<SchedulePlace>,
+        agreeCountBySchedulePlaceId: Map<Long, Int>,
     ): Map<Schedule, CoursePlace> {
         // initial 값 설정: null과 빈 Map의 쌍으로 초기화
         val initial: Map<Schedule, CoursePlace> = emptyMap()
 
-        return mapPlacesBySchedule(schedules, places)
-            .entries.fold(initial) { prePlaceBySchedule, (schedule, places) ->
+        return mapPlacesBySchedule(schedules, schedulePlaces)
+            .entries.fold(initial) { prePlaceBySchedule, (schedule, schedulePlacesIn) ->
                 // 현재 CoursePlace 생성
-                val confirmedPlace = getConfirmedPlace(schedule, places, agreeCountByPlaceId)
+                val confirmedPlace =
+                    getConfirmedPlace(schedule, placeById, schedulePlacesIn, agreeCountBySchedulePlaceId)
 
                 if (confirmedPlace != null) {
                     val preCoursePlace = prePlaceBySchedule.values.lastOrNull()
@@ -105,11 +112,12 @@ class CourseService(
 
     private fun mapPlacesBySchedule(
         schedules: List<Schedule>,
-        places: List<Place>,
-    ): Map<Schedule, List<Place>> {
-        val placesByScheduleId = places.groupBy { it.scheduleId }
+        schedulePlaces: List<SchedulePlace>,
+    ): Map<Schedule, List<SchedulePlace>> {
+        val schedulePlaceByScheduleId = schedulePlaces.groupBy { it.scheduleId }
+
         return schedules.associateWith { schedule ->
-            placesByScheduleId[schedule.id]
+            schedulePlaceByScheduleId[schedule.id]
                 ?: throw PiikiiException(
                     exceptionCode = ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION,
                     detailMessage = "$EMPTY_CONFIRMED_PLACE Schedule ID: ${schedule.id}",
@@ -139,10 +147,11 @@ class CourseService(
 
     private fun getConfirmedPlace(
         schedule: Schedule,
-        places: List<Place>,
-        agreeCountByPlaceId: Map<Long, Int>,
+        placeById: Map<LongTypeId, Place>,
+        schedulePlaces: List<SchedulePlace>,
+        agreeCountBySchedulePlaceId: Map<Long, Int>,
     ): Place? {
-        val confirmedPlaces = places.filter { it.confirmed }
+        val confirmedPlaces = schedulePlaces.filter { it.confirmed }
 
         if (confirmedPlaces.size > 1) {
             throw PiikiiException(
@@ -151,27 +160,41 @@ class CourseService(
             )
         }
 
-        return confirmedPlaces.firstOrNull() ?: confirmPlace(places, agreeCountByPlaceId)
+        return confirmedPlaces.firstOrNull()
+            ?.let { findPlaceInPlaceById(it.placeId, placeById) }
+            ?: confirmSchedulePlace(schedulePlaces, agreeCountBySchedulePlaceId)
+                ?.let { findPlaceInPlaceById(it.placeId, placeById) }
     }
 
-    private fun confirmPlace(
-        places: List<Place>,
-        agreeCountByPlaceId: Map<Long, Int>,
-    ): Place? {
-        return places
-            .mapNotNull { place ->
-                // place.id에 해당하는 agree count가 존재하면 place와 count를 페어로 매핑
-                agreeCountByPlaceId[place.id.getValue()]?.let { count -> place to count }
+    private fun findPlaceInPlaceById(
+        targetPlaceId: LongTypeId,
+        placeById: Map<LongTypeId, Place>,
+    ): Place {
+        return placeById[targetPlaceId]
+            ?: throw PiikiiException(
+                exceptionCode = ExceptionCode.NOT_FOUNDED,
+                detailMessage = "Place not found for Place ID: $targetPlaceId",
+            )
+    }
+
+    private fun confirmSchedulePlace(
+        schedulePlaces: List<SchedulePlace>,
+        agreeCountBySchedulePlaceId: Map<Long, Int>,
+    ): SchedulePlace? {
+        return schedulePlaces
+            .mapNotNull { schedulePlace ->
+                // place.id에 해당하는 agree count가 존재하면 schedulePlace와 count를 페어로 매핑
+                agreeCountBySchedulePlaceId[schedulePlace.id.getValue()]?.let { count -> schedulePlace to count }
             }
-            // agree count 내림차순 정렬, (count 동일)place.id 오름차순 정렬
+            // agree count 내림차순 정렬, (count 동일)schedulePlace.id 오름차순 정렬
             .maxWithOrNull(compareBy({ it.second }, { -it.first.id.getValue() }))
-            ?.let { (selectedPlace, _) ->
-                // 최다 찬성 득표 수 place: confirmed 상태로 변경
-                placeCommandPort.update(
-                    targetPlaceId = selectedPlace.id,
-                    place = selectedPlace.copy(confirmed = true),
+            ?.let { (selectedSchedulePlace, _) ->
+                // 최다 찬성 득표 수 schedulePlace: confirmed 상태로 변경
+                schedulePlaceCommandPort.update(
+                    targetId = selectedSchedulePlace.id,
+                    schedulePlace = selectedSchedulePlace.copy(confirmed = true),
                 )
-                selectedPlace
+                selectedSchedulePlace
             }
     }
 

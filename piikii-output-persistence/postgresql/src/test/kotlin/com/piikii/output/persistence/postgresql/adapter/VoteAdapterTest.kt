@@ -29,15 +29,15 @@ class VoteAdapterTest {
         val userUid = UuidTypeId(UUID.randomUUID())
         val votes =
             listOf(
-                Vote(id = LongTypeId(1), userUid = userUid, placeId = placeId1, result = VoteResult.AGREE),
-                Vote(id = LongTypeId(2), userUid = userUid, placeId = placeId1, result = VoteResult.AGREE),
-                Vote(id = LongTypeId(3), userUid = userUid, placeId = placeId2, result = VoteResult.AGREE),
-                Vote(id = LongTypeId(4), userUid = userUid, placeId = placeId1, result = VoteResult.DISAGREE),
-                Vote(id = LongTypeId(5), userUid = userUid, placeId = placeId2, result = VoteResult.DISAGREE),
+                Vote(id = LongTypeId(1), userUid = userUid, schedulePlaceId = placeId1, result = VoteResult.AGREE),
+                Vote(id = LongTypeId(2), userUid = userUid, schedulePlaceId = placeId1, result = VoteResult.AGREE),
+                Vote(id = LongTypeId(3), userUid = userUid, schedulePlaceId = placeId2, result = VoteResult.AGREE),
+                Vote(id = LongTypeId(4), userUid = userUid, schedulePlaceId = placeId1, result = VoteResult.DISAGREE),
+                Vote(id = LongTypeId(5), userUid = userUid, schedulePlaceId = placeId2, result = VoteResult.DISAGREE),
             )
 
         // when
-        val result = voteAdapter.findAgreeCountByPlaceId(votes)
+        val result = voteAdapter.findAgreeCountBySchedulePlaceId(votes)
 
         // then
         assertThat(result[placeId1.getValue()]).isEqualTo(2)

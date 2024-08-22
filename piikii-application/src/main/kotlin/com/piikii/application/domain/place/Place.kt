@@ -8,7 +8,6 @@ import com.piikii.application.domain.generic.UuidTypeId
 data class Place(
     val id: LongTypeId,
     val roomUid: UuidTypeId,
-    val scheduleId: LongTypeId,
     val name: String,
     val url: String?,
     val thumbnailLinks: ThumbnailLinks,
@@ -17,7 +16,6 @@ data class Place(
     val starGrade: Float?,
     val origin: Origin,
     val memo: String?,
-    val confirmed: Boolean,
     val reviewCount: Int?,
     val longitude: Double?,
     val latitude: Double?,
@@ -25,9 +23,5 @@ data class Place(
 ) {
     fun getCoordinate(): Coordinate {
         return Coordinate(this.longitude, this.latitude)
-    }
-
-    fun isInvalidRoomUid(roomUid: UuidTypeId): Boolean {
-        return this.roomUid != roomUid
     }
 }

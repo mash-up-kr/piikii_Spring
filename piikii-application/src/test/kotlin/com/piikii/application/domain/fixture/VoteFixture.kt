@@ -9,11 +9,11 @@ import java.util.UUID
 class VoteFixture(
     private var id: LongTypeId = LongTypeId(0L),
     private var userUid: UuidTypeId = UuidTypeId(UUID.randomUUID()),
-    private var placeId: LongTypeId = LongTypeId(0L),
+    private var schedulePlaceId: LongTypeId = LongTypeId(0L),
     private var result: VoteResult = VoteResult.DISAGREE,
 ) {
     fun placeId(placeId: LongTypeId): VoteFixture {
-        this.placeId = placeId
+        this.schedulePlaceId = placeId
         return this
     }
 
@@ -26,7 +26,7 @@ class VoteFixture(
         return Vote(
             id = this.id,
             userUid = this.userUid,
-            placeId = this.placeId,
+            schedulePlaceId = this.schedulePlaceId,
             result = this.result,
         )
     }

@@ -1,5 +1,6 @@
 package com.piikii.application.domain.vote
 
+import com.piikii.application.domain.fixture.SchedulePlaceFixture
 import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.generic.UuidTypeId
@@ -11,6 +12,7 @@ import com.piikii.application.domain.schedule.Schedule
 import com.piikii.application.domain.schedule.ScheduleType
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
+import com.piikii.application.port.output.persistence.SchedulePlaceQueryPort
 import com.piikii.application.port.output.persistence.ScheduleQueryPort
 import com.piikii.application.port.output.persistence.VoteCommandPort
 import com.piikii.application.port.output.persistence.VoteQueryPort
@@ -22,7 +24,6 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import org.mockito.BDDMockito.anyList
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.verify
 import org.mockito.InjectMocks
@@ -51,6 +52,9 @@ class VoteServiceTest {
 
     @Mock
     lateinit var scheduleQueryPort: ScheduleQueryPort
+
+    @Mock
+    lateinit var schedulePlaceQueryPort: SchedulePlaceQueryPort
 
     @MethodSource("voteUnavailableRoom")
     @ParameterizedTest
@@ -85,19 +89,19 @@ class VoteServiceTest {
                 Vote(
                     id = LongTypeId(1L),
                     userUid = userUid,
-                    placeId = LongTypeId(1),
+                    schedulePlaceId = LongTypeId(1),
                     result = VoteResult.AGREE,
                 ),
                 Vote(
                     id = LongTypeId(2L),
                     userUid = userUid,
-                    placeId = LongTypeId(2),
+                    schedulePlaceId = LongTypeId(2),
                     result = VoteResult.DISAGREE,
                 ),
                 Vote(
                     id = LongTypeId(3L),
                     userUid = userUid,
-                    placeId = LongTypeId(3),
+                    schedulePlaceId = LongTypeId(3),
                     result = VoteResult.AGREE,
                 ),
             )
@@ -112,19 +116,24 @@ class VoteServiceTest {
                 starGrade = null,
                 origin = Origin.MANUAL,
                 roomUid = roomUid,
-                scheduleId = LongTypeId(0L),
                 memo = null,
-                confirmed = false,
                 reviewCount = 0,
                 longitude = 126.9246033,
                 latitude = 33.45241976,
                 openingHours = "",
             )
+        val schedulePlace =
+            SchedulePlaceFixture.create()
+                .roomUid(roomUid)
+                .scheduleId(LongTypeId(0L))
+                .placeId(place.id)
+                .confirmed(false)
+                .build()
 
         given(roomQueryPort.findById(room.roomUid))
             .willReturn(room)
-        given(placeQueryPort.findAllByPlaceIds(votes.map { it.placeId }))
-            .willReturn(listOf(place))
+        given(schedulePlaceQueryPort.findAllByIdIn(votes.map { it.schedulePlaceId }))
+            .willReturn(listOf(schedulePlace))
 
         // when & then
         assertThatThrownBy { voteService.vote(room.roomUid, votes) }
@@ -149,8 +158,18 @@ class VoteServiceTest {
             )
         val votes =
             listOf(
-                Vote(id = LongTypeId(1L), userUid = userUid, placeId = LongTypeId(1), result = VoteResult.AGREE),
-                Vote(id = LongTypeId(2L), userUid = userUid, placeId = LongTypeId(2), result = VoteResult.DISAGREE),
+                Vote(
+                    id = LongTypeId(1L),
+                    userUid = userUid,
+                    schedulePlaceId = LongTypeId(1),
+                    result = VoteResult.AGREE,
+                ),
+                Vote(
+                    id = LongTypeId(2L),
+                    userUid = userUid,
+                    schedulePlaceId = LongTypeId(2),
+                    result = VoteResult.DISAGREE,
+                ),
             )
         val places =
             listOf(
@@ -164,9 +183,7 @@ class VoteServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = UuidTypeId(UUID.randomUUID()),
-                    scheduleId = LongTypeId(0L),
                     memo = null,
-                    confirmed = false,
                     reviewCount = 0,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
@@ -182,20 +199,35 @@ class VoteServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = UuidTypeId(UUID.randomUUID()),
-                    scheduleId = LongTypeId(0L),
                     memo = null,
-                    confirmed = false,
                     reviewCount = 0,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                     openingHours = "",
                 ),
             )
+        val schedulePlaces =
+            listOf(
+                SchedulePlaceFixture.create()
+                    .id(0L)
+                    .roomUid(places[0].roomUid)
+                    .scheduleId(LongTypeId(0L))
+                    .placeId(places[0].id)
+                    .confirmed(false)
+                    .build(),
+                SchedulePlaceFixture.create()
+                    .id(1L)
+                    .roomUid(places[1].roomUid)
+                    .scheduleId(LongTypeId(0L))
+                    .placeId(places[1].id)
+                    .confirmed(false)
+                    .build(),
+            )
 
         given(roomQueryPort.findById(room.roomUid))
             .willReturn(room)
-        given(placeQueryPort.findAllByPlaceIds(votes.map { it.placeId }))
-            .willReturn(places)
+        given(schedulePlaceQueryPort.findAllByIdIn(votes.map { it.schedulePlaceId }))
+            .willReturn(schedulePlaces)
 
         // when & then
         assertThatThrownBy { voteService.vote(room.roomUid, votes) }
@@ -220,8 +252,18 @@ class VoteServiceTest {
             )
         val votes =
             listOf(
-                Vote(id = LongTypeId(1L), userUid = userUid, placeId = LongTypeId(1), result = VoteResult.AGREE),
-                Vote(id = LongTypeId(2L), userUid = userUid, placeId = LongTypeId(2), result = VoteResult.DISAGREE),
+                Vote(
+                    id = LongTypeId(1L),
+                    userUid = userUid,
+                    schedulePlaceId = LongTypeId(1),
+                    result = VoteResult.AGREE,
+                ),
+                Vote(
+                    id = LongTypeId(2L),
+                    userUid = userUid,
+                    schedulePlaceId = LongTypeId(2),
+                    result = VoteResult.DISAGREE,
+                ),
             )
         val places =
             listOf(
@@ -235,9 +277,7 @@ class VoteServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = roomUid,
-                    scheduleId = LongTypeId(0),
                     memo = null,
-                    confirmed = false,
                     reviewCount = 0,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
@@ -253,20 +293,35 @@ class VoteServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = roomUid,
-                    scheduleId = LongTypeId(0),
                     memo = null,
-                    confirmed = false,
                     reviewCount = 0,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                     openingHours = "",
                 ),
             )
+        val schedulePlaces =
+            listOf(
+                SchedulePlaceFixture.create()
+                    .id(1L)
+                    .roomUid(places[0].roomUid)
+                    .scheduleId(LongTypeId(0L))
+                    .placeId(places[0].id)
+                    .confirmed(false)
+                    .build(),
+                SchedulePlaceFixture.create()
+                    .id(2L)
+                    .roomUid(places[1].roomUid)
+                    .scheduleId(LongTypeId(0L))
+                    .placeId(places[1].id)
+                    .confirmed(false)
+                    .build(),
+            )
 
         given(roomQueryPort.findById(roomUid))
             .willReturn(room)
-        given(placeQueryPort.findAllByPlaceIds(votes.map { it.placeId }))
-            .willReturn(places)
+        given(schedulePlaceQueryPort.findAllByIdIn(votes.map { it.schedulePlaceId }))
+            .willReturn(schedulePlaces)
 
         // when & then
         assertDoesNotThrow { voteService.vote(roomUid, votes) }
@@ -281,10 +336,30 @@ class VoteServiceTest {
 
         val votes =
             listOf(
-                Vote(id = LongTypeId(1L), userUid = userUid, placeId = LongTypeId(1), result = VoteResult.AGREE),
-                Vote(id = LongTypeId(2L), userUid = userUid, placeId = LongTypeId(3), result = VoteResult.AGREE),
-                Vote(id = LongTypeId(3L), userUid = userUid, placeId = LongTypeId(3), result = VoteResult.AGREE),
-                Vote(id = LongTypeId(4L), userUid = userUid, placeId = LongTypeId(2), result = VoteResult.DISAGREE),
+                Vote(
+                    id = LongTypeId(1L),
+                    userUid = userUid,
+                    schedulePlaceId = LongTypeId(1),
+                    result = VoteResult.AGREE,
+                ),
+                Vote(
+                    id = LongTypeId(2L),
+                    userUid = userUid,
+                    schedulePlaceId = LongTypeId(3),
+                    result = VoteResult.AGREE,
+                ),
+                Vote(
+                    id = LongTypeId(3L),
+                    userUid = userUid,
+                    schedulePlaceId = LongTypeId(3),
+                    result = VoteResult.AGREE,
+                ),
+                Vote(
+                    id = LongTypeId(4L),
+                    userUid = userUid,
+                    schedulePlaceId = LongTypeId(2),
+                    result = VoteResult.DISAGREE,
+                ),
             )
         val schedules =
             listOf(
@@ -304,9 +379,7 @@ class VoteServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = roomUid,
-                    scheduleId = LongTypeId(1),
                     memo = null,
-                    confirmed = false,
                     reviewCount = 0,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
@@ -322,9 +395,7 @@ class VoteServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = roomUid,
-                    scheduleId = LongTypeId(2),
                     memo = null,
-                    confirmed = false,
                     reviewCount = 0,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
@@ -340,22 +411,48 @@ class VoteServiceTest {
                     starGrade = null,
                     origin = Origin.MANUAL,
                     roomUid = roomUid,
-                    scheduleId = LongTypeId(2),
                     memo = null,
-                    confirmed = false,
                     reviewCount = 0,
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                     openingHours = "",
                 ),
             )
+        val schedulePlaces =
+            listOf(
+                SchedulePlaceFixture.create()
+                    .id(1L)
+                    .roomUid(places[0].roomUid)
+                    .scheduleId(LongTypeId(1L))
+                    .placeId(places[0].id)
+                    .confirmed(false)
+                    .build(),
+                SchedulePlaceFixture.create()
+                    .id(2L)
+                    .roomUid(places[1].roomUid)
+                    .scheduleId(LongTypeId(2L))
+                    .placeId(places[1].id)
+                    .confirmed(false)
+                    .build(),
+                SchedulePlaceFixture.create()
+                    .id(3L)
+                    .roomUid(places[2].roomUid)
+                    .scheduleId(LongTypeId(2L))
+                    .placeId(places[2].id)
+                    .confirmed(false)
+                    .build(),
+            )
 
-        given(placeQueryPort.findAllByRoomUid(roomUid))
+        given(schedulePlaceQueryPort.findAllByRoomUid(roomUid))
+            .willReturn(schedulePlaces)
+        given(placeQueryPort.findAllByPlaceIds(schedulePlaces.map { it.placeId }))
             .willReturn(places)
         given(scheduleQueryPort.findAllByRoomUid(roomUid))
             .willReturn(schedules)
-        given(voteQueryPort.findAllByPlaceIds(anyList()))
+        given(voteQueryPort.findAllBySchedulePlaceIds(schedulePlaces.map { it.id }))
             .willReturn(votes)
+
+        println(voteService.getVoteResultOfRoom(roomUid))
 
         // when
         val voteResultResponse = assertDoesNotThrow { voteService.getVoteResultOfRoom(roomUid) }
@@ -367,6 +464,8 @@ class VoteServiceTest {
         assertThat(scheduleTwoResponse.places).hasSize(2)
 
         // 동의 투표 수 기준 내림차순 정렬 여부 확인
+        println("===")
+        println(scheduleTwoResponse.places[0])
         assertThat(scheduleTwoResponse.places[0].countOfAgree).isEqualTo(2)
     }
 
