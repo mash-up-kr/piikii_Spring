@@ -53,6 +53,8 @@ data class AddPlaceRequest(
     val latitude: Double?,
     @field:Schema(description = "영업시간", example = "10:00 ~ 17:00")
     val openingHours: String?,
+    @field:Schema(description = "Place 정보 출처", example = "AVOCADO")
+    val origin: Origin = Origin.MANUAL,
 ) {
     fun toDomain(
         roomUid: UuidTypeId,
@@ -69,7 +71,7 @@ data class AddPlaceRequest(
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
-            origin = Origin.MANUAL,
+            origin = origin,
             memo = memo,
             confirmed = false,
             reviewCount = reviewCount,

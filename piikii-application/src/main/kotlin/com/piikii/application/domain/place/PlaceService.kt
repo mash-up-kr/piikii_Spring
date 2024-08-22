@@ -56,7 +56,6 @@ class PlaceService(
 
         return placeCommandPort.saveAll(
             roomUid = room.roomUid,
-            scheduleIds = schedules.map { it.id },
             places = places,
         ).map(::PlaceResponse)
     }
