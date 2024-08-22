@@ -2,6 +2,8 @@ package com.piikii.input.http.controller
 
 import com.piikii.application.domain.generic.LongTypeId
 import com.piikii.application.domain.generic.UuidTypeId
+import com.piikii.application.domain.image.ImageFolderType
+import com.piikii.application.port.input.ImageUploadUseCase
 import com.piikii.application.port.input.PlaceUseCase
 import com.piikii.application.port.input.dto.request.AddPlaceRequest
 import com.piikii.application.port.input.dto.request.ModifyPlaceRequest
@@ -31,6 +33,7 @@ import java.util.UUID
 @RequestMapping("/v1/rooms/{roomUid}/places")
 class PlaceApi(
     private val placeUseCase: PlaceUseCase,
+    private val imageUploadUseCase: ImageUploadUseCase,
 ) : PlaceDocs {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
@@ -39,7 +42,8 @@ class PlaceApi(
         @Valid @NotNull @RequestPart addPlaceRequest: AddPlaceRequest,
         @RequestPart(required = false) placeImages: List<MultipartFile>?,
     ): ResponseForm<List<PlaceResponse>> {
-        return ResponseForm(placeUseCase.addPlace(UuidTypeId(roomUid), addPlaceRequest, placeImages))
+        val placeImageUrls = imageUploadUseCase.upload(placeImages, ImageFolderType.PLACE)
+        return ResponseForm(placeUseCase.addPlace(UuidTypeId(roomUid), addPlaceRequest, placeImageUrls))
     }
 
     @GetMapping
