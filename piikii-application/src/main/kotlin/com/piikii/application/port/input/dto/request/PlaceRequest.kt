@@ -55,19 +55,22 @@ data class AddPlaceRequest(
     val openingHours: String?,
     @field:Schema(description = "Place 정보 출처", example = "AVOCADO")
     val origin: Origin = Origin.MANUAL,
+    @field:Schema(description = "자동완성에서 가져온 장소 이미지 URL 리스트")
+    val autoCompletedPlaceImageUrls: List<String> = emptyList(),
 ) {
     fun toDomain(
         roomUid: UuidTypeId,
         scheduleId: LongTypeId,
         imageUrls: List<String>,
     ): Place {
+        val thumbnailLinks = ThumbnailLinks(imageUrls + autoCompletedPlaceImageUrls)
         return Place(
             id = LongTypeId(0L),
             roomUid = roomUid,
             scheduleId = scheduleId,
             name = name,
             url = url,
-            thumbnailLinks = ThumbnailLinks(imageUrls),
+            thumbnailLinks = thumbnailLinks,
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
