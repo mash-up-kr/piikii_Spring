@@ -23,7 +23,6 @@ interface PlaceCommandPort {
 
     fun saveAll(
         roomUid: UuidTypeId,
-        scheduleIds: List<LongTypeId>,
         places: List<Place>,
     ): List<Place>
 

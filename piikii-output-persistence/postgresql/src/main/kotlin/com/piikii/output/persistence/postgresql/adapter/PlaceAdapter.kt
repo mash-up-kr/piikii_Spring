@@ -35,7 +35,6 @@ class PlaceAdapter(
 
     override fun saveAll(
         roomUid: UuidTypeId,
-        scheduleIds: List<LongTypeId>,
         places: List<Place>,
     ): List<Place> {
         val placeEntities =
