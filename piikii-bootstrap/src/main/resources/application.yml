@@ -11,6 +11,10 @@ spring:
     name: "piikii"
   messages:
     encoding: UTF-8
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size : 350MB
 
 secret:
   token: ${SECRET_MANAGER_TOKEN}
