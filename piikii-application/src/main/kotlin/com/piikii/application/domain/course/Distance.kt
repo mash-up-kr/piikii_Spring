@@ -5,6 +5,7 @@ data class Distance(
     val totalTimeMinute: Int? = null,
 ) {
     companion object {
+        @JvmField
         val EMPTY = Distance(null, null)
     }
 }
