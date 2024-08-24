@@ -40,10 +40,12 @@ class RedisConfig(
 
     @Bean
     fun lettuceConnectionFactory(): LettuceConnectionFactory {
-        val redisConfig = RedisStandaloneConfiguration()
-        redisConfig.hostName = redisHost!!
-        redisConfig.port = redisPort
-        redisConfig.password = RedisPassword.of(redisPassword)
+        val redisConfig =
+            RedisStandaloneConfiguration().apply {
+                hostName = redisHost
+                port = redisPort
+                password = RedisPassword.of(redisPassword)
+            }
 
         val clientConfig =
             LettuceClientConfiguration.builder()
