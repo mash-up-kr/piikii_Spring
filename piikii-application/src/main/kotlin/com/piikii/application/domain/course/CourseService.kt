@@ -127,7 +127,10 @@ class CourseService(
             schedule = schedule,
             place = confirmedPlace,
             coordinate = coordinate,
-            distance = courseCachePort.getDistance(preCoursePlace, confirmedPlace),
+            distance =
+                preCoursePlace?.let {
+                    courseCachePort.getDistance(it, confirmedPlace)
+                } ?: Distance.EMPTY,
         )
     }
 

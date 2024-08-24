@@ -6,7 +6,7 @@ import com.piikii.application.domain.place.Place
 
 interface CourseCachePort {
     fun getDistance(
-        startPlace: CoursePlace?,
+        startPlace: CoursePlace,
         endPlace: Place,
     ): Distance?
 }

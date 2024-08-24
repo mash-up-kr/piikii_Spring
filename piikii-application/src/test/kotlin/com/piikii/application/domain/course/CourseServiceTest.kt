@@ -140,8 +140,6 @@ class CourseServiceTest {
                 distance = Distance.EMPTY,
             )
 
-        given(courseCachePort.getDistance(null, places[0]))
-            .willReturn(Distance.EMPTY)
         given(courseCachePort.getDistance(coursePlace, places[2]))
             .willReturn(Distance(100, 5))
 

@@ -20,10 +20,10 @@ class CourseRedisCacheAdapter(
         unless = "#result == null",
     )
     override fun getDistance(
-        startPlace: CoursePlace?,
+        startPlace: CoursePlace,
         endPlace: Place,
     ): Distance? {
-        return startPlace?.coordinate?.let { preCoordinate ->
+        return startPlace.coordinate?.let { preCoordinate ->
             endPlace.getCoordinate().let { coordinate ->
                 navigationPort.getDistance(start = preCoordinate, end = coordinate)
             }
