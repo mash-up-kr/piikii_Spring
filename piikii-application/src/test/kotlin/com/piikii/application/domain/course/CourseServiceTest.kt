@@ -5,13 +5,13 @@ import com.piikii.application.domain.fixture.RoomFixture
 import com.piikii.application.domain.fixture.ScheduleFixture
 import com.piikii.application.domain.fixture.VoteFixture
 import com.piikii.application.domain.vote.VoteResult
-import com.piikii.application.port.output.cache.CourseCachePort
 import com.piikii.application.port.output.persistence.CourseQueryPort
 import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.application.port.output.persistence.ScheduleQueryPort
 import com.piikii.application.port.output.persistence.VoteQueryPort
+import com.piikii.application.port.output.web.NavigationPort
 import com.piikii.common.exception.PiikiiException
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -45,7 +45,7 @@ class CourseServiceTest {
     lateinit var voteQueryPort: VoteQueryPort
 
     @Mock
-    lateinit var courseCachePort: CourseCachePort
+    lateinit var navigationPort: NavigationPort
 
     @Mock
     lateinit var courseQueryPort: CourseQueryPort
@@ -132,7 +132,7 @@ class CourseServiceTest {
                 ),
             )
 
-        given(courseCachePort.getDistance(places[0], places[2]))
+        given(navigationPort.getDistance(places[0], places[2]))
             .willReturn(Distance(100, 5))
 
         val updatedPlace = places[2].copy(confirmed = true)
