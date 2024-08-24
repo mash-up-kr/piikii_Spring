@@ -51,13 +51,13 @@ data class CoursePlaceResponse(
             return CoursePlaceResponse(
                 scheduleId = coursePlace.scheduleId.getValue(),
                 scheduleType = coursePlace.scheduleType,
-                placeId = coursePlace.placeId.getValue(),
-                name = coursePlace.name,
-                url = coursePlace.url,
-                address = coursePlace.address,
-                phoneNumber = coursePlace.phoneNumber,
-                distance = coursePlace.distance?.totalDistanceMeter,
-                time = coursePlace.distance?.totalTimeMinute,
+                placeId = coursePlace.place.id.getValue(),
+                name = coursePlace.place.name,
+                url = coursePlace.place.url,
+                address = coursePlace.place.address,
+                phoneNumber = coursePlace.place.phoneNumber,
+                distance = coursePlace.distance.totalDistanceMeter,
+                time = coursePlace.distance.totalTimeMinute,
             )
         }
     }

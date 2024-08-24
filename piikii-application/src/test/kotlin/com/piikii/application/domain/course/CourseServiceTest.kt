@@ -132,15 +132,7 @@ class CourseServiceTest {
                 ),
             )
 
-        val coursePlace =
-            CoursePlace.from(
-                schedule = schedules[0],
-                place = places[0],
-                coordinate = Coordinate(places[0].longitude, places[0].latitude),
-                distance = Distance.EMPTY,
-            )
-
-        given(courseCachePort.getDistance(coursePlace, places[2]))
+        given(courseCachePort.getDistance(places[0], places[2]))
             .willReturn(Distance(100, 5))
 
         val updatedPlace = places[2].copy(confirmed = true)

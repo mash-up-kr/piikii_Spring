@@ -82,24 +82,15 @@ class CourseService(
         places: List<Place>,
         agreeCountByPlaceId: Map<Long, Int>,
     ): Map<Schedule, CoursePlace> {
-        // initial 값 설정: null과 빈 Map의 쌍으로 초기화
-        val initial: Map<Schedule, CoursePlace> = emptyMap()
-
+        val initCourse: Map<Schedule, CoursePlace> = emptyMap()
         return mapPlacesBySchedule(schedules, places)
-            .entries.fold(initial) { prePlaceBySchedule, (schedule, places) ->
-                // 현재 CoursePlace 생성
+            .entries.fold(initCourse) { course, (schedule, places) ->
                 val confirmedPlace = getConfirmedPlace(schedule, places, agreeCountByPlaceId)
-
-                if (confirmedPlace != null) {
-                    val preCoursePlace = prePlaceBySchedule.values.lastOrNull()
-                    val curCoursePlace = getCoursePlace(schedule, preCoursePlace, confirmedPlace)
-
-                    // currentCoursePlace를 누적된 placeBySchedule 맵에 추가
-                    prePlaceBySchedule + (schedule to curCoursePlace)
-                } else {
-                    // confirmedPlace가 null인 경우 기존 맵을 그대로 반환
-                    prePlaceBySchedule
-                }
+                confirmedPlace?.let {
+                    val preCoursePlace = course.values.lastOrNull()
+                    val curCoursePlace = getCoursePlace(schedule, preCoursePlace?.place, it)
+                    course + (schedule to curCoursePlace)
+                } ?: course
             }
     }
 
@@ -119,16 +110,15 @@ class CourseService(
 
     private fun getCoursePlace(
         schedule: Schedule,
-        preCoursePlace: CoursePlace?,
+        prePlace: Place?,
         confirmedPlace: Place,
     ): CoursePlace {
-        val coordinate = confirmedPlace.getCoordinate()
-        return CoursePlace.from(
+        return CoursePlace(
             schedule = schedule,
+            prePlace = prePlace,
             place = confirmedPlace,
-            coordinate = coordinate,
             distance =
-                preCoursePlace?.let {
+                prePlace?.let {
                     courseCachePort.getDistance(it, confirmedPlace)
                 } ?: Distance.EMPTY,
         )

@@ -8,32 +8,17 @@ import com.piikii.application.domain.schedule.ScheduleType
 data class CoursePlace(
     val scheduleId: LongTypeId,
     val scheduleType: ScheduleType,
-    val placeId: LongTypeId,
-    val name: String,
-    val url: String?,
-    val address: String?,
-    val phoneNumber: String?,
-    val coordinate: Coordinate?,
-    val distance: Distance?,
+    val prePlace: Place?,
+    val place: Place,
+    val coordinate: Coordinate,
+    val distance: Distance,
 ) {
-    companion object {
-        fun from(
-            schedule: Schedule,
-            place: Place,
-            coordinate: Coordinate?,
-            distance: Distance?,
-        ): CoursePlace {
-            return CoursePlace(
-                scheduleId = schedule.id,
-                scheduleType = schedule.type,
-                placeId = place.id,
-                name = place.name,
-                url = place.url,
-                address = place.address,
-                phoneNumber = place.phoneNumber,
-                coordinate = coordinate,
-                distance = distance,
-            )
-        }
-    }
+    constructor(schedule: Schedule, prePlace: Place?, place: Place, distance: Distance) : this(
+        scheduleId = schedule.id,
+        scheduleType = schedule.type,
+        prePlace = prePlace,
+        place = place,
+        coordinate = place.getCoordinate(),
+        distance = distance,
+    )
 }

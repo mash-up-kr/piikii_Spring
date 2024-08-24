@@ -1,6 +1,5 @@
 package com.piikii.output.redis.adapter
 
-import com.piikii.application.domain.course.CoursePlace
 import com.piikii.application.domain.course.Distance
 import com.piikii.application.domain.place.Place
 import com.piikii.application.port.output.cache.CourseCachePort
@@ -20,10 +19,10 @@ class CourseRedisCacheAdapter(
         unless = "#result == null",
     )
     override fun getDistance(
-        startPlace: CoursePlace,
+        startPlace: Place,
         endPlace: Place,
-    ): Distance? {
-        return startPlace.coordinate?.let { preCoordinate ->
+    ): Distance {
+        return startPlace.getCoordinate().let { preCoordinate ->
             endPlace.getCoordinate().let { coordinate ->
                 navigationPort.getDistance(start = preCoordinate, end = coordinate)
             }
