@@ -22,10 +22,6 @@ class CourseRedisCacheAdapter(
         startPlace: Place,
         endPlace: Place,
     ): Distance {
-        return startPlace.getCoordinate().let { preCoordinate ->
-            endPlace.getCoordinate().let { coordinate ->
-                navigationPort.getDistance(start = preCoordinate, end = coordinate)
-            }
-        }
+        return navigationPort.getDistance(startPlace.getCoordinate(), endPlace.getCoordinate())
     }
 }
