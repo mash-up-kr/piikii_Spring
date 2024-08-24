@@ -19,16 +19,14 @@ import org.springframework.data.redis.serializer.StringRedisSerializer
 
 @Configuration
 @EnableRedisRepositories
-class RedisConfig {
+class RedisConfig(
     @Value("\${redis.host}")
-    private val redisHost: String? = null
-
+    private val redisHost: String,
     @Value("\${redis.port}")
-    private val redisPort = 0
-
+    private val redisPort: Int,
     @Value("\${redis.password}")
-    private val redisPassword: String? = null
-
+    private val redisPassword: String,
+) {
     @Bean
     fun objectMapper(): ObjectMapper {
         return JsonMapper.builder()
