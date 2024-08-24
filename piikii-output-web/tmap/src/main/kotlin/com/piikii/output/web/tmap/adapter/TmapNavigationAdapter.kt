@@ -16,11 +16,9 @@ class TmapNavigationAdapter(
     private val tmapApiClient: RestClient,
 ) : NavigationPort {
     @Cacheable(
-        value = ["Distances"],
+        value = ["Distance"],
         key = "#startPlace.id + '_' + #endPlace.id",
-        cacheManager = "cacheManager",
-        condition = "#startPlace != null",
-        unless = "#result == null",
+        unless = "#result == T(com.piikii.application.domain.course.Distance).EMPTY",
     )
     override fun getDistance(
         startPlace: Place,
