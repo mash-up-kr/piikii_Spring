@@ -1,6 +1,8 @@
 # Piki (piikii)
 
-함께 즐기는 모임의 시작 💃🏻🕺🏻
+<br/>
+
+<p align="center"> <strong>함께 즐기는 모임의 시작 💃🏻🕺🏻</strong></p>
 
 ![1](./docs/introduce/1.png)
 ![2](./docs/introduce/2.png)
