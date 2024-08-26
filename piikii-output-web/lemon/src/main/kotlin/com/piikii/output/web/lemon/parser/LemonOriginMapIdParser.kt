@@ -14,6 +14,7 @@ class LemonOriginMapIdParser(
         listOf(
             "${properties.url.regex.web}($ORIGIN_MAP_IP_REGEX)".toRegex(),
             "${properties.url.regex.mobileWeb}($ORIGIN_MAP_IP_REGEX)".toRegex(),
+            "${properties.url.regex.mobileApp}($ORIGIN_MAP_IP_REGEX_CHAR)".toRegex(),
         )
 
     fun isAutoCompleteSupportedUrl(url: String): Boolean = regexes.any { it.matches(url) }
@@ -29,5 +30,6 @@ class LemonOriginMapIdParser(
 
     companion object {
         const val ORIGIN_MAP_IP_REGEX = "\\d+"
+        const val ORIGIN_MAP_IP_REGEX_CHAR = "\\w+"
     }
 }

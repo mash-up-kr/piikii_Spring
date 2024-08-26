@@ -29,5 +29,6 @@ data class LemonUrl(
     data class Regex(
         val web: String,
         val mobileWeb: String,
+        val mobileApp: String,
     )
 }
