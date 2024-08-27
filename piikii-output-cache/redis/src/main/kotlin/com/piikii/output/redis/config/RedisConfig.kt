@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.json.JsonMapper
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
@@ -27,14 +28,8 @@ import java.time.Duration
 @Configuration
 @EnableRedisRepositories
 @EnableCaching
-class RedisConfig(
-    @Value("\${redis.host}")
-    private val redisHost: String,
-    @Value("\${redis.port}")
-    private val redisPort: Int,
-    @Value("\${redis.password}")
-    private val redisPassword: String,
-) {
+@EnableConfigurationProperties(RedisProperties::class)
+class RedisConfig {
     @Bean
     fun objectMapper(): ObjectMapper {
         return JsonMapper.builder()
@@ -47,12 +42,12 @@ class RedisConfig(
     }
 
     @Bean
-    fun lettuceConnectionFactory(): LettuceConnectionFactory {
+    fun lettuceConnectionFactory(redisProperties: RedisProperties): LettuceConnectionFactory {
         val redisConfig =
             RedisStandaloneConfiguration().apply {
-                hostName = redisHost
-                port = redisPort
-                password = RedisPassword.of(redisPassword)
+                hostName = redisProperties.host
+                port = redisProperties.port
+                password = RedisPassword.of(redisProperties.password)
             }
 
         val clientConfig =
@@ -64,9 +59,9 @@ class RedisConfig(
     }
 
     @Bean
-    fun redisTemplate(): RedisTemplate<String, Any> {
+    fun redisTemplate(redisProperties: RedisProperties): RedisTemplate<String, Any> {
         val redisTemplate = RedisTemplate<String, Any>()
-        redisTemplate.connectionFactory = lettuceConnectionFactory()
+        redisTemplate.connectionFactory = lettuceConnectionFactory(redisProperties)
         redisTemplate.keySerializer = StringRedisSerializer()
         redisTemplate.valueSerializer = GenericJackson2JsonRedisSerializer(objectMapper())
         return redisTemplate
@@ -90,3 +85,10 @@ class RedisConfig(
             .build()
     }
 }
+
+@ConfigurationProperties(prefix = "redis")
+data class RedisProperties(
+    val host: String,
+    val port: Int,
+    val password: String,
+)
