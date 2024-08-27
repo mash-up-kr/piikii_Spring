@@ -26,7 +26,6 @@ import java.time.Duration
 @EnableCaching
 @EnableConfigurationProperties(RedisProperties::class)
 class RedisConfig {
-
     @Bean
     fun lettuceConnectionFactory(redisProperties: RedisProperties): LettuceConnectionFactory {
         val redisConfig =
@@ -45,9 +44,12 @@ class RedisConfig {
     }
 
     @Bean
-    fun redisTemplate(redisProperties: RedisProperties, objectMapper: ObjectMapper): RedisTemplate<String, Any> {
-        val redisTemplate = RedisTemplate<String, Any>()
-        redisTemplate.connectionFactory = lettuceConnectionFactory(redisProperties)
+    fun <T> redisTemplate(
+        redisConnectionFactory: RedisConnectionFactory,
+        objectMapper: ObjectMapper,
+    ): RedisTemplate<String, T> {
+        val redisTemplate = RedisTemplate<String, T>()
+        redisTemplate.connectionFactory = redisConnectionFactory
         redisTemplate.keySerializer = StringRedisSerializer()
         redisTemplate.valueSerializer = GenericJackson2JsonRedisSerializer(objectMapper)
         return redisTemplate
