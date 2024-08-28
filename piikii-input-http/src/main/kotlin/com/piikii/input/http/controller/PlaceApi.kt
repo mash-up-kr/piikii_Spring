@@ -46,6 +46,7 @@ class PlaceApi(
         return ResponseForm(placeUseCase.addPlace(UuidTypeId(roomUid), addPlaceRequest, placeImageUrls))
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     override fun retrieveAll(
         @NotNull @PathVariable roomUid: UUID,
@@ -53,7 +54,8 @@ class PlaceApi(
         return ResponseForm(placeUseCase.findAllByRoomUidGroupByPlaceType(UuidTypeId(roomUid)))
     }
 
-    @PatchMapping("/{placeId}")
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/{placeId}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     override fun modifyPlace(
         @NotNull @PathVariable roomUid: UUID,
         @NotNull @PathVariable placeId: Long,
@@ -70,6 +72,7 @@ class PlaceApi(
         )
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{placeId}")
     override fun deletePlace(
         @NotNull @PathVariable roomUid: UUID,
