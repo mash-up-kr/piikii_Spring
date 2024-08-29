@@ -1,48 +1,82 @@
 package com.piikii.output.redis.config
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.databind.json.JsonMapper
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.cache.CacheManager
+import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.data.redis.cache.RedisCacheConfiguration
+import org.springframework.data.redis.cache.RedisCacheManager
+import org.springframework.data.redis.connection.RedisConnectionFactory
+import org.springframework.data.redis.connection.RedisPassword
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
+import org.springframework.data.redis.serializer.RedisSerializationContext
 import org.springframework.data.redis.serializer.StringRedisSerializer
+import java.time.Duration
 
-// TODO: 필요 시에 등록을 위해 설정
-// @Configuration
+@Configuration
+@EnableRedisRepositories
+@EnableCaching
+@EnableConfigurationProperties(RedisProperties::class)
 class RedisConfig {
-    @Value("\${redis.host}")
-    private val redisHost: String? = null
-
-    @Value("\${redis.port}")
-    private val redisPort = 0
-
     @Bean
-    fun objectMapper(): ObjectMapper {
-        return JsonMapper.builder()
-            .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-            .configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, false)
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-            .configure(DeserializationFeature.READ_ENUMS_USING_TO_STRING, true)
-            .findAndAddModules()
-            .build()
+    fun lettuceConnectionFactory(redisProperties: RedisProperties): LettuceConnectionFactory {
+        val redisConfig =
+            RedisStandaloneConfiguration().apply {
+                hostName = redisProperties.host
+                port = redisProperties.port
+                password = RedisPassword.of(redisProperties.password)
+            }
+
+        val clientConfig =
+            LettuceClientConfiguration.builder()
+                .useSsl()
+                .build()
+
+        return LettuceConnectionFactory(redisConfig, clientConfig)
     }
 
     @Bean
-    fun lettuceConnectionFactory(): LettuceConnectionFactory {
-        return LettuceConnectionFactory(redisHost!!, redisPort)
-    }
-
-    @Bean
-    fun redistemplate(): RedisTemplate<String, Any> {
-        val redisTemplate = RedisTemplate<String, Any>()
-        redisTemplate.connectionFactory = lettuceConnectionFactory()
+    fun <T> redisTemplate(
+        redisConnectionFactory: RedisConnectionFactory,
+        objectMapper: ObjectMapper,
+    ): RedisTemplate<String, T> {
+        val redisTemplate = RedisTemplate<String, T>()
+        redisTemplate.connectionFactory = redisConnectionFactory
         redisTemplate.keySerializer = StringRedisSerializer()
-        redisTemplate.valueSerializer = GenericJackson2JsonRedisSerializer(objectMapper())
+        redisTemplate.valueSerializer = GenericJackson2JsonRedisSerializer(objectMapper)
         return redisTemplate
     }
+
+    @Bean
+    fun cacheManager(redisConnectionFactory: RedisConnectionFactory): CacheManager {
+        val redisCacheConfiguration =
+            RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofDays(7))
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(StringRedisSerializer()))
+                .serializeValuesWith(
+                    RedisSerializationContext.SerializationPair.fromSerializer(
+                        GenericJackson2JsonRedisSerializer(),
+                    ),
+                )
+
+        return RedisCacheManager.RedisCacheManagerBuilder
+            .fromConnectionFactory(redisConnectionFactory)
+            .cacheDefaults(redisCacheConfiguration)
+            .build()
+    }
 }
+
+@ConfigurationProperties(prefix = "redis")
+data class RedisProperties(
+    val host: String,
+    val port: Int,
+    val password: String,
+)

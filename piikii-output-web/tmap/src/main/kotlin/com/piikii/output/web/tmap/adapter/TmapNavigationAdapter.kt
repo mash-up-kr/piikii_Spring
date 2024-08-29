@@ -2,9 +2,11 @@ package com.piikii.output.web.tmap.adapter
 
 import com.piikii.application.domain.course.Coordinate
 import com.piikii.application.domain.course.Distance
+import com.piikii.application.domain.place.Place
 import com.piikii.application.port.output.web.NavigationPort
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
@@ -13,12 +15,19 @@ import org.springframework.web.client.body
 class TmapNavigationAdapter(
     private val tmapApiClient: RestClient,
 ) : NavigationPort {
+    @Cacheable(
+        value = ["Distance"],
+        key = "#startPlace.id + '_' + #endPlace.id",
+        unless = "#result == T(com.piikii.application.domain.course.Distance).EMPTY",
+    )
     override fun getDistance(
-        start: Coordinate,
-        end: Coordinate,
+        startPlace: Place,
+        endPlace: Place,
     ): Distance {
-        return if (start.isValid() && end.isValid()) {
-            getDistanceFromTmap(start, end)
+        val startCoordinate = startPlace.getCoordinate()
+        val endCoordinate = endPlace.getCoordinate()
+        return if (startCoordinate.isValid() && endCoordinate.isValid()) {
+            getDistanceFromTmap(startCoordinate, endCoordinate)
         } else {
             Distance.EMPTY
         }

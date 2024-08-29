@@ -132,9 +132,7 @@ class CourseServiceTest {
                 ),
             )
 
-        val coordinate1 = Coordinate(places[0].longitude, places[0].latitude)
-        val coordinate2 = Coordinate(places[2].longitude, places[2].latitude)
-        given(navigationPort.getDistance(coordinate1, coordinate2))
+        given(navigationPort.getDistance(places[0], places[2]))
             .willReturn(Distance(100, 5))
 
         val updatedPlace = places[2].copy(confirmed = true)
