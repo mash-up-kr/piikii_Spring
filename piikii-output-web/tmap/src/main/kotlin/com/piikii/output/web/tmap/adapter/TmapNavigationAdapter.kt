@@ -26,10 +26,11 @@ class TmapNavigationAdapter(
     ): Distance {
         val startCoordinate = startPlace.getCoordinate()
         val endCoordinate = endPlace.getCoordinate()
-        return startCoordinate.takeIf { it.isValid() }
-            ?.takeIf { endCoordinate.isValid() }
-            ?.let { getDistanceFromTmap(startCoordinate, endCoordinate) }
-            ?: Distance.EMPTY
+        return if (startCoordinate.isValid() && endCoordinate.isValid()) {
+            getDistanceFromTmap(startCoordinate, endCoordinate)
+        } else {
+            Distance.EMPTY
+        }
     }
 
     private fun getDistanceFromTmap(
