@@ -37,6 +37,8 @@ data class PlaceResponse(
     var confirmed: Boolean,
     @field:Schema(description = "리뷰 개수", example = "100")
     val reviewCount: Int? = 0,
+    @field:Schema(description = "장소 카테고리", example = "한식")
+    val category: String?,
     @field:Schema(description = "영업시간", example = "10:00 ~ 17:00")
     val openingHours: String?,
 ) {
@@ -54,6 +56,7 @@ data class PlaceResponse(
         memo = place.memo,
         confirmed = place.confirmed,
         reviewCount = place.reviewCount,
+        category = place.category,
         openingHours = place.openingHours,
     )
 }

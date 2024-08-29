@@ -19,6 +19,7 @@ data class Place(
     val memo: String?,
     val confirmed: Boolean,
     val reviewCount: Int?,
+    val category: String?,
     val longitude: Double?,
     val latitude: Double?,
     val openingHours: String?,

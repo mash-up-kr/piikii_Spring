@@ -116,6 +116,7 @@ class VoteServiceTest {
                 memo = null,
                 confirmed = false,
                 reviewCount = 0,
+                category = "고기",
                 longitude = 126.9246033,
                 latitude = 33.45241976,
                 openingHours = "",
@@ -168,6 +169,7 @@ class VoteServiceTest {
                     memo = null,
                     confirmed = false,
                     reviewCount = 0,
+                    category = "고기",
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                     openingHours = "",
@@ -189,6 +191,7 @@ class VoteServiceTest {
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                     openingHours = "",
+                    category = "고기",
                 ),
             )
 
@@ -242,6 +245,7 @@ class VoteServiceTest {
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                     openingHours = "",
+                    category = "고기",
                 ),
                 Place(
                     id = LongTypeId(2),
@@ -260,6 +264,7 @@ class VoteServiceTest {
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                     openingHours = "",
+                    category = "고기",
                 ),
             )
 
@@ -311,6 +316,7 @@ class VoteServiceTest {
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                     openingHours = "",
+                    category = "고기",
                 ),
                 Place(
                     id = LongTypeId(2),
@@ -329,6 +335,7 @@ class VoteServiceTest {
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                     openingHours = "",
+                    category = "고기",
                 ),
                 Place(
                     id = LongTypeId(3),
@@ -347,6 +354,7 @@ class VoteServiceTest {
                     longitude = 126.9246033,
                     latitude = 33.45241976,
                     openingHours = "",
+                    category = "고기",
                 ),
             )
 
