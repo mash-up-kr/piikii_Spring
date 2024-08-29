@@ -13,10 +13,14 @@ data class PlaceAutoCompleteUrlRequest(
 ) {
     init {
         val validatedUrl =
-            "(https://\\S+)".toRegex().find(url)?.value ?: throw PiikiiException(
+            Regex(REGEX_PATTERN).find(url)?.value ?: throw PiikiiException(
                 exceptionCode = ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION,
                 detailMessage = "URL이 요청 형식에 맞지 않습니다. : $url",
             )
         url = URI(validatedUrl).toString()
+    }
+
+    companion object {
+        private const val REGEX_PATTERN = "(https://\\S+)"
     }
 }
