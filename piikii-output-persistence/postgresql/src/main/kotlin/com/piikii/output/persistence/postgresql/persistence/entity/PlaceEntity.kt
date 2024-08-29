@@ -46,6 +46,8 @@ class PlaceEntity(
     var confirmed: Boolean = false,
     @Column(name = "review_count", nullable = false)
     val reviewCount: Int?,
+    @Column(name = "category")
+    val category: String?,
     @Column(name = "longitude")
     val longitude: Double?,
     @Column(name = "latitude")
@@ -66,6 +68,7 @@ class PlaceEntity(
         memo = place.memo,
         confirmed = place.confirmed,
         reviewCount = place.reviewCount,
+        category = place.category,
         longitude = place.longitude,
         latitude = place.latitude,
         openingHours = place.openingHours,
@@ -86,6 +89,7 @@ class PlaceEntity(
             memo = memo,
             confirmed = confirmed,
             reviewCount = reviewCount,
+            category = category,
             longitude = longitude,
             latitude = latitude,
             openingHours = openingHours,
