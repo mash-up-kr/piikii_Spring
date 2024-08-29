@@ -5,7 +5,6 @@ import com.piikii.application.domain.generic.ThumbnailLinks
 import com.piikii.application.domain.generic.UuidTypeId
 import com.piikii.application.domain.place.Origin
 import com.piikii.application.domain.place.Place
-import com.piikii.application.domain.schedule.ScheduleType
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
@@ -92,9 +91,6 @@ data class ModifyPlaceRequest(
     @field:NotNull(message = "일정 ID는 필수입니다.")
     @field:Schema(description = "일정 ID", example = "1")
     val scheduleId: Long,
-    @field:NotNull(message = "일정 타입은 필수입니다.")
-    @field:Schema(description = "일정 타입", example = "DISH")
-    val scheduleType: ScheduleType,
     @field:NotBlank(message = "장소 이름은 필수이며 빈 문자열이 허용되지 않습니다.")
     @field:Size(max = 255, message = "장소 이름은 255자를 초과할 수 없습니다.")
     @field:Schema(description = "장소 이름", example = "보배네 맛집")
