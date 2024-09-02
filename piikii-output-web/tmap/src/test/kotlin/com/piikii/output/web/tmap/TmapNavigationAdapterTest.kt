@@ -42,6 +42,7 @@ class TmapNavigationAdapterTest {
                 longitude = 126.9246033,
                 latitude = 33.45241976,
                 openingHours = null,
+                category = "",
             )
         val endPlace =
             Place(
@@ -61,6 +62,7 @@ class TmapNavigationAdapterTest {
                 longitude = 126.9041895,
                 latitude = 33.4048969,
                 openingHours = null,
+                category = "",
             )
 
         val distance = tmapNavigationClient.getDistance(startPlace, endPlace)
