@@ -19,13 +19,13 @@ class ScheduleService(
     override fun registerSchedules(
         roomUid: UuidTypeId,
         request: RegisterSchedulesRequest,
-    ) {
+    ): SchedulesResponse {
         val schedulesToRegister = request.toDomains(roomUid)
         deleteSchedules(roomUid, schedulesToRegister)
-        schedulesToRegister.partition { it.id.getValue() == 0L }.let { (newSchedules, updatedSchedules) ->
-            scheduleCommandPort.saveSchedules(newSchedules)
-            scheduleCommandPort.updateSchedules(updatedSchedules)
-        }
+        val (newSchedules, changedSchedules) = schedulesToRegister.partition { it.id.getValue() == 0L }
+        val savedSchedules = scheduleCommandPort.saveSchedules(newSchedules)
+        val updatedSchedules = scheduleCommandPort.updateSchedules(changedSchedules)
+        return SchedulesResponse.from(savedSchedules + updatedSchedules)
     }
 
     override fun getSchedules(roomUid: UuidTypeId): SchedulesResponse {

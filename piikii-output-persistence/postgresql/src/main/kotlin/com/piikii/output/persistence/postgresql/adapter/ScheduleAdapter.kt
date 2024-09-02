@@ -21,10 +21,10 @@ class ScheduleAdapter(
     private val placeRepository: PlaceRepository,
 ) : ScheduleCommandPort, ScheduleQueryPort {
     @Transactional
-    override fun saveSchedules(schedules: List<Schedule>) {
-        scheduleRepository.saveAll(
+    override fun saveSchedules(schedules: List<Schedule>): List<Schedule> {
+        return scheduleRepository.saveAll(
             schedules.map { ScheduleEntity(it) },
-        )
+        ).map { it.toDomain() }
     }
 
     @Transactional
@@ -36,13 +36,11 @@ class ScheduleAdapter(
     }
 
     @Transactional
-    override fun updateSchedules(schedules: List<Schedule>) {
-        for (schedule in schedules) {
-            updateSchedule(schedule)
-        }
+    override fun updateSchedules(schedules: List<Schedule>): List<Schedule> {
+        return schedules.map { updateSchedule(it) }
     }
 
-    private fun updateSchedule(schedule: Schedule) {
+    private fun updateSchedule(schedule: Schedule): Schedule {
         val scheduleId =
             requireNotNull(schedule.id) {
                 throw PiikiiException(
@@ -52,6 +50,7 @@ class ScheduleAdapter(
             }
         val scheduleEntity = findScheduleEntityById(scheduleId)
         scheduleEntity.update(schedule)
+        return scheduleEntity.toDomain()
     }
 
     override fun findAllByRoomUid(roomUid: UuidTypeId): List<Schedule> {

@@ -13,9 +13,9 @@ interface ScheduleQueryPort {
 }
 
 interface ScheduleCommandPort {
-    fun saveSchedules(schedules: List<Schedule>)
+    fun saveSchedules(schedules: List<Schedule>): List<Schedule>
 
     fun deleteSchedules(scheduleIds: List<LongTypeId>)
 
-    fun updateSchedules(schedules: List<Schedule>)
+    fun updateSchedules(schedules: List<Schedule>): List<Schedule>
 }
