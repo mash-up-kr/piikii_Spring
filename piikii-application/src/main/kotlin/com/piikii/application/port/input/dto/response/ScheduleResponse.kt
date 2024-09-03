@@ -14,7 +14,7 @@ data class SchedulesResponse(
     companion object {
         fun from(schedules: List<Schedule>): SchedulesResponse {
             return SchedulesResponse(
-                schedules.map { ScheduleResponse.from(it) },
+                schedules.map { ScheduleResponse.from(it) }.sortedBy { it.sequence },
             )
         }
     }

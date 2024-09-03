@@ -30,9 +30,10 @@ class ScheduleApi(
     override fun registerSchedules(
         @NotNull @PathVariable roomUid: UUID,
         @Valid @NotNull @RequestBody request: RegisterSchedulesRequest,
-    ): ResponseForm<Unit> {
-        scheduleUseCase.registerSchedules(UuidTypeId(roomUid), request)
-        return ResponseForm.EMPTY_RESPONSE
+    ): ResponseForm<SchedulesResponse> {
+        return ResponseForm(
+            data = scheduleUseCase.registerSchedules(UuidTypeId(roomUid), request),
+        )
     }
 
     @ResponseStatus(HttpStatus.OK)

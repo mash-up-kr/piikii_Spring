@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.parameters.RequestBody
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -25,7 +26,7 @@ interface ScheduleApiDocs {
             ApiResponse(
                 responseCode = "200",
                 description = "OK success",
-                content = [Content(schema = Schema(implementation = ResponseForm::class))],
+                content = [Content(schema = Schema(implementation = SuccessSchedulesResponse::class))],
             ),
         ],
     )
@@ -44,9 +45,9 @@ interface ScheduleApiDocs {
         )
         @Valid
         @NotNull
-        @io.swagger.v3.oas.annotations.parameters.RequestBody
+        @RequestBody
         request: RegisterSchedulesRequest,
-    ): ResponseForm<Unit>
+    ): ResponseForm<SchedulesResponse>
 
     @Operation(summary = "스케줄 조회 API", description = "스케줄을 조회합니다.")
     @ApiResponses(

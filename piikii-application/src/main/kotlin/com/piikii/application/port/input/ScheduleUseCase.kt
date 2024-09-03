@@ -8,7 +8,7 @@ interface ScheduleUseCase {
     fun registerSchedules(
         roomUid: UuidTypeId,
         request: RegisterSchedulesRequest,
-    )
+    ): SchedulesResponse
 
     fun getSchedules(roomUid: UuidTypeId): SchedulesResponse
 }
