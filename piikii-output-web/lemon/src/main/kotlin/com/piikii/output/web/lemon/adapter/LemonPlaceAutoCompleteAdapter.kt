@@ -5,22 +5,22 @@ import com.piikii.application.domain.place.OriginPlace
 import com.piikii.application.port.output.web.OriginPlaceAutoCompletePort
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
-import com.piikii.output.web.lemon.parser.LemonOriginMapIdParser
+import com.piikii.output.web.lemon.parser.LemonOriginMapIdParserStrategy
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 
 @Component
 class LemonPlaceAutoCompleteAdapter(
-    private val lemonOriginMapIdParser: LemonOriginMapIdParser,
+    private val lemonOriginMapIdParserStrategy: LemonOriginMapIdParserStrategy,
     private val lemonApiClient: RestClient,
 ) : OriginPlaceAutoCompletePort {
     override fun isAutoCompleteSupportedUrl(url: String): Boolean {
-        return lemonOriginMapIdParser.isAutoCompleteSupportedUrl(url)
+        return lemonOriginMapIdParserStrategy.getParserBySupportedUrl(url) != null
     }
 
     override fun extractOriginMapId(url: String): OriginMapId {
-        return lemonOriginMapIdParser.parseOriginMapId(url)
+        return lemonOriginMapIdParserStrategy.getParserBySupportedUrl(url)?.parseOriginMapId(url)
             ?: throw PiikiiException(ExceptionCode.NOT_SUPPORT_AUTO_COMPLETE_URL)
     }
 
