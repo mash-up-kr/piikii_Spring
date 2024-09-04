@@ -89,7 +89,7 @@ class PlaceService(
                         targetPlaceId,
                         targetRoomUid,
                         LongTypeId(modifyPlaceRequest.scheduleId),
-                        filterDuplicateUrls(updatedUrls, place),
+                        filterDuplicateUrls(updatedUrls, modifyPlaceRequest.deleteTargetUrls, place),
                     ),
             ),
         )
@@ -110,12 +110,13 @@ class PlaceService(
 
     private fun filterDuplicateUrls(
         updatedUrls: List<String>,
+        deletedUrls: List<String>,
         place: Place,
     ): List<String> {
-        val set = mutableSetOf<String>()
-        set.addAll(updatedUrls)
-        set.addAll(place.thumbnailLinks.convertToList)
-        return set.toList()
+        return (updatedUrls + place.thumbnailLinks.convertToList)
+            .toSet()
+            .filterNot { deletedUrls.contains(it) }
+            .toList()
     }
 
     companion object {
