@@ -20,7 +20,7 @@ data class LemonPlaceInfoResponse(
     fun toOriginPlace(url: String): OriginPlace {
         requireNotNull(basicInfo) { "BasicInfo is required" }
         val fullAddress =
-            "${basicInfo.address.region.fullname ?: ""} ${basicInfo.address.newaddr?.newaddrfull ?: ""}"
+            "${basicInfo.address?.region?.fullname ?: ""} ${basicInfo.address?.newaddr?.newaddrfull ?: ""}"
                 .trim()
         return OriginPlace(
             id = LongTypeId(0L),
@@ -30,28 +30,28 @@ data class LemonPlaceInfoResponse(
             thumbnailLinks = ThumbnailLinks(basicInfo.mainphotourl),
             address = fullAddress,
             phoneNumber = null,
-            starGrade = basicInfo.feedback.calculateStarGrade(),
+            starGrade = basicInfo.feedback?.calculateStarGrade(),
             longitude = basicInfo.wpointx?.toDouble(),
             latitude = basicInfo.wpointy?.toDouble(),
-            reviewCount = basicInfo.feedback.blogrvwcnt,
-            category = basicInfo.category.cate1name,
-            openingHours = basicInfo.openHour.toPrintFormat(),
+            reviewCount = basicInfo.feedback?.blogrvwcnt ?: 0,
+            category = basicInfo.category?.cate1name,
+            openingHours = basicInfo.openHour?.toPrintFormat(),
             origin = Origin.LEMON,
         )
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class BasicInfo(
-        val cid: Long,
+        val cid: Long?,
         val placenamefull: String,
-        val mainphotourl: String,
-        val address: Address,
+        val mainphotourl: String?,
+        val address: Address?,
         val homepage: String?,
         val wpointx: Int?,
         val wpointy: Int?,
-        val category: Category,
-        val feedback: Feedback,
-        val openHour: OpenHour,
+        val category: Category?,
+        val feedback: Feedback?,
+        val openHour: OpenHour?,
     )
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -106,7 +106,7 @@ data class LemonPlaceInfoResponse(
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class Period(
-        val periodName: String,
+        val periodName: String?,
         val timeList: List<Time>?,
     ) {
         fun toPrintFormat(): String? =
@@ -132,10 +132,10 @@ data class LemonPlaceInfoResponse(
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class CommentItem(
-        val contents: String,
-        val point: Int,
-        val username: String,
-        val date: String,
+        val contents: String?,
+        val point: Int?,
+        val username: String?,
+        val date: String?,
     )
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -163,7 +163,7 @@ data class LemonPlaceInfoResponse(
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class PhotoItem(
-        val photoid: String,
-        val orgurl: String,
+        val photoid: String?,
+        val orgurl: String?,
     )
 }

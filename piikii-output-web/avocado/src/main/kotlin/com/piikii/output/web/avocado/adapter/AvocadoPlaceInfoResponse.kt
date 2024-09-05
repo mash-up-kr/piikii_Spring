@@ -10,7 +10,7 @@ import com.piikii.application.domain.place.OriginPlace
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class AvocadoPlaceInfoResponse(
-    val id: Long,
+    val id: Long?,
     val name: String,
     val visitorReviewScore: Double?,
     val roadAddress: String?,
@@ -21,7 +21,7 @@ data class AvocadoPlaceInfoResponse(
     val category: String?,
     val microReview: String?,
     val businessHours: String?,
-    val buttons: Buttons,
+    val buttons: Buttons?,
     @JsonProperty("x")
     val longitude: Double?,
     @JsonProperty("y")
@@ -35,7 +35,7 @@ data class AvocadoPlaceInfoResponse(
             url = url,
             thumbnailLinks = ThumbnailLinks(images ?: emptyList()),
             address = roadAddress,
-            phoneNumber = buttons.phone,
+            phoneNumber = buttons?.phone,
             starGrade = visitorReviewScore,
             longitude = longitude,
             latitude = latitude,
