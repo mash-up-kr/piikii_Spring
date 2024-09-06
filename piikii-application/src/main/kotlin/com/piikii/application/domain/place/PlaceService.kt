@@ -88,6 +88,7 @@ class PlaceService(
                     modifyPlaceRequest.toDomain(
                         targetPlaceId,
                         targetRoomUid,
+                        place.origin,
                         LongTypeId(modifyPlaceRequest.scheduleId),
                         filterDuplicateUrls(updatedUrls, modifyPlaceRequest.deleteTargetUrls, place),
                     ),

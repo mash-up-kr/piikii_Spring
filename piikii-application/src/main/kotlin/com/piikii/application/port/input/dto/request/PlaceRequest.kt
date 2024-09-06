@@ -134,6 +134,7 @@ data class ModifyPlaceRequest(
     fun toDomain(
         targetPlaceId: LongTypeId,
         roomUid: UuidTypeId,
+        origin: Origin,
         scheduleId: LongTypeId,
         updatedUrls: List<String>,
     ): Place {
@@ -147,7 +148,7 @@ data class ModifyPlaceRequest(
             address = address,
             phoneNumber = phoneNumber,
             starGrade = starGrade,
-            origin = Origin.MANUAL,
+            origin = origin,
             memo = memo,
             confirmed = false,
             reviewCount = reviewCount,
