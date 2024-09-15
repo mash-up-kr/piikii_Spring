@@ -6,6 +6,8 @@ server:
   port: 8080
 
 otel:
+  sdk:
+    disabled: ${OTEL_DISABLED}
   resource:
     attributes:
       deployment.environment: prod
