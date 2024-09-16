@@ -5,7 +5,9 @@ import com.piikii.application.domain.place.OriginPlace
 import com.piikii.application.port.output.web.OriginPlaceAutoCompletePort
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
+import com.piikii.output.web.avocado.config.AvocadoProperties
 import com.piikii.output.web.avocado.parser.AvocadoOriginMapIdParserStrategy
+import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
@@ -14,6 +16,7 @@ import org.springframework.web.client.body
 class AvocadoPlaceAutoCompleteAdapter(
     private val avocadoOriginMapIdParserStrategy: AvocadoOriginMapIdParserStrategy,
     private val avocadoApiClient: RestClient,
+    private val avocadoProperties: AvocadoProperties,
 ) : OriginPlaceAutoCompletePort {
     override fun isAutoCompleteSupportedUrl(url: String): Boolean {
         return avocadoOriginMapIdParserStrategy.getParserBySupportedUrl(url) != null
@@ -28,8 +31,10 @@ class AvocadoPlaceAutoCompleteAdapter(
         url: String,
         originMapId: OriginMapId,
     ): OriginPlace {
+        val id = originMapId.toId()
         return avocadoApiClient.get()
-            .uri("/${originMapId.toId()}")
+            .uri("/$id")
+            .header(HttpHeaders.REFERER, "${avocadoProperties.url.referer}$id")
             .retrieve()
             .body<AvocadoPlaceInfoResponse>()
             ?.toOriginPlace(url)

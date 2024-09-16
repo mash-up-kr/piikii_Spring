@@ -51,6 +51,7 @@ data class AvocadoHttp(
 data class AvocadoUrl(
     val regex: Regex,
     val api: String,
+    val referer: String,
 ) {
     data class Regex(
         val web: String,
