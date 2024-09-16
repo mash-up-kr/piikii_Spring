@@ -1,3 +1,7 @@
+plugins {
+    application
+}
+
 dependencyManagement {
     imports {
         mavenBom("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.6.0")

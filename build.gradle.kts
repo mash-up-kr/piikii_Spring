@@ -2,14 +2,15 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    `java-library`
     alias(libs.plugins.springBoot)
     alias(libs.plugins.springDependencyManagement)
+
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kotlinSpring)
     alias(libs.plugins.kotlinJpa)
     alias(libs.plugins.kotlinKapt)
     alias(libs.plugins.ktLint)
-    application
 }
 
 allprojects {
@@ -28,15 +29,19 @@ allprojects {
 
 subprojects {
     apply {
+        // java
+        plugin("java-library")
+
+        // spring boot
+        plugin("org.springframework.boot")
+        plugin("io.spring.dependency-management")
+
+        // kotlin
+        plugin("kotlin")
         plugin("org.jetbrains.kotlin.jvm")
         plugin("org.jetbrains.kotlin.plugin.spring")
-        plugin("org.springframework.boot")
-        plugin("kotlin")
-        plugin("java-library")
         plugin("kotlin-jpa")
-        plugin("io.spring.dependency-management")
         plugin("kotlin-kapt")
-        plugin("application")
         plugin("org.jlleitschuh.gradle.ktlint")
     }
 
