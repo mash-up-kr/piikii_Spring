@@ -23,9 +23,9 @@ group = "com.piikii"
 version = "0.0.1-SNAPSHOT"
 
 dependencies {
+    implementation(libs.bundles.spring.common)
+    implementation(libs.bundles.kotlin.spring)
     annotationProcessor(libs.spring.boot.annotation.processor)
-    annotationProcessor(libs.bundles.spring.common)
-    annotationProcessor(libs.bundles.kotlin.spring)
     testImplementation(libs.bundles.test.implementation)
     testRuntimeOnly(libs.bundles.test.runtime)
 }
