@@ -1,4 +1,4 @@
-package com.piikii.input.http.web.config
+package com.piikii.input.http.config
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry
