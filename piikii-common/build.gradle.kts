@@ -1,4 +1,8 @@
-project(":piikii-common") {
+plugins {
+    id("piikii-convention")
+}
+
+dependencies {
     // for RestClient
     dependencies {
         implementation("org.springframework:spring-web") {
@@ -10,12 +14,4 @@ project(":piikii-common") {
     }
 }
 
-allprojects {
-    tasks.bootJar {
-        enabled = false
-    }
 
-    tasks.jar {
-        enabled = true
-    }
-}

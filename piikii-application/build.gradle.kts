@@ -1,3 +1,7 @@
+plugins {
+    id("piikii-convention")
+}
+
 dependencies {
     // for docs
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
@@ -6,10 +10,4 @@ dependencies {
     implementation("org.springframework:spring-tx:6.1.10")
 }
 
-tasks.bootJar {
-    enabled = false
-}
 
-tasks.jar {
-    enabled = true
-}

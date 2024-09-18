@@ -1,21 +1,21 @@
 [versions]
 springBoot = "3.3.0"
 springDependencyManagement = "1.1.5"
-kotlin = "2.0.0"
-jpaPlugin = "2.0.0"
-kaptPlugin = "2.0.0"
-ktLint = "12.1.1"
+kotlinPlugin = "2.0.0"
+ktLintPlugin = "12.1.1"
+gradleBuildScanPlugin = "3.18.1"
 jaxb = "2.3.1"
 javaVersion = "21"
 
 [plugins]
-springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }
-springDependencyManagement = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
-kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlinSpring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
-kotlinJpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "jpaPlugin" }
-kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kaptPlugin" }
-ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
+spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinPlugin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlinPlugin" }
+kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlinPlugin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlinPlugin" }
+kotlin-lint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLintPlugin" }
+gradle-develocity = { id = "com.gradle.develocity", version.ref = "gradleBuildScanPlugin" }
 
 [libraries]
 kotlin-jackson = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin" }
