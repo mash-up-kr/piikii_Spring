@@ -15,11 +15,21 @@ class LemonConfig {
             .baseUrl(lemonProperties.url.api)
             .build()
     }
+
+    @Bean
+    fun lemonCoordinateApiClient(lemonProperties: LemonProperties): RestClient {
+        return RestClient.builder()
+            .defaultHeader("Authorization", lemonProperties.apiKey)
+            .baseUrl(lemonProperties.coordinateApiUrl)
+            .build()
+    }
 }
 
 @ConfigurationProperties(prefix = "lemon")
 data class LemonProperties(
     val url: LemonUrl,
+    val coordinateApiUrl: String,
+    val apiKey: String,
 )
 
 data class LemonUrl(

@@ -5,3 +5,5 @@ lemon:
       mobile-web: ${LEMON_MOBILE_WEB_URL_REGEX}
       mobile-app: ${LEMON_MOBILE_APP_URL_REGEX}
     api: ${LEMON_API_URL}
+  coordinate-api-url: ${LEMON_COORDINATE_API_URL}
+  api-key: ${LEMON_API_KEY}
