@@ -51,7 +51,16 @@ kotlin-junit5 = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit5" }
 junit = { group = "org.junit.platform", name = "junit-platform-launcher" }
 
 [bundles]
+spring-common = ["spring-boot-starter-autoconfigure"]
 kotlin-spring = ["kotlin-refelct", "kotlin-jackson", "kotlin-logging"]
-spring-autoconfigure = ["spring-boot-starter-autoconfigure"]
 test-implementation = ["spring-boot-starter-test", "kotlin-junit5"]
 test-runtime = ["junit"]
+
+bootstarp = ["spring-boot-starter-web", "spring-boot-starter-actuator", "opentelemetry-starter"]
+bootstarp-runtime = ["micrometer-prometheus"]
+domain-application = ["spring-boot-docs", "spring-transaction"]
+adaptor-input-http = ["spring-boot-starter-web", "spring-boot-starter-aop", "spring-boot-docs", "spring-boot-starter-validation"]
+adaptor-persistence-postgresql = ["spring-boot-starter-jpa", "postgresql"]
+adaptor-storage = ["spring-web", "aws-sdk-s3", "jaxb-api", "jaxb-runtime"]
+adaptor-cache-redis = ["spring-boot-starter-cache", "spring-boot-starter-redis"]
+adaptor-cache-caffeine = ["spring-boot-starter-cache", "caffeine"]

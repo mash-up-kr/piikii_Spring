@@ -4,5 +4,5 @@ plugins {
 
 dependencies {
     implementation(project(":piikii-application"))
-    implementation("org.springframework:spring-web")
+    implementation(libs.spring.web)
 }

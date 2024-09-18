@@ -23,13 +23,11 @@ group = "com.piikii"
 version = "0.0.1-SNAPSHOT"
 
 dependencies {
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.springframework.boot:spring-boot-autoconfigure")
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
-
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    annotationProcessor(libs.spring.boot.annotation.processor)
+    annotationProcessor(libs.bundles.spring.common)
+    annotationProcessor(libs.bundles.kotlin.spring)
+    testImplementation(libs.bundles.test.implementation)
+    testRuntimeOnly(libs.bundles.test.runtime)
 }
 
 // piikii common 의존성 전체 추가

@@ -4,8 +4,7 @@ plugins {
 
 dependencies {
     implementation(project(":piikii-application"))
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.postgresql:postgresql")
+    implementation(libs.bundles.adaptor.persistence.postgresql)
 }
 
 allOpen {

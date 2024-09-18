@@ -4,5 +4,5 @@ plugins {
 
 dependencies {
     implementation(project(":piikii-application"))
-    implementation("org.springframework.kafka:spring-kafka")
+    implementation(libs.spring.kafka)
 }

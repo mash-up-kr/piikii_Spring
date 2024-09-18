@@ -18,14 +18,14 @@ dependencies {
     implementation(project(":piikii-output-web:avocado"))
     implementation(project(":piikii-output-web:lemon"))
     implementation(project(":piikii-output-web:tmap"))
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter")
-    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+
+    implementation(libs.bundles.bootstarp)
+    runtimeOnly(libs.bundles.bootstarp.runtime)
+
     testImplementation(project(":piikii-application"))
 
-    // 현재 미사용으로 의존성 추가 제외
-    // implementation(project(":piikii-output-eventbroker:kafka"))
+// 현재 미사용으로 의존성 추가 제외
+// implementation(project(":piikii-output-eventbroker:kafka"))
 }
 
 tasks {
