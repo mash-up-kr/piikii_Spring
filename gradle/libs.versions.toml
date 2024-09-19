@@ -1,23 +1,66 @@
 [versions]
 springBoot = "3.3.0"
 springDependencyManagement = "1.1.5"
-kotlin = "2.0.0"
-jpaPlugin = "2.0.0"
-kaptPlugin = "2.0.0"
-ktLint = "12.1.1"
+kotlinPlugin = "2.0.0"
+ktLintPlugin = "12.1.1"
+gradleBuildScanPlugin = "3.18.1"
+jaxb = "2.3.1"
 javaVersion = "21"
 
-[libraries]
-springBoot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "springBoot" }
-springDependencyManagement = { module = "io.spring.gradle:dependency-management-plugin", version.ref = "springDependencyManagement" }
-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-ktLint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktLint" }
-
 [plugins]
-springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }
-springDependencyManagement = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
-kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlinSpring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
-kotlinJpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "jpaPlugin" }
-kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kaptPlugin" }
-ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
+spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinPlugin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlinPlugin" }
+kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlinPlugin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlinPlugin" }
+kotlin-lint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLintPlugin" }
+gradle-develocity = { id = "com.gradle.develocity", version.ref = "gradleBuildScanPlugin" }
+
+[libraries]
+kotlin-jackson = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin" }
+kotlin-refelct = { group = "org.jetbrains.kotlin", name = "kotlin-reflect" }
+kotlin-logging = { group = "io.github.microutils", name = "kotlin-logging-jvm", version = "3.0.5" }
+
+spring-web = { group = "org.springframework", name = "spring-web" }
+spring-transaction = { group = "org.springframework", name = "spring-tx" }
+spring-kafka = { group = "org.springframework.kafka", name = "spring-kafka" }
+
+spring-boot-starter-autoconfigure = { group = "org.springframework.boot", name = "spring-boot-autoconfigure" }
+spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
+spring-boot-starter-aop = { group = "org.springframework.boot", name = "spring-boot-starter-aop" }
+spring-boot-starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
+spring-boot-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
+spring-boot-starter-cache = { group = "org.springframework.boot", name = "spring-boot-starter-cache" }
+spring-boot-starter-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa" }
+spring-boot-starter-redis = { group = "org.springframework.boot", name = "spring-boot-starter-data-redis" }
+spring-boot-docs = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version = "2.5.0" }
+
+postgresql = { group = "org.postgresql", name = "postgresql" }
+caffeine = { group = "com.github.ben-manes.caffeine", name = "caffeine" }
+opentelemetry-starter = { group = "io.opentelemetry.instrumentation", name = "opentelemetry-spring-boot-starter" }
+micrometer-prometheus = { group = "io.micrometer", name = "micrometer-registry-prometheus" }
+
+aws-sdk-s3 = { group = "com.amazonaws", name = "aws-java-sdk-s3", version = "1.11.238" }
+jaxb-api = { group = "javax.xml.bind", name = "jaxb-api", version.ref = "jaxb" }
+jaxb-runtime = { group = "org.glassfish.jaxb", name = "jaxb-runtime", version.ref = "jaxb" }
+
+spring-boot-annotation-processor = { group = "org.springframework.boot", name = "spring-boot-configuration-processor" }
+spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
+kotlin-junit5 = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit5" }
+junit = { group = "org.junit.platform", name = "junit-platform-launcher" }
+
+[bundles]
+spring-common = ["spring-boot-starter-autoconfigure"]
+kotlin-spring = ["kotlin-refelct", "kotlin-jackson", "kotlin-logging"]
+test-implementation = ["spring-boot-starter-test", "kotlin-junit5"]
+test-runtime = ["junit"]
+
+bootstarp = ["spring-boot-starter-web", "spring-boot-starter-actuator", "opentelemetry-starter"]
+bootstarp-runtime = ["micrometer-prometheus"]
+domain-application = ["spring-boot-docs", "spring-transaction"]
+adaptor-input-http = ["spring-boot-starter-web", "spring-boot-starter-aop", "spring-boot-docs", "spring-boot-starter-validation"]
+adaptor-persistence-postgresql = ["spring-boot-starter-jpa", "postgresql"]
+adaptor-storage = ["spring-web", "aws-sdk-s3", "jaxb-api", "jaxb-runtime"]
+adaptor-cache-redis = ["spring-boot-starter-cache", "spring-boot-starter-redis"]
+adaptor-cache-caffeine = ["spring-boot-starter-cache", "caffeine"]

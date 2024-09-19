@@ -4,5 +4,5 @@ plugins {
 
 dependencies {
     implementation(project(":piikii-application"))
-    implementation(libs.bundles.adaptor.input.http)
+    implementation(libs.bundles.adaptor.storage)
 }

@@ -23,6 +23,8 @@ management:
     ping:
       enabled: true
   endpoint:
+    info:
+      enabled: true
     metrics:
       enabled: true
     prometheus:
