@@ -40,9 +40,7 @@ class LemonPlaceAutoCompleteAdapter(
 
         val lemonCoordinateResponse =
             lemonCoordinateApiClient.get()
-                .uri { uriBuilder ->
-                    uriBuilder.queryParam("query", originPlace.address).build()
-                }
+                .uri { it.queryParam("query", originPlace.address).build() }
                 .retrieve()
                 .body<LemonCoordinateResponse>()
 

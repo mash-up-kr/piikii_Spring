@@ -4,23 +4,24 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpHeaders
 import org.springframework.web.client.RestClient
 
 @Configuration
-@EnableConfigurationProperties(LemonProperties::class)
-class LemonConfig {
+@EnableConfigurationProperties(LemonProperties::class, LemonCoordinateProperties::class)
+open class LemonConfig {
     @Bean
-    fun lemonApiClient(lemonProperties: LemonProperties): RestClient {
+    open fun lemonApiClient(lemonProperties: LemonProperties): RestClient {
         return RestClient.builder()
             .baseUrl(lemonProperties.url.api)
             .build()
     }
 
     @Bean
-    fun lemonCoordinateApiClient(lemonProperties: LemonProperties): RestClient {
+    open fun lemonCoordinateApiClient(lemonCoordinateProperties: LemonCoordinateProperties): RestClient {
         return RestClient.builder()
-            .defaultHeader("Authorization", lemonProperties.apiKey)
-            .baseUrl(lemonProperties.coordinateApiUrl)
+            .defaultHeader(HttpHeaders.AUTHORIZATION, lemonCoordinateProperties.auth)
+            .baseUrl(lemonCoordinateProperties.url)
             .build()
     }
 }
@@ -28,8 +29,6 @@ class LemonConfig {
 @ConfigurationProperties(prefix = "lemon")
 data class LemonProperties(
     val url: LemonUrl,
-    val coordinateApiUrl: String,
-    val apiKey: String,
 )
 
 data class LemonUrl(
@@ -42,3 +41,9 @@ data class LemonUrl(
         val mobileApp: String,
     )
 }
+
+@ConfigurationProperties(prefix = "coordinate-api")
+data class LemonCoordinateProperties(
+    val url: String,
+    val auth: String,
+)
