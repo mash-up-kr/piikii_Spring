@@ -14,28 +14,41 @@ import org.springframework.web.client.body
 class LemonPlaceAutoCompleteAdapter(
     private val lemonOriginMapIdParserStrategy: LemonOriginMapIdParserStrategy,
     private val lemonApiClient: RestClient,
+    private val lemonCoordinateApiClient: RestClient,
 ) : OriginPlaceAutoCompletePort {
-    override fun isAutoCompleteSupportedUrl(url: String): Boolean {
-        return lemonOriginMapIdParserStrategy.getParserBySupportedUrl(url) != null
-    }
+    override fun isAutoCompleteSupportedUrl(url: String): Boolean =
+        lemonOriginMapIdParserStrategy.getParserBySupportedUrl(url) != null
 
-    override fun extractOriginMapId(url: String): OriginMapId {
-        return lemonOriginMapIdParserStrategy.getParserBySupportedUrl(url)?.parseOriginMapId(url)
+    override fun extractOriginMapId(url: String): OriginMapId =
+        lemonOriginMapIdParserStrategy.getParserBySupportedUrl(url)?.parseOriginMapId(url)
             ?: throw PiikiiException(ExceptionCode.NOT_SUPPORT_AUTO_COMPLETE_URL)
-    }
 
     override fun getAutoCompletedPlace(
         url: String,
         originMapId: OriginMapId,
     ): OriginPlace {
-        return lemonApiClient.get()
-            .uri("/${originMapId.toId()}")
-            .retrieve()
-            .body<LemonPlaceInfoResponse>()
-            ?.toOriginPlace(url)
-            ?: throw PiikiiException(
-                exceptionCode = ExceptionCode.URL_PROCESS_ERROR,
-                detailMessage = "origin: lemon, url : $url",
-            )
+        val originPlace =
+            lemonApiClient.get()
+                .uri("/${originMapId.toId()}")
+                .retrieve()
+                .body<LemonPlaceInfoResponse>()
+                ?.toOriginPlace(url)
+                ?: throw PiikiiException(
+                    exceptionCode = ExceptionCode.URL_PROCESS_ERROR,
+                    detailMessage = "origin: lemon, url: $url",
+                )
+
+        val lemonCoordinateResponse =
+            lemonCoordinateApiClient.get()
+                .uri { it.queryParam("query", originPlace.address).build() }
+                .retrieve()
+                .body<LemonCoordinateResponse>()
+
+        lemonCoordinateResponse?.documents?.let { document ->
+            originPlace.longitude = document.firstOrNull()?.x?.toDouble()
+            originPlace.latitude = document.firstOrNull()?.y?.toDouble()
+        }
+
+        return originPlace
     }
 }
