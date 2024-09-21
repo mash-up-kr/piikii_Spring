@@ -15,14 +15,10 @@ class OriginPlaceAdapter(
     private val originPlaceRepository: OriginPlaceRepository,
 ) : OriginPlaceCommandPort, OriginPlaceQueryPort {
     @Transactional
-    override fun save(originPlace: OriginPlace): OriginPlace {
-        val findByOriginMapId = findByOriginMapId(originPlace.originMapId)
-
-        if (findByOriginMapId == null) {
-            return originPlaceRepository.save(OriginPlaceEntity.from(originPlace)).toDomain()
+    override fun save(originPlace: OriginPlace): OriginPlace =
+        findByOriginMapId(originPlace.originMapId) ?: run {
+            originPlaceRepository.save(OriginPlaceEntity.from(originPlace)).toDomain()
         }
-        return findByOriginMapId
-    }
 
     override fun findByOriginMapId(originMapId: OriginMapId): OriginPlace? {
         return originPlaceRepository.findByOriginMapId(originMapId)?.toDomain()
