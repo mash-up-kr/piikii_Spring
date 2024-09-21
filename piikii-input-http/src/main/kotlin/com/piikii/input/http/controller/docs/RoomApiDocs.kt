@@ -36,7 +36,7 @@ interface RoomApiDocs {
             ),
         ],
     )
-    fun create(
+    fun createRoom(
         @Parameter(
             description = "방 생성 요청 정보",
             required = true,
@@ -58,7 +58,7 @@ interface RoomApiDocs {
             ),
         ],
     )
-    fun modifyInformation(
+    fun modifyRoom(
         @Parameter(
             description = "방 수정 요청 정보",
             required = true,
@@ -80,7 +80,7 @@ interface RoomApiDocs {
             ),
         ],
     )
-    fun remove(
+    fun deleteRoom(
         @Parameter(
             name = "roomUid",
             description = "삭제하고자 하는 방 id",
@@ -99,7 +99,7 @@ interface RoomApiDocs {
             ),
         ],
     )
-    fun search(
+    fun retrieveRoom(
         @Parameter(
             name = "roomUid",
             description = "조회하고자 하는 방 id",

@@ -7,6 +7,7 @@ import com.piikii.application.port.input.dto.request.RoomSaveRequestForm
 import com.piikii.application.port.input.dto.request.RoomUpdateRequestForm
 import com.piikii.application.port.input.dto.response.RoomResponse
 import com.piikii.application.port.input.dto.response.SaveRoomResponse
+import com.piikii.input.http.aspect.PreventDuplicateRequest
 import com.piikii.input.http.controller.docs.RoomApiDocs
 import com.piikii.input.http.controller.dto.ResponseForm
 import jakarta.validation.Valid
@@ -34,7 +35,7 @@ class RoomApi(
 ) : RoomApiDocs {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    override fun create(
+    override fun createRoom(
         @Valid @NotNull @RequestBody request: RoomSaveRequestForm,
     ): ResponseForm<SaveRoomResponse> {
         return ResponseForm(
@@ -42,9 +43,10 @@ class RoomApi(
         )
     }
 
+    @PreventDuplicateRequest("#request.roomUid")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping
-    override fun modifyInformation(
+    override fun modifyRoom(
         @Valid @NotNull @RequestBody request: RoomUpdateRequestForm,
     ): ResponseForm<Unit> {
         roomUseCase.modify(request)
@@ -53,7 +55,7 @@ class RoomApi(
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{roomUid}")
-    override fun remove(
+    override fun deleteRoom(
         @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<Unit> {
         roomUseCase.remove(UuidTypeId(roomUid))
@@ -62,7 +64,7 @@ class RoomApi(
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{roomUid}")
-    override fun search(
+    override fun retrieveRoom(
         @NotNull @PathVariable roomUid: UUID,
     ): ResponseForm<RoomResponse> {
         return ResponseForm(

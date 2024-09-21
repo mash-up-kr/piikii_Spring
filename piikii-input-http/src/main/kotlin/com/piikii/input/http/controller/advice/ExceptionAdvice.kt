@@ -1,4 +1,4 @@
-package com.piikii.input.http.web.advice
+package com.piikii.input.http.controller.advice
 
 import com.piikii.common.exception.PiikiiException
 import com.piikii.common.logutil.SlackHookLogger

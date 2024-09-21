@@ -9,6 +9,7 @@ import com.piikii.application.port.input.dto.request.AddPlaceRequest
 import com.piikii.application.port.input.dto.request.ModifyPlaceRequest
 import com.piikii.application.port.input.dto.response.PlaceResponse
 import com.piikii.application.port.input.dto.response.ScheduleTypeGroupResponse
+import com.piikii.input.http.aspect.PreventDuplicateRequest
 import com.piikii.input.http.controller.docs.PlaceDocs
 import com.piikii.input.http.controller.dto.ResponseForm
 import jakarta.validation.Valid
@@ -35,6 +36,7 @@ class PlaceApi(
     private val placeUseCase: PlaceUseCase,
     private val imageUploadUseCase: ImageUploadUseCase,
 ) : PlaceDocs {
+    @PreventDuplicateRequest("#roomUid + #addPlaceRequest.name")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     override fun addPlace(
@@ -54,6 +56,7 @@ class PlaceApi(
         return ResponseForm(placeUseCase.findAllByRoomUidGroupByPlaceType(UuidTypeId(roomUid)))
     }
 
+    @PreventDuplicateRequest("#roomUid + #placeId")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{placeId}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     override fun modifyPlace(
