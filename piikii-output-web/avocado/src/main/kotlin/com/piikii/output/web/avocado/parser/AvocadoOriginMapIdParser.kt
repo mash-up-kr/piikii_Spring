@@ -63,6 +63,7 @@ class ShareUrlIdParser(
         mutableListOf(
             "place/(\\d+)".toRegex(),
             "id=(\\d+)".toRegex(),
+            "pinId=(\\d+)".toRegex(),
         )
 
     private val client: RestClient = RestClient.builder().build()
