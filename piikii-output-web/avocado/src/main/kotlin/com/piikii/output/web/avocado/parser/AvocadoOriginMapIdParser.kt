@@ -59,7 +59,12 @@ class ShareUrlIdParser(
     properties: AvocadoProperties,
 ) : AvocadoOriginMapIdParser {
     private val regex: Regex = properties.url.regex.share.toRegex()
-    private val idParameterRegex: Regex = "id=(\\d+)".toRegex()
+    private val mapIdRegexList: List<Regex> =
+        mutableListOf(
+            "place/(\\d+)".toRegex(),
+            "id=(\\d+)".toRegex(),
+        )
+
     private val client: RestClient = RestClient.builder().build()
 
     override fun getParserBySupportedUrl(url: String): AvocadoOriginMapIdParser? = takeIf { regex.matches(url) }
@@ -70,8 +75,10 @@ class ShareUrlIdParser(
                 .retrieve()
                 .toEntity(Map::class.java)
         if (response.statusCode.is3xxRedirection && response.headers.location != null) {
-            return idParameterRegex.find(response.headers.location.toString())
-                .parseFromMatchResult()
+            return mapIdRegexList.firstNotNullOfOrNull { regex ->
+                regex.find(response.headers.location.toString())
+                    ?.groupValues?.getOrNull(1)?.let { OriginMapId(it) }
+            }
         }
         return null
     }
