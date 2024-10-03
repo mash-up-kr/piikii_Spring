@@ -19,11 +19,11 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: postgresql
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
     properties:
       hibernate:
         temp.use_jdbc_metadata_defaults: false
         jdbc.lob.non_contextual_creation: true
-        generate_statistics: true
+        generate_statistics: false
         format_sql: true
     show-sql: true
