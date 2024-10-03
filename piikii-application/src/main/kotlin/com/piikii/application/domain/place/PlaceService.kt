@@ -59,6 +59,7 @@ class PlaceService(
                 ScheduleTypeGroupResponse(
                     scheduleId = scheduleId.getValue(),
                     scheduleName = schedule.name,
+                    type = schedule.type,
                     places = places.map { place -> PlaceResponse(place = place) },
                 )
             }
