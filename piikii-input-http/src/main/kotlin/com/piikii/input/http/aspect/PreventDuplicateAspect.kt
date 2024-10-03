@@ -2,6 +2,8 @@ package com.piikii.input.http.aspect
 
 import com.piikii.common.exception.ExceptionCode
 import com.piikii.common.exception.PiikiiException
+import com.piikii.output.redis.RedisLockRepository
+import java.time.Duration
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
@@ -25,16 +27,16 @@ import java.util.concurrent.TimeoutException
 @Retention(AnnotationRetention.RUNTIME)
 annotation class PreventDuplicateRequest(
     val key: String,
-    val timeoutMillis: Long = 7_000,
+    val timeoutMillis: Long = 5_000,
 )
 
 @Aspect
 @Component
-class PreventDuplicateAspect {
-    private val processingRequests = ConcurrentHashMap.newKeySet<String>()
+class PreventDuplicateAspect(
+    private val redisLockRepository: RedisLockRepository,
+) {
     private val parser = SpelExpressionParser()
     private val parameterNameDiscoverer = DefaultParameterNameDiscoverer()
-    private val executor = Executors.newVirtualThreadPerTaskExecutor()
 
     @Around("@annotation(PreventDuplicateRequest)")
     fun preventDuplicateRequest(joinPoint: ProceedingJoinPoint): Any? {
@@ -43,19 +45,15 @@ class PreventDuplicateAspect {
         val annotation = method.getAnnotation(PreventDuplicateRequest::class.java)
         val key = generateKey(joinPoint, signature, annotation)
 
-        if (!processingRequests.add(key)) {
+        if (!redisLockRepository.lock(key, Duration.ofMillis(annotation.timeoutMillis))) {
             // if exists, throw Duplicated Request Exception
             throw PiikiiException(ExceptionCode.DUPLICATED_REQUEST)
         }
 
-        val future = executor.submit<Any> { joinPoint.proceed() }
         try {
-            return future.get(annotation.timeoutMillis, TimeUnit.MILLISECONDS)
-        } catch (e: TimeoutException) {
-            future.cancel(true)
-            throw PiikiiException(ExceptionCode.REQUEST_TIMEOUT)
+            return joinPoint.proceed()
         } finally {
-            processingRequests.remove(key)
+            redisLockRepository.unlock(key)
         }
     }
 
