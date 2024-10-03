@@ -13,8 +13,6 @@ import com.piikii.application.port.output.persistence.PlaceCommandPort
 import com.piikii.application.port.output.persistence.PlaceQueryPort
 import com.piikii.application.port.output.persistence.RoomQueryPort
 import com.piikii.application.port.output.persistence.ScheduleQueryPort
-import com.piikii.common.exception.ExceptionCode
-import com.piikii.common.exception.PiikiiException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -54,14 +52,15 @@ class PlaceService(
     override fun findAllByRoomUidGroupByPlaceType(roomUid: UuidTypeId): List<ScheduleTypeGroupResponse> {
         val scheduleById = scheduleQueryPort.findAllByRoomUid(roomUid).associateBy { it.id }
         return placeQueryPort.findAllByRoomUid(roomUid).groupBy { it.scheduleId }
-            .map { (scheduleId, places) ->
-                val schedule = scheduleById[scheduleId] ?: throw PiikiiException(ExceptionCode.NOT_FOUNDED)
-                ScheduleTypeGroupResponse(
-                    scheduleId = scheduleId.getValue(),
-                    scheduleName = schedule.name,
-                    type = schedule.type,
-                    places = places.map { place -> PlaceResponse(place = place) },
-                )
+            .mapNotNull { (scheduleId, places) ->
+                scheduleById[scheduleId]?.let { schedule ->
+                    ScheduleTypeGroupResponse(
+                        scheduleId = scheduleId.getValue(),
+                        scheduleName = schedule.name,
+                        type = schedule.type,
+                        places = places.map { place -> PlaceResponse(place = place) },
+                    )
+                }
             }
     }
 
