@@ -9,6 +9,7 @@ enum class ExceptionCode(
     VOTE_PLACE_ID_INVALID(400, "투표 항목 데이터(Place Id)이 올바르지 않습니다."),
     NOT_SUPPORT_AUTO_COMPLETE_URL(400, "자동입력 지원을 하지 않는 주소형식 입니다."),
     DUPLICATED_REQUEST(400, "같은 리소스에 대한 중복요청입니다."),
+    REQUEST_LIMIT_EXCEEDED_IN_TIME_WINDOW(400, "타임 윈도우 내 한정된 요청 수 초과"),
 
     UNAUTHORIZED(401, "인증된 토큰으로부터의 요청이 아닙니다."),
     ROOM_PASSWORD_INVALID(401, "방 패스워드가 틀립니다."),
