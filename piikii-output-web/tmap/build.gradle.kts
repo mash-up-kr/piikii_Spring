@@ -11,5 +11,5 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
 
     // redisson
-    implementation ("org.redisson:redisson-spring-boot-starter:3.27.0")
+    implementation("org.redisson:redisson-spring-boot-starter:3.27.0")
 }
