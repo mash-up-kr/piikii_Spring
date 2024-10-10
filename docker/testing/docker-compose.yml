@@ -1,20 +1,20 @@
-version: '3.8'
-
-services:
-  controller:
-    image: ngrinder/controller
-    restart: unless-stopped
-    ports:
-      - "9000:80"
-      - "16001:16001"
-      - "12000-12009:12000-12009"
-    volumes:
-      - ./ngrinder-controller:/opt/ngrinder-controller
-    platform: linux/amd64
-
-  agent:
-    image: ngrinder/agent
-    restart: unless-stopped
-    links:
-      - controller
-    platform: linux/amd64
+#version: '3.8'
+#
+#services:
+#  controller:
+#    image: ngrinder/controller
+#    restart: unless-stopped
+#    ports:
+#      - "9000:80"
+#      - "16001:16001"
+#      - "12000-12009:12000-12009"
+#    volumes:
+#      - ./ngrinder-controller:/opt/ngrinder-controller
+#    platform: linux/amd64
+#
+#  agent:
+#    image: ngrinder/agent
+#    restart: unless-stopped
+#    links:
+#      - controller
+#    platform: linux/amd64
