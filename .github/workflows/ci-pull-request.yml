@@ -9,7 +9,6 @@ jobs:
     name: ready for launch (CI)
     runs-on: ubuntu-latest
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '출격준비')}}
-
     steps:
       - name: Get PR branch
         id: get_branch
