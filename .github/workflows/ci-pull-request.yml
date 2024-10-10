@@ -9,6 +9,20 @@ jobs:
     name: ready for launch (CI)
     runs-on: ubuntu-latest
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '출격준비')}}
+    services:
+      postgres:
+        image: postgres:16.3
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - name: Get PR branch
         id: get_branch
