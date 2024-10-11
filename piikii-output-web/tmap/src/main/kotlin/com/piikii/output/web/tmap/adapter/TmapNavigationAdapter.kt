@@ -4,6 +4,7 @@ import com.piikii.application.domain.course.Coordinate
 import com.piikii.application.domain.course.Distance
 import com.piikii.application.domain.place.Place
 import com.piikii.application.port.output.web.NavigationPort
+import com.piikii.common.logutil.SlackHookLogger
 import com.piikii.common.logutil.SystemLogger.logger
 import org.redisson.api.RLock
 import org.redisson.api.RedissonClient
@@ -17,6 +18,7 @@ import java.util.concurrent.TimeUnit
 class TmapNavigationAdapter(
     private val tmapApiClient: RestClient,
     private val redissonClient: RedissonClient,
+    private val hookLogger: SlackHookLogger,
 ) : NavigationPort {
     @Cacheable(
         value = ["Distance"],
@@ -75,7 +77,9 @@ class TmapNavigationAdapter(
         start: Coordinate,
         end: Coordinate,
     ): Distance {
-        logger.error { "fail to request tmap api call, start(${start.x}, ${start.y}), end(${end.x}, ${end.y})" }
+        val message = "fail to request tmap api call, start(${start.x}, ${start.y}), end(${end.x}, ${end.y})"
+        logger.error { message }
+        hookLogger.send(message)
         return Distance.EMPTY
     }
 }
