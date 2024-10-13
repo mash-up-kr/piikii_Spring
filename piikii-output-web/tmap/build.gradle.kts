@@ -5,7 +5,5 @@ plugins {
 dependencies {
     implementation(project(":piikii-application"))
     implementation(libs.spring.web)
-
-    // redisson
-    implementation("org.redisson:redisson-spring-boot-starter:3.27.0")
+    implementation(libs.spring.boot.starter.redisson)
 }
