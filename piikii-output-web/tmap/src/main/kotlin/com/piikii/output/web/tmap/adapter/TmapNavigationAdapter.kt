@@ -70,10 +70,10 @@ class TmapNavigationAdapter(
             .retrieve()
             .body<TmapRouteInfoResponse>()
             ?.toDistance()
-            ?: getEmptyDistanceOfError(start, end)
+            ?: getEmptyDistanceWithError(start, end)
     }
 
-    private fun getEmptyDistanceOfError(
+    private fun getEmptyDistanceWithError(
         start: Coordinate,
         end: Coordinate,
     ): Distance {
