@@ -31,26 +31,47 @@ class TmapNavigationAdapter(
     ): Distance {
         val startCoordinate = startPlace.getCoordinate()
         val endCoordinate = endPlace.getCoordinate()
-        return if (startCoordinate.isValid() && endCoordinate.isValid()) {
-            val lockKey = "distance-lock-${startPlace.id}_${endPlace.id}"
-            val lock: RLock = redissonClient.getLock(lockKey)
 
-            try {
-                // 락 획득 시도, 10초 동안 기다리고 5초 동안 락을 유지
-                if (lock.tryLock(10, 5, TimeUnit.SECONDS)) {
-                    getDistanceFromTmap(startCoordinate, endCoordinate)
-                } else {
-                    // 락을 획득하지 못한 경우 대기&재시도 또는 기본 값 반환
-                    Distance.EMPTY
-                }
-            } finally {
-                if (lock.isHeldByCurrentThread) {
-                    lock.unlock()
-                }
-            }
-        } else {
-            Distance.EMPTY
+        if (!startCoordinate.isValid() || !endCoordinate.isValid()) {
+            return Distance.EMPTY
         }
+
+        val lockKey = "distance-lock-${startPlace.id}_${endPlace.id}"
+        val lock: RLock = redissonClient.getLock(lockKey)
+
+        return try {
+            if (tryLockWithRetry(lock, 3, 1000)) {
+                getDistanceFromTmap(startCoordinate, endCoordinate)
+            } else {
+                Distance.EMPTY
+            }
+        } finally {
+            if (lock.isHeldByCurrentThread) {
+                lock.unlock()
+            }
+        }
+    }
+
+    private fun tryLockWithRetry(
+        lock: RLock,
+        maxRetries: Int,
+        retryDelayMs: Long
+    ): Boolean {
+        var attempts = 0
+        while (attempts < maxRetries) {
+            try {
+                if (lock.tryLock(10, 5, TimeUnit.SECONDS)) {
+                    return true
+                } else {
+                    attempts++
+                    Thread.sleep(retryDelayMs)
+                }
+            } catch (e: InterruptedException) {
+                Thread.currentThread().interrupt()
+                return false
+            }
+        }
+        return false
     }
 
     private fun getDistanceFromTmap(
