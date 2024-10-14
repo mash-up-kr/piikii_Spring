@@ -60,6 +60,7 @@ class TmapNavigationAdapter(
         var attempts = 0
         while (attempts < maxRetries) {
             try {
+                // 락 획득 시도: 10초 대기, 5초 동안 락을 유지
                 if (lock.tryLock(10, 5, TimeUnit.SECONDS)) {
                     return true
                 } else {
