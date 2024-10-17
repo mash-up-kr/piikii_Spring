@@ -1,6 +1,9 @@
 package com.piikii.output.redis.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.redisson.Redisson
+import org.redisson.api.RedissonClient
+import org.redisson.config.Config
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cache.CacheManager
@@ -71,6 +74,19 @@ class RedisConfig {
             .fromConnectionFactory(redisConnectionFactory)
             .cacheDefaults(redisCacheConfiguration)
             .build()
+    }
+
+    @Bean
+    fun redissonClient(redisProperties: RedisProperties): RedissonClient? {
+        val config = Config()
+        val address = "rediss://${redisProperties.host}:${redisProperties.port}"
+        config.useSingleServer()
+            .setAddress(address)
+            .setPassword(redisProperties.password)
+            .setConnectionMinimumIdleSize(1)
+            .setRetryAttempts(3)
+            .setRetryInterval(1500)
+        return Redisson.create(config)
     }
 }
 

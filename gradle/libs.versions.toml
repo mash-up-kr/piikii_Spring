@@ -34,7 +34,11 @@ spring-boot-starter-validation = { group = "org.springframework.boot", name = "s
 spring-boot-starter-cache = { group = "org.springframework.boot", name = "spring-boot-starter-cache" }
 spring-boot-starter-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa" }
 spring-boot-starter-redis = { group = "org.springframework.boot", name = "spring-boot-starter-data-redis" }
+
+spring-boot-starter-retry = { group = "org.springframework.retry", name = "spring-retry", version = "1.3.3" }
+
 spring-boot-docs = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version = "2.5.0" }
+spring-boot-starter-redisson = { group = "org.redisson", name = "redisson-spring-boot-starter", version = "3.27.0" }
 
 postgresql = { group = "org.postgresql", name = "postgresql" }
 caffeine = { group = "com.github.ben-manes.caffeine", name = "caffeine" }
@@ -63,5 +67,5 @@ domain-application = ["spring-boot-docs", "spring-transaction"]
 adaptor-input-http = ["spring-boot-starter-web", "spring-boot-starter-aop", "spring-boot-docs", "spring-boot-starter-validation"]
 adaptor-persistence-postgresql = ["spring-boot-starter-jpa", "postgresql"]
 adaptor-storage = ["spring-web", "aws-sdk-s3", "jaxb-api", "jaxb-runtime"]
-adaptor-cache-redis = ["spring-boot-starter-cache", "spring-boot-starter-redis"]
+adaptor-cache-redis = ["spring-boot-starter-cache", "spring-boot-starter-redis", "spring-boot-starter-redisson"]
 adaptor-cache-caffeine = ["spring-boot-starter-cache", "caffeine"]
