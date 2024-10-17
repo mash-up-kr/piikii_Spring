@@ -84,8 +84,8 @@ class RedisConfig {
             .setAddress(address)
             .setPassword(redisProperties.password)
             .setConnectionMinimumIdleSize(1)
-            .setRetryAttempts(3)    // 재시도 횟수
-            .setRetryInterval(1500) // 재시도 간격 (ms)
+            .setRetryAttempts(3)
+            .setRetryInterval(1500)
         return Redisson.create(config)
     }
 }

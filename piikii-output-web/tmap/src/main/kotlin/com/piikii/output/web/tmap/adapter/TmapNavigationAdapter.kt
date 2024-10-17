@@ -30,7 +30,7 @@ class TmapNavigationAdapter(
     @Retryable(
         value = [InterruptedException::class],
         maxAttempts = 3,
-        backoff = Backoff(delay = 1000)
+        backoff = Backoff(delay = 1000),
     )
     override fun getDistance(
         startPlace: Place,
@@ -64,9 +64,9 @@ class TmapNavigationAdapter(
     fun recoverFromInterruptedException(
         exception: InterruptedException,
         startPlace: Place,
-        endPlace: Place
+        endPlace: Place,
     ): Distance {
-        hookLogger.send(exception.message?:"[redis] 알 수 없는 에러")
+        hookLogger.send(exception.message ?: "[redis] 알 수 없는 에러")
         val startCoordinate = startPlace.getCoordinate()
         val endCoordinate = endPlace.getCoordinate()
         return if (startCoordinate.isValid() && endCoordinate.isValid()) {
