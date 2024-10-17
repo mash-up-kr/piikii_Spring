@@ -6,10 +6,12 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
+import org.springframework.retry.annotation.EnableRetry
 import org.springframework.web.client.RestClient
 
 // https://skopenapi.readme.io/reference/%EB%B3%B4%ED%96%89%EC%9E%90-%EA%B2%BD%EB%A1%9C%EC%95%88%EB%82%B4
 @Configuration
+@EnableRetry
 @EnableConfigurationProperties(TmapProperties::class)
 class TmapConfig {
     @Bean
